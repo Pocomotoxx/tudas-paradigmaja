@@ -1,0 +1,16 @@
+{
+  "name": "@tudas-paradigmaja/core",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Determinista, I/O-mentes szabálymotor.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc --build"
+  }
+}
