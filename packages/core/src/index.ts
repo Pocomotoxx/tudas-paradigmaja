@@ -26,3 +26,10 @@ export {
 export type { QuestionItem } from "./education/QuestionBank.js";
 export { TestSession, DEFAULT_TIER_REWARD } from "./education/TestSession.js";
 export type { TestResult } from "./education/TestSession.js";
+
+export { BonusSystem, BonusOp, STATS, validateBonus } from "./units/BonusSystem.js";
+export type { Bonus, Stat, StatBlock } from "./units/BonusSystem.js";
+export { Unit } from "./units/Unit.js";
+export type { UnitInit } from "./units/Unit.js";
+export { TechTree } from "./units/TechTree.js";
+export type { TechNode } from "./units/TechTree.js";
