@@ -6,3 +6,8 @@
 
 export { SeededRng } from "./rng/SeededRng.js";
 export type { Rng } from "./rng/SeededRng.js";
+
+export { Hex, HEX_DIRECTIONS } from "./hex/Hex.js";
+export type { HexCoord } from "./hex/Hex.js";
+export { HexMap } from "./hex/HexMap.js";
+export type { Tile, ReachableHex } from "./hex/HexMap.js";
