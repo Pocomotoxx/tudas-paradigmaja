@@ -11,3 +11,8 @@ export { Hex, HEX_DIRECTIONS } from "./hex/Hex.js";
 export type { HexCoord } from "./hex/Hex.js";
 export { HexMap } from "./hex/HexMap.js";
 export type { Tile, ReachableHex } from "./hex/HexMap.js";
+
+export { GamePhase, PhaseMachine, PhaseError } from "./phase/GamePhase.js";
+
+export { TokenLedger } from "./economy/TokenLedger.js";
+export { KKLedger, Subject, ALL_SUBJECTS } from "./economy/KKLedger.js";
