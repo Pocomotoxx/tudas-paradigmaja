@@ -16,3 +16,13 @@ export { GamePhase, PhaseMachine, PhaseError } from "./phase/GamePhase.js";
 
 export { TokenLedger } from "./economy/TokenLedger.js";
 export { KKLedger, Subject, ALL_SUBJECTS } from "./economy/KKLedger.js";
+
+export { RaschEstimator } from "./education/RaschEstimator.js";
+export {
+  QuestionBank,
+  DifficultyTier,
+  validateQuestion,
+} from "./education/QuestionBank.js";
+export type { QuestionItem } from "./education/QuestionBank.js";
+export { TestSession, DEFAULT_TIER_REWARD } from "./education/TestSession.js";
+export type { TestResult } from "./education/TestSession.js";
