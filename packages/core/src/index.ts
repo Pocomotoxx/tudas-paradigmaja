@@ -33,3 +33,15 @@ export { Unit } from "./units/Unit.js";
 export type { UnitInit } from "./units/Unit.js";
 export { TechTree } from "./units/TechTree.js";
 export type { TechNode } from "./units/TechTree.js";
+
+export {
+  simulateBattle,
+  combatantFromUnit,
+  BattleSide,
+  BattleOutcome,
+} from "./combat/Battle.js";
+export type {
+  CombatantInit,
+  AttackLogEntry,
+  BattleResult,
+} from "./combat/Battle.js";
