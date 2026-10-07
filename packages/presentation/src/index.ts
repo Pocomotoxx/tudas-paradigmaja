@@ -8,3 +8,5 @@ export {
   demoScenarioWithCenter,
   demoScenarioWithCapture,
 } from "./demoScenario.js";
+export { europeLocations, europeScenario, renderWorldMap } from "./europe.js";
+export type { EuropeScenario } from "./europe.js";
