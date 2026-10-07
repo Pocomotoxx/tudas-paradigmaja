@@ -92,6 +92,14 @@ export class Game {
   kkOf(subject: Subject): number { return this.kk.balanceOf(subject); }
   unitStats(): StatBlock { return this.unit.effectiveStats(); }
   heroAt(): Hex { return this.heroPos; }
+  get scenarioId(): string { return this.scenario.id; }
+  /** Read-only view of the scenario's map tiles (static data) for rendering. */
+  mapTiles(): readonly { q: number; r: number; blocked?: boolean }[] {
+    return this.scenario.tiles.map((t) => ({ q: t.q, r: t.r, ...(t.blocked ? { blocked: true } : {}) }));
+  }
+  tokenBuildingAt(): Hex {
+    return new Hex(this.scenario.tokenBuilding.q, this.scenario.tokenBuilding.r);
+  }
   ownsTokenBuilding(): boolean {
     return this.heroPos.equals(this.scenario.tokenBuilding);
   }
