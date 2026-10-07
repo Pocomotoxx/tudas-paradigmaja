@@ -72,6 +72,9 @@ export function renderCenters(game: Game): string {
   if (!game.hasCenters) return "";
   const due = new Set(game.maintenanceDueIds());
   const lines = game.centerIds().map((id) => {
+    if (!game.isCenterCaptured(id)) {
+      return `  ${id}: UNCAPTURED (needs 3-question capture)`;
+    }
     const reb = game.centerRebelled(id);
     const out = game.centerTokenOutput(id);
     return (
