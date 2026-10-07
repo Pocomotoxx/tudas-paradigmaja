@@ -35,6 +35,7 @@ import {
   type KnowledgeCenterSnapshot,
 } from "../knowledge/KnowledgeCenter.js";
 import { CaptureGate, CaptureStatus } from "../capture/CaptureGate.js";
+import { effectiveStatsUnderLeader, type ScientistDef } from "../heroes/Scientist.js";
 import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
 
 export interface GameSave {
@@ -55,6 +56,8 @@ export interface GameSave {
   readonly capturedCenters: string[];
   readonly recruits: (UnitInit & { bonuses: Bonus[] })[];
   readonly recruitProvenance: { unitId: string; locationId: string; templateId: string }[];
+  readonly hiredScientists: string[];
+  readonly leaderId: string | null;
 }
 
 export interface MaintenanceResult {
@@ -84,6 +87,9 @@ export class Game {
   private readonly centerPlacements = new Map<string, KnowledgeCenterPlacement>();
   private readonly capturedCenters = new Set<string>();
   private pendingCapture: CaptureGate | null = null;
+  private readonly scientists = new Map<string, ScientistDef>();
+  private readonly hiredScientists = new Set<string>();
+  private leaderId: string | null = null;
   private readonly garrisons = new Map<string, RecruitmentRoster>();
   private readonly ladders = new Map<string, UnitLadder>();
   private readonly recruits: Unit[] = [];
@@ -130,6 +136,11 @@ export class Game {
           this.ladders.set(g.locationId, new UnitLadder(subject, asLadder));
         }
       }
+    }
+
+    for (const s of scenario.scientists ?? []) {
+      if (this.scientists.has(s.id)) throw new TypeError(`Duplicate scientist: ${s.id}`);
+      this.scientists.set(s.id, s);
     }
 
     this.centers = (scenario.knowledgeCenters ?? []).map((p) => {
@@ -422,12 +433,58 @@ export class Game {
     return upgraded;
   }
 
+  // --- scientist heroes ---
+  scientistIds(): string[] { return [...this.scientists.keys()]; }
+  isScientistHired(id: string): boolean { return this.hiredScientists.has(id); }
+  get currentLeaderId(): string | null { return this.leaderId; }
+
+  private scientist(id: string): ScientistDef {
+    const s = this.scientists.get(id);
+    if (s === undefined) throw new RangeError(`Unknown scientist: ${id}`);
+    return s;
+  }
+
+  /** A location is controlled if it is a captured center or a garrison location. */
+  private controlsLocation(locationId: string): boolean {
+    return this.capturedCenters.has(locationId) || this.garrisons.has(locationId);
+  }
+
+  /**
+   * Hire a scientist at their birthplace. Requires the birthplace location to be
+   * under the player's control (a captured center or a garrison). Spends the KK
+   * cost; not allowed during combat.
+   */
+  hireScientist(id: string): ScientistDef {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Cannot hire a scientist during combat");
+    }
+    const def = this.scientist(id);
+    if (this.hiredScientists.has(id)) throw new RangeError(`Scientist ${id} already hired`);
+    if (!this.controlsLocation(def.birthplaceLocationId)) {
+      throw new RangeError(`Birthplace ${def.birthplaceLocationId} of ${id} is not controlled`);
+    }
+    this.kk.spend(def.cost.subject, def.cost.kk); // throws if insufficient
+    this.hiredScientists.add(id);
+    return def;
+  }
+
+  /** Assign a hired scientist to lead the army, or null to clear. */
+  setLeader(id: string | null): void {
+    if (id === null) { this.leaderId = null; return; }
+    if (!this.hiredScientists.has(id)) throw new RangeError(`Scientist ${id} is not hired`);
+    this.leaderId = id;
+  }
+
   /** Fight the scenario's enemy guard with the whole army; records outcome. */
   fight(): BattleResult {
     this.phase.transition(GamePhase.TACTICAL);
-    const army = [this.unit, ...this.recruits].map((u) =>
-      combatantFromUnit(u, BattleSide.PLAYER),
-    );
+    const leader = this.leaderId !== null ? this.scientists.get(this.leaderId) ?? null : null;
+    const army = [this.unit, ...this.recruits].map((u) => {
+      if (leader !== null) {
+        return { id: u.id, side: BattleSide.PLAYER, stats: effectiveStatsUnderLeader(u, leader) };
+      }
+      return combatantFromUnit(u, BattleSide.PLAYER);
+    });
     const result = simulateBattle(
       [...army, { ...this.scenario.enemy, side: BattleSide.ENEMY }],
       this.rng,
@@ -463,6 +520,8 @@ export class Game {
       recruitProvenance: [...this.recruitProvenance.entries()]
         .map(([unitId, p]) => ({ unitId, locationId: p.locationId, templateId: p.templateId }))
         .sort((a, b) => (a.unitId < b.unitId ? -1 : a.unitId > b.unitId ? 1 : 0)),
+      hiredScientists: [...this.hiredScientists].sort(),
+      leaderId: this.leaderId,
     };
   }
 
@@ -497,6 +556,8 @@ export class Game {
     for (const p of save.recruitProvenance ?? []) {
       g.recruitProvenance.set(p.unitId, { locationId: p.locationId, templateId: p.templateId });
     }
+    for (const id of save.hiredScientists ?? []) g.hiredScientists.add(id);
+    g.leaderId = save.leaderId ?? null;
     return g;
   }
 }
