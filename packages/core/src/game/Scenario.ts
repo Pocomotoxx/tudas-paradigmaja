@@ -14,6 +14,7 @@ import type { KnowledgeCenterConfig } from "../knowledge/KnowledgeCenter.js";
 import type { UnitTemplate } from "../units/Recruitment.js";
 import type { ScientistDef } from "../heroes/Scientist.js";
 import type { SynergyDef } from "../synergy/SynergyRegistry.js";
+import type { ArtifactDef } from "../artifacts/Artifact.js";
 
 export interface GarrisonPlacement {
   /** The military location this roster belongs to (id, free-form content). */
@@ -61,4 +62,6 @@ export interface ScenarioDef {
   readonly scientists?: readonly ScientistDef[];
   /** Optional cross-subject synergies. */
   readonly synergies?: readonly SynergyDef[];
+  /** Optional strategic artifacts. */
+  readonly artifacts?: readonly ArtifactDef[];
 }

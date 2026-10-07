@@ -37,6 +37,7 @@ import { CaptureGate, CaptureStatus } from "../capture/CaptureGate.js";
 import { leaderBonusesFor, type ScientistDef } from "../heroes/Scientist.js";
 import { SynergyRegistry, type SynergyDef } from "../synergy/SynergyRegistry.js";
 import { BonusSystem } from "../units/BonusSystem.js";
+import { validateArtifact, type ArtifactDef } from "../artifacts/Artifact.js";
 import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
 
 export interface GameSave {
@@ -60,6 +61,7 @@ export interface GameSave {
   readonly hiredScientists: string[];
   readonly leaderId: string | null;
   readonly unlockedSynergies: string[];
+  readonly heldArtifacts: string[];
 }
 
 export interface MaintenanceResult {
@@ -94,6 +96,9 @@ export class Game {
   private leaderId: string | null = null;
   private readonly synergyRegistry: SynergyRegistry;
   private readonly unlockedSynergies = new Set<string>();
+  private readonly artifacts = new Map<string, ArtifactDef>();
+  private readonly heldArtifacts = new Set<string>();
+  private pendingArtifactCapture: { id: string; gate: CaptureGate } | null = null;
   private readonly garrisons = new Map<string, RecruitmentRoster>();
   private readonly ladders = new Map<string, UnitLadder>();
   private readonly recruits: Unit[] = [];
@@ -148,6 +153,12 @@ export class Game {
     }
 
     this.synergyRegistry = new SynergyRegistry(scenario.synergies ?? []);
+
+    for (const a of scenario.artifacts ?? []) {
+      validateArtifact(a);
+      if (this.artifacts.has(a.id)) throw new TypeError(`Duplicate artifact: ${a.id}`);
+      this.artifacts.set(a.id, a);
+    }
 
     this.centers = (scenario.knowledgeCenters ?? []).map((p) => {
       this.centerHex.set(p.id, new Hex(p.hex.q, p.hex.r));
@@ -506,14 +517,81 @@ export class Game {
     return out;
   }
 
+  // --- artifacts ---
+  artifactIds(): string[] { return [...this.artifacts.keys()]; }
+  isArtifactHeld(id: string): boolean { return this.heldArtifacts.has(id); }
+  get hasPendingArtifactCapture(): boolean { return this.pendingArtifactCapture !== null; }
+
+  private artifact(id: string): ArtifactDef {
+    const a = this.artifacts.get(id);
+    if (a === undefined) throw new RangeError(`Unknown artifact: ${id}`);
+    return a;
+  }
+
+  /** Directly acquire a non-capture artifact (phase != TACTICAL). */
+  acquireArtifact(id: string): ArtifactDef {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Cannot acquire an artifact during combat");
+    }
+    const def = this.artifact(id);
+    if (def.capture !== undefined) throw new RangeError(`Artifact ${id} must be captured, not acquired directly`);
+    if (this.heldArtifacts.has(id)) throw new RangeError(`Artifact ${id} already held`);
+    this.heldArtifacts.add(id);
+    return def;
+  }
+
+  /** Begin the three-question timed capture for a capture-gated artifact. */
+  beginArtifactCapture(id: string, nowMs: number): QuestionItem {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Cannot capture an artifact during combat");
+    }
+    if (this.pendingArtifactCapture !== null) throw new PhaseError("An artifact capture is already in progress");
+    const def = this.artifact(id);
+    if (def.capture === undefined) throw new RangeError(`Artifact ${id} is acquired directly, not captured`);
+    if (this.heldArtifacts.has(id)) throw new RangeError(`Artifact ${id} already held`);
+    const gate = new CaptureGate({
+      targetId: id,
+      subject: def.capture.subject,
+      bank: this.bank,
+      rasch: this.rasch,
+      windowMs: def.capture.windowMs,
+      ...(def.capture.requiredCorrect !== undefined ? { requiredCorrect: def.capture.requiredCorrect } : {}),
+    });
+    const q = gate.start(nowMs);
+    this.pendingArtifactCapture = { id, gate };
+    return q;
+  }
+
+  /** Submit an answer to the pending artifact capture; grants it on success. */
+  submitArtifactCapture(correct: boolean, nowMs: number): { status: CaptureStatus; held: boolean } {
+    if (this.pendingArtifactCapture === null) throw new PhaseError("No artifact capture in progress");
+    const { id, gate } = this.pendingArtifactCapture;
+    const res = gate.submit(correct, nowMs);
+    let held = false;
+    if (res.status === CaptureStatus.SUCCESS) {
+      this.heldArtifacts.add(id);
+      held = true;
+    }
+    if (res.status !== CaptureStatus.PENDING) this.pendingArtifactCapture = null;
+    return { status: res.status, held };
+  }
+
+  /** Army-wide bonuses from all held artifacts. */
+  private artifactArmyBonuses(): Bonus[] {
+    const out: Bonus[] = [];
+    for (const id of this.heldArtifacts) out.push(...this.artifact(id).armyBonuses);
+    return out;
+  }
+
   /** Fight the scenario's enemy guard with the whole army; records outcome. */
   fight(): BattleResult {
     this.phase.transition(GamePhase.TACTICAL);
     const leader = this.leaderId !== null ? this.scientists.get(this.leaderId) ?? null : null;
     const synergyBonuses = this.synergyArmyBonuses();
+    const artifactBonuses = this.artifactArmyBonuses();
     const army = [this.unit, ...this.recruits].map((u) => {
       const leaderB = leader !== null ? leaderBonusesFor(leader, u.subject) : [];
-      const stats = BonusSystem.apply(u.base, [...u.bonuses, ...leaderB, ...synergyBonuses]);
+      const stats = BonusSystem.apply(u.base, [...u.bonuses, ...leaderB, ...synergyBonuses, ...artifactBonuses]);
       return { id: u.id, side: BattleSide.PLAYER, stats };
     });
     const result = simulateBattle(
@@ -554,6 +632,7 @@ export class Game {
       hiredScientists: [...this.hiredScientists].sort(),
       leaderId: this.leaderId,
       unlockedSynergies: [...this.unlockedSynergies].sort(),
+      heldArtifacts: [...this.heldArtifacts].sort(),
     };
   }
 
@@ -591,6 +670,7 @@ export class Game {
     for (const id of save.hiredScientists ?? []) g.hiredScientists.add(id);
     g.leaderId = save.leaderId ?? null;
     for (const id of save.unlockedSynergies ?? []) g.unlockedSynergies.add(id);
+    for (const id of save.heldArtifacts ?? []) g.heldArtifacts.add(id);
     return g;
   }
 }
