@@ -10,6 +10,15 @@ import type { HexCoord } from "../hex/Hex.js";
 import type { UnitInit } from "../units/Unit.js";
 import type { TechNode } from "../units/TechTree.js";
 import type { CombatantInit } from "../combat/Battle.js";
+import type { KnowledgeCenterConfig } from "../knowledge/KnowledgeCenter.js";
+
+export interface KnowledgeCenterPlacement {
+  readonly id: string;
+  readonly subject: Subject;
+  readonly hex: HexCoord;
+  readonly stability?: number;
+  readonly config?: KnowledgeCenterConfig;
+}
 
 export interface ScenarioDef {
   readonly id: string;
@@ -26,4 +35,9 @@ export interface ScenarioDef {
   readonly enemy: Omit<CombatantInit, "side">;
   readonly techNodes: readonly TechNode[];
   readonly questions: readonly unknown[];
+  /**
+   * Optional knowledge centers. When present, token production comes from their
+   * stepped stability output instead of the legacy tokenBuilding path.
+   */
+  readonly knowledgeCenters?: readonly KnowledgeCenterPlacement[];
 }
