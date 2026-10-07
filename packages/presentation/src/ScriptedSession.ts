@@ -13,6 +13,7 @@ export type Command =
   | { readonly type: "leaveAcademic" }
   | { readonly type: "test"; readonly subject: Subject; readonly correct: boolean }
   | { readonly type: "research"; readonly nodeId: string }
+  | { readonly type: "maintain"; readonly centerId: string; readonly correct: boolean }
   | { readonly type: "fight" };
 
 export interface SessionResult {
@@ -48,6 +49,10 @@ export function runScriptedSession(
         break;
       case "research":
         game.research(cmd.nodeId);
+        break;
+      case "maintain":
+        game.startMaintenance(cmd.centerId);
+        game.resolveMaintenance(cmd.correct);
         break;
       case "fight":
         game.fight();

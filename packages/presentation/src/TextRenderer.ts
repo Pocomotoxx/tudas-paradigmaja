@@ -59,7 +59,32 @@ export function renderStatus(game: Game): string {
   return lines.join("\n");
 }
 
-/** Full frame: map above, status below. */
+function bandLabel(output: number, rebelled: boolean): string {
+  if (rebelled) return "REBELLED";
+  if (output >= 3) return "HIGH";
+  if (output >= 2) return "MID";
+  if (output >= 1) return "LOW";
+  return "REBELLED";
+}
+
+/** Render the knowledge-center panel (stability, band, output, due check). */
+export function renderCenters(game: Game): string {
+  if (!game.hasCenters) return "";
+  const due = new Set(game.maintenanceDueIds());
+  const lines = game.centerIds().map((id) => {
+    const reb = game.centerRebelled(id);
+    const out = game.centerTokenOutput(id);
+    return (
+      `  ${id}: stab=${game.centerStability(id)} ` +
+      `out=${out} ${bandLabel(out, reb)}` +
+      `${due.has(id) ? " [check due]" : ""}`
+    );
+  });
+  return `Centers:\n${lines.join("\n")}`;
+}
+
+/** Full frame: map, status, and (when present) the center panel. */
 export function renderFrame(game: Game): string {
-  return `${renderMap(game)}\n\n${renderStatus(game)}`;
+  const centers = renderCenters(game);
+  return `${renderMap(game)}\n\n${renderStatus(game)}${centers ? `\n\n${centers}` : ""}`;
 }

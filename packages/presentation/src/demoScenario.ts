@@ -43,3 +43,20 @@ export function demoScenario(): ScenarioDef {
     ],
   };
 }
+
+/** Demo scenario with a knowledge center at the hero's start (unified economy). */
+export function demoScenarioWithCenter(): ScenarioDef {
+  const base = demoScenario();
+  return {
+    ...base,
+    id: "demo-center-01",
+    knowledgeCenters: [
+      { id: "egyetem", subject: Subject.MATEMATIKA, hex: { q: 0, r: 0 }, stability: 50 },
+    ],
+    questions: [
+      { id: "m1", subject: Subject.MATEMATIKA, topic: "algebra", b: 0, tier: DifficultyTier.ALAP },
+      { id: "m2", subject: Subject.MATEMATIKA, topic: "algebra", b: 1, tier: DifficultyTier.ALAP },
+      { id: "m3", subject: Subject.MATEMATIKA, topic: "algebra", b: 2, tier: DifficultyTier.ALAP },
+    ],
+  };
+}
