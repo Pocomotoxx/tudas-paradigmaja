@@ -18,8 +18,9 @@ import { KKLedger, Subject } from "../economy/KKLedger.js";
 import { RaschEstimator } from "../education/RaschEstimator.js";
 import { QuestionBank, type QuestionItem } from "../education/QuestionBank.js";
 import { TestSession, type TestResult } from "../education/TestSession.js";
-import { Unit } from "../units/Unit.js";
+import { Unit, type UnitInit } from "../units/Unit.js";
 import { TechTree } from "../units/TechTree.js";
+import { RecruitmentRoster } from "../units/Recruitment.js";
 import type { Bonus, StatBlock } from "../units/BonusSystem.js";
 import {
   simulateBattle,
@@ -51,6 +52,7 @@ export interface GameSave {
   readonly centers: KnowledgeCenterSnapshot[];
   readonly maintenanceUsed: string[];
   readonly capturedCenters: string[];
+  readonly recruits: (UnitInit & { bonuses: Bonus[] })[];
 }
 
 export interface MaintenanceResult {
@@ -80,6 +82,8 @@ export class Game {
   private readonly centerPlacements = new Map<string, KnowledgeCenterPlacement>();
   private readonly capturedCenters = new Set<string>();
   private pendingCapture: CaptureGate | null = null;
+  private readonly garrisons = new Map<string, RecruitmentRoster>();
+  private readonly recruits: Unit[] = [];
 
   private heroPos: Hex;
   private turnNumber = 1;
@@ -107,6 +111,13 @@ export class Game {
       tokenCostPerTest: scenario.tokenCostPerTest,
     });
     this.heroPos = new Hex(scenario.heroStart.q, scenario.heroStart.r);
+
+    for (const g of scenario.garrisons ?? []) {
+      if (this.garrisons.has(g.locationId)) {
+        throw new TypeError(`Duplicate garrison for location: ${g.locationId}`);
+      }
+      this.garrisons.set(g.locationId, new RecruitmentRoster(g.templates));
+    }
 
     this.centers = (scenario.knowledgeCenters ?? []).map((p) => {
       this.centerHex.set(p.id, new Hex(p.hex.q, p.hex.r));
@@ -332,14 +343,47 @@ export class Game {
   }
 
   // --- tactical phase ---
-  /** Fight the scenario's enemy guard; returns the result and records outcome. */
+  // --- recruitment (military locations) ---
+  get armySize(): number { return 1 + this.recruits.length; }
+  armyUnitIds(): string[] { return [this.unit.id, ...this.recruits.map((u) => u.id)]; }
+  garrisonTemplateIds(locationId: string): string[] {
+    return this.garrison(locationId).ids();
+  }
+
+  private garrison(locationId: string): RecruitmentRoster {
+    const r = this.garrisons.get(locationId);
+    if (r === undefined) throw new RangeError(`No garrison at location: ${locationId}`);
+    return r;
+  }
+
+  /**
+   * Recruit a unit from a military location's roster, paying its KK cost in the
+   * template's subject. The new unit joins the army with a unique instance id.
+   */
+  recruit(locationId: string, templateId: string): Unit {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Cannot recruit during combat");
+    }
+    const template = this.garrison(locationId).template(templateId);
+    this.kk.spend(template.subject, template.kkCost); // throws if insufficient
+    const unit = new Unit({
+      id: `${templateId}#${this.recruits.length + 1}`,
+      name: template.name,
+      subject: template.subject,
+      base: template.base,
+    });
+    this.recruits.push(unit);
+    return unit;
+  }
+
+  /** Fight the scenario's enemy guard with the whole army; records outcome. */
   fight(): BattleResult {
     this.phase.transition(GamePhase.TACTICAL);
+    const army = [this.unit, ...this.recruits].map((u) =>
+      combatantFromUnit(u, BattleSide.PLAYER),
+    );
     const result = simulateBattle(
-      [
-        combatantFromUnit(this.unit, BattleSide.PLAYER),
-        { ...this.scenario.enemy, side: BattleSide.ENEMY },
-      ],
+      [...army, { ...this.scenario.enemy, side: BattleSide.ENEMY }],
       this.rng,
     );
     this.lastOutcome = result.outcome;
@@ -369,6 +413,7 @@ export class Game {
       centers: this.centers.map((c) => c.toSnapshot()),
       maintenanceUsed: [...this.usedMaintenanceIds].sort(),
       capturedCenters: [...this.capturedCenters].sort(),
+      recruits: this.recruits.map((u) => u.toSnapshot()),
     };
   }
 
@@ -399,6 +444,7 @@ export class Game {
       g.capturedCenters.clear();
       for (const id of save.capturedCenters) g.capturedCenters.add(id);
     }
+    for (const snap of save.recruits ?? []) g.recruits.push(Unit.fromSnapshot(snap));
     return g;
   }
 }

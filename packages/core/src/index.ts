@@ -33,6 +33,8 @@ export { Unit } from "./units/Unit.js";
 export type { UnitInit } from "./units/Unit.js";
 export { TechTree } from "./units/TechTree.js";
 export type { TechNode } from "./units/TechTree.js";
+export { RecruitmentRoster, validateUnitTemplate } from "./units/Recruitment.js";
+export type { UnitTemplate } from "./units/Recruitment.js";
 
 export {
   simulateBattle,
@@ -67,4 +69,4 @@ export type { CaptureInit, CaptureSubmitResult } from "./capture/CaptureGate.js"
 
 export { Game } from "./game/Game.js";
 export type { GameSave, MaintenanceResult } from "./game/Game.js";
-export type { ScenarioDef } from "./game/Scenario.js";
+export type { ScenarioDef, GarrisonPlacement } from "./game/Scenario.js";
