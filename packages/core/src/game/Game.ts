@@ -28,6 +28,10 @@ import {
   BattleOutcome,
   type BattleResult,
 } from "../combat/Battle.js";
+import {
+  KnowledgeCenter,
+  type KnowledgeCenterSnapshot,
+} from "../knowledge/KnowledgeCenter.js";
 import type { ScenarioDef } from "./Scenario.js";
 
 export interface GameSave {
@@ -43,6 +47,7 @@ export interface GameSave {
   readonly researched: string[];
   readonly unitBonuses: Bonus[];
   readonly lastOutcome: BattleOutcome | null;
+  readonly centers: KnowledgeCenterSnapshot[];
 }
 
 export class Game {
@@ -57,6 +62,9 @@ export class Game {
   private readonly testSession: TestSession;
   private readonly techTree: TechTree;
   private readonly unit: Unit;
+
+  private readonly centers: KnowledgeCenter[];
+  private readonly centerHex = new Map<string, Hex>();
 
   private heroPos: Hex;
   private turnNumber = 1;
@@ -82,6 +90,22 @@ export class Game {
       tokenCostPerTest: scenario.tokenCostPerTest,
     });
     this.heroPos = new Hex(scenario.heroStart.q, scenario.heroStart.r);
+
+    this.centers = (scenario.knowledgeCenters ?? []).map((p) => {
+      this.centerHex.set(p.id, new Hex(p.hex.q, p.hex.r));
+      return new KnowledgeCenter({
+        id: p.id,
+        subject: p.subject,
+        ...(p.stability !== undefined ? { stability: p.stability } : {}),
+        ...(p.config !== undefined ? { config: p.config } : {}),
+      });
+    });
+  }
+
+  private center(id: string): KnowledgeCenter {
+    const c = this.centers.find((x) => x.id === id);
+    if (c === undefined) throw new RangeError(`Unknown knowledge center: ${id}`);
+    return c;
   }
 
   // --- read-only accessors ---
@@ -120,9 +144,40 @@ export class Game {
     if (this.phase.current !== GamePhase.STRATEGIC) {
       throw new PhaseError("endTurn is only valid in STRATEGIC phase");
     }
-    if (this.ownsTokenBuilding()) this.tokens.produce(this.scenario.tokensPerTurn);
+    if (this.centers.length > 0) {
+      // Unified economy: token production is the sum of centers' stepped
+      // stability output (rebelled centers output 0 — supply cut off).
+      for (const c of this.centers) this.tokens.produce(c.tokenOutput());
+    } else if (this.ownsTokenBuilding()) {
+      // Legacy path for scenarios without knowledge centers.
+      this.tokens.produce(this.scenario.tokensPerTurn);
+    }
     this.turnNumber++;
     this.testSession.newTurn();
+  }
+
+  // --- knowledge-center maintenance (unified economy) ---
+  get hasCenters(): boolean { return this.centers.length > 0; }
+  centerIds(): string[] { return this.centers.map((c) => c.id); }
+  centerStability(id: string): number { return this.center(id).stability; }
+  centerRebelled(id: string): boolean { return this.center(id).rebelled; }
+  centerTokenOutput(id: string): number { return this.center(id).tokenOutput(); }
+
+  /** Centers whose maintenance check is due at the current turn. */
+  maintenanceDueIds(): string[] {
+    return this.centers.filter((c) => c.isCheckDue(this.turnNumber)).map((c) => c.id);
+  }
+
+  /**
+   * Answer a center's maintenance check. Allowed in any phase EXCEPT TACTICAL
+   * (flow protection: no knowledge checks during combat). Correct raises the
+   * center's stability, wrong lowers it (may trigger rebellion / recovery).
+   */
+  answerMaintenance(id: string, correct: boolean): void {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Maintenance checks are not allowed during combat");
+    }
+    this.center(id).answer(correct, this.turnNumber);
   }
 
   // --- academic phase ---
@@ -173,6 +228,7 @@ export class Game {
       researched: this.techTree.researchedIds(),
       unitBonuses: [...this.unit.bonuses],
       lastOutcome: this.lastOutcome,
+      centers: this.centers.map((c) => c.toSnapshot()),
     };
   }
 
@@ -195,6 +251,9 @@ export class Game {
     g.techTree.markResearched(save.researched);
     for (const b of save.unitBonuses) g.unit.addBonus(b);
     g.lastOutcome = save.lastOutcome;
+    // Restore knowledge-center state in place (ids match the scenario).
+    g.centers.length = 0;
+    for (const snap of save.centers ?? []) g.centers.push(KnowledgeCenter.fromSnapshot(snap));
     return g;
   }
 }
