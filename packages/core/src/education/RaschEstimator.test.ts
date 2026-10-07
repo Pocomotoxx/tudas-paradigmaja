@@ -29,10 +29,10 @@ describe("RaschEstimator — adaptive ability (I3 AC7)", () => {
     const b = new RaschEstimator();
     const answers = [true, false, true, true, false];
     for (const c of answers) {
-      a.update(Subject.FIZIKA_KEMIA, 0.3, c);
-      b.update(Subject.FIZIKA_KEMIA, 0.3, c);
+      a.update(Subject.KEMIA, 0.3, c);
+      b.update(Subject.KEMIA, 0.3, c);
     }
-    expect(a.thetaOf(Subject.FIZIKA_KEMIA)).toBe(b.thetaOf(Subject.FIZIKA_KEMIA));
+    expect(a.thetaOf(Subject.KEMIA)).toBe(b.thetaOf(Subject.KEMIA));
   });
 
   it("tracks subjects independently", () => {

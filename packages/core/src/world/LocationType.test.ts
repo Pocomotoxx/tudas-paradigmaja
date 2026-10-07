@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Subject } from "../economy/KKLedger.js";
+import { Subject, ALL_SUBJECTS } from "../economy/KKLedger.js";
 import {
   LocationType,
   LOCATION_META,
@@ -8,6 +8,24 @@ import {
   knowledgeCentersFromLocations,
   type WorldLocation,
 } from "./LocationType.js";
+
+describe("Subject model — nine disciplines (I18)", () => {
+  it("has exactly nine subjects including the split and additions", () => {
+    expect(ALL_SUBJECTS).toHaveLength(9);
+    expect(ALL_SUBJECTS).toContain(Subject.FIZIKA);
+    expect(ALL_SUBJECTS).toContain(Subject.KEMIA);
+    expect(ALL_SUBJECTS).toContain(Subject.MAGYAR);
+    expect(ALL_SUBJECTS).toContain(Subject.INFORMATIKA);
+    expect(ALL_SUBJECTS).toContain(Subject.IDEGEN_NYELV);
+  });
+
+  it("new location types map to the new subjects", () => {
+    expect(locationSubject({ id: "lib", type: LocationType.LIBRARY, hex: { q: 0, r: 0 } })).toBe(Subject.MAGYAR);
+    expect(locationSubject({ id: "dc", type: LocationType.DATA_CENTER, hex: { q: 1, r: 0 } })).toBe(Subject.INFORMATIKA);
+    expect(locationSubject({ id: "emb", type: LocationType.EMBASSY, hex: { q: 0, r: 1 } })).toBe(Subject.IDEGEN_NYELV);
+    expect(locationSubject({ id: "lab", type: LocationType.LABORATORY, hex: { q: 1, r: -1 } })).toBe(Subject.KEMIA);
+  });
+});
 
 describe("LocationType — alternative-Europe typed locations (I15)", () => {
   it("every location type has metadata", () => {
@@ -27,7 +45,7 @@ describe("LocationType — alternative-Europe typed locations (I15)", () => {
   it("resolves subject from explicit value or type default", () => {
     expect(locationSubject({ id: "a", type: LocationType.OBSERVATORY, hex: { q: 0, r: 0 } })).toBe(Subject.MATEMATIKA);
     expect(locationSubject({ id: "b", type: LocationType.HISTORICAL_SITE, hex: { q: 1, r: 0 } })).toBe(Subject.TORTENELEM);
-    expect(locationSubject({ id: "c", type: LocationType.LABORATORY, hex: { q: 0, r: 1 } })).toBe(Subject.FIZIKA_KEMIA);
+    expect(locationSubject({ id: "c", type: LocationType.LABORATORY, hex: { q: 0, r: 1 } })).toBe(Subject.KEMIA);
     // explicit override wins
     expect(locationSubject({ id: "d", type: LocationType.UNIVERSITY, hex: { q: 2, r: 0 }, subject: Subject.BIOLOGIA })).toBe(Subject.BIOLOGIA);
     // non-knowledge -> null

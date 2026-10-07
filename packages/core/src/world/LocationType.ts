@@ -25,6 +25,9 @@ export enum LocationType {
   INDUSTRIAL = "INDUSTRIAL",
   PORT = "PORT",
   RESEARCH_CENTER = "RESEARCH_CENTER",
+  LIBRARY = "LIBRARY", // Academia / Magyar
+  DATA_CENTER = "DATA_CENTER", // Nexum / Informatika
+  EMBASSY = "EMBASSY", // Lingua / Idegen nyelv
 }
 
 export interface LocationTypeMeta {
@@ -42,12 +45,15 @@ export const LOCATION_META: Readonly<Record<LocationType, LocationTypeMeta>> = {
   [LocationType.CITY]: { isKnowledgeCenter: false, grantsUnits: true, role: "population and mixed production" },
   [LocationType.FORTRESS]: { isKnowledgeCenter: false, grantsUnits: true, role: "military units and defense" },
   [LocationType.UNIVERSITY]: { isKnowledgeCenter: true, grantsUnits: false, role: "broad discipline development (subject must be specified)" },
-  [LocationType.LABORATORY]: { isKnowledgeCenter: true, defaultSubject: Subject.FIZIKA_KEMIA, grantsUnits: false, role: "chemistry/physics units and tech" },
-  [LocationType.OBSERVATORY]: { isKnowledgeCenter: true, defaultSubject: Subject.MATEMATIKA, grantsUnits: false, role: "mathematics/physics tech" },
+  [LocationType.LABORATORY]: { isKnowledgeCenter: true, defaultSubject: Subject.KEMIA, grantsUnits: false, role: "chemistry units and tech" },
+  [LocationType.OBSERVATORY]: { isKnowledgeCenter: true, defaultSubject: Subject.MATEMATIKA, grantsUnits: false, role: "mathematics/astronomy tech" },
   [LocationType.HISTORICAL_SITE]: { isKnowledgeCenter: true, defaultSubject: Subject.TORTENELEM, grantsUnits: false, role: "strategic/geopolitical abilities" },
   [LocationType.INDUSTRIAL]: { isKnowledgeCenter: false, grantsUnits: false, role: "logistics/supply (hard mode)" },
   [LocationType.PORT]: { isKnowledgeCenter: false, grantsUnits: false, role: "movement/trade hub" },
   [LocationType.RESEARCH_CENTER]: { isKnowledgeCenter: true, grantsUnits: false, role: "specialised research (subject must be specified)" },
+  [LocationType.LIBRARY]: { isKnowledgeCenter: true, defaultSubject: Subject.MAGYAR, grantsUnits: false, role: "language, culture, leadership" },
+  [LocationType.DATA_CENTER]: { isKnowledgeCenter: true, defaultSubject: Subject.INFORMATIKA, grantsUnits: false, role: "information warfare, algorithms" },
+  [LocationType.EMBASSY]: { isKnowledgeCenter: true, defaultSubject: Subject.IDEGEN_NYELV, grantsUnits: false, role: "diplomacy, mobility, soft power" },
 };
 
 export interface WorldLocation {

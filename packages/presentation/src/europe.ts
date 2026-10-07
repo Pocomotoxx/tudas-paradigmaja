@@ -31,7 +31,7 @@ function questions() {
   const q = (id: string, subject: Subject, b: number) => ({ id, subject, topic: "t", b, tier: DifficultyTier.ALAP });
   return [
     q("mat1", Subject.MATEMATIKA, 0), q("mat2", Subject.MATEMATIKA, 1), q("mat3", Subject.MATEMATIKA, 2), q("mat4", Subject.MATEMATIKA, 3),
-    q("fk1", Subject.FIZIKA_KEMIA, 0), q("fk2", Subject.FIZIKA_KEMIA, 1), q("fk3", Subject.FIZIKA_KEMIA, 2),
+    q("fk1", Subject.KEMIA, 0), q("fk2", Subject.KEMIA, 1), q("fk3", Subject.KEMIA, 2),
     q("tor1", Subject.TORTENELEM, 0), q("tor2", Subject.TORTENELEM, 1), q("tor3", Subject.TORTENELEM, 2), q("tor4", Subject.TORTENELEM, 3),
     q("bio1", Subject.BIOLOGIA, 0), q("bio2", Subject.BIOLOGIA, 1), q("bio3", Subject.BIOLOGIA, 2),
   ];
@@ -83,6 +83,9 @@ const GLYPH: Readonly<Record<LocationType, string>> = {
   [LocationType.INDUSTRIAL]: "I",
   [LocationType.PORT]: "P",
   [LocationType.RESEARCH_CENTER]: "R",
+  [LocationType.LIBRARY]: "B",
+  [LocationType.DATA_CENTER]: "D",
+  [LocationType.EMBASSY]: "E",
 };
 
 /** ASCII map with a glyph per location type; the hero (@) overrides its tile. */

@@ -6,11 +6,15 @@
 // the strategic specialisation-vs-polymath choice.
 
 export enum Subject {
-  MATEMATIKA = "MATEMATIKA",
-  FIZIKA_KEMIA = "FIZIKA_KEMIA",
-  BIOLOGIA = "BIOLOGIA",
-  TORTENELEM = "TORTENELEM",
-  FOLDRAJZ = "FOLDRAJZ",
+  MAGYAR = "MAGYAR", // Academia
+  MATEMATIKA = "MATEMATIKA", // Numeris
+  FIZIKA = "FIZIKA", // Dynamis
+  KEMIA = "KEMIA", // Catalyss
+  BIOLOGIA = "BIOLOGIA", // Viridia
+  TORTENELEM = "TORTENELEM", // Chronopolis
+  FOLDRAJZ = "FOLDRAJZ", // Terranova
+  INFORMATIKA = "INFORMATIKA", // Nexum
+  IDEGEN_NYELV = "IDEGEN_NYELV", // Lingua
 }
 
 export const ALL_SUBJECTS: readonly Subject[] = Object.values(Subject);
