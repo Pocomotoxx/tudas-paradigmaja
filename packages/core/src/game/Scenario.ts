@@ -13,6 +13,7 @@ import type { CombatantInit } from "../combat/Battle.js";
 import type { KnowledgeCenterConfig } from "../knowledge/KnowledgeCenter.js";
 import type { UnitTemplate } from "../units/Recruitment.js";
 import type { ScientistDef } from "../heroes/Scientist.js";
+import type { SynergyDef } from "../synergy/SynergyRegistry.js";
 
 export interface GarrisonPlacement {
   /** The military location this roster belongs to (id, free-form content). */
@@ -58,4 +59,6 @@ export interface ScenarioDef {
   readonly garrisons?: readonly GarrisonPlacement[];
   /** Optional recruitable scientist heroes. */
   readonly scientists?: readonly ScientistDef[];
+  /** Optional cross-subject synergies. */
+  readonly synergies?: readonly SynergyDef[];
 }
