@@ -77,6 +77,9 @@ export type { LocationTypeMeta, WorldLocation } from "./world/LocationType.js";
 export { SynergyRegistry, validateSynergy } from "./synergy/SynergyRegistry.js";
 export type { SynergyDef, SubjectAmount } from "./synergy/SynergyRegistry.js";
 
+export { validateArtifact } from "./artifacts/Artifact.js";
+export type { ArtifactDef, ArtifactCaptureSpec } from "./artifacts/Artifact.js";
+
 export { CaptureGate, CaptureStatus } from "./capture/CaptureGate.js";
 export type { CaptureInit, CaptureSubmitResult } from "./capture/CaptureGate.js";
 
