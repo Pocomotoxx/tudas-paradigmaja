@@ -25,7 +25,6 @@ import { UnitLadder, type LadderTier } from "../units/UnitLadder.js";
 import type { Bonus, StatBlock } from "../units/BonusSystem.js";
 import {
   simulateBattle,
-  combatantFromUnit,
   BattleSide,
   BattleOutcome,
   type BattleResult,
@@ -35,7 +34,9 @@ import {
   type KnowledgeCenterSnapshot,
 } from "../knowledge/KnowledgeCenter.js";
 import { CaptureGate, CaptureStatus } from "../capture/CaptureGate.js";
-import { effectiveStatsUnderLeader, type ScientistDef } from "../heroes/Scientist.js";
+import { leaderBonusesFor, type ScientistDef } from "../heroes/Scientist.js";
+import { SynergyRegistry, type SynergyDef } from "../synergy/SynergyRegistry.js";
+import { BonusSystem } from "../units/BonusSystem.js";
 import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
 
 export interface GameSave {
@@ -58,6 +59,7 @@ export interface GameSave {
   readonly recruitProvenance: { unitId: string; locationId: string; templateId: string }[];
   readonly hiredScientists: string[];
   readonly leaderId: string | null;
+  readonly unlockedSynergies: string[];
 }
 
 export interface MaintenanceResult {
@@ -90,6 +92,8 @@ export class Game {
   private readonly scientists = new Map<string, ScientistDef>();
   private readonly hiredScientists = new Set<string>();
   private leaderId: string | null = null;
+  private readonly synergyRegistry: SynergyRegistry;
+  private readonly unlockedSynergies = new Set<string>();
   private readonly garrisons = new Map<string, RecruitmentRoster>();
   private readonly ladders = new Map<string, UnitLadder>();
   private readonly recruits: Unit[] = [];
@@ -142,6 +146,8 @@ export class Game {
       if (this.scientists.has(s.id)) throw new TypeError(`Duplicate scientist: ${s.id}`);
       this.scientists.set(s.id, s);
     }
+
+    this.synergyRegistry = new SynergyRegistry(scenario.synergies ?? []);
 
     this.centers = (scenario.knowledgeCenters ?? []).map((p) => {
       this.centerHex.set(p.id, new Hex(p.hex.q, p.hex.r));
@@ -475,15 +481,40 @@ export class Game {
     this.leaderId = id;
   }
 
+  // --- synergies (cross-subject research) ---
+  synergyIds(): string[] { return this.synergyRegistry.ids(); }
+  isSynergyUnlocked(id: string): boolean { return this.unlockedSynergies.has(id); }
+  canUnlockSynergy(id: string): boolean {
+    return !this.unlockedSynergies.has(id) && this.synergyRegistry.canUnlock(id, this.kk);
+  }
+
+  /** Unlock a synergy: spends its KK cost (mastery-gated); records it unlocked. */
+  unlockSynergy(id: string): SynergyDef {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Cannot unlock a synergy during combat");
+    }
+    if (this.unlockedSynergies.has(id)) throw new RangeError(`Synergy ${id} already unlocked`);
+    const def = this.synergyRegistry.unlock(id, this.kk); // verifies + spends
+    this.unlockedSynergies.add(id);
+    return def;
+  }
+
+  /** Army-wide bonuses from all unlocked synergies. */
+  private synergyArmyBonuses(): Bonus[] {
+    const out: Bonus[] = [];
+    for (const id of this.unlockedSynergies) out.push(...(this.synergyRegistry.get(id).armyBonuses ?? []));
+    return out;
+  }
+
   /** Fight the scenario's enemy guard with the whole army; records outcome. */
   fight(): BattleResult {
     this.phase.transition(GamePhase.TACTICAL);
     const leader = this.leaderId !== null ? this.scientists.get(this.leaderId) ?? null : null;
+    const synergyBonuses = this.synergyArmyBonuses();
     const army = [this.unit, ...this.recruits].map((u) => {
-      if (leader !== null) {
-        return { id: u.id, side: BattleSide.PLAYER, stats: effectiveStatsUnderLeader(u, leader) };
-      }
-      return combatantFromUnit(u, BattleSide.PLAYER);
+      const leaderB = leader !== null ? leaderBonusesFor(leader, u.subject) : [];
+      const stats = BonusSystem.apply(u.base, [...u.bonuses, ...leaderB, ...synergyBonuses]);
+      return { id: u.id, side: BattleSide.PLAYER, stats };
     });
     const result = simulateBattle(
       [...army, { ...this.scenario.enemy, side: BattleSide.ENEMY }],
@@ -522,6 +553,7 @@ export class Game {
         .sort((a, b) => (a.unitId < b.unitId ? -1 : a.unitId > b.unitId ? 1 : 0)),
       hiredScientists: [...this.hiredScientists].sort(),
       leaderId: this.leaderId,
+      unlockedSynergies: [...this.unlockedSynergies].sort(),
     };
   }
 
@@ -558,6 +590,7 @@ export class Game {
     }
     for (const id of save.hiredScientists ?? []) g.hiredScientists.add(id);
     g.leaderId = save.leaderId ?? null;
+    for (const id of save.unlockedSynergies ?? []) g.unlockedSynergies.add(id);
     return g;
   }
 }

@@ -10,6 +10,7 @@
 // Game tracks which synergies are unlocked (for save/load).
 
 import { Subject, ALL_SUBJECTS, type KKLedger } from "../economy/KKLedger.js";
+import { validateBonus, type Bonus } from "../units/BonusSystem.js";
 
 export interface SubjectAmount {
   readonly subject: Subject;
@@ -25,6 +26,8 @@ export interface SynergyDef {
   readonly cost: readonly SubjectAmount[];
   /** Ability / research id this synergy unlocks (content-defined). */
   readonly unlocks: string;
+  /** Optional army-wide bonuses granted while this synergy is unlocked. */
+  readonly armyBonuses?: readonly Bonus[];
 }
 
 function assertAmounts(list: readonly SubjectAmount[], field: string, id: string): void {
@@ -51,6 +54,7 @@ export function validateSynergy(def: SynergyDef): SynergyDef {
   }
   assertAmounts(def.requires, "requires", def.id);
   assertAmounts(def.cost, "cost", def.id);
+  (def.armyBonuses ?? []).forEach(validateBonus);
   return def;
 }
 
