@@ -23,9 +23,9 @@ describe("KKLedger — per-subject cognitive credits (I2 AC5 support)", () => {
 
   it("blocks overspend in a subject", () => {
     const l = new KKLedger();
-    l.earn(Subject.FIZIKA_KEMIA, 2);
-    expect(l.canSpend(Subject.FIZIKA_KEMIA, 3)).toBe(false);
-    expect(() => l.spend(Subject.FIZIKA_KEMIA, 3)).toThrow(RangeError);
+    l.earn(Subject.KEMIA, 2);
+    expect(l.canSpend(Subject.KEMIA, 3)).toBe(false);
+    expect(() => l.spend(Subject.KEMIA, 3)).toThrow(RangeError);
   });
 
   it("snapshots all balances for serialization", () => {

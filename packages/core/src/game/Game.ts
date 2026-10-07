@@ -37,7 +37,7 @@ import { CaptureGate, CaptureStatus } from "../capture/CaptureGate.js";
 import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
 
 export interface GameSave {
-  readonly version: 1;
+  readonly version: 2;
   readonly scenarioId: string;
   readonly turn: number;
   readonly phase: GamePhase;
@@ -398,7 +398,7 @@ export class Game {
   // --- save / load ---
   save(): GameSave {
     return {
-      version: 1,
+      version: 2,
       scenarioId: this.scenario.id,
       turn: this.turnNumber,
       phase: this.phase.current,
@@ -418,7 +418,7 @@ export class Game {
   }
 
   static load(save: GameSave, scenario: ScenarioDef): Game {
-    if (save.version !== 1) throw new TypeError(`Unsupported save version: ${save.version}`);
+    if (save.version !== 2) throw new TypeError(`Unsupported save version: ${save.version}`);
     if (save.scenarioId !== scenario.id) {
       throw new TypeError(
         `Save scenario ${save.scenarioId} does not match provided scenario ${scenario.id}`,

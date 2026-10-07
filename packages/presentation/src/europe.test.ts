@@ -16,7 +16,7 @@ describe("europe — sample alternative-Europe scenario (I16)", () => {
     const { scenario } = europeScenario();
     const by = new Map((scenario.knowledgeCenters ?? []).map((c) => [c.id, c.subject]));
     expect(by.get("mathis-obs")).toBe(Subject.MATEMATIKA); // observatory default
-    expect(by.get("kemia-lab")).toBe(Subject.FIZIKA_KEMIA); // laboratory default
+    expect(by.get("kemia-lab")).toBe(Subject.KEMIA); // laboratory default
     expect(by.get("chronos")).toBe(Subject.TORTENELEM); // historical default
     expect(by.get("bioterra")).toBe(Subject.BIOLOGIA); // university explicit override
   });

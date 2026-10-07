@@ -127,7 +127,7 @@ describe("Game — deterministic save/load (I6 AC12)", () => {
 
   it("rejects an unknown save version", () => {
     const game = new Game(scenario(), 1);
-    const bad = { ...game.save(), version: 2 as unknown as 1 };
+    const bad = { ...game.save(), version: 99 as unknown as 2 };
     expect(() => Game.load(bad, scenario())).toThrow(TypeError);
   });
 });
