@@ -12,6 +12,7 @@ import type { TechNode } from "../units/TechTree.js";
 import type { CombatantInit } from "../combat/Battle.js";
 import type { KnowledgeCenterConfig } from "../knowledge/KnowledgeCenter.js";
 import type { UnitTemplate } from "../units/Recruitment.js";
+import type { ScientistDef } from "../heroes/Scientist.js";
 
 export interface GarrisonPlacement {
   /** The military location this roster belongs to (id, free-form content). */
@@ -55,4 +56,6 @@ export interface ScenarioDef {
   readonly knowledgeCenters?: readonly KnowledgeCenterPlacement[];
   /** Optional military-location recruitment rosters. */
   readonly garrisons?: readonly GarrisonPlacement[];
+  /** Optional recruitable scientist heroes. */
+  readonly scientists?: readonly ScientistDef[];
 }
