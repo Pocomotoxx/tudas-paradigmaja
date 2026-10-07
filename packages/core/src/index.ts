@@ -54,5 +54,5 @@ export type {
 } from "./knowledge/KnowledgeCenter.js";
 
 export { Game } from "./game/Game.js";
-export type { GameSave } from "./game/Game.js";
+export type { GameSave, MaintenanceResult } from "./game/Game.js";
 export type { ScenarioDef } from "./game/Scenario.js";

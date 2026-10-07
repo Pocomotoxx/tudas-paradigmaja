@@ -16,7 +16,7 @@ import { GamePhase, PhaseMachine, PhaseError } from "../phase/GamePhase.js";
 import { TokenLedger } from "../economy/TokenLedger.js";
 import { KKLedger, Subject } from "../economy/KKLedger.js";
 import { RaschEstimator } from "../education/RaschEstimator.js";
-import { QuestionBank } from "../education/QuestionBank.js";
+import { QuestionBank, type QuestionItem } from "../education/QuestionBank.js";
 import { TestSession, type TestResult } from "../education/TestSession.js";
 import { Unit } from "../units/Unit.js";
 import { TechTree } from "../units/TechTree.js";
@@ -48,6 +48,16 @@ export interface GameSave {
   readonly unitBonuses: Bonus[];
   readonly lastOutcome: BattleOutcome | null;
   readonly centers: KnowledgeCenterSnapshot[];
+  readonly maintenanceUsed: string[];
+}
+
+export interface MaintenanceResult {
+  readonly centerId: string;
+  readonly question: QuestionItem;
+  readonly correct: boolean;
+  readonly newTheta: number;
+  readonly stability: number;
+  readonly rebelled: boolean;
 }
 
 export class Game {
@@ -69,6 +79,8 @@ export class Game {
   private heroPos: Hex;
   private turnNumber = 1;
   private lastOutcome: BattleOutcome | null = null;
+  private pendingMaintenance: { centerId: string; question: QuestionItem } | null = null;
+  private readonly usedMaintenanceIds = new Set<string>();
 
   constructor(scenario: ScenarioDef, seed: number) {
     this.scenario = scenario;
@@ -180,6 +192,53 @@ export class Game {
     this.center(id).answer(correct, this.turnNumber);
   }
 
+  get hasPendingMaintenance(): boolean { return this.pendingMaintenance !== null; }
+
+  /**
+   * Begin a question-based maintenance check for a center: draws a question
+   * from the bank for the center's subject, adaptively by the player's current
+   * ability (theta). Guarded against TACTICAL phase. Throws if a maintenance is
+   * already open or no question remains.
+   */
+  startMaintenance(centerId: string): QuestionItem {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Maintenance checks are not allowed during combat");
+    }
+    if (this.pendingMaintenance !== null) {
+      throw new PhaseError("A maintenance check is already open; resolve it first");
+    }
+    const c = this.center(centerId);
+    const question = this.bank.selectFor(c.subject, this.rasch.thetaOf(c.subject), this.usedMaintenanceIds);
+    if (question === null) {
+      throw new RangeError(`No remaining question for center ${centerId} (${c.subject})`);
+    }
+    this.pendingMaintenance = { centerId, question };
+    return question;
+  }
+
+  /**
+   * Resolve the open maintenance check: updates the player's ability (theta)
+   * AND the center's stability (rebellion/recovery). A correct answer raises
+   * both; a wrong answer lowers both. Returns the combined result.
+   */
+  resolveMaintenance(correct: boolean): MaintenanceResult {
+    const pending = this.pendingMaintenance;
+    if (pending === null) throw new PhaseError("No open maintenance check to resolve");
+    const c = this.center(pending.centerId);
+    const newTheta = this.rasch.update(c.subject, pending.question.b, correct);
+    c.answer(correct, this.turnNumber);
+    this.usedMaintenanceIds.add(pending.question.id);
+    this.pendingMaintenance = null;
+    return {
+      centerId: c.id,
+      question: pending.question,
+      correct,
+      newTheta,
+      stability: c.stability,
+      rebelled: c.rebelled,
+    };
+  }
+
   // --- academic phase ---
   enterAcademic(): void { this.phase.transition(GamePhase.ACADEMIC); }
   leaveAcademic(): void { this.phase.transition(GamePhase.STRATEGIC); }
@@ -229,6 +288,7 @@ export class Game {
       unitBonuses: [...this.unit.bonuses],
       lastOutcome: this.lastOutcome,
       centers: this.centers.map((c) => c.toSnapshot()),
+      maintenanceUsed: [...this.usedMaintenanceIds].sort(),
     };
   }
 
@@ -254,6 +314,7 @@ export class Game {
     // Restore knowledge-center state in place (ids match the scenario).
     g.centers.length = 0;
     for (const snap of save.centers ?? []) g.centers.push(KnowledgeCenter.fromSnapshot(snap));
+    for (const id of save.maintenanceUsed ?? []) g.usedMaintenanceIds.add(id);
     return g;
   }
 }
