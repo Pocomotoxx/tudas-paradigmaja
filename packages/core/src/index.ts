@@ -35,6 +35,8 @@ export { TechTree } from "./units/TechTree.js";
 export type { TechNode } from "./units/TechTree.js";
 export { RecruitmentRoster, validateUnitTemplate } from "./units/Recruitment.js";
 export type { UnitTemplate } from "./units/Recruitment.js";
+export { UnitLadder } from "./units/UnitLadder.js";
+export type { LadderTier } from "./units/UnitLadder.js";
 
 export {
   simulateBattle,
