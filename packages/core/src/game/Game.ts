@@ -21,6 +21,7 @@ import { TestSession, type TestResult } from "../education/TestSession.js";
 import { Unit, type UnitInit } from "../units/Unit.js";
 import { TechTree } from "../units/TechTree.js";
 import { RecruitmentRoster } from "../units/Recruitment.js";
+import { UnitLadder, type LadderTier } from "../units/UnitLadder.js";
 import type { Bonus, StatBlock } from "../units/BonusSystem.js";
 import {
   simulateBattle,
@@ -53,6 +54,7 @@ export interface GameSave {
   readonly maintenanceUsed: string[];
   readonly capturedCenters: string[];
   readonly recruits: (UnitInit & { bonuses: Bonus[] })[];
+  readonly recruitProvenance: { unitId: string; locationId: string; templateId: string }[];
 }
 
 export interface MaintenanceResult {
@@ -83,7 +85,9 @@ export class Game {
   private readonly capturedCenters = new Set<string>();
   private pendingCapture: CaptureGate | null = null;
   private readonly garrisons = new Map<string, RecruitmentRoster>();
+  private readonly ladders = new Map<string, UnitLadder>();
   private readonly recruits: Unit[] = [];
+  private readonly recruitProvenance = new Map<string, { locationId: string; templateId: string }>();
 
   private heroPos: Hex;
   private turnNumber = 1;
@@ -117,6 +121,15 @@ export class Game {
         throw new TypeError(`Duplicate garrison for location: ${g.locationId}`);
       }
       this.garrisons.set(g.locationId, new RecruitmentRoster(g.templates));
+      // If every template carries tier info and one subject, the garrison is an
+      // upgradable ladder.
+      const asLadder = g.templates as readonly LadderTier[];
+      if (asLadder.length > 0 && asLadder.every((t) => Number.isInteger(t.tier))) {
+        const subject = asLadder[0]!.subject;
+        if (asLadder.every((t) => t.subject === subject)) {
+          this.ladders.set(g.locationId, new UnitLadder(subject, asLadder));
+        }
+      }
     }
 
     this.centers = (scenario.knowledgeCenters ?? []).map((p) => {
@@ -373,7 +386,40 @@ export class Game {
       base: template.base,
     });
     this.recruits.push(unit);
+    this.recruitProvenance.set(unit.id, { locationId, templateId });
     return unit;
+  }
+
+  /** The current ladder template id of a recruited unit, or null if not ladder-sourced. */
+  recruitTemplateId(unitId: string): string | null {
+    return this.recruitProvenance.get(unitId)?.templateId ?? null;
+  }
+
+  /**
+   * Upgrade a recruited unit one tier up its garrison's ladder, paying the KK
+   * cost in the unit's subject. Stats rise to the next tier; the instance id and
+   * any applied bonuses are preserved. Throws if the unit is not ladder-sourced,
+   * already at the top tier, or KK is insufficient. Not allowed during combat.
+   */
+  upgradeUnit(unitId: string): Unit {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Cannot upgrade during combat");
+    }
+    const prov = this.recruitProvenance.get(unitId);
+    if (prov === undefined) throw new RangeError(`Unit ${unitId} is not an upgradable recruit`);
+    const ladder = this.ladders.get(prov.locationId);
+    if (ladder === undefined) throw new RangeError(`Location ${prov.locationId} has no upgrade ladder`);
+    const next = ladder.next(prov.templateId);
+    if (next === null) throw new RangeError(`Unit ${unitId} is already at the top tier`);
+
+    this.kk.spend(next.subject, ladder.upgradeCost(prov.templateId)); // throws if insufficient
+    const idx = this.recruits.findIndex((u) => u.id === unitId);
+    const old = this.recruits[idx]!;
+    const upgraded = new Unit({ id: old.id, name: next.name, subject: next.subject, base: next.base });
+    for (const b of old.bonuses) upgraded.addBonus(b);
+    this.recruits[idx] = upgraded;
+    this.recruitProvenance.set(unitId, { locationId: prov.locationId, templateId: next.id });
+    return upgraded;
   }
 
   /** Fight the scenario's enemy guard with the whole army; records outcome. */
@@ -414,6 +460,9 @@ export class Game {
       maintenanceUsed: [...this.usedMaintenanceIds].sort(),
       capturedCenters: [...this.capturedCenters].sort(),
       recruits: this.recruits.map((u) => u.toSnapshot()),
+      recruitProvenance: [...this.recruitProvenance.entries()]
+        .map(([unitId, p]) => ({ unitId, locationId: p.locationId, templateId: p.templateId }))
+        .sort((a, b) => (a.unitId < b.unitId ? -1 : a.unitId > b.unitId ? 1 : 0)),
     };
   }
 
@@ -445,6 +494,9 @@ export class Game {
       for (const id of save.capturedCenters) g.capturedCenters.add(id);
     }
     for (const snap of save.recruits ?? []) g.recruits.push(Unit.fromSnapshot(snap));
+    for (const p of save.recruitProvenance ?? []) {
+      g.recruitProvenance.set(p.unitId, { locationId: p.locationId, templateId: p.templateId });
+    }
     return g;
   }
 }
