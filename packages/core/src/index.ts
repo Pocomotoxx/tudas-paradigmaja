@@ -58,6 +58,14 @@ export type {
 } from "./knowledge/KnowledgeCenter.js";
 
 export {
+  validateScientist,
+  leaderBonusesFor,
+  effectiveStatsUnderLeader,
+  FOREIGN,
+} from "./heroes/Scientist.js";
+export type { ScientistDef, ScientistAffinity, AffinityTarget } from "./heroes/Scientist.js";
+
+export {
   LocationType,
   LOCATION_META,
   isKnowledgeLocation,
