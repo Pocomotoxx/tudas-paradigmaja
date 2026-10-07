@@ -53,6 +53,15 @@ export type {
   KnowledgeCenterSnapshot,
 } from "./knowledge/KnowledgeCenter.js";
 
+export {
+  LocationType,
+  LOCATION_META,
+  isKnowledgeLocation,
+  locationSubject,
+  knowledgeCentersFromLocations,
+} from "./world/LocationType.js";
+export type { LocationTypeMeta, WorldLocation } from "./world/LocationType.js";
+
 export { CaptureGate, CaptureStatus } from "./capture/CaptureGate.js";
 export type { CaptureInit, CaptureSubmitResult } from "./capture/CaptureGate.js";
 
