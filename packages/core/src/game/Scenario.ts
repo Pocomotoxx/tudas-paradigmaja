@@ -64,4 +64,12 @@ export interface ScenarioDef {
   readonly synergies?: readonly SynergyDef[];
   /** Optional strategic artifacts. */
   readonly artifacts?: readonly ArtifactDef[];
+  /** Hard mode: enable the classic Ellátmány (supply) logistics layer. */
+  readonly hardMode?: boolean;
+  /** Supply produced per turn in hard mode (default 0). */
+  readonly supplyPerTurn?: number;
+  /** Supply upkeep per army unit per turn in hard mode (default 1). */
+  readonly unitUpkeep?: number;
+  /** Starting supply in hard mode (default 0). */
+  readonly initialSupply?: number;
 }

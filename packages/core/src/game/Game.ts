@@ -15,6 +15,8 @@ import { HexMap } from "../hex/HexMap.js";
 import { GamePhase, PhaseMachine, PhaseError } from "../phase/GamePhase.js";
 import { TokenLedger } from "../economy/TokenLedger.js";
 import { KKLedger, Subject } from "../economy/KKLedger.js";
+import { SupplyLedger } from "../economy/SupplyLedger.js";
+import { BonusOp } from "../units/BonusSystem.js";
 import { RaschEstimator } from "../education/RaschEstimator.js";
 import { QuestionBank, type QuestionItem } from "../education/QuestionBank.js";
 import { TestSession, type TestResult } from "../education/TestSession.js";
@@ -62,6 +64,8 @@ export interface GameSave {
   readonly leaderId: string | null;
   readonly unlockedSynergies: string[];
   readonly heldArtifacts: string[];
+  readonly supply: number;
+  readonly starving: boolean;
 }
 
 export interface MaintenanceResult {
@@ -99,6 +103,11 @@ export class Game {
   private readonly artifacts = new Map<string, ArtifactDef>();
   private readonly heldArtifacts = new Set<string>();
   private pendingArtifactCapture: { id: string; gate: CaptureGate } | null = null;
+  private readonly hardMode: boolean;
+  private readonly supply: SupplyLedger;
+  private readonly supplyPerTurn: number;
+  private readonly unitUpkeep: number;
+  private starving = false;
   private readonly garrisons = new Map<string, RecruitmentRoster>();
   private readonly ladders = new Map<string, UnitLadder>();
   private readonly recruits: Unit[] = [];
@@ -153,6 +162,11 @@ export class Game {
     }
 
     this.synergyRegistry = new SynergyRegistry(scenario.synergies ?? []);
+
+    this.hardMode = scenario.hardMode ?? false;
+    this.supplyPerTurn = scenario.supplyPerTurn ?? 0;
+    this.unitUpkeep = scenario.unitUpkeep ?? 1;
+    this.supply = new SupplyLedger(scenario.initialSupply ?? 0);
 
     for (const a of scenario.artifacts ?? []) {
       validateArtifact(a);
@@ -225,9 +239,26 @@ export class Game {
       // Legacy path for scenarios without knowledge centers.
       this.tokens.produce(this.scenario.tokensPerTurn);
     }
+    if (this.hardMode) {
+      // Hard mode: produce supply, then pay army upkeep; unmet upkeep starves.
+      this.supply.produce(this.supplyPerTurn);
+      const upkeep = this.armySize * this.unitUpkeep;
+      if (this.supply.canSpend(upkeep)) {
+        this.supply.spend(upkeep);
+        this.starving = false;
+      } else {
+        this.supply.restore(0);
+        this.starving = true;
+      }
+    }
     this.turnNumber++;
     this.testSession.newTurn();
   }
+
+  // --- hard mode (Ellátmány / supply logistics) ---
+  get isHardMode(): boolean { return this.hardMode; }
+  get supplyBalance(): number { return this.supply.balance; }
+  get isStarving(): boolean { return this.starving; }
 
   // --- knowledge-center maintenance (unified economy) ---
   get hasCenters(): boolean { return this.centers.length > 0; }
@@ -589,9 +620,13 @@ export class Game {
     const leader = this.leaderId !== null ? this.scientists.get(this.leaderId) ?? null : null;
     const synergyBonuses = this.synergyArmyBonuses();
     const artifactBonuses = this.artifactArmyBonuses();
+    const starvingBonuses: Bonus[] =
+      this.hardMode && this.starving
+        ? [{ id: "starving", stat: "attack", op: BonusOp.ADD, value: -2, source: "supply" }]
+        : [];
     const army = [this.unit, ...this.recruits].map((u) => {
       const leaderB = leader !== null ? leaderBonusesFor(leader, u.subject) : [];
-      const stats = BonusSystem.apply(u.base, [...u.bonuses, ...leaderB, ...synergyBonuses, ...artifactBonuses]);
+      const stats = BonusSystem.apply(u.base, [...u.bonuses, ...leaderB, ...synergyBonuses, ...artifactBonuses, ...starvingBonuses]);
       return { id: u.id, side: BattleSide.PLAYER, stats };
     });
     const result = simulateBattle(
@@ -633,6 +668,8 @@ export class Game {
       leaderId: this.leaderId,
       unlockedSynergies: [...this.unlockedSynergies].sort(),
       heldArtifacts: [...this.heldArtifacts].sort(),
+      supply: this.supply.balance,
+      starving: this.starving,
     };
   }
 
@@ -671,6 +708,8 @@ export class Game {
     g.leaderId = save.leaderId ?? null;
     for (const id of save.unlockedSynergies ?? []) g.unlockedSynergies.add(id);
     for (const id of save.heldArtifacts ?? []) g.heldArtifacts.add(id);
+    if (save.supply !== undefined) g.supply.restore(save.supply);
+    g.starving = save.starving ?? false;
     return g;
   }
 }

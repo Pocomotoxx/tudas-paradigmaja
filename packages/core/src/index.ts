@@ -16,6 +16,7 @@ export { GamePhase, PhaseMachine, PhaseError } from "./phase/GamePhase.js";
 
 export { TokenLedger } from "./economy/TokenLedger.js";
 export { KKLedger, Subject, ALL_SUBJECTS } from "./economy/KKLedger.js";
+export { SupplyLedger } from "./economy/SupplyLedger.js";
 
 export { RaschEstimator } from "./education/RaschEstimator.js";
 export {
