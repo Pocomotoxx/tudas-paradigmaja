@@ -81,4 +81,9 @@ export class SeededRng implements Rng {
   getState(): number {
     return this.state >>> 0;
   }
+
+  /** Overwrite the internal state in place (for save/load restore). */
+  restore(state: number): void {
+    this.state = state >>> 0;
+  }
 }

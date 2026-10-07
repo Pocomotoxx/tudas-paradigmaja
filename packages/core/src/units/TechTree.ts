@@ -54,6 +54,25 @@ export class TechTree {
     return this.researched.has(id);
   }
 
+  /**
+   * Mark nodes as already researched (for save/load). Does NOT re-apply bonuses
+   * — on load the unit carries its own saved bonuses; this only restores which
+   * nodes count as taken. Throws on an unknown id.
+   */
+  markResearched(ids: readonly string[]): void {
+    for (const id of ids) {
+      if (!this.nodes.has(id)) {
+        throw new TypeError(`Cannot mark unknown tech node researched: ${id}`);
+      }
+      this.researched.add(id);
+    }
+  }
+
+  /** The ids researched so far (for serialization). */
+  researchedIds(): string[] {
+    return [...this.researched].sort();
+  }
+
   canResearch(id: string, kk: KKLedger): boolean {
     const node = this.nodes.get(id);
     if (node === undefined || this.researched.has(id)) return false;

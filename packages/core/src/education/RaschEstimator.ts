@@ -33,6 +33,26 @@ export class RaschEstimator {
     for (const s of ALL_SUBJECTS) this.theta.set(s, initialTheta);
   }
 
+  /** Rebuild an estimator from a snapshot() record (for save/load). */
+  static fromSnapshot(snap: Record<Subject, number>, learningRate = 0.5): RaschEstimator {
+    const est = new RaschEstimator(0, learningRate);
+    for (const s of ALL_SUBJECTS) {
+      const v = snap[s] ?? 0;
+      if (!Number.isFinite(v)) throw new TypeError(`Snapshot theta for ${s} must be finite`);
+      est.theta.set(s, v);
+    }
+    return est;
+  }
+
+  /** Overwrite ability estimates from a snapshot() record in place (save/load). */
+  restore(snap: Record<Subject, number>): void {
+    for (const s of ALL_SUBJECTS) {
+      const v = snap[s] ?? 0;
+      if (!Number.isFinite(v)) throw new TypeError(`Snapshot theta for ${s} must be finite`);
+      this.theta.set(s, v);
+    }
+  }
+
   thetaOf(subject: Subject): number {
     const t = this.theta.get(subject);
     if (t === undefined) throw new TypeError(`Unknown subject: ${String(subject)}`);
