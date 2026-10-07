@@ -14,6 +14,7 @@ import {
   type WorldLocation,
   type ScenarioDef,
 } from "@tudas-paradigmaja/core";
+import { scientistsPack } from "./scientistsPack.js";
 
 /** Fictional alternative-Europe locations on a small hex map. */
 export function europeLocations(): WorldLocation[] {
@@ -113,4 +114,50 @@ export function renderWorldMap(locations: readonly WorldLocation[], game: Game):
     lines.push(row.replace(/\s+$/, ""));
   }
   return lines.join("\n");
+}
+
+/**
+ * A heroes-enabled alternative-Europe scenario: four owned discipline-city
+ * centers (so their scientists are hireable and produce tokens) plus one famous
+ * scientist per city from the content pack.
+ */
+export function europeHeroesScenario(): ScenarioDef {
+  const tiles = [];
+  for (let q = -2; q <= 2; q++) {
+    for (let r = -2; r <= 2; r++) {
+      if (Math.abs(-q - r) <= 2) tiles.push({ q, r });
+    }
+  }
+  const q = (id: string, subject: Subject, b: number) => ({ id, subject, topic: "t", b, tier: DifficultyTier.SZAKERTO });
+  const picks = new Set(["newton", "curie", "euler", "szentgyorgyi"]);
+  return {
+    id: "europe-heroes-01",
+    tiles,
+    heroStart: { q: 0, r: 0 },
+    tokenBuilding: { q: 0, r: 0 },
+    tokensPerTurn: 2,
+    tokenCap: 50,
+    tokenCostPerTest: 1,
+    playerSubject: Subject.MATEMATIKA,
+    playerUnit: {
+      id: "golem",
+      name: "Kalkulus-gólem",
+      subject: Subject.MATEMATIKA,
+      base: { attack: 6, defense: 10, health: 50, speed: 3, initiative: 5 },
+    },
+    enemy: { id: "guard", stats: { attack: 5, defense: 4, health: 40, speed: 2, initiative: 3 } },
+    techNodes: [],
+    questions: [
+      q("mat1", Subject.MATEMATIKA, 0), q("mat2", Subject.MATEMATIKA, 1), q("mat3", Subject.MATEMATIKA, 2),
+      q("fiz1", Subject.FIZIKA, 0), q("kem1", Subject.KEMIA, 0), q("bio1", Subject.BIOLOGIA, 0),
+    ],
+    // Owned discipline-city centers (ids match the pack's birthplace city ids).
+    knowledgeCenters: [
+      { id: "numeris", subject: Subject.MATEMATIKA, hex: { q: 0, r: 0 }, stability: 100 },
+      { id: "dynamis", subject: Subject.FIZIKA, hex: { q: 1, r: 0 }, stability: 100 },
+      { id: "catalyss", subject: Subject.KEMIA, hex: { q: 0, r: 1 }, stability: 100 },
+      { id: "viridia", subject: Subject.BIOLOGIA, hex: { q: -1, r: 1 }, stability: 100 },
+    ],
+    scientists: scientistsPack().filter((s) => picks.has(s.id)),
+  };
 }

@@ -86,6 +86,20 @@ export function renderCenters(game: Game): string {
   return `Centers:\n${lines.join("\n")}`;
 }
 
+/** Render the scientists panel: available/hired, the leader marked. */
+export function renderScientists(game: Game, names: Record<string, string> = {}): string {
+  const ids = game.scientistIds();
+  if (ids.length === 0) return "";
+  const leader = game.currentLeaderId;
+  const lines = ids.map((id) => {
+    const label = names[id] ?? id;
+    const state = game.isScientistHired(id) ? "hired" : "available";
+    const lead = id === leader ? " <= LEADER" : "";
+    return `  ${label}: ${state}${lead}`;
+  });
+  return `Scientists:\n${lines.join("\n")}`;
+}
+
 /** Full frame: map, status, and (when present) the center panel. */
 export function renderFrame(game: Game): string {
   const centers = renderCenters(game);

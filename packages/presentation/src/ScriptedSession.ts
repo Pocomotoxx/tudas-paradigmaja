@@ -20,6 +20,8 @@ export type Command =
       readonly startMs: number;
       readonly answers: readonly { readonly correct: boolean; readonly atMs: number }[];
     }
+  | { readonly type: "hire"; readonly scientistId: string }
+  | { readonly type: "lead"; readonly scientistId: string | null }
   | { readonly type: "fight" };
 
 export interface SessionResult {
@@ -66,6 +68,12 @@ export function runScriptedSession(
           if (!game.hasPendingCapture) break; // resolved (success/timeout)
           game.submitCapture(a.correct, a.atMs);
         }
+        break;
+      case "hire":
+        game.hireScientist(cmd.scientistId);
+        break;
+      case "lead":
+        game.setLeader(cmd.scientistId);
         break;
       case "fight":
         game.fight();
