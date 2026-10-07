@@ -18,6 +18,12 @@ export interface KnowledgeCenterPlacement {
   readonly hex: HexCoord;
   readonly stability?: number;
   readonly config?: KnowledgeCenterConfig;
+  /** If true, the center starts uncaptured and must be taken via the capture gate. */
+  readonly requiresCapture?: boolean;
+  /** Capture time window in ms (default 30000). */
+  readonly captureWindowMs?: number;
+  /** Correct answers required to capture (default 3). */
+  readonly captureRequiredCorrect?: number;
 }
 
 export interface ScenarioDef {

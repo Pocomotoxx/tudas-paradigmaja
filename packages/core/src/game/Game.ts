@@ -32,7 +32,8 @@ import {
   KnowledgeCenter,
   type KnowledgeCenterSnapshot,
 } from "../knowledge/KnowledgeCenter.js";
-import type { ScenarioDef } from "./Scenario.js";
+import { CaptureGate, CaptureStatus } from "../capture/CaptureGate.js";
+import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
 
 export interface GameSave {
   readonly version: 1;
@@ -49,6 +50,7 @@ export interface GameSave {
   readonly lastOutcome: BattleOutcome | null;
   readonly centers: KnowledgeCenterSnapshot[];
   readonly maintenanceUsed: string[];
+  readonly capturedCenters: string[];
 }
 
 export interface MaintenanceResult {
@@ -75,6 +77,9 @@ export class Game {
 
   private readonly centers: KnowledgeCenter[];
   private readonly centerHex = new Map<string, Hex>();
+  private readonly centerPlacements = new Map<string, KnowledgeCenterPlacement>();
+  private readonly capturedCenters = new Set<string>();
+  private pendingCapture: CaptureGate | null = null;
 
   private heroPos: Hex;
   private turnNumber = 1;
@@ -105,6 +110,8 @@ export class Game {
 
     this.centers = (scenario.knowledgeCenters ?? []).map((p) => {
       this.centerHex.set(p.id, new Hex(p.hex.q, p.hex.r));
+      this.centerPlacements.set(p.id, p);
+      if (!p.requiresCapture) this.capturedCenters.add(p.id); // owned from start
       return new KnowledgeCenter({
         id: p.id,
         subject: p.subject,
@@ -157,9 +164,11 @@ export class Game {
       throw new PhaseError("endTurn is only valid in STRATEGIC phase");
     }
     if (this.centers.length > 0) {
-      // Unified economy: token production is the sum of centers' stepped
-      // stability output (rebelled centers output 0 — supply cut off).
-      for (const c of this.centers) this.tokens.produce(c.tokenOutput());
+      // Unified economy: token production is the sum of CAPTURED centers'
+      // stepped stability output (rebelled centers output 0 — supply cut off).
+      for (const c of this.centers) {
+        if (this.capturedCenters.has(c.id)) this.tokens.produce(c.tokenOutput());
+      }
     } else if (this.ownsTokenBuilding()) {
       // Legacy path for scenarios without knowledge centers.
       this.tokens.produce(this.scenario.tokensPerTurn);
@@ -175,9 +184,16 @@ export class Game {
   centerRebelled(id: string): boolean { return this.center(id).rebelled; }
   centerTokenOutput(id: string): number { return this.center(id).tokenOutput(); }
 
-  /** Centers whose maintenance check is due at the current turn. */
+  isCenterCaptured(id: string): boolean {
+    this.center(id); // validates id
+    return this.capturedCenters.has(id);
+  }
+
+  /** Captured centers whose maintenance check is due at the current turn. */
   maintenanceDueIds(): string[] {
-    return this.centers.filter((c) => c.isCheckDue(this.turnNumber)).map((c) => c.id);
+    return this.centers
+      .filter((c) => this.capturedCenters.has(c.id) && c.isCheckDue(this.turnNumber))
+      .map((c) => c.id);
   }
 
   /**
@@ -189,7 +205,67 @@ export class Game {
     if (this.phase.current === GamePhase.TACTICAL) {
       throw new PhaseError("Maintenance checks are not allowed during combat");
     }
-    this.center(id).answer(correct, this.turnNumber);
+    const c = this.center(id); // validates id (RangeError if unknown)
+    if (!this.capturedCenters.has(id)) {
+      throw new PhaseError(`Center ${id} is not captured yet`);
+    }
+    c.answer(correct, this.turnNumber);
+  }
+
+  // --- three-question timed capture (vision §11) ---
+  get hasPendingCapture(): boolean { return this.pendingCapture !== null; }
+
+  /**
+   * Begin capturing a center via the three-question timed gate. The center must
+   * require capture and not already be captured. `nowMs` is the caller-supplied
+   * clock (core stays clock-free). Guarded against TACTICAL phase.
+   */
+  beginCapture(centerId: string, nowMs: number): QuestionItem {
+    if (this.phase.current === GamePhase.TACTICAL) {
+      throw new PhaseError("Capture is not allowed during combat");
+    }
+    if (this.pendingCapture !== null) {
+      throw new PhaseError("A capture is already in progress");
+    }
+    const c = this.center(centerId);
+    const placement = this.centerPlacements.get(centerId)!;
+    if (!placement.requiresCapture) {
+      throw new PhaseError(`Center ${centerId} does not require capture`);
+    }
+    if (this.capturedCenters.has(centerId)) {
+      throw new PhaseError(`Center ${centerId} is already captured`);
+    }
+    const gate = new CaptureGate({
+      targetId: centerId,
+      subject: c.subject,
+      bank: this.bank,
+      rasch: this.rasch,
+      windowMs: placement.captureWindowMs ?? 30000,
+      ...(placement.captureRequiredCorrect !== undefined
+        ? { requiredCorrect: placement.captureRequiredCorrect }
+        : {}),
+    });
+    const q = gate.start(nowMs);
+    this.pendingCapture = gate;
+    return q;
+  }
+
+  /** Submit an answer to the pending capture at `nowMs`; grants control on success. */
+  submitCapture(correct: boolean, nowMs: number): { status: CaptureStatus; captured: boolean } {
+    if (this.pendingCapture === null) throw new PhaseError("No capture in progress");
+    const res = this.pendingCapture.submit(correct, nowMs);
+    let captured = false;
+    if (res.status === CaptureStatus.SUCCESS) {
+      this.capturedCenters.add(this.pendingCapture.targetId);
+      captured = true;
+    }
+    if (res.status !== CaptureStatus.PENDING) this.pendingCapture = null;
+    return { status: res.status, captured };
+  }
+
+  /** Current pending capture status, or null if none. */
+  captureStatus(): CaptureStatus | null {
+    return this.pendingCapture?.status ?? null;
   }
 
   get hasPendingMaintenance(): boolean { return this.pendingMaintenance !== null; }
@@ -208,6 +284,9 @@ export class Game {
       throw new PhaseError("A maintenance check is already open; resolve it first");
     }
     const c = this.center(centerId);
+    if (!this.capturedCenters.has(centerId)) {
+      throw new PhaseError(`Center ${centerId} is not captured yet`);
+    }
     const question = this.bank.selectFor(c.subject, this.rasch.thetaOf(c.subject), this.usedMaintenanceIds);
     if (question === null) {
       throw new RangeError(`No remaining question for center ${centerId} (${c.subject})`);
@@ -289,6 +368,7 @@ export class Game {
       lastOutcome: this.lastOutcome,
       centers: this.centers.map((c) => c.toSnapshot()),
       maintenanceUsed: [...this.usedMaintenanceIds].sort(),
+      capturedCenters: [...this.capturedCenters].sort(),
     };
   }
 
@@ -315,6 +395,10 @@ export class Game {
     g.centers.length = 0;
     for (const snap of save.centers ?? []) g.centers.push(KnowledgeCenter.fromSnapshot(snap));
     for (const id of save.maintenanceUsed ?? []) g.usedMaintenanceIds.add(id);
+    if (save.capturedCenters !== undefined) {
+      g.capturedCenters.clear();
+      for (const id of save.capturedCenters) g.capturedCenters.add(id);
+    }
     return g;
   }
 }
