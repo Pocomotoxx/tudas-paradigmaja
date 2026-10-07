@@ -63,4 +63,21 @@ export class Unit {
   stat(stat: Stat): number {
     return this.effectiveStats()[stat];
   }
+
+  /** Serializable snapshot (id, name, subject, base, applied bonuses). */
+  toSnapshot(): UnitInit & { bonuses: Bonus[] } {
+    return {
+      id: this.id,
+      name: this.name,
+      subject: this.subject,
+      base: { ...this.base },
+      bonuses: [...this.appliedBonuses],
+    };
+  }
+
+  static fromSnapshot(snap: UnitInit & { bonuses?: readonly Bonus[] }): Unit {
+    const u = new Unit(snap);
+    for (const b of snap.bonuses ?? []) u.addBonus(b);
+    return u;
+  }
 }

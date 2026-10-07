@@ -11,6 +11,13 @@ import type { UnitInit } from "../units/Unit.js";
 import type { TechNode } from "../units/TechTree.js";
 import type { CombatantInit } from "../combat/Battle.js";
 import type { KnowledgeCenterConfig } from "../knowledge/KnowledgeCenter.js";
+import type { UnitTemplate } from "../units/Recruitment.js";
+
+export interface GarrisonPlacement {
+  /** The military location this roster belongs to (id, free-form content). */
+  readonly locationId: string;
+  readonly templates: readonly UnitTemplate[];
+}
 
 export interface KnowledgeCenterPlacement {
   readonly id: string;
@@ -46,4 +53,6 @@ export interface ScenarioDef {
    * stepped stability output instead of the legacy tokenBuilding path.
    */
   readonly knowledgeCenters?: readonly KnowledgeCenterPlacement[];
+  /** Optional military-location recruitment rosters. */
+  readonly garrisons?: readonly GarrisonPlacement[];
 }
