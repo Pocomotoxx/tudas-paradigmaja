@@ -1,0 +1,113 @@
+// europe.ts — a sample "alternative Europe" scenario built from typed locations.
+//
+// Content, not engine: the names are FICTIONAL and the layout is invented. The
+// map is recognisable in feel (universities, laboratories, observatories,
+// fortresses) but is not the real political map. Knowledge-bearing locations
+// become KnowledgeCenters via the core's knowledgeCentersFromLocations bridge.
+
+import {
+  Game,
+  LocationType,
+  Subject,
+  DifficultyTier,
+  knowledgeCentersFromLocations,
+  type WorldLocation,
+  type ScenarioDef,
+} from "@tudas-paradigmaja/core";
+
+/** Fictional alternative-Europe locations on a small hex map. */
+export function europeLocations(): WorldLocation[] {
+  return [
+    { id: "aurelia", type: LocationType.CITY, hex: { q: 0, r: 0 }, label: "Aurelia (capital)" },
+    { id: "mathis-obs", type: LocationType.OBSERVATORY, hex: { q: 1, r: 0 }, label: "Mathis Observatory", requiresCapture: true, stability: 100 },
+    { id: "kemia-lab", type: LocationType.LABORATORY, hex: { q: 0, r: 1 }, label: "Kemia Laboratory", stability: 60 },
+    { id: "chronos", type: LocationType.HISTORICAL_SITE, hex: { q: -1, r: 1 }, label: "Chronos Ruins", requiresCapture: true, stability: 100 },
+    { id: "vesta", type: LocationType.FORTRESS, hex: { q: 1, r: -1 }, label: "Vesta Fortress" },
+    { id: "bioterra", type: LocationType.UNIVERSITY, hex: { q: -1, r: 0 }, label: "Bioterra University", subject: Subject.BIOLOGIA, stability: 60 },
+  ];
+}
+
+function questions() {
+  const q = (id: string, subject: Subject, b: number) => ({ id, subject, topic: "t", b, tier: DifficultyTier.ALAP });
+  return [
+    q("mat1", Subject.MATEMATIKA, 0), q("mat2", Subject.MATEMATIKA, 1), q("mat3", Subject.MATEMATIKA, 2), q("mat4", Subject.MATEMATIKA, 3),
+    q("fk1", Subject.FIZIKA_KEMIA, 0), q("fk2", Subject.FIZIKA_KEMIA, 1), q("fk3", Subject.FIZIKA_KEMIA, 2),
+    q("tor1", Subject.TORTENELEM, 0), q("tor2", Subject.TORTENELEM, 1), q("tor3", Subject.TORTENELEM, 2), q("tor4", Subject.TORTENELEM, 3),
+    q("bio1", Subject.BIOLOGIA, 0), q("bio2", Subject.BIOLOGIA, 1), q("bio3", Subject.BIOLOGIA, 2),
+  ];
+}
+
+export interface EuropeScenario {
+  readonly scenario: ScenarioDef;
+  readonly locations: WorldLocation[];
+}
+
+export function europeScenario(): EuropeScenario {
+  const locations = europeLocations();
+  const tiles = [];
+  for (let qc = -2; qc <= 2; qc++) {
+    for (let r = -2; r <= 2; r++) {
+      if (Math.abs(-qc - r) <= 2) tiles.push({ q: qc, r });
+    }
+  }
+  const scenario: ScenarioDef = {
+    id: "europe-01",
+    tiles,
+    heroStart: { q: 0, r: 0 },
+    tokenBuilding: { q: 0, r: 0 }, // legacy field; centers drive the economy here
+    tokensPerTurn: 2,
+    tokenCap: 50,
+    tokenCostPerTest: 1,
+    playerSubject: Subject.MATEMATIKA,
+    playerUnit: {
+      id: "golem",
+      name: "Kalkulus-gólem",
+      subject: Subject.MATEMATIKA,
+      base: { attack: 6, defense: 10, health: 50, speed: 3, initiative: 5 },
+    },
+    enemy: { id: "guard", stats: { attack: 5, defense: 4, health: 30, speed: 2, initiative: 3 } },
+    techNodes: [],
+    questions: questions(),
+    knowledgeCenters: knowledgeCentersFromLocations(locations),
+  };
+  return { scenario, locations };
+}
+
+const GLYPH: Readonly<Record<LocationType, string>> = {
+  [LocationType.CITY]: "C",
+  [LocationType.FORTRESS]: "F",
+  [LocationType.UNIVERSITY]: "U",
+  [LocationType.LABORATORY]: "L",
+  [LocationType.OBSERVATORY]: "O",
+  [LocationType.HISTORICAL_SITE]: "H",
+  [LocationType.INDUSTRIAL]: "I",
+  [LocationType.PORT]: "P",
+  [LocationType.RESEARCH_CENTER]: "R",
+};
+
+/** ASCII map with a glyph per location type; the hero (@) overrides its tile. */
+export function renderWorldMap(locations: readonly WorldLocation[], game: Game): string {
+  const tiles = game.mapTiles();
+  const hero = game.heroAt();
+  const locAt = new Map(locations.map((l) => [`${l.hex.q},${l.hex.r}`, l]));
+  const qs = tiles.map((t) => t.q), rs = tiles.map((t) => t.r);
+  const minQ = Math.min(...qs), maxQ = Math.max(...qs);
+  const minR = Math.min(...rs), maxR = Math.max(...rs);
+  const present = new Set(tiles.map((t) => `${t.q},${t.r}`));
+
+  const lines: string[] = [];
+  for (let r = minR; r <= maxR; r++) {
+    let row = " ".repeat(r - minR);
+    for (let q = minQ; q <= maxQ; q++) {
+      const key = `${q},${r}`;
+      if (!present.has(key)) { row += "  "; continue; }
+      let cell = ".";
+      const loc = locAt.get(key);
+      if (loc) cell = GLYPH[loc.type];
+      if (q === hero.q && r === hero.r) cell = "@";
+      row += cell + " ";
+    }
+    lines.push(row.replace(/\s+$/, ""));
+  }
+  return lines.join("\n");
+}
