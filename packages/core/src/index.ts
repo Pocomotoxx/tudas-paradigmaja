@@ -53,6 +53,9 @@ export type {
   KnowledgeCenterSnapshot,
 } from "./knowledge/KnowledgeCenter.js";
 
+export { CaptureGate, CaptureStatus } from "./capture/CaptureGate.js";
+export type { CaptureInit, CaptureSubmitResult } from "./capture/CaptureGate.js";
+
 export { Game } from "./game/Game.js";
 export type { GameSave, MaintenanceResult } from "./game/Game.js";
 export type { ScenarioDef } from "./game/Scenario.js";
