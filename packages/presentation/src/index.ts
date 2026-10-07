@@ -10,3 +10,4 @@ export {
 } from "./demoScenario.js";
 export { europeLocations, europeScenario, renderWorldMap } from "./europe.js";
 export type { EuropeScenario } from "./europe.js";
+export { scientistsPack, scientistBirthLabels } from "./scientistsPack.js";
