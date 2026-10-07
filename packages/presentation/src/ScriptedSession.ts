@@ -14,6 +14,12 @@ export type Command =
   | { readonly type: "test"; readonly subject: Subject; readonly correct: boolean }
   | { readonly type: "research"; readonly nodeId: string }
   | { readonly type: "maintain"; readonly centerId: string; readonly correct: boolean }
+  | {
+      readonly type: "capture";
+      readonly centerId: string;
+      readonly startMs: number;
+      readonly answers: readonly { readonly correct: boolean; readonly atMs: number }[];
+    }
   | { readonly type: "fight" };
 
 export interface SessionResult {
@@ -53,6 +59,13 @@ export function runScriptedSession(
       case "maintain":
         game.startMaintenance(cmd.centerId);
         game.resolveMaintenance(cmd.correct);
+        break;
+      case "capture":
+        game.beginCapture(cmd.centerId, cmd.startMs);
+        for (const a of cmd.answers) {
+          if (!game.hasPendingCapture) break; // resolved (success/timeout)
+          game.submitCapture(a.correct, a.atMs);
+        }
         break;
       case "fight":
         game.fight();

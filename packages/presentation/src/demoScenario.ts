@@ -44,6 +44,26 @@ export function demoScenario(): ScenarioDef {
   };
 }
 
+/** Demo scenario with a capture-required knowledge center (3-question gate). */
+export function demoScenarioWithCapture(): ScenarioDef {
+  const base = demoScenarioWithCenter();
+  return {
+    ...base,
+    id: "demo-capture-01",
+    knowledgeCenters: [
+      {
+        id: "var",
+        subject: Subject.MATEMATIKA,
+        hex: { q: 0, r: 0 },
+        stability: 100,
+        requiresCapture: true,
+        captureWindowMs: 10000,
+        captureRequiredCorrect: 3,
+      },
+    ],
+  };
+}
+
 /** Demo scenario with a knowledge center at the hero's start (unified economy). */
 export function demoScenarioWithCenter(): ScenarioDef {
   const base = demoScenario();
