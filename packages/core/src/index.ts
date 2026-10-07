@@ -46,6 +46,13 @@ export type {
   BattleResult,
 } from "./combat/Battle.js";
 
+export { KnowledgeCenter, StabilityBand } from "./knowledge/KnowledgeCenter.js";
+export type {
+  KnowledgeCenterConfig,
+  KnowledgeCenterInit,
+  KnowledgeCenterSnapshot,
+} from "./knowledge/KnowledgeCenter.js";
+
 export { Game } from "./game/Game.js";
 export type { GameSave } from "./game/Game.js";
 export type { ScenarioDef } from "./game/Scenario.js";
