@@ -45,3 +45,7 @@ export type {
   AttackLogEntry,
   BattleResult,
 } from "./combat/Battle.js";
+
+export { Game } from "./game/Game.js";
+export type { GameSave } from "./game/Game.js";
+export type { ScenarioDef } from "./game/Scenario.js";

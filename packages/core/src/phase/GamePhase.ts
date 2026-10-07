@@ -42,6 +42,11 @@ export class PhaseMachine {
     return this.phase;
   }
 
+  /** Set the phase directly (for save/load restore; bypasses transition rules). */
+  restore(phase: GamePhase): void {
+    this.phase = phase;
+  }
+
   canTransition(to: GamePhase): boolean {
     return ALLOWED[this.phase].includes(to);
   }

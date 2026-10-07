@@ -24,6 +24,14 @@ export class TokenLedger {
     return this.tokens;
   }
 
+  /** Set the balance directly (for save/load restore); clamped to [0, cap]. */
+  restore(balance: number): void {
+    if (!Number.isInteger(balance) || balance < 0) {
+      throw new TypeError(`balance must be a non-negative integer, got ${balance}`);
+    }
+    this.tokens = Math.min(balance, this.cap);
+  }
+
   /**
    * Produce `amount` tokens (e.g. from owning a building for a turn). The
    * balance is clamped at the cap (G2: no interest, overflow is lost).

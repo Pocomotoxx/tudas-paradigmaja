@@ -22,8 +22,32 @@ export class KKLedger {
     for (const s of ALL_SUBJECTS) this.balances.set(s, 0);
   }
 
+  /** Rebuild a ledger from a snapshot() record (for save/load). */
+  static fromSnapshot(snap: Record<Subject, number>): KKLedger {
+    const l = new KKLedger();
+    for (const s of ALL_SUBJECTS) {
+      const v = snap[s] ?? 0;
+      if (!Number.isInteger(v) || v < 0) {
+        throw new TypeError(`Snapshot ${s} must be a non-negative integer, got ${v}`);
+      }
+      l.balances.set(s, v);
+    }
+    return l;
+  }
+
   balanceOf(subject: Subject): number {
     return this.balances.get(subject) ?? 0;
+  }
+
+  /** Overwrite balances from a snapshot() record in place (for save/load). */
+  restore(snap: Record<Subject, number>): void {
+    for (const s of ALL_SUBJECTS) {
+      const v = snap[s] ?? 0;
+      if (!Number.isInteger(v) || v < 0) {
+        throw new TypeError(`Snapshot ${s} must be a non-negative integer, got ${v}`);
+      }
+      this.balances.set(s, v);
+    }
   }
 
   /** Earn KK in a subject (from a passed test). */
