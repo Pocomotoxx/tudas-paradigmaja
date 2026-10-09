@@ -1,0 +1,1801 @@
+{
+ "viewBox": [
+  0,
+  0,
+  900,
+  500
+ ],
+ "seed": 8027397,
+ "factions": [
+  {
+   "id": "academia",
+   "name": "Academia",
+   "subject": "Magyar",
+   "color": "#d15a52"
+  },
+  {
+   "id": "terranova",
+   "name": "Terranova",
+   "subject": "Földrajz",
+   "color": "#d68f3e"
+  },
+  {
+   "id": "dynamis",
+   "name": "Dynamis",
+   "subject": "Fizika",
+   "color": "#bcb43f"
+  },
+  {
+   "id": "viridia",
+   "name": "Viridia",
+   "subject": "Biológia",
+   "color": "#5fae5a"
+  },
+  {
+   "id": "nexum",
+   "name": "Nexum",
+   "subject": "Informatika",
+   "color": "#3bb08c"
+  },
+  {
+   "id": "numeris",
+   "name": "Numeris",
+   "subject": "Matematika",
+   "color": "#3ca8c4"
+  },
+  {
+   "id": "chronopolis",
+   "name": "Chronopolis",
+   "subject": "Történelem",
+   "color": "#5a74c8"
+  },
+  {
+   "id": "catalyss",
+   "name": "Catalyss",
+   "subject": "Kémia",
+   "color": "#9a66c4"
+  },
+  {
+   "id": "lingua",
+   "name": "Lingua",
+   "subject": "Idegen nyelv",
+   "color": "#c662a4"
+  }
+ ],
+ "provinces": [
+  {
+   "id": 0,
+   "name": "Borfen",
+   "cx": 536.1,
+   "cy": 61.5,
+   "faction": "viridia",
+   "capital": true,
+   "adj": [
+    1,
+    7
+   ]
+  },
+  {
+   "id": 1,
+   "name": "Iriwick",
+   "cx": 568.7,
+   "cy": 73,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    7,
+    0,
+    8
+   ]
+  },
+  {
+   "id": 2,
+   "name": "Pyrren",
+   "cx": 177.1,
+   "cy": 98.1,
+   "faction": "dynamis",
+   "capital": true,
+   "adj": [
+    10,
+    9
+   ]
+  },
+  {
+   "id": 3,
+   "name": "Wynlund",
+   "cx": 256.6,
+   "cy": 107.6,
+   "faction": "dynamis",
+   "capital": false,
+   "adj": [
+    12,
+    11,
+    4
+   ]
+  },
+  {
+   "id": 4,
+   "name": "Dunholt",
+   "cx": 299.5,
+   "cy": 115.3,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    13,
+    12,
+    3,
+    14
+   ]
+  },
+  {
+   "id": 5,
+   "name": "Kelfell",
+   "cx": 462.9,
+   "cy": 113.5,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    17,
+    16,
+    6,
+    18
+   ]
+  },
+  {
+   "id": 6,
+   "name": "Rhagard",
+   "cx": 513,
+   "cy": 119.6,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    18,
+    5,
+    7,
+    8,
+    19
+   ]
+  },
+  {
+   "id": 7,
+   "name": "Yragrad",
+   "cx": 537.5,
+   "cy": 88.5,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    6,
+    0,
+    1,
+    8
+   ]
+  },
+  {
+   "id": 8,
+   "name": "Fennthal",
+   "cx": 555.8,
+   "cy": 115.2,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    19,
+    6,
+    7,
+    1,
+    20
+   ]
+  },
+  {
+   "id": 9,
+   "name": "Mordor",
+   "cx": 155.2,
+   "cy": 142.8,
+   "faction": "dynamis",
+   "capital": false,
+   "adj": [
+    2,
+    10,
+    24,
+    23
+   ]
+  },
+  {
+   "id": 10,
+   "name": "Tormark",
+   "cx": 195.9,
+   "cy": 132.2,
+   "faction": "dynamis",
+   "capital": false,
+   "adj": [
+    11,
+    24,
+    9,
+    2
+   ]
+  },
+  {
+   "id": 11,
+   "name": "Aelness",
+   "cx": 230.6,
+   "cy": 148.5,
+   "faction": "dynamis",
+   "capital": false,
+   "adj": [
+    12,
+    26,
+    25,
+    24,
+    10,
+    3
+   ]
+  },
+  {
+   "id": 12,
+   "name": "Haldstad",
+   "cx": 274.1,
+   "cy": 150.6,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    4,
+    13,
+    27,
+    26,
+    11,
+    3
+   ]
+  },
+  {
+   "id": 13,
+   "name": "Olevald",
+   "cx": 311.6,
+   "cy": 159.1,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    28,
+    27,
+    12,
+    4,
+    14
+   ]
+  },
+  {
+   "id": 14,
+   "name": "Verburg",
+   "cx": 336.5,
+   "cy": 140.7,
+   "faction": "catalyss",
+   "capital": true,
+   "adj": [
+    15,
+    28,
+    13,
+    4
+   ]
+  },
+  {
+   "id": 15,
+   "name": "Cael by",
+   "cx": 368.9,
+   "cy": 142.5,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    29,
+    28,
+    14,
+    16
+   ]
+  },
+  {
+   "id": 16,
+   "name": "Jormere",
+   "cx": 416.5,
+   "cy": 139.3,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    30,
+    29,
+    15,
+    5,
+    17
+   ]
+  },
+  {
+   "id": 17,
+   "name": "Quelheim",
+   "cx": 459,
+   "cy": 153.2,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    31,
+    30,
+    16,
+    5,
+    18
+   ]
+  },
+  {
+   "id": 18,
+   "name": "Xanfen",
+   "cx": 490.5,
+   "cy": 152.6,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    32,
+    31,
+    17,
+    5,
+    6,
+    19
+   ]
+  },
+  {
+   "id": 19,
+   "name": "Eshwick",
+   "cx": 536.1,
+   "cy": 154.5,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    32,
+    18,
+    6,
+    8,
+    20,
+    34,
+    33
+   ]
+  },
+  {
+   "id": 20,
+   "name": "Lorren",
+   "cx": 580.5,
+   "cy": 139.5,
+   "faction": "viridia",
+   "capital": false,
+   "adj": [
+    34,
+    19,
+    8,
+    21
+   ]
+  },
+  {
+   "id": 21,
+   "name": "Sellund",
+   "cx": 617.4,
+   "cy": 155.2,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    36,
+    35,
+    34,
+    20,
+    22
+   ]
+  },
+  {
+   "id": 22,
+   "name": "Zelholt",
+   "cx": 653.8,
+   "cy": 137.2,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    21,
+    37,
+    36
+   ]
+  },
+  {
+   "id": 23,
+   "name": "Golfell",
+   "cx": 153.1,
+   "cy": 189.2,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    41,
+    9,
+    24
+   ]
+  },
+  {
+   "id": 24,
+   "name": "Nargard",
+   "cx": 193,
+   "cy": 169.1,
+   "faction": "dynamis",
+   "capital": false,
+   "adj": [
+    10,
+    11,
+    25,
+    41,
+    23,
+    9
+   ]
+  },
+  {
+   "id": 25,
+   "name": "Ulvgrad",
+   "cx": 226.1,
+   "cy": 195.2,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    26,
+    43,
+    42,
+    41,
+    24,
+    11
+   ]
+  },
+  {
+   "id": 26,
+   "name": "Borthal",
+   "cx": 261.7,
+   "cy": 180.7,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    27,
+    43,
+    25,
+    11,
+    12
+   ]
+  },
+  {
+   "id": 27,
+   "name": "Iridor",
+   "cx": 300.4,
+   "cy": 185.6,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    28,
+    44,
+    43,
+    26,
+    12,
+    13
+   ]
+  },
+  {
+   "id": 28,
+   "name": "Pyrmark",
+   "cx": 348.3,
+   "cy": 183.6,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    46,
+    45,
+    44,
+    27,
+    13,
+    14,
+    15,
+    29
+   ]
+  },
+  {
+   "id": 29,
+   "name": "Wynness",
+   "cx": 393,
+   "cy": 176.6,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    30,
+    46,
+    28,
+    15,
+    16
+   ]
+  },
+  {
+   "id": 30,
+   "name": "Dunstad",
+   "cx": 429.4,
+   "cy": 180.5,
+   "faction": "catalyss",
+   "capital": false,
+   "adj": [
+    47,
+    46,
+    29,
+    16,
+    17,
+    31
+   ]
+  },
+  {
+   "id": 31,
+   "name": "Kelvald",
+   "cx": 464.7,
+   "cy": 188.4,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    48,
+    47,
+    30,
+    17,
+    18,
+    32
+   ]
+  },
+  {
+   "id": 32,
+   "name": "Rhaburg",
+   "cx": 501.7,
+   "cy": 193.8,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    48,
+    31,
+    18,
+    19,
+    33,
+    50,
+    49
+   ]
+  },
+  {
+   "id": 33,
+   "name": "Yra by",
+   "cx": 548.1,
+   "cy": 194.2,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    51,
+    50,
+    32,
+    19,
+    34
+   ]
+  },
+  {
+   "id": 34,
+   "name": "Fennmere",
+   "cx": 576.8,
+   "cy": 172,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    33,
+    19,
+    20,
+    21,
+    35,
+    51
+   ]
+  },
+  {
+   "id": 35,
+   "name": "Morheim",
+   "cx": 606.7,
+   "cy": 193.1,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    51,
+    34,
+    21,
+    36,
+    52
+   ]
+  },
+  {
+   "id": 36,
+   "name": "Torfen",
+   "cx": 649.1,
+   "cy": 189.4,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    35,
+    21,
+    22,
+    37,
+    54,
+    53,
+    52
+   ]
+  },
+  {
+   "id": 37,
+   "name": "Aelwick",
+   "cx": 691,
+   "cy": 170,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    36,
+    22,
+    38,
+    54
+   ]
+  },
+  {
+   "id": 38,
+   "name": "Haldren",
+   "cx": 731.4,
+   "cy": 199.5,
+   "faction": "terranova",
+   "capital": false,
+   "adj": [
+    54,
+    37,
+    39,
+    56,
+    70,
+    55
+   ]
+  },
+  {
+   "id": 39,
+   "name": "Olelund",
+   "cx": 764.4,
+   "cy": 173.7,
+   "faction": "terranova",
+   "capital": false,
+   "adj": [
+    38,
+    40,
+    56
+   ]
+  },
+  {
+   "id": 40,
+   "name": "Verholt",
+   "cx": 813.6,
+   "cy": 177.9,
+   "faction": "terranova",
+   "capital": true,
+   "adj": [
+    39,
+    56
+   ]
+  },
+  {
+   "id": 41,
+   "name": "Caelfell",
+   "cx": 185.8,
+   "cy": 216.1,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    42,
+    23,
+    24,
+    25
+   ]
+  },
+  {
+   "id": 42,
+   "name": "Jorgard",
+   "cx": 228.2,
+   "cy": 233,
+   "faction": "lingua",
+   "capital": true,
+   "adj": [
+    58,
+    57,
+    41,
+    25,
+    43
+   ]
+  },
+  {
+   "id": 43,
+   "name": "Quelgrad",
+   "cx": 267.9,
+   "cy": 215.1,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    44,
+    58,
+    42,
+    25,
+    26,
+    27
+   ]
+  },
+  {
+   "id": 44,
+   "name": "Xanthal",
+   "cx": 309.8,
+   "cy": 220.9,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    45,
+    59,
+    58,
+    43,
+    27,
+    28
+   ]
+  },
+  {
+   "id": 45,
+   "name": "Eshdor",
+   "cx": 351.8,
+   "cy": 228.6,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    61,
+    60,
+    59,
+    44,
+    28,
+    46
+   ]
+  },
+  {
+   "id": 46,
+   "name": "Lormark",
+   "cx": 394.9,
+   "cy": 214.5,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    62,
+    61,
+    45,
+    28,
+    29,
+    30,
+    47
+   ]
+  },
+  {
+   "id": 47,
+   "name": "Selness",
+   "cx": 438.6,
+   "cy": 210.1,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    48,
+    62,
+    46,
+    30,
+    31
+   ]
+  },
+  {
+   "id": 48,
+   "name": "Zelstad",
+   "cx": 466.6,
+   "cy": 227.8,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    63,
+    62,
+    47,
+    31,
+    32,
+    49,
+    64
+   ]
+  },
+  {
+   "id": 49,
+   "name": "Golvald",
+   "cx": 499,
+   "cy": 230.6,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    64,
+    48,
+    32,
+    50,
+    65
+   ]
+  },
+  {
+   "id": 50,
+   "name": "Narburg",
+   "cx": 533.7,
+   "cy": 221.7,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    49,
+    32,
+    33,
+    51,
+    66,
+    65
+   ]
+  },
+  {
+   "id": 51,
+   "name": "Ulv by",
+   "cx": 573.5,
+   "cy": 212.6,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    50,
+    33,
+    34,
+    35,
+    52,
+    66
+   ]
+  },
+  {
+   "id": 52,
+   "name": "Bormere",
+   "cx": 611.5,
+   "cy": 226.5,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    66,
+    51,
+    35,
+    36,
+    53,
+    67
+   ]
+  },
+  {
+   "id": 53,
+   "name": "Iriheim",
+   "cx": 650.4,
+   "cy": 236.5,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    67,
+    52,
+    36,
+    54,
+    69,
+    68
+   ]
+  },
+  {
+   "id": 54,
+   "name": "Pyrfen",
+   "cx": 687.2,
+   "cy": 216.1,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    53,
+    36,
+    37,
+    38,
+    55,
+    69
+   ]
+  },
+  {
+   "id": 55,
+   "name": "Wynwick",
+   "cx": 715.3,
+   "cy": 241.8,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    69,
+    54,
+    38,
+    70
+   ]
+  },
+  {
+   "id": 56,
+   "name": "Dunren",
+   "cx": 782.5,
+   "cy": 214.6,
+   "faction": "terranova",
+   "capital": false,
+   "adj": [
+    38,
+    39,
+    40,
+    70
+   ]
+  },
+  {
+   "id": 57,
+   "name": "Kellund",
+   "cx": 229.5,
+   "cy": 269.2,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    58,
+    71,
+    42
+   ]
+  },
+  {
+   "id": 58,
+   "name": "Rhaholt",
+   "cx": 271.3,
+   "cy": 255,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    59,
+    72,
+    71,
+    57,
+    42,
+    43,
+    44
+   ]
+  },
+  {
+   "id": 59,
+   "name": "Yrafell",
+   "cx": 314.4,
+   "cy": 258.9,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    60,
+    73,
+    72,
+    58,
+    44,
+    45
+   ]
+  },
+  {
+   "id": 60,
+   "name": "Fenngard",
+   "cx": 349,
+   "cy": 262.9,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    45,
+    61,
+    85,
+    73,
+    59
+   ]
+  },
+  {
+   "id": 61,
+   "name": "Morgrad",
+   "cx": 381.4,
+   "cy": 261.2,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    62,
+    74,
+    85,
+    60,
+    45,
+    46
+   ]
+  },
+  {
+   "id": 62,
+   "name": "Torthal",
+   "cx": 425.2,
+   "cy": 248.8,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    63,
+    75,
+    74,
+    61,
+    46,
+    47,
+    48
+   ]
+  },
+  {
+   "id": 63,
+   "name": "Aeldor",
+   "cx": 462.7,
+   "cy": 262.3,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    75,
+    62,
+    48,
+    64,
+    77,
+    76
+   ]
+  },
+  {
+   "id": 64,
+   "name": "Haldmark",
+   "cx": 487.1,
+   "cy": 254,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    77,
+    63,
+    48,
+    49,
+    65
+   ]
+  },
+  {
+   "id": 65,
+   "name": "Oleness",
+   "cx": 529.6,
+   "cy": 262.3,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    64,
+    49,
+    50,
+    66,
+    79,
+    78,
+    77
+   ]
+  },
+  {
+   "id": 66,
+   "name": "Verstad",
+   "cx": 570,
+   "cy": 248,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    65,
+    50,
+    51,
+    52,
+    67,
+    79
+   ]
+  },
+  {
+   "id": 67,
+   "name": "Caelvald",
+   "cx": 612.5,
+   "cy": 260.9,
+   "faction": "chronopolis",
+   "capital": true,
+   "adj": [
+    80,
+    79,
+    66,
+    52,
+    53,
+    68
+   ]
+  },
+  {
+   "id": 68,
+   "name": "Jorburg",
+   "cx": 648.7,
+   "cy": 271.6,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    81,
+    80,
+    67,
+    53,
+    69
+   ]
+  },
+  {
+   "id": 69,
+   "name": "Quel by",
+   "cx": 683.5,
+   "cy": 261.7,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    68,
+    53,
+    54,
+    55,
+    81
+   ]
+  },
+  {
+   "id": 70,
+   "name": "Xanmere",
+   "cx": 749.5,
+   "cy": 242.1,
+   "faction": "terranova",
+   "capital": false,
+   "adj": [
+    55,
+    38,
+    56
+   ]
+  },
+  {
+   "id": 71,
+   "name": "Eshheim",
+   "cx": 256.5,
+   "cy": 301.5,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    72,
+    83,
+    82,
+    57,
+    58
+   ]
+  },
+  {
+   "id": 72,
+   "name": "Lorfen",
+   "cx": 291.4,
+   "cy": 292.9,
+   "faction": "lingua",
+   "capital": false,
+   "adj": [
+    73,
+    84,
+    83,
+    71,
+    58,
+    59
+   ]
+  },
+  {
+   "id": 73,
+   "name": "Selwick",
+   "cx": 324.5,
+   "cy": 289.4,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    59,
+    60,
+    85,
+    84,
+    72
+   ]
+  },
+  {
+   "id": 74,
+   "name": "Zelren",
+   "cx": 399.2,
+   "cy": 291.3,
+   "faction": "academia",
+   "capital": true,
+   "adj": [
+    62,
+    75,
+    87,
+    86,
+    85,
+    61
+   ]
+  },
+  {
+   "id": 75,
+   "name": "Gollund",
+   "cx": 435.3,
+   "cy": 285.8,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    62,
+    63,
+    76,
+    87,
+    74
+   ]
+  },
+  {
+   "id": 76,
+   "name": "Narholt",
+   "cx": 457.1,
+   "cy": 296.9,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    75,
+    63,
+    77,
+    88,
+    87
+   ]
+  },
+  {
+   "id": 77,
+   "name": "Ulvfell",
+   "cx": 496.9,
+   "cy": 295.6,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    63,
+    64,
+    65,
+    78,
+    90,
+    89,
+    88,
+    76
+   ]
+  },
+  {
+   "id": 78,
+   "name": "Borgard",
+   "cx": 541.1,
+   "cy": 299.8,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    77,
+    65,
+    79,
+    91,
+    90
+   ]
+  },
+  {
+   "id": 79,
+   "name": "Irigrad",
+   "cx": 579.6,
+   "cy": 287.8,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    78,
+    65,
+    66,
+    67,
+    80,
+    91
+   ]
+  },
+  {
+   "id": 80,
+   "name": "Pyrthal",
+   "cx": 624.6,
+   "cy": 294.2,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    79,
+    67,
+    68,
+    81
+   ]
+  },
+  {
+   "id": 81,
+   "name": "Wyndor",
+   "cx": 657.5,
+   "cy": 293,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    80,
+    68,
+    69
+   ]
+  },
+  {
+   "id": 82,
+   "name": "Dunmark",
+   "cx": 241.5,
+   "cy": 346.3,
+   "faction": "numeris",
+   "capital": false,
+   "adj": [
+    83,
+    94,
+    93,
+    71
+   ]
+  },
+  {
+   "id": 83,
+   "name": "Kelness",
+   "cx": 278.4,
+   "cy": 338,
+   "faction": "numeris",
+   "capital": false,
+   "adj": [
+    84,
+    95,
+    94,
+    82,
+    71,
+    72
+   ]
+  },
+  {
+   "id": 84,
+   "name": "Rhastad",
+   "cx": 318.7,
+   "cy": 332.3,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    72,
+    73,
+    85,
+    96,
+    95,
+    83
+   ]
+  },
+  {
+   "id": 85,
+   "name": "Yravald",
+   "cx": 356.2,
+   "cy": 306.8,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    74,
+    86,
+    96,
+    84,
+    73,
+    60,
+    61
+   ]
+  },
+  {
+   "id": 86,
+   "name": "Fennburg",
+   "cx": 382.7,
+   "cy": 331.9,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    85,
+    74,
+    87,
+    97,
+    96
+   ]
+  },
+  {
+   "id": 87,
+   "name": "Mor by",
+   "cx": 426.5,
+   "cy": 331.9,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    75,
+    76,
+    88,
+    99,
+    98,
+    97,
+    86,
+    74
+   ]
+  },
+  {
+   "id": 88,
+   "name": "Tormere",
+   "cx": 464.9,
+   "cy": 331.1,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    76,
+    77,
+    89,
+    100,
+    99,
+    87
+   ]
+  },
+  {
+   "id": 89,
+   "name": "Aelheim",
+   "cx": 500.1,
+   "cy": 341.7,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    100,
+    88,
+    77,
+    90,
+    101
+   ]
+  },
+  {
+   "id": 90,
+   "name": "Haldfen",
+   "cx": 533.2,
+   "cy": 331.6,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    77,
+    78,
+    91,
+    102,
+    101,
+    89
+   ]
+  },
+  {
+   "id": 91,
+   "name": "Olewick",
+   "cx": 575.6,
+   "cy": 328.2,
+   "faction": "chronopolis",
+   "capital": false,
+   "adj": [
+    78,
+    79,
+    102,
+    90
+   ]
+  },
+  {
+   "id": 92,
+   "name": "Verren",
+   "cx": 188.3,
+   "cy": 386.1,
+   "faction": "numeris",
+   "capital": true,
+   "adj": [
+    93
+   ]
+  },
+  {
+   "id": 93,
+   "name": "Caellund",
+   "cx": 233.1,
+   "cy": 382.4,
+   "faction": "numeris",
+   "capital": false,
+   "adj": [
+    82,
+    94,
+    103,
+    92
+   ]
+  },
+  {
+   "id": 94,
+   "name": "Jorholt",
+   "cx": 272.5,
+   "cy": 378.6,
+   "faction": "numeris",
+   "capital": false,
+   "adj": [
+    95,
+    104,
+    103,
+    93,
+    82,
+    83
+   ]
+  },
+  {
+   "id": 95,
+   "name": "Quelfell",
+   "cx": 300.7,
+   "cy": 363.3,
+   "faction": "numeris",
+   "capital": false,
+   "adj": [
+    83,
+    84,
+    96,
+    104,
+    94
+   ]
+  },
+  {
+   "id": 96,
+   "name": "Xangard",
+   "cx": 345.4,
+   "cy": 368,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    86,
+    97,
+    105,
+    104,
+    95,
+    84,
+    85
+   ]
+  },
+  {
+   "id": 97,
+   "name": "Eshgrad",
+   "cx": 391,
+   "cy": 366,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    96,
+    86,
+    87,
+    98,
+    105
+   ]
+  },
+  {
+   "id": 98,
+   "name": "Lorthal",
+   "cx": 420.8,
+   "cy": 381,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    87,
+    99,
+    107,
+    106,
+    105,
+    97
+   ]
+  },
+  {
+   "id": 99,
+   "name": "Seldor",
+   "cx": 458.5,
+   "cy": 370.5,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    87,
+    88,
+    100,
+    108,
+    107,
+    98
+   ]
+  },
+  {
+   "id": 100,
+   "name": "Zelmark",
+   "cx": 488.5,
+   "cy": 362.9,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    88,
+    89,
+    101,
+    108,
+    99
+   ]
+  },
+  {
+   "id": 101,
+   "name": "Golness",
+   "cx": 529.5,
+   "cy": 375.1,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    89,
+    90,
+    102,
+    110,
+    109,
+    108,
+    100
+   ]
+  },
+  {
+   "id": 102,
+   "name": "Narstad",
+   "cx": 564.4,
+   "cy": 361.8,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    90,
+    91,
+    110,
+    101
+   ]
+  },
+  {
+   "id": 103,
+   "name": "Ulvvald",
+   "cx": 268,
+   "cy": 411,
+   "faction": "numeris",
+   "capital": false,
+   "adj": [
+    94,
+    104,
+    93
+   ]
+  },
+  {
+   "id": 104,
+   "name": "Borburg",
+   "cx": 306.2,
+   "cy": 401.6,
+   "faction": "numeris",
+   "capital": false,
+   "adj": [
+    95,
+    96,
+    103,
+    94
+   ]
+  },
+  {
+   "id": 105,
+   "name": "Iri by",
+   "cx": 378.2,
+   "cy": 412.9,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    98,
+    106,
+    96,
+    97
+   ]
+  },
+  {
+   "id": 106,
+   "name": "Pyrmere",
+   "cx": 417.6,
+   "cy": 418.9,
+   "faction": "academia",
+   "capital": false,
+   "adj": [
+    105,
+    98,
+    107
+   ]
+  },
+  {
+   "id": 107,
+   "name": "Wynheim",
+   "cx": 458.3,
+   "cy": 417.4,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    98,
+    99,
+    108,
+    112,
+    111,
+    106
+   ]
+  },
+  {
+   "id": 108,
+   "name": "Dunfen",
+   "cx": 496,
+   "cy": 400.2,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    100,
+    101,
+    109,
+    112,
+    107,
+    99
+   ]
+  },
+  {
+   "id": 109,
+   "name": "Kelwick",
+   "cx": 528.1,
+   "cy": 419.4,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    112,
+    108,
+    101,
+    110,
+    113
+   ]
+  },
+  {
+   "id": 110,
+   "name": "Rharen",
+   "cx": 572.2,
+   "cy": 409.5,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    101,
+    102,
+    114,
+    113,
+    109
+   ]
+  },
+  {
+   "id": 111,
+   "name": "Yralund",
+   "cx": 452,
+   "cy": 470.3,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    107,
+    112,
+    113
+   ]
+  },
+  {
+   "id": 112,
+   "name": "Fennholt",
+   "cx": 494.3,
+   "cy": 455.1,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    108,
+    109,
+    113,
+    111,
+    107
+   ]
+  },
+  {
+   "id": 113,
+   "name": "Morfell",
+   "cx": 547.1,
+   "cy": 460.8,
+   "faction": "nexum",
+   "capital": false,
+   "adj": [
+    109,
+    110,
+    114,
+    111,
+    112
+   ]
+  },
+  {
+   "id": 114,
+   "name": "Torgard",
+   "cx": 587,
+   "cy": 459.8,
+   "faction": "nexum",
+   "capital": true,
+   "adj": [
+    110,
+    113
+   ]
+  }
+ ]
+}

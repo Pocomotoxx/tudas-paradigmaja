@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A Tudás Paradigmája — régió-térkép demó</title>
+<style>
+  :root{ --bg:#1b1e24; --panel:#262b33; --ink:#e7ebf0; --muted:#9aa4b2; }
+  html,body{ margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font:14px/1.5 system-ui, sans-serif; }
+  header{ padding:10px 16px; background:var(--panel); }
+  header b{ font-weight:600; } header span{ color:var(--muted); }
+  #wrap{ display:flex; gap:16px; padding:16px; flex-wrap:wrap; align-items:flex-start; }
+  #mapbox{ flex:1 1 560px; min-width:320px; background:#11141a; border-radius:8px; padding:8px; }
+  #mapbox svg{ width:100%; height:auto; display:block; border-radius:6px; }
+  .side{ flex:0 0 240px; }
+  .card{ background:var(--panel); border-radius:8px; padding:12px 14px; margin-bottom:12px; }
+  .card h3{ margin:0 0 8px; font-size:13px; color:var(--muted); font-weight:600;
+    text-transform:uppercase; letter-spacing:.04em; }
+  .legend i{ display:inline-block; width:12px; height:12px; border-radius:3px;
+    margin-right:8px; vertical-align:-1px; }
+  .legend div{ margin:4px 0; cursor:pointer; }
+  .legend div:hover{ color:#fff; }
+  .prov{ cursor:pointer; transition:fill .08s, stroke .08s; }
+  .prov:hover{ stroke:#fff; stroke-width:1.1; }
+  .prov.sel{ stroke:#fff; stroke-width:1.6; }
+  #info b{ color:#fff; } #info .k{ color:var(--muted); }
+  .cap-star{ fill:#fff; stroke:#333; stroke-width:.4; }
+</style>
+</head>
+<body>
+<header>
+  <b>A Tudás Paradigmája</b> —
+  <span>saját kitalált kontinens · régió-alapú stratégiai réteg (a csaták a hex-rétegben zajlanak)</span>
+</header>
+<div id="wrap">
+  <div id="mapbox">betöltés…</div>
+  <div class="side">
+    <div class="card" id="info">
+      <h3>Provincia</h3>
+      <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
+    </div>
+    <div class="card">
+      <h3>Frakciók</h3>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="card">
+      <h3>Megjegyzés</h3>
+      <div class="k">A térkép és minden adata saját, generált tartalom (MIT).
+      A provincia-szomszédságok gráfja a <b>map.json</b>-ben van — ez lesz a
+      stratégiai mozgás/terjeszkedés alapja.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PALETTE = {}; // faction id -> color (from map.json)
+let DATA = null, byId = {};
+
+function lighten(hex, f){
+  const n=parseInt(hex.slice(1),16);
+  const r=Math.min(255,((n>>16)&255)+(255-((n>>16)&255))*f)|0;
+  const g=Math.min(255,((n>>8)&255)+(255-((n>>8)&255))*f)|0;
+  const b=Math.min(255,(n&255)+(255-(n&255))*f)|0;
+  return `rgb(${r},${g},${b})`;
+}
+
+function paint(){
+  for(const p of DATA.provinces){
+    const el=document.getElementById("prov_"+p.id); if(!el) continue;
+    el.style.fill = PALETTE[p.faction] || "#c3ccd4";
+  }
+}
+
+function showInfo(p){
+  const f = DATA.factions.find(x=>x.id===p.faction);
+  document.getElementById("info-body").innerHTML =
+    `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+
+    `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${f.name} <span class="k">(${f.subject})</span><br>`+
+    `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
+    (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'');
+}
+
+let selEl=null;
+function wire(){
+  for(const p of DATA.provinces){
+    const el=document.getElementById("prov_"+p.id); if(!el) continue;
+    const base = () => PALETTE[p.faction] || "#c3ccd4";
+    el.addEventListener("mouseenter", ()=>{ el.style.fill=lighten(base(),0.28); showInfo(p); });
+    el.addEventListener("mouseleave", ()=>{ el.style.fill=base(); });
+    el.addEventListener("click", ()=>{
+      if(selEl) selEl.classList.remove("sel");
+      el.classList.add("sel"); selEl=el; showInfo(p);
+    });
+  }
+}
+
+function buildLegend(){
+  const leg=document.getElementById("legend");
+  leg.innerHTML = DATA.factions.map(f=>{
+    const n = DATA.provinces.filter(p=>p.faction===f.id).length;
+    return `<div data-f="${f.id}"><i style="background:${f.color}"></i>${f.name}
+      <span class="k">— ${f.subject} (${n})</span></div>`;
+  }).join("");
+  // Clicking a legend row flashes that faction's provinces.
+  leg.querySelectorAll("div[data-f]").forEach(row=>{
+    row.addEventListener("mouseenter", ()=>{
+      DATA.provinces.filter(p=>p.faction===row.dataset.f).forEach(p=>{
+        const el=document.getElementById("prov_"+p.id); if(el) el.style.fill=lighten(PALETTE[p.faction],0.35);
+      });
+    });
+    row.addEventListener("mouseleave", paint);
+  });
+}
+
+// Capital markers (small stars) on top of the SVG.
+function addCapitals(svg){
+  const ns="http://www.w3.org/2000/svg";
+  const g=document.createElementNS(ns,"g");
+  for(const p of DATA.provinces.filter(x=>x.capital)){
+    const star=document.createElementNS(ns,"circle");
+    star.setAttribute("cx",p.cx); star.setAttribute("cy",p.cy); star.setAttribute("r","3.2");
+    star.setAttribute("class","cap-star"); star.style.pointerEvents="none";
+    g.appendChild(star);
+  }
+  svg.appendChild(g);
+}
+
+Promise.all([
+  fetch("world/map.svg").then(r=>r.text()),
+  fetch("world/map.json").then(r=>r.json()),
+]).then(([svgText, data])=>{
+  DATA=data; data.factions.forEach(f=>PALETTE[f.id]=f.color);
+  data.provinces.forEach(p=>byId[p.id]=p);
+  const doc=new DOMParser().parseFromString(svgText,"image/svg+xml");
+  const svg=doc.documentElement;
+  const box=document.getElementById("mapbox"); box.innerHTML=""; box.appendChild(svg);
+  paint(); wire(); buildLegend(); addCapitals(svg);
+}).catch(err=>{
+  document.getElementById("mapbox").textContent =
+    "A térkép a world/map.svg + world/map.json fájlokból tölt (HTTP szükséges a fetch miatt).";
+  console.error(err);
+});
+</script>
+</body>
+</html>
