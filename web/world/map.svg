@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A Tudás Paradigmája — fictional continent (own asset, MIT). Seeded Voronoi. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" id="world">
+<style>
+  .prov{ fill:#c3ccd4; stroke:#4a525c; stroke-width:0.5; stroke-linejoin:round; }
+</style>
+<rect id="sea" x="0" y="0" width="900" height="500" fill="#223039"/>
+<g id="provinces">
+<path id="prov_0" class="prov" data-faction="viridia" data-capital="1" d="M549.9,74.3L519.3,75.9L510.2,57.3L524.4,39.4L558.4,50.2L549.9,74.3Z"/>
+<path id="prov_1" class="prov" data-faction="viridia" d="M549.9,74.3L558.4,50.2L561.1,48.8L589.7,57.4L594.3,83.8L580.3,99.6L559.3,93.2L549.9,74.3Z"/>
+<path id="prov_2" class="prov" data-faction="dynamis" data-capital="1" d="M171.8,123.2L158.4,116.6L155.9,86.3L177.1,73.9L197.6,84.6L197.1,109.3L171.8,123.2Z"/>
+<path id="prov_3" class="prov" data-faction="dynamis" d="M253.1,134.1L233.0,121.3L240.5,87.9L250.5,83.5L280.0,100.3L275.6,124.9L253.1,134.1Z"/>
+<path id="prov_4" class="prov" data-faction="catalyss" d="M296.3,139.7L275.6,124.9L280.0,100.3L294.1,91.2L315.8,93.9L323.2,120.5L313.1,135.1L296.3,139.7Z"/>
+<path id="prov_5" class="prov" data-faction="viridia" d="M442.5,131.6L434.9,117.9L455.9,90.3L474.6,91.0L489.2,106.2L486.8,126.0L474.4,134.7L442.5,131.6Z"/>
+<path id="prov_6" class="prov" data-faction="viridia" d="M486.8,126.0L489.2,106.2L515.1,96.1L533.7,110.7L535.6,129.7L513.7,144.2L486.8,126.0Z"/>
+<path id="prov_7" class="prov" data-faction="viridia" d="M515.1,96.1L519.3,75.9L549.9,74.3L559.3,93.2L533.7,110.7L515.1,96.1Z"/>
+<path id="prov_8" class="prov" data-faction="viridia" d="M535.6,129.7L533.7,110.7L559.3,93.2L580.3,99.6L582.2,113.0L555.9,139.8L535.6,129.7Z"/>
+<path id="prov_9" class="prov" data-faction="dynamis" d="M171.8,123.2L178.7,149.4L166.7,166.6L137.5,165.2L134.0,160.0L137.5,125.9L158.4,116.6L171.8,123.2Z"/>
+<path id="prov_10" class="prov" data-faction="dynamis" d="M207.9,151.7L178.7,149.4L171.8,123.2L197.1,109.3L220.7,124.6L207.9,151.7Z"/>
+<path id="prov_11" class="prov" data-faction="dynamis" d="M251.9,159.1L237.7,172.8L218.4,170.9L207.9,151.7L220.7,124.6L233.0,121.3L253.1,134.1L251.9,159.1Z"/>
+<path id="prov_12" class="prov" data-faction="catalyss" d="M296.3,139.7L290.4,165.8L282.5,171.7L251.9,159.1L253.1,134.1L275.6,124.9L296.3,139.7Z"/>
+<path id="prov_13" class="prov" data-faction="catalyss" d="M324.1,180.1L290.4,165.8L296.3,139.7L313.1,135.1L334.7,164.3L324.1,180.1Z"/>
+<path id="prov_14" class="prov" data-faction="catalyss" data-capital="1" d="M353.7,124.0L351.7,159.6L334.7,164.3L313.1,135.1L323.2,120.5L353.7,124.0Z"/>
+<path id="prov_15" class="prov" data-faction="catalyss" d="M368.8,168.2L351.7,159.6L353.7,124.0L362.5,117.6L391.9,129.9L393.3,150.8L368.8,168.2Z"/>
+<path id="prov_16" class="prov" data-faction="catalyss" d="M412.9,163.1L393.3,150.8L391.9,129.9L412.5,111.0L434.9,117.9L442.5,131.6L434.4,156.3L412.9,163.1Z"/>
+<path id="prov_17" class="prov" data-faction="viridia" d="M449.7,172.8L434.4,156.3L442.5,131.6L474.4,134.7L475.0,168.7L449.7,172.8Z"/>
+<path id="prov_18" class="prov" data-faction="viridia" d="M485.4,176.1L475.0,168.7L474.4,134.7L486.8,126.0L513.7,144.2L512.7,168.7L485.4,176.1Z"/>
+<path id="prov_19" class="prov" data-faction="viridia" d="M512.7,168.7L513.7,144.2L535.6,129.7L555.9,139.8L560.6,153.7L553.1,171.0L525.0,179.5L512.7,168.7Z"/>
+<path id="prov_20" class="prov" data-faction="viridia" d="M560.6,153.7L555.9,139.8L582.2,113.0L605.0,133.1L594.6,157.5L560.6,153.7Z"/>
+<path id="prov_21" class="prov" data-faction="chronopolis" d="M626.7,178.3L600.1,170.8L594.6,157.5L605.0,133.1L627.0,128.8L643.7,162.6L626.7,178.3Z"/>
+<path id="prov_22" class="prov" data-faction="chronopolis" d="M627.0,128.8L636.0,114.6L668.0,115.1L679.1,146.0L662.9,164.3L643.7,162.6L627.0,128.8Z"/>
+<path id="prov_23" class="prov" data-faction="lingua" d="M160.5,213.4L139.5,210.2L127.8,191.0L137.5,165.2L166.7,166.6L179.0,191.0L160.5,213.4Z"/>
+<path id="prov_24" class="prov" data-faction="dynamis" d="M207.9,151.7L218.4,170.9L200.1,194.2L179.0,191.0L166.7,166.6L178.7,149.4L207.9,151.7Z"/>
+<path id="prov_25" class="prov" data-faction="lingua" d="M249.1,200.7L243.2,213.2L210.8,215.1L200.1,194.2L218.4,170.9L237.7,172.8L249.1,200.7Z"/>
+<path id="prov_26" class="prov" data-faction="lingua" d="M279.5,195.3L249.1,200.7L237.7,172.8L251.9,159.1L282.5,171.7L279.5,195.3Z"/>
+<path id="prov_27" class="prov" data-faction="catalyss" d="M324.9,198.0L290.3,207.2L279.5,195.3L282.5,171.7L290.4,165.8L324.1,180.1L324.9,198.0Z"/>
+<path id="prov_28" class="prov" data-faction="catalyss" d="M367.9,204.7L334.0,207.4L324.9,198.0L324.1,180.1L334.7,164.3L351.7,159.6L368.8,168.2L373.2,196.6L367.9,204.7Z"/>
+<path id="prov_29" class="prov" data-faction="catalyss" d="M409.5,194.8L373.2,196.6L368.8,168.2L393.3,150.8L412.9,163.1L409.5,194.8Z"/>
+<path id="prov_30" class="prov" data-faction="catalyss" d="M415.6,201.0L409.5,194.8L412.9,163.1L434.4,156.3L449.7,172.8L445.4,191.8L415.6,201.0Z"/>
+<path id="prov_31" class="prov" data-faction="academia" d="M459.2,208.4L445.4,191.8L449.7,172.8L475.0,168.7L485.4,176.1L480.9,207.4L459.2,208.4Z"/>
+<path id="prov_32" class="prov" data-faction="chronopolis" d="M480.9,207.4L485.4,176.1L512.7,168.7L525.0,179.5L524.8,199.5L513.0,213.1L484.3,211.0L480.9,207.4Z"/>
+<path id="prov_33" class="prov" data-faction="chronopolis" d="M552.9,214.3L524.8,199.5L525.0,179.5L553.1,171.0L569.2,191.8L552.9,214.3Z"/>
+<path id="prov_34" class="prov" data-faction="chronopolis" d="M553.1,171.0L560.6,153.7L594.6,157.5L600.1,170.8L584.3,193.1L569.2,191.8L553.1,171.0Z"/>
+<path id="prov_35" class="prov" data-faction="chronopolis" d="M584.3,193.1L600.1,170.8L626.7,178.3L629.2,206.9L595.3,211.8L584.3,193.1Z"/>
+<path id="prov_36" class="prov" data-faction="chronopolis" d="M626.7,178.3L643.7,162.6L662.9,164.3L675.7,191.9L661.2,212.7L635.6,213.4L629.2,206.9L626.7,178.3Z"/>
+<path id="prov_37" class="prov" data-faction="chronopolis" d="M662.9,164.3L679.1,146.0L704.2,147.1L718.5,174.7L704.2,194.3L675.7,191.9L662.9,164.3Z"/>
+<path id="prov_38" class="prov" data-faction="terranova" d="M704.2,194.3L718.5,174.7L738.4,174.4L758.8,200.6L754.7,214.7L732.5,224.2L712.6,216.6L704.2,194.3Z"/>
+<path id="prov_39" class="prov" data-faction="terranova" d="M738.4,174.4L756.8,148.5L790.4,159.5L788.0,187.7L758.8,200.6L738.4,174.4Z"/>
+<path id="prov_40" class="prov" data-faction="terranova" data-capital="1" d="M790.4,159.5L792.5,157.9L837.5,166.8L845.0,192.3L844.0,194.0L806.9,203.8L788.0,187.7L790.4,159.5Z"/>
+<path id="prov_41" class="prov" data-faction="lingua" d="M204.2,231.6L170.6,235.4L160.5,213.4L179.0,191.0L200.1,194.2L210.8,215.1L204.2,231.6Z"/>
+<path id="prov_42" class="prov" data-faction="lingua" data-capital="1" d="M246.5,250.5L213.4,251.6L204.2,231.6L210.8,215.1L243.2,213.2L253.6,236.4L246.5,250.5Z"/>
+<path id="prov_43" class="prov" data-faction="lingua" d="M286.7,233.6L253.6,236.4L243.2,213.2L249.1,200.7L279.5,195.3L290.3,207.2L286.7,233.6Z"/>
+<path id="prov_44" class="prov" data-faction="lingua" d="M328.4,237.9L294.2,242.1L286.7,233.6L290.3,207.2L324.9,198.0L334.0,207.4L328.4,237.9Z"/>
+<path id="prov_45" class="prov" data-faction="academia" d="M364.5,246.9L333.6,244.4L328.4,237.9L334.0,207.4L367.9,204.7L377.7,234.9L364.5,246.9Z"/>
+<path id="prov_46" class="prov" data-faction="academia" d="M399.3,241.1L377.7,234.9L367.9,204.7L373.2,196.6L409.5,194.8L415.6,201.0L418.0,224.6L399.3,241.1Z"/>
+<path id="prov_47" class="prov" data-faction="academia" d="M443.4,233.5L418.0,224.6L415.6,201.0L445.4,191.8L459.2,208.4L443.4,233.5Z"/>
+<path id="prov_48" class="prov" data-faction="academia" d="M448.4,243.2L443.4,233.5L459.2,208.4L480.9,207.4L484.3,211.0L482.2,236.7L470.7,245.7L448.4,243.2Z"/>
+<path id="prov_49" class="prov" data-faction="academia" d="M482.2,236.7L484.3,211.0L513.0,213.1L520.1,240.8L509.8,250.8L482.2,236.7Z"/>
+<path id="prov_50" class="prov" data-faction="chronopolis" d="M513.0,213.1L524.8,199.5L552.9,214.3L556.2,228.8L545.7,243.4L520.1,240.8L513.0,213.1Z"/>
+<path id="prov_51" class="prov" data-faction="chronopolis" d="M552.9,214.3L569.2,191.8L584.3,193.1L595.3,211.8L588.0,231.9L556.2,228.8L552.9,214.3Z"/>
+<path id="prov_52" class="prov" data-faction="chronopolis" d="M588.0,231.9L595.3,211.8L629.2,206.9L635.6,213.4L627.9,243.3L594.4,244.2L588.0,231.9Z"/>
+<path id="prov_53" class="prov" data-faction="chronopolis" d="M627.9,243.3L635.6,213.4L661.2,212.7L675.3,238.1L662.7,254.7L634.4,253.3L627.9,243.3Z"/>
+<path id="prov_54" class="prov" data-faction="chronopolis" d="M661.2,212.7L675.7,191.9L704.2,194.3L712.6,216.6L691.7,239.4L675.3,238.1L661.2,212.7Z"/>
+<path id="prov_55" class="prov" data-faction="chronopolis" d="M691.7,239.4L712.6,216.6L732.5,224.2L732.3,261.2L708.0,265.5L691.7,239.4Z"/>
+<path id="prov_56" class="prov" data-faction="terranova" d="M758.8,200.6L788.0,187.7L806.9,203.8L800.4,237.4L774.6,238.7L754.7,214.7L758.8,200.6Z"/>
+<path id="prov_57" class="prov" data-faction="lingua" d="M254.9,275.4L235.6,291.5L215.7,288.4L204.9,270.1L213.4,251.6L246.5,250.5L254.9,275.4Z"/>
+<path id="prov_58" class="prov" data-faction="lingua" d="M291.8,268.4L269.8,280.1L254.9,275.4L246.5,250.5L253.6,236.4L286.7,233.6L294.2,242.1L291.8,268.4Z"/>
+<path id="prov_59" class="prov" data-faction="lingua" d="M330.6,270.5L306.7,278.4L291.8,268.4L294.2,242.1L328.4,237.9L333.6,244.4L330.6,270.5Z"/>
+<path id="prov_60" class="prov" data-faction="academia" d="M364.5,246.9L366.3,282.6L347.1,285.7L330.6,270.5L333.6,244.4L364.5,246.9Z"/>
+<path id="prov_61" class="prov" data-faction="academia" d="M406.6,266.6L373.2,286.4L366.3,282.6L364.5,246.9L377.7,234.9L399.3,241.1L406.6,266.6Z"/>
+<path id="prov_62" class="prov" data-faction="academia" d="M440.7,264.4L414.7,271.5L406.6,266.6L399.3,241.1L418.0,224.6L443.4,233.5L448.4,243.2L440.7,264.4Z"/>
+<path id="prov_63" class="prov" data-faction="academia" d="M440.7,264.4L448.4,243.2L470.7,245.7L481.4,277.3L476.5,282.3L452.7,278.4L440.7,264.4Z"/>
+<path id="prov_64" class="prov" data-faction="academia" d="M481.4,277.3L470.7,245.7L482.2,236.7L509.8,250.8L505.7,271.6L481.4,277.3Z"/>
+<path id="prov_65" class="prov" data-faction="chronopolis" d="M509.8,250.8L520.1,240.8L545.7,243.4L555.9,272.4L554.5,275.2L520.1,285.7L505.7,271.6L509.8,250.8Z"/>
+<path id="prov_66" class="prov" data-faction="chronopolis" d="M545.7,243.4L556.2,228.8L588.0,231.9L594.4,244.2L588.1,264.6L555.9,272.4L545.7,243.4Z"/>
+<path id="prov_67" class="prov" data-faction="chronopolis" data-capital="1" d="M603.2,283.1L588.1,264.6L594.4,244.2L627.9,243.3L634.4,253.3L628.3,274.0L603.2,283.1Z"/>
+<path id="prov_68" class="prov" data-faction="chronopolis" d="M640.8,287.4L628.3,274.0L634.4,253.3L662.7,254.7L668.7,275.9L640.8,287.4Z"/>
+<path id="prov_69" class="prov" data-faction="chronopolis" d="M662.7,254.7L675.3,238.1L691.7,239.4L708.0,265.5L699.4,280.0L674.2,280.4L668.7,275.9L662.7,254.7Z"/>
+<path id="prov_70" class="prov" data-faction="terranova" d="M732.5,224.2L754.7,214.7L774.6,238.7L760.6,263.6L745.2,269.2L732.3,261.2L732.5,224.2Z"/>
+<path id="prov_71" class="prov" data-faction="lingua" d="M278.0,313.4L256.4,326.4L244.2,322.3L235.6,291.5L254.9,275.4L269.8,280.1L278.0,313.4Z"/>
+<path id="prov_72" class="prov" data-faction="lingua" d="M309.9,309.3L296.2,318.7L278.0,313.4L269.8,280.1L291.8,268.4L306.7,278.4L309.9,309.3Z"/>
+<path id="prov_73" class="prov" data-faction="academia" d="M330.6,270.5L347.1,285.7L332.5,312.4L309.9,309.3L306.7,278.4L330.6,270.5Z"/>
+<path id="prov_74" class="prov" data-faction="academia" data-capital="1" d="M414.7,271.5L420.0,306.8L404.6,317.1L380.7,307.4L373.2,286.4L406.6,266.6L414.7,271.5Z"/>
+<path id="prov_75" class="prov" data-faction="academia" d="M440.7,264.4L452.7,278.4L436.7,310.0L420.0,306.8L414.7,271.5L440.7,264.4Z"/>
+<path id="prov_76" class="prov" data-faction="academia" d="M452.7,278.4L476.5,282.3L477.4,310.2L445.4,317.6L436.7,310.0L452.7,278.4Z"/>
+<path id="prov_77" class="prov" data-faction="academia" d="M481.4,277.3L505.7,271.6L520.1,285.7L517.7,310.9L510.9,317.8L487.6,319.4L477.4,310.2L476.5,282.3L481.4,277.3Z"/>
+<path id="prov_78" class="prov" data-faction="chronopolis" d="M520.1,285.7L554.5,275.2L564.4,306.7L553.6,319.8L517.7,310.9L520.1,285.7Z"/>
+<path id="prov_79" class="prov" data-faction="chronopolis" d="M554.5,275.2L555.9,272.4L588.1,264.6L603.2,283.1L600.2,304.4L593.5,309.6L564.4,306.7L554.5,275.2Z"/>
+<path id="prov_80" class="prov" data-faction="chronopolis" d="M603.2,283.1L628.3,274.0L640.8,287.4L641.7,310.5L633.5,317.2L600.2,304.4L603.2,283.1Z"/>
+<path id="prov_81" class="prov" data-faction="chronopolis" d="M640.8,287.4L668.7,275.9L674.2,280.4L667.2,312.6L641.7,310.5L640.8,287.4Z"/>
+<path id="prov_82" class="prov" data-faction="numeris" d="M263.2,356.5L251.6,367.7L217.6,359.8L217.0,336.6L244.2,322.3L256.4,326.4L263.2,356.5Z"/>
+<path id="prov_83" class="prov" data-faction="numeris" d="M299.5,341.9L280.1,359.0L263.2,356.5L256.4,326.4L278.0,313.4L296.2,318.7L299.5,341.9Z"/>
+<path id="prov_84" class="prov" data-faction="academia" d="M309.9,309.3L332.5,312.4L349.4,337.2L324.1,356.2L299.5,341.9L296.2,318.7L309.9,309.3Z"/>
+<path id="prov_85" class="prov" data-faction="academia" d="M380.7,307.4L352.1,337.6L349.4,337.2L332.5,312.4L347.1,285.7L366.3,282.6L373.2,286.4L380.7,307.4Z"/>
+<path id="prov_86" class="prov" data-faction="academia" d="M380.7,307.4L404.6,317.1L404.6,344.6L367.6,353.7L352.1,337.6L380.7,307.4Z"/>
+<path id="prov_87" class="prov" data-faction="academia" d="M436.7,310.0L445.4,317.6L446.0,348.2L434.6,357.8L415.0,355.5L404.6,344.6L404.6,317.1L420.0,306.8L436.7,310.0Z"/>
+<path id="prov_88" class="prov" data-faction="academia" d="M477.4,310.2L487.6,319.4L480.1,344.5L469.8,352.1L446.0,348.2L445.4,317.6L477.4,310.2Z"/>
+<path id="prov_89" class="prov" data-faction="academia" d="M480.1,344.5L487.6,319.4L510.9,317.8L521.5,352.5L511.2,361.6L480.1,344.5Z"/>
+<path id="prov_90" class="prov" data-faction="chronopolis" d="M517.7,310.9L553.6,319.8L555.2,340.1L541.5,354.2L521.5,352.5L510.9,317.8L517.7,310.9Z"/>
+<path id="prov_91" class="prov" data-faction="chronopolis" d="M564.4,306.7L593.5,309.6L593.5,348.1L588.0,351.0L555.2,340.1L553.6,319.8L564.4,306.7Z"/>
+<path id="prov_92" class="prov" data-faction="numeris" data-capital="1" d="M171.5,364.5L209.4,369.2L211.9,399.1L197.1,411.9L168.8,402.7L171.5,364.5Z"/>
+<path id="prov_93" class="prov" data-faction="numeris" d="M251.6,367.7L254.0,392.5L241.8,407.4L211.9,399.1L209.4,369.2L217.6,359.8L251.6,367.7Z"/>
+<path id="prov_94" class="prov" data-faction="numeris" d="M293.6,383.8L284.7,396.8L254.0,392.5L251.6,367.7L263.2,356.5L280.1,359.0L293.6,383.8Z"/>
+<path id="prov_95" class="prov" data-faction="numeris" d="M299.5,341.9L324.1,356.2L321.5,379.8L293.6,383.8L280.1,359.0L299.5,341.9Z"/>
+<path id="prov_96" class="prov" data-faction="academia" d="M367.6,353.7L369.0,385.2L354.5,395.8L331.8,391.8L321.5,379.8L324.1,356.2L349.4,337.2L352.1,337.6L367.6,353.7Z"/>
+<path id="prov_97" class="prov" data-faction="academia" d="M367.6,353.7L404.6,344.6L415.0,355.5L396.2,392.7L369.0,385.2L367.6,353.7Z"/>
+<path id="prov_98" class="prov" data-faction="academia" d="M434.6,357.8L444.7,393.9L437.3,401.5L400.6,398.4L396.2,392.7L415.0,355.5L434.6,357.8Z"/>
+<path id="prov_99" class="prov" data-faction="academia" d="M446.0,348.2L469.8,352.1L478.0,384.4L470.4,394.0L444.7,393.9L434.6,357.8L446.0,348.2Z"/>
+<path id="prov_100" class="prov" data-faction="academia" d="M480.1,344.5L511.2,361.6L506.1,378.7L478.0,384.4L469.8,352.1L480.1,344.5Z"/>
+<path id="prov_101" class="prov" data-faction="nexum" d="M521.5,352.5L541.5,354.2L554.4,388.0L546.5,397.8L519.7,397.0L506.1,378.7L511.2,361.6L521.5,352.5Z"/>
+<path id="prov_102" class="prov" data-faction="nexum" d="M555.2,340.1L588.0,351.0L576.4,384.3L554.4,388.0L541.5,354.2L555.2,340.1Z"/>
+<path id="prov_103" class="prov" data-faction="numeris" d="M284.7,396.8L292.3,427.5L282.3,432.9L245.6,420.8L241.8,407.4L254.0,392.5L284.7,396.8Z"/>
+<path id="prov_104" class="prov" data-faction="numeris" d="M321.5,379.8L331.8,391.8L309.2,431.5L292.3,427.5L284.7,396.8L293.6,383.8L321.5,379.8Z"/>
+<path id="prov_105" class="prov" data-faction="academia" d="M400.6,398.4L394.8,435.9L373.8,443.5L360.2,435.8L354.5,395.8L369.0,385.2L396.2,392.7L400.6,398.4Z"/>
+<path id="prov_106" class="prov" data-faction="academia" d="M400.6,398.4L437.3,401.5L438.4,429.6L400.5,438.5L394.8,435.9L400.6,398.4Z"/>
+<path id="prov_107" class="prov" data-faction="nexum" d="M444.7,393.9L470.4,394.0L485.6,427.3L466.9,445.2L451.0,443.4L438.4,429.6L437.3,401.5L444.7,393.9Z"/>
+<path id="prov_108" class="prov" data-faction="nexum" d="M506.1,378.7L519.7,397.0L501.3,427.8L485.6,427.3L470.4,394.0L478.0,384.4L506.1,378.7Z"/>
+<path id="prov_109" class="prov" data-faction="nexum" d="M501.3,427.8L519.7,397.0L546.5,397.8L554.2,432.5L521.9,447.3L501.3,427.8Z"/>
+<path id="prov_110" class="prov" data-faction="nexum" d="M554.4,388.0L576.4,384.3L597.1,400.4L589.9,431.6L566.5,438.5L554.2,432.5L546.5,397.8L554.4,388.0Z"/>
+<path id="prov_111" class="prov" data-faction="nexum" d="M466.9,445.2L486.6,500.0L420.7,500.0L423.1,478.3L451.0,443.4L466.9,445.2Z"/>
+<path id="prov_112" class="prov" data-faction="nexum" d="M501.3,427.8L521.9,447.3L516.1,500.0L486.6,500.0L466.9,445.2L485.6,427.3L501.3,427.8Z"/>
+<path id="prov_113" class="prov" data-faction="nexum" d="M554.2,432.5L566.5,438.5L568.0,500.0L516.1,500.0L521.9,447.3L554.2,432.5Z"/>
+<path id="prov_114" class="prov" data-faction="nexum" data-capital="1" d="M589.9,431.6L615.0,449.4L578.9,500.0L568.0,500.0L566.5,438.5L589.9,431.6Z"/>
+</g>
+</svg>
