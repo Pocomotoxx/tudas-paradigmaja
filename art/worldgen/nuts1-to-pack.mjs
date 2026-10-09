@@ -42,25 +42,38 @@ const fc = JSON.parse(readFileSync(SRC, "utf8"));
 const LAT0 = 52 * Math.PI / 180, COS0 = Math.cos(LAT0);
 const proj = ([lon, lat]) => [lon * COS0, -lat];
 
-// Collect rings per feature (outer + holes), projected; track bbox for fit.
-let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+// Mainland-Europe window (lon/lat). Overseas territories (French RUP, Canarias,
+// Azores, Madeira, Svalbard...) fall outside and are dropped, so the board is
+// continental Europe at a usable scale.
+const WIN = { lonMin: -25, lonMax: 45, latMin: 34, latMax: 72 };
+function centroidLonLat(geom) {
+  const polys = geom.type === "Polygon" ? [geom.coordinates]
+             : geom.type === "MultiPolygon" ? geom.coordinates : [];
+  if (!polys.length) return null;
+  const ring = polys[0][0]; let lon = 0, lat = 0;
+  for (const [x, y] of ring) { lon += x; lat += y; }
+  return [lon / ring.length, lat / ring.length];
+}
+const inWindow = (c) => c && c[0] >= WIN.lonMin && c[0] <= WIN.lonMax && c[1] >= WIN.latMin && c[1] <= WIN.latMax;
+
+// Fit box comes from the window corners, not data extremes, so partial outliers
+// (e.g. Svalbard on NO) just clip at the viewBox edge instead of shrinking all.
+const minX = WIN.lonMin * COS0, maxX = WIN.lonMax * COS0;
+const minY = -WIN.latMax, maxY = -WIN.latMin;
+
 function ringsOf(geom) {
   const polys = geom.type === "Polygon" ? [geom.coordinates]
              : geom.type === "MultiPolygon" ? geom.coordinates : [];
-  return polys.map(poly => poly.map(ring => ring.map(pt => {
-    const p = proj(pt);
-    if (p[0] < minX) minX = p[0]; if (p[0] > maxX) maxX = p[0];
-    if (p[1] < minY) minY = p[1]; if (p[1] > maxY) maxY = p[1];
-    return p;
-  })));
+  return polys.map(poly => poly.map(ring => ring.map(proj)));
 }
 const feats = [];
-// EU: NUTS level 1 regions (3-char NUTS_ID, e.g. "DE1").
+// EU: NUTS level 1 regions (3-char NUTS_ID, e.g. "DE1"), within the window.
 for (const f of fc.features) {
   const id = f.properties.NUTS_ID || f.properties.id;
   const name = f.properties.NAME_LATN || f.properties.NUTS_NAME || f.properties.name || id;
   if (!id || !f.geometry) continue;
   if ((id.length || 0) !== 3) continue;
+  if (!inWindow(centroidLonLat(f.geometry))) continue;
   feats.push({ id, name, country: id.slice(0, 2), level: "nuts1", polys: ringsOf(f.geometry) });
 }
 if (!feats.length) { console.error("no NUTS-1 features (need 3-char NUTS_ID)"); process.exit(1); }
@@ -74,6 +87,8 @@ if (CNTR) {
     const name = f.properties.NAME_ENGL || f.properties.CNTR_NAME || f.properties.name || id;
     if (!id || !f.geometry) continue;
     if (EU27.has(id) || !NON_EU.has(id)) continue; // skip EU (NUTS1 used) + non-European
+    if (feats.some(x => x.country === id)) continue; // already present as a NUTS-1 region
+    if (!inWindow(centroidLonLat(f.geometry))) continue;
     feats.push({ id, name, country: id, level: "country", polys: ringsOf(f.geometry) });
     nonEuCount++;
   }
