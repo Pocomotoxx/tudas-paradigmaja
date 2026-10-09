@@ -28,6 +28,8 @@ function makeCfg(extra: { budget?: number; resolver?: any } = {}) {
     armyStrength: 10,
     moveBudget: extra.budget ?? 2,
     garrisons: { enemyA: 4, deep: 8 },
+    subjects: { home: "MATEMATIKA", mid: "FIZIKA", island: "MATEMATIKA", enemyA: "KEMIA" },
+    kkYields: { home: 2, mid: 1, island: 3, enemyA: 5 },
     ...(extra.resolver ? { resolver: extra.resolver } : {}),
   };
 }
@@ -91,6 +93,17 @@ describe("StrategicLoop (I43) — campaign turn on the region graph", () => {
     expect(wins).toBeLessThan(820);
     expect(defaultBattleResolver(10, 0, new SeededRng(1))).toBe(true);  // undefended
     expect(defaultBattleResolver(0, 10, new SeededRng(1))).toBe(false); // no attacker
+  });
+
+  it("sums owned regions' KK yield by subject", () => {
+    const s = loop();
+    // Only "home" is owned at start (MATEMATIKA, yield 2).
+    expect(s.ownedKKYield()).toEqual([{ subject: "MATEMATIKA", amount: 2 }]);
+    expect(s.subjectOf("enemyA")).toBe("KEMIA");
+    expect(s.kkYieldOf("island")).toBe(3);
+    // Occupy island (MATEMATIKA, yield 3) -> same subject accumulates.
+    s.moveArmy("island", new SeededRng(1));
+    expect(s.ownedKKYield()).toEqual([{ subject: "MATEMATIKA", amount: 5 }]);
   });
 
   it("round-trips through snapshot/restore", () => {

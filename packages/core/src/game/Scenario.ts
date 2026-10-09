@@ -47,6 +47,10 @@ export interface StrategicRegionDef {
   readonly blocked?: boolean;
   /** Defender strength if this region is contested (default 0 = undefended). */
   readonly garrison?: number;
+  /** The discipline this region teaches/produces. */
+  readonly subject?: Subject;
+  /** KK produced in `subject` per turn while the player owns it (default 1). */
+  readonly kkPerTurn?: number;
 }
 
 /** Optional strategic (region-graph) campaign layer for a scenario. */
