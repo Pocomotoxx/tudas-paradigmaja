@@ -32,7 +32,7 @@ import os
 def parse_args():
     argv = sys.argv
     argv = argv[argv.index("--") + 1:] if "--" in argv else []
-    opts = {"out": "./tiles", "size": 256, "tilt": 35.0, "height": 0.35, "name": "hex"}
+    opts = {"out": "./tiles", "size": 256, "tilt": 35.0, "height": 0.5, "name": "hex"}
     i = 0
     while i < len(argv):
         key = argv[i].lstrip("-")
@@ -65,25 +65,34 @@ def make_hex(height):
         verts.append(bm.verts.new((math.cos(ang), math.sin(ang), 0.0)))
     face = bm.faces.new(verts)
     if height > 0:
-        bmesh.ops.extrude_face_region(bm, geom=[face])
-        bmesh.ops.translate(
-            bm,
-            vec=(0, 0, height),
-            verts=[v for v in bm.verts if v.co.z == 0 and v.is_valid and len(v.link_faces) < 3],
-        )
+        # Extrude the top face and move only the newly created (top) geometry up,
+        # leaving vertical side walls -> a chunky prism that reads as 2.5D depth.
+        result = bmesh.ops.extrude_face_region(bm, geom=[face])
+        top_verts = [e for e in result["geom"] if isinstance(e, bmesh.types.BMVert)]
+        bmesh.ops.translate(bm, vec=(0, 0, height), verts=top_verts)
     bm.to_mesh(mesh)
     bm.free()
     return obj
 
 
-def add_material(obj):
-    mat = bpy.data.materials.new("TileMat")
+def _simple_mat(name, color):
+    mat = bpy.data.materials.new(name)
     mat.use_nodes = True
     bsdf = mat.node_tree.nodes.get("Principled BSDF")
     if bsdf:
-        bsdf.inputs["Base Color"].default_value = (0.45, 0.62, 0.40, 1.0)  # placeholder green
+        bsdf.inputs["Base Color"].default_value = color
         bsdf.inputs["Roughness"].default_value = 0.85
-    obj.data.materials.append(mat)
+    return mat
+
+
+def add_materials(obj):
+    """Two slots: 0 = top (lit), 1 = sides (darker, reads as shadowed depth)."""
+    top = _simple_mat("TileTop", (0.46, 0.63, 0.40, 1.0))   # placeholder green
+    side = _simple_mat("TileSide", (0.26, 0.34, 0.22, 1.0))  # darker side
+    obj.data.materials.append(top)
+    obj.data.materials.append(side)
+    for poly in obj.data.polygons:
+        poly.material_index = 0 if poly.normal.z > 0.5 else 1
 
 
 def setup_camera(tilt_deg, size):
@@ -126,7 +135,7 @@ def main():
     opts = parse_args()
     clear_scene()
     obj = make_hex(opts["height"])
-    add_material(obj)
+    add_materials(obj)
     setup_camera(opts["tilt"], opts["size"])
     setup_light()
     render(opts["out"], opts["size"], opts["name"])
