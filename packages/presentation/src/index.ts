@@ -11,3 +11,10 @@ export {
 export { europeLocations, europeScenario, europeHeroesScenario, renderWorldMap } from "./europe.js";
 export type { EuropeScenario } from "./europe.js";
 export { scientistsPack, scientistBirthLabels } from "./scientistsPack.js";
+export {
+  defaultLayout,
+  hexToPixel,
+  drawOrder,
+  hexCorners,
+} from "./hexProjection.js";
+export type { HexLayout, PixelPoint } from "./hexProjection.js";
