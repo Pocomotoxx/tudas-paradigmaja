@@ -241,6 +241,7 @@
    "cy": 716.5,
    "faction": "CY",
    "country": "CY",
+   "color": "#d1605e",
    "capital": false,
    "adj": []
   },
@@ -253,6 +254,7 @@
    "cy": 438.7,
    "faction": "CZ",
    "country": "CZ",
+   "color": "#4aa6c9",
    "capital": false,
    "adj": [
     20,
@@ -273,6 +275,7 @@
    "cy": 464,
    "faction": "DE",
    "country": "DE",
+   "color": "#8fae5c",
    "capital": false,
    "adj": [
     3,
@@ -291,6 +294,7 @@
    "cy": 456.3,
    "faction": "DE",
    "country": "DE",
+   "color": "#56a8bd",
    "capital": false,
    "adj": [
     1,
@@ -310,6 +314,7 @@
    "cy": 390,
    "faction": "DE",
    "country": "DE",
+   "color": "#78b44e",
    "capital": false,
    "adj": [
     5
@@ -324,6 +329,7 @@
    "cy": 389.8,
    "faction": "DE",
    "country": "DE",
+   "color": "#c766a8",
    "capital": false,
    "adj": [
     4,
@@ -343,6 +349,7 @@
    "cy": 378,
    "faction": "DE",
    "country": "DE",
+   "color": "#c583b0",
    "capital": false,
    "adj": [
     16
@@ -357,6 +364,7 @@
    "cy": 369.7,
    "faction": "DE",
    "country": "DE",
+   "color": "#e08a3c",
    "capital": false,
    "adj": [
     16,
@@ -372,6 +380,7 @@
    "cy": 426.7,
    "faction": "DE",
    "country": "DE",
+   "color": "#5a84c8",
    "capital": false,
    "adj": [
     2,
@@ -391,6 +400,7 @@
    "cy": 364.4,
    "faction": "DE",
    "country": "DE",
+   "color": "#5fb59b",
    "capital": false,
    "adj": [
     5,
@@ -408,6 +418,7 @@
    "cy": 664,
    "faction": "TR",
    "country": "TR",
+   "color": "#8a93cf",
    "capital": false,
    "adj": [
     11,
@@ -425,6 +436,7 @@
    "cy": 621.1,
    "faction": "TR",
    "country": "TR",
+   "color": "#4faa6e",
    "capital": false,
    "adj": [
     10,
@@ -443,6 +455,7 @@
    "cy": 650.6,
    "faction": "TR",
    "country": "TR",
+   "color": "#d4789a",
    "capital": false,
    "adj": [
     10,
@@ -461,6 +474,7 @@
    "cy": 682.4,
    "faction": "TR",
    "country": "TR",
+   "color": "#bfa24e",
    "capital": false,
    "adj": [
     10,
@@ -479,6 +493,7 @@
    "cy": 640.9,
    "faction": "TR",
    "country": "TR",
+   "color": "#d9b64a",
    "capital": false,
    "adj": [
     12,
@@ -498,6 +513,7 @@
    "cy": 605.9,
    "faction": "TR",
    "country": "TR",
+   "color": "#7a6fc4",
    "capital": false,
    "adj": [
     11,
@@ -515,6 +531,7 @@
    "cy": 384.6,
    "faction": "DE",
    "country": "DE",
+   "color": "#6f9bd0",
    "capital": false,
    "adj": [
     5,
@@ -539,6 +556,7 @@
    "cy": 408.3,
    "faction": "DE",
    "country": "DE",
+   "color": "#cf7f7f",
    "capital": false,
    "adj": [
     8,
@@ -558,6 +576,7 @@
    "cy": 440.4,
    "faction": "DE",
    "country": "DE",
+   "color": "#3bb1a0",
    "capital": false,
    "adj": [
     2,
@@ -578,6 +597,7 @@
    "cy": 448.9,
    "faction": "DE",
    "country": "DE",
+   "color": "#c98f6a",
    "capital": false,
    "adj": [
     18,
@@ -594,6 +614,7 @@
    "cy": 418.1,
    "faction": "DE",
    "country": "DE",
+   "color": "#7bbd86",
    "capital": false,
    "adj": [
     1,
@@ -614,6 +635,7 @@
    "cy": 400.8,
    "faction": "DE",
    "country": "DE",
+   "color": "#b7c24a",
    "capital": false,
    "adj": [
     5,
@@ -631,6 +653,7 @@
    "cy": 358.9,
    "faction": "DE",
    "country": "DE",
+   "color": "#a66bc0",
    "capital": false,
    "adj": [
     7,
@@ -648,6 +671,7 @@
    "cy": 420.8,
    "faction": "DE",
    "country": "DE",
+   "color": "#9f7ec2",
    "capital": false,
    "adj": [
     3,
@@ -666,6 +690,7 @@
    "cy": 610.3,
    "faction": "TR",
    "country": "TR",
+   "color": "#d1605e",
    "capital": false,
    "adj": [
     14,
@@ -682,6 +707,7 @@
    "cy": 623.9,
    "faction": "TR",
    "country": "TR",
+   "color": "#4aa6c9",
    "capital": false,
    "adj": [
     14,
@@ -698,6 +724,7 @@
    "cy": 656.3,
    "faction": "TR",
    "country": "TR",
+   "color": "#8fae5c",
    "capital": false,
    "adj": [
     13,
@@ -715,6 +742,7 @@
    "cy": 674.5,
    "faction": "TR",
    "country": "TR",
+   "color": "#56a8bd",
    "capital": false,
    "adj": [
     13,
@@ -730,6 +758,7 @@
    "cy": 319.8,
    "faction": "DK",
    "country": "DK",
+   "color": "#78b44e",
    "capital": false,
    "adj": [
     22
@@ -744,6 +773,7 @@
    "cy": 271.2,
    "faction": "EE",
    "country": "EE",
+   "color": "#c766a8",
    "capital": false,
    "adj": [
     70
@@ -758,6 +788,7 @@
    "cy": 664.1,
    "faction": "EL",
    "country": "EL",
+   "color": "#c583b0",
    "capital": false,
    "adj": [
     34
@@ -772,6 +803,7 @@
    "cy": 715.5,
    "faction": "EL",
    "country": "EL",
+   "color": "#e08a3c",
    "capital": false,
    "adj": []
   },
@@ -784,6 +816,7 @@
    "cy": 615.3,
    "faction": "EL",
    "country": "EL",
+   "color": "#5a84c8",
    "capital": false,
    "adj": [
     101,
@@ -802,6 +835,7 @@
    "cy": 578.8,
    "faction": "XK",
    "country": "XK",
+   "color": "#5fb59b",
    "capital": false,
    "adj": [
     92,
@@ -819,6 +853,7 @@
    "cy": 645.3,
    "faction": "EL",
    "country": "EL",
+   "color": "#8a93cf",
    "capital": false,
    "adj": [
     30,
@@ -834,6 +869,7 @@
    "cy": 571.3,
    "faction": "ES",
    "country": "ES",
+   "color": "#4faa6e",
    "capital": false,
    "adj": [
     36,
@@ -850,6 +886,7 @@
    "cy": 592.4,
    "faction": "ES",
    "country": "ES",
+   "color": "#d4789a",
    "capital": false,
    "adj": [
     35,
@@ -868,6 +905,7 @@
    "cy": 617.7,
    "faction": "ES",
    "country": "ES",
+   "color": "#bfa24e",
    "capital": false,
    "adj": [
     38
@@ -882,6 +920,7 @@
    "cy": 609.9,
    "faction": "ES",
    "country": "ES",
+   "color": "#d9b64a",
    "capital": false,
    "adj": [
     35,
@@ -901,6 +940,7 @@
    "cy": 611,
    "faction": "ES",
    "country": "ES",
+   "color": "#7a6fc4",
    "capital": false,
    "adj": [
     36,
@@ -919,6 +959,7 @@
    "cy": 672.5,
    "faction": "ES",
    "country": "ES",
+   "color": "#6f9bd0",
    "capital": false,
    "adj": [
     38,
@@ -935,6 +976,7 @@
    "cy": 157.2,
    "faction": "FI",
    "country": "FI",
+   "color": "#cf7f7f",
    "capital": false,
    "adj": [
     78,
@@ -950,6 +992,7 @@
    "cy": 243.1,
    "faction": "FI",
    "country": "FI",
+   "color": "#3bb1a0",
    "capital": false,
    "adj": []
   },
@@ -962,6 +1005,7 @@
    "cy": 461.2,
    "faction": "FR",
    "country": "FR",
+   "color": "#c98f6a",
    "capital": false,
    "adj": [
     46,
@@ -980,6 +1024,7 @@
    "cy": 481.4,
    "faction": "FR",
    "country": "FR",
+   "color": "#7bbd86",
    "capital": false,
    "adj": [
     43,
@@ -999,6 +1044,7 @@
    "cy": 488.7,
    "faction": "FR",
    "country": "FR",
+   "color": "#b7c24a",
    "capital": false,
    "adj": [
     43,
@@ -1017,6 +1063,7 @@
    "cy": 453.4,
    "faction": "FR",
    "country": "FR",
+   "color": "#a66bc0",
    "capital": false,
    "adj": [
     43,
@@ -1035,6 +1082,7 @@
    "cy": 436.4,
    "faction": "FR",
    "country": "FR",
+   "color": "#9f7ec2",
    "capital": false,
    "adj": [
     43,
@@ -1053,6 +1101,7 @@
    "cy": 461.9,
    "faction": "FR",
    "country": "FR",
+   "color": "#d1605e",
    "capital": false,
    "adj": [
     2,
@@ -1075,6 +1124,7 @@
    "cy": 482.8,
    "faction": "FR",
    "country": "FR",
+   "color": "#4aa6c9",
    "capital": false,
    "adj": [
     44,
@@ -1092,6 +1142,7 @@
    "cy": 471.5,
    "faction": "FR",
    "country": "FR",
+   "color": "#8fae5c",
    "capital": false,
    "adj": [
     46,
@@ -1107,6 +1158,7 @@
    "cy": 531.4,
    "faction": "FR",
    "country": "FR",
+   "color": "#56a8bd",
    "capital": false,
    "adj": [
     36,
@@ -1125,6 +1177,7 @@
    "cy": 556.4,
    "faction": "FR",
    "country": "FR",
+   "color": "#78b44e",
    "capital": false,
    "adj": [
     36,
@@ -1144,6 +1197,7 @@
    "cy": 521.9,
    "faction": "FR",
    "country": "FR",
+   "color": "#c766a8",
    "capital": false,
    "adj": [
     44,
@@ -1164,6 +1218,7 @@
    "cy": 549.4,
    "faction": "FR",
    "country": "FR",
+   "color": "#c583b0",
    "capital": false,
    "adj": [
     52,
@@ -1181,6 +1236,7 @@
    "cy": 583.8,
    "faction": "FR",
    "country": "FR",
+   "color": "#e08a3c",
    "capital": false,
    "adj": []
   },
@@ -1193,6 +1249,7 @@
    "cy": 529.1,
    "faction": "HR",
    "country": "HR",
+   "color": "#5a84c8",
    "capital": false,
    "adj": [
     58,
@@ -1212,6 +1269,7 @@
    "cy": 484.2,
    "faction": "HU",
    "country": "HU",
+   "color": "#5fb59b",
    "capital": false,
    "adj": [
     59,
@@ -1228,6 +1286,7 @@
    "cy": 496,
    "faction": "HU",
    "country": "HU",
+   "color": "#8a93cf",
    "capital": false,
    "adj": [
     56,
@@ -1247,6 +1306,7 @@
    "cy": 486.7,
    "faction": "HU",
    "country": "HU",
+   "color": "#4faa6e",
    "capital": false,
    "adj": [
     56,
@@ -1267,6 +1327,7 @@
    "cy": 368.1,
    "faction": "IE",
    "country": "IE",
+   "color": "#d4789a",
    "capital": false,
    "adj": [
     113
@@ -1281,6 +1342,7 @@
    "cy": 149.8,
    "faction": "IS",
    "country": "IS",
+   "color": "#bfa24e",
    "capital": false,
    "adj": []
   },
@@ -1293,6 +1355,7 @@
    "cy": 525.1,
    "faction": "IT",
    "country": "IT",
+   "color": "#b7c24a",
    "capital": false,
    "adj": [
     53,
@@ -1311,6 +1374,7 @@
    "cy": 618.3,
    "faction": "IT",
    "country": "IT",
+   "color": "#7a6fc4",
    "capital": false,
    "adj": [
     66
@@ -1325,6 +1389,7 @@
    "cy": 671.3,
    "faction": "IT",
    "country": "IT",
+   "color": "#6f9bd0",
    "capital": false,
    "adj": []
   },
@@ -1337,6 +1402,7 @@
    "cy": 525.2,
    "faction": "IT",
    "country": "IT",
+   "color": "#cf7f7f",
    "capital": false,
    "adj": [
     62,
@@ -1357,6 +1423,7 @@
    "cy": 569.8,
    "faction": "IT",
    "country": "IT",
+   "color": "#3bb1a0",
    "capital": false,
    "adj": [
     62,
@@ -1375,6 +1442,7 @@
    "cy": 490.9,
    "faction": "LI",
    "country": "LI",
+   "color": "#c98f6a",
    "capital": false,
    "adj": [
     103,
@@ -1390,6 +1458,7 @@
    "cy": 337.8,
    "faction": "LT",
    "country": "LT",
+   "color": "#7bbd86",
    "capital": false,
    "adj": [
     70,
@@ -1405,6 +1474,7 @@
    "cy": 440.1,
    "faction": "LU",
    "country": "LU",
+   "color": "#b7c24a",
    "capital": false,
    "adj": [
     18,
@@ -1422,6 +1492,7 @@
    "cy": 308.6,
    "faction": "LV",
    "country": "LV",
+   "color": "#a66bc0",
    "capital": false,
    "adj": [
     29,
@@ -1437,6 +1508,7 @@
    "cy": 575.9,
    "faction": "ME",
    "country": "ME",
+   "color": "#9f7ec2",
    "capital": false,
    "adj": [
     33,
@@ -1455,6 +1527,7 @@
    "cy": 595.1,
    "faction": "MK",
    "country": "MK",
+   "color": "#d1605e",
    "capital": false,
    "adj": [
     32,
@@ -1473,6 +1546,7 @@
    "cy": 704.1,
    "faction": "MT",
    "country": "MT",
+   "color": "#4aa6c9",
    "capital": false,
    "adj": []
   },
@@ -1485,6 +1559,7 @@
    "cy": 379.8,
    "faction": "NL",
    "country": "NL",
+   "color": "#8fae5c",
    "capital": false,
    "adj": [
     16,
@@ -1501,6 +1576,7 @@
    "cy": 393.7,
    "faction": "NL",
    "country": "NL",
+   "color": "#56a8bd",
    "capital": false,
    "adj": [
     16,
@@ -1519,6 +1595,7 @@
    "cy": 394.7,
    "faction": "NL",
    "country": "NL",
+   "color": "#78b44e",
    "capital": false,
    "adj": [
     74,
@@ -1536,6 +1613,7 @@
    "cy": 411.6,
    "faction": "NL",
    "country": "NL",
+   "color": "#c766a8",
    "capital": false,
    "adj": [
     17,
@@ -1554,6 +1632,7 @@
    "cy": 158.7,
    "faction": "NO",
    "country": "NO",
+   "color": "#c583b0",
    "capital": false,
    "adj": [
     41,
@@ -1570,6 +1649,7 @@
    "cy": 434.5,
    "faction": "PL",
    "country": "PL",
+   "color": "#e08a3c",
    "capital": false,
    "adj": [
     1,
@@ -1588,6 +1668,7 @@
    "cy": 387.5,
    "faction": "PL",
    "country": "PL",
+   "color": "#5a84c8",
    "capital": false,
    "adj": [
     5,
@@ -1607,6 +1688,7 @@
    "cy": 419.6,
    "faction": "PL",
    "country": "PL",
+   "color": "#5fb59b",
    "capital": false,
    "adj": [
     1,
@@ -1625,6 +1707,7 @@
    "cy": 367.5,
    "faction": "PL",
    "country": "PL",
+   "color": "#8a93cf",
    "capital": false,
    "adj": [
     84,
@@ -1642,6 +1725,7 @@
    "cy": 411.7,
    "faction": "PL",
    "country": "PL",
+   "color": "#4faa6e",
    "capital": false,
    "adj": [
     79,
@@ -1661,6 +1745,7 @@
    "cy": 404.3,
    "faction": "PL",
    "country": "PL",
+   "color": "#d4789a",
    "capital": false,
    "adj": [
     68,
@@ -1680,6 +1765,7 @@
    "cy": 394.3,
    "faction": "PL",
    "country": "PL",
+   "color": "#bfa24e",
    "capital": false,
    "adj": [
     82,
@@ -1696,6 +1782,7 @@
    "cy": 629.2,
    "faction": "PT",
    "country": "PT",
+   "color": "#b7c24a",
    "capital": false,
    "adj": [
     35,
@@ -1712,6 +1799,7 @@
    "cy": 498.2,
    "faction": "RO",
    "country": "RO",
+   "color": "#7a6fc4",
    "capital": false,
    "adj": [
     59,
@@ -1729,6 +1817,7 @@
    "cy": 510.2,
    "faction": "RO",
    "country": "RO",
+   "color": "#6f9bd0",
    "capital": false,
    "adj": [
     87,
@@ -1745,6 +1834,7 @@
    "cy": 538.2,
    "faction": "RO",
    "country": "RO",
+   "color": "#cf7f7f",
    "capital": false,
    "adj": [
     87,
@@ -1762,6 +1852,7 @@
    "cy": 530.2,
    "faction": "RO",
    "country": "RO",
+   "color": "#3bb1a0",
    "capital": false,
    "adj": [
     59,
@@ -1781,6 +1872,7 @@
    "cy": 527.7,
    "faction": "RS",
    "country": "RS",
+   "color": "#c98f6a",
    "capital": false,
    "adj": [
     56,
@@ -1799,6 +1891,7 @@
    "cy": 557.5,
    "faction": "RS",
    "country": "RS",
+   "color": "#7bbd86",
    "capital": false,
    "adj": [
     33,
@@ -1820,6 +1913,7 @@
    "cy": 261.4,
    "faction": "SE",
    "country": "SE",
+   "color": "#b7c24a",
    "capital": false,
    "adj": [
     97,
@@ -1835,6 +1929,7 @@
    "cy": 294.1,
    "faction": "SE",
    "country": "SE",
+   "color": "#a66bc0",
    "capital": false,
    "adj": [
     78,
@@ -1851,6 +1946,7 @@
    "cy": 605.1,
    "faction": "AL",
    "country": "AL",
+   "color": "#c583b0",
    "capital": false,
    "adj": [
     32,
@@ -1868,6 +1964,7 @@
    "cy": 474.8,
    "faction": "AT",
    "country": "AT",
+   "color": "#d1605e",
    "capital": false,
    "adj": [
     1,
@@ -1887,6 +1984,7 @@
    "cy": 174,
    "faction": "SE",
    "country": "SE",
+   "color": "#4aa6c9",
    "capital": false,
    "adj": [
     41,
@@ -1904,6 +2002,7 @@
    "cy": 508.5,
    "faction": "SI",
    "country": "SI",
+   "color": "#8fae5c",
    "capital": false,
    "adj": [
     56,
@@ -1922,6 +2021,7 @@
    "cy": 460.7,
    "faction": "SK",
    "country": "SK",
+   "color": "#56a8bd",
    "capital": false,
    "adj": [
     1,
@@ -1942,6 +2042,7 @@
    "cy": 602.9,
    "faction": "TR",
    "country": "TR",
+   "color": "#78b44e",
    "capital": false,
    "adj": [
     11,
@@ -1957,6 +2058,7 @@
    "cy": 628.3,
    "faction": "TR",
    "country": "TR",
+   "color": "#c766a8",
    "capital": false,
    "adj": [
     10,
@@ -1976,6 +2078,7 @@
    "cy": 495.2,
    "faction": "AT",
    "country": "AT",
+   "color": "#c583b0",
    "capital": false,
    "adj": [
     65,
@@ -1993,6 +2096,7 @@
    "cy": 483.1,
    "faction": "AT",
    "country": "AT",
+   "color": "#e08a3c",
    "capital": false,
    "adj": [
     1,
@@ -2013,6 +2117,7 @@
    "cy": 547.8,
    "faction": "BA",
    "country": "BA",
+   "color": "#7a6fc4",
    "capital": false,
    "adj": [
     56,
@@ -2030,6 +2135,7 @@
    "cy": 420.9,
    "faction": "BE",
    "country": "BE",
+   "color": "#5fb59b",
    "capital": false,
    "adj": [
     106
@@ -2044,6 +2150,7 @@
    "cy": 416.5,
    "faction": "BE",
    "country": "BE",
+   "color": "#8a93cf",
    "capital": false,
    "adj": [
     47,
@@ -2062,6 +2169,7 @@
    "cy": 430.2,
    "faction": "BE",
    "country": "BE",
+   "color": "#4faa6e",
    "capital": false,
    "adj": [
     17,
@@ -2082,6 +2190,7 @@
    "cy": 568,
    "faction": "BG",
    "country": "BG",
+   "color": "#d4789a",
    "capital": false,
    "adj": [
     88,
@@ -2101,6 +2210,7 @@
    "cy": 586.3,
    "faction": "BG",
    "country": "BG",
+   "color": "#bfa24e",
    "capital": false,
    "adj": [
     32,
@@ -2119,6 +2229,7 @@
    "cy": 496.6,
    "faction": "CH",
    "country": "CH",
+   "color": "#d9b64a",
    "capital": false,
    "adj": [
     2,
@@ -2140,6 +2251,7 @@
    "cy": 577.8,
    "faction": "AD",
    "country": "AD",
+   "color": "#a66bc0",
    "capital": false,
    "adj": [
     39,
@@ -2155,6 +2267,7 @@
    "cy": 555.6,
    "faction": "MC",
    "country": "MC",
+   "color": "#6f9bd0",
    "capital": false,
    "adj": [
     54
@@ -2169,6 +2282,7 @@
    "cy": 360.4,
    "faction": "UK",
    "country": "UK",
+   "color": "#cf7f7f",
    "capital": false,
    "adj": [
     60
@@ -2183,6 +2297,7 @@
    "cy": 551.9,
    "faction": "SM",
    "country": "SM",
+   "color": "#4aa6c9",
    "capital": false,
    "adj": [
     65,
@@ -2198,6 +2313,7 @@
    "cy": 590.1,
    "faction": "VA",
    "country": "VA",
+   "color": "#c98f6a",
    "capital": false,
    "adj": [
     66
