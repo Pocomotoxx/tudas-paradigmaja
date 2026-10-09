@@ -145,6 +145,31 @@ const factionColor = {};
 countries.forEach((cc, i) => { factionColor[cc] = hslToHex((i * 360 / countries.length) % 360, 52, 58); }); // all mid-bright, none dark
 const factions = countries.map(cc => ({ id: cc, name: cc, color: factionColor[cc] }));
 
+// --- patchwork-quilt region colouring (graph colouring) ------------------
+// Every region (NUTS 1 region OR non-EU country) gets its OWN colour from a
+// varied mid-bright palette; adjacent regions never share a colour, so the map
+// reads like a patchwork quilt rather than solid country blocks. Welsh–Powell
+// greedy colouring over the border adjacency (deterministic: by degree desc,
+// ties by index). The palette has far more colours than any region needs.
+const QUILT = [
+  "#d1605e","#e08a3c","#d9b64a","#b7c24a","#78b44e","#4faa6e","#3bb1a0","#4aa6c9",
+  "#5a84c8","#7a6fc4","#a66bc0","#c766a8","#d4789a","#c98f6a","#8fae5c","#5fb59b",
+  "#6f9bd0","#9f7ec2","#c583b0","#bfa24e","#7bbd86","#56a8bd","#8a93cf","#cf7f7f",
+];
+const adjList = feats.map((_, i) => adjOf(i));
+const order = feats.map((_, i) => i).sort((a, b) => adjList[b].length - adjList[a].length || a - b);
+const colorIdx = new Array(feats.length).fill(-1);
+for (const i of order) {
+  const used = new Set(adjList[i].map(j => colorIdx[j]).filter(c => c >= 0));
+  // Rotate the start per region so the WHOLE palette gets used (not just the
+  // first few indices): a greedy "smallest free" would bias the map warm.
+  const start = (i * 7) % QUILT.length;
+  let c = start;
+  for (let k = 0; k < QUILT.length; k++) { const idx = (start + k) % QUILT.length; if (!used.has(idx)) { c = idx; break; } }
+  colorIdx[i] = c;
+}
+const regionColor = colorIdx.map(c => QUILT[c]);
+
 // --- build SVG paths + province records ----------------------------------
 function pathD(polys) {
   let d = "";
@@ -159,15 +184,16 @@ const provinces = feats.map((f, i) => {
   const ring = f.polys[0][0]; let ax = 0, ay = 0;
   for (const [x, y] of ring) { ax += tx(x); ay += ty(y); }
   const cx = +(ax / ring.length).toFixed(1), cy = +(ay / ring.length).toFixed(1);
-  svgPaths += `<path id="prov_${i}" class="prov" data-faction="${f.country}" d="${pathD(f.polys)}"/>\n`;
-  return { id: i, nutsId: f.id, name: f.name, level: f.level, cx, cy, faction: f.country, country: f.country, capital: false, adj: adjOf(i) };
+  // SVG is already a patchwork; the web layer may still recolour by faction.
+  svgPaths += `<path id="prov_${i}" class="prov" data-faction="${f.country}" fill="${regionColor[i]}" d="${pathD(f.polys)}"/>\n`;
+  return { id: i, nutsId: f.id, name: f.name, level: f.level, cx, cy, faction: f.country, country: f.country, color: regionColor[i], capital: false, adj: adjList[i] };
 });
 
 const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <!-- A Tudás Paradigmája — Europe NUTS 1 pack. Geometry: NUTS boundaries,
      © EuroGeographics (GISCO) / OSM (ODbL). NOT MIT — see map.json.meta. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" id="world">
-<style>.prov{ fill:#c3ccd4; stroke:#4a525c; stroke-width:0.6; stroke-linejoin:round; }</style>
+<style>.prov{ stroke:#2b323b; stroke-width:0.5; stroke-linejoin:round; }</style>
 <rect id="sea" x="0" y="0" width="${W}" height="${H}" fill="#223039"/>
 <g id="provinces">
 ${svgPaths}</g>
