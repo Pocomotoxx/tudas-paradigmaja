@@ -44,7 +44,7 @@
       <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
     </div>
     <div class="card">
-      <h3>Frakciók</h3>
+      <h3 id="legend-title">Frakciók</h3>
       <div class="legend" id="legend"></div>
     </div>
     <div class="card">
@@ -91,9 +91,14 @@ function showInfo(p){
     ? `<br><br><div class="k">Toborozható hősök (${heroes.length}):</div>` +
       heroes.map(h=>`<div>&#9733; <b>${h.name}</b> <span class="k">— ${h.subject} · ${h.birthLabel}</span></div>`).join("")
     : (DATA.meta && DATA.meta.supportsHeroes ? '<br><br><span class="k">Nincs itt toborozható hős.</span>' : '');
+  const subj = p.subject && DATA.subjects && DATA.subjects.find(s=>s.id===p.subject);
+  const subjHtml = subj
+    ? `<div class="k">Tantárgy:</div> <span style="color:${subj.color}">&#9632;</span> <b>${subj.name}</b><br>`
+    : "";
   document.getElementById("info-body").innerHTML =
     `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+
     ident+
+    subjHtml+
     `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${facLabel}<br>`+
     `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
     (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'')+
@@ -116,16 +121,34 @@ function wire(){
 
 function buildLegend(){
   const leg=document.getElementById("legend");
+  const h3 = document.getElementById("legend-title");
+  // Subject map: the colour encodes the subject, so the legend lists the 9
+  // disciplines. Falls back to factions for packs without subjects.
+  if (DATA.subjects && DATA.subjects.length) {
+    if (h3) h3.textContent = "Tantárgyak (szín = tananyag)";
+    const key = (p) => p.subject, list = DATA.subjects;
+    leg.innerHTML = list.map(s=>{
+      const n = DATA.provinces.filter(p=>key(p)===s.id).length;
+      return `<div data-k="${s.id}"><i style="background:${s.color}"></i>${s.name} <span class="k">(${n})</span></div>`;
+    }).join("");
+    wireLegend(leg, key);
+    return;
+  }
+  if (h3) h3.textContent = "Frakciók";
   leg.innerHTML = DATA.factions.map(f=>{
     const n = DATA.provinces.filter(p=>p.faction===f.id).length;
     const sub = f.subject ? `— ${f.subject} ` : "";
-    return `<div data-f="${f.id}"><i style="background:${f.color}"></i>${f.name}
+    return `<div data-k="${f.id}"><i style="background:${f.color}"></i>${f.name}
       <span class="k">${sub}(${n})</span></div>`;
   }).join("");
-  // Clicking a legend row flashes that faction's provinces.
-  leg.querySelectorAll("div[data-f]").forEach(row=>{
+  wireLegend(leg, (p)=>p.faction);
+}
+
+// Hovering a legend row flashes every region that matches it.
+function wireLegend(leg, key){
+  leg.querySelectorAll("div[data-k]").forEach(row=>{
     row.addEventListener("mouseenter", ()=>{
-      DATA.provinces.filter(p=>p.faction===row.dataset.f).forEach(p=>{
+      DATA.provinces.filter(p=>key(p)===row.dataset.k).forEach(p=>{
         const el=document.getElementById("prov_"+p.id); if(el) el.style.fill=lighten(baseColor(p),0.35);
       });
     });
