@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A Tudás Paradigmája — 2.5D térkép demó</title>
+<style>
+  :root { --bg:#1b1e24; --panel:#262b33; --ink:#e7ebf0; --muted:#9aa4b2; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font:14px/1.5 system-ui, sans-serif; }
+  header { padding:10px 16px; background:var(--panel); }
+  header b { font-weight:600; }
+  header span { color:var(--muted); }
+  #wrap { display:flex; gap:16px; padding:16px; flex-wrap:wrap; }
+  canvas { background:#11141a; border-radius:8px; max-width:100%; }
+  .legend { color:var(--muted); font-size:13px; }
+  .legend i { display:inline-block; width:12px; height:12px; border-radius:2px;
+    margin-right:6px; vertical-align:-1px; }
+</style>
+</head>
+<body>
+<header>
+  <b>A Tudás Paradigmája</b> — <span>alternatív-Európa, 2.5D hex térkép (demó)</span>
+</header>
+<div id="wrap">
+  <canvas id="map" width="760" height="520"></canvas>
+  <div class="legend" id="legend"></div>
+</div>
+
+<script>
+// Standalone demo — no build step. The projection mirrors
+// packages/presentation/src/hexProjection.ts (one source of truth in the code;
+// duplicated here so the file opens by double-click without bundling).
+// If art/tiles/<kind>.png exist next to a ./tiles/ folder, they overlay the
+// coloured hexes; otherwise coloured 2.5D hexes are drawn as a fallback.
+
+const SIZE = 46, SQUASH = 0.72;
+const layout = { size: SIZE, squash: SQUASH, originX: 380, originY: 150 };
+
+// Terrain palette (mirrors KIND_TERRAIN in the Blender script).
+const PALETTE = {
+  plain:"#76a066", numeris:"#8599b8", dynamis:"#9e9476", catalyss:"#b3736b",
+  viridia:"#6ba86b", chronopolis:"#8c8094", fortress:"#94908a", city:"#a89e80",
+};
+
+// A small fictional alternative-Europe layout (axial q,r -> kind,label).
+const MAP = [
+  {q:0,r:-1,kind:"city",label:"Aurelia"},
+  {q:1,r:-1,kind:"dynamis",label:"Dynamis"},
+  {q:-1,r:0,kind:"viridia",label:"Viridia"},
+  {q:0,r:0,kind:"numeris",label:"Numeris"},
+  {q:1,r:0,kind:"fortress",label:"Vesta"},
+  {q:-1,r:1,kind:"chronopolis",label:"Chronopolis"},
+  {q:0,r:1,kind:"catalyss",label:"Catalyss"},
+  {q:2,r:-1,kind:"plain",label:""},
+  {q:-2,r:1,kind:"plain",label:""},
+  {q:1,r:1,kind:"plain",label:""},
+];
+
+function hexToPixel(q,r){
+  return {
+    x: layout.originX + layout.size*Math.sqrt(3)*(q + r/2),
+    y: layout.originY + layout.size*1.5*r*layout.squash,
+  };
+}
+function corners(c){
+  const p=[];
+  for(let k=0;k<6;k++){
+    const a=(Math.PI/180)*(60*k-90);
+    p.push({x:c.x+layout.size*Math.cos(a), y:c.y+layout.size*layout.squash*Math.sin(a)});
+  }
+  return p;
+}
+function shade(hex, f){
+  const n=parseInt(hex.slice(1),16);
+  const r=Math.max(0,Math.min(255,((n>>16)&255)*f))|0;
+  const g=Math.max(0,Math.min(255,((n>>8)&255)*f))|0;
+  const b=Math.max(0,Math.min(255,(n&255)*f))|0;
+  return `rgb(${r},${g},${b})`;
+}
+
+const ctx = document.getElementById("map").getContext("2d");
+const DEPTH = 10; // px of faux side wall for the 2.5D edge
+
+function drawHex(t){
+  const c = hexToPixel(t.q,t.r);
+  const top = corners(c);
+  const color = PALETTE[t.kind] || PALETTE.plain;
+  // side wall (bottom three edges extruded down)
+  ctx.fillStyle = shade(color, 0.55);
+  ctx.beginPath();
+  ctx.moveTo(top[0].x, top[0].y);
+  for(let k=1;k<6;k++) ctx.lineTo(top[k].x, top[k].y+DEPTH);
+  ctx.closePath();
+  // only the lower silhouette: redraw top over it
+  ctx.fillStyle = shade(color, 0.55);
+  ctx.beginPath();
+  for(let k=2;k<=4;k++){ // bottom corners
+    ctx.lineTo(top[k].x, top[k].y);
+    ctx.lineTo(top[k].x, top[k].y+DEPTH);
+  }
+  ctx.fill();
+  // top face
+  ctx.fillStyle = color;
+  ctx.strokeStyle = shade(color, 0.7);
+  ctx.beginPath();
+  ctx.moveTo(top[0].x, top[0].y);
+  for(let k=1;k<6;k++) ctx.lineTo(top[k].x, top[k].y);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // label
+  if(t.label){
+    ctx.fillStyle="#10131a"; ctx.font="12px system-ui"; ctx.textAlign="center";
+    ctx.fillText(t.label, c.x, c.y+4);
+  }
+}
+
+function render(){
+  ctx.clearRect(0,0,760,520);
+  const order=[...MAP].sort((a,b)=>(a.r-b.r)||(a.q-b.q));
+  for(const t of order) drawHex(t);
+}
+render();
+
+// Build legend
+const seen=new Set();
+const leg=document.getElementById("legend");
+leg.innerHTML="<b>Jelmagyarázat</b><br>"+MAP.filter(t=>t.label&&!seen.has(t.kind)&&seen.add(t.kind))
+  .map(t=>`<i style="background:${PALETTE[t.kind]}"></i>${t.label} (${t.kind})`).join("<br>")
+  +"<br><br><span>Ha a Blender-sprite-ok (tiles/&lt;kind&gt;.png) elérhetők, azok rárajzolhatók — jelenleg a színes 2.5D hexek a tartalék.</span>";
+</script>
+</body>
+</html>
