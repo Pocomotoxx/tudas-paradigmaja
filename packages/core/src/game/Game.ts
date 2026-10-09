@@ -41,6 +41,8 @@ import { SynergyRegistry, type SynergyDef } from "../synergy/SynergyRegistry.js"
 import { BonusSystem } from "../units/BonusSystem.js";
 import { validateArtifact, type ArtifactDef } from "../artifacts/Artifact.js";
 import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
+import { RegionGraph, type RegionInit } from "../world/RegionGraph.js";
+import { StrategicLoop, type StrategicMove, type StrategicSnapshot } from "./StrategicLoop.js";
 
 export interface GameSave {
   readonly version: 2;
@@ -66,6 +68,24 @@ export interface GameSave {
   readonly heldArtifacts: string[];
   readonly supply: number;
   readonly starving: boolean;
+  /** Strategic (region-graph) campaign state, when the scenario has one. */
+  readonly strategic?: StrategicSnapshot;
+}
+
+/** Build a battle combatant from an abstract strategic strength value. */
+function strategicCombatant(id: string, side: BattleSide, strength: number): { id: string; side: BattleSide; stats: StatBlock } {
+  const s = Math.max(1, Math.round(strength));
+  return {
+    id,
+    side,
+    stats: {
+      attack: s,
+      defense: Math.max(1, Math.round(s / 2)),
+      health: s * 3,
+      speed: 4,
+      initiative: 4,
+    },
+  };
 }
 
 export interface MaintenanceResult {
@@ -112,6 +132,8 @@ export class Game {
   private readonly ladders = new Map<string, UnitLadder>();
   private readonly recruits: Unit[] = [];
   private readonly recruitProvenance = new Map<string, { locationId: string; templateId: string }>();
+
+  private strategic: StrategicLoop | null = null;
 
   private heroPos: Hex;
   private turnNumber = 1;
@@ -185,6 +207,37 @@ export class Game {
         ...(p.config !== undefined ? { config: p.config } : {}),
       });
     });
+
+    // Optional strategic (region-graph) campaign layer. Army movement happens on
+    // the region graph; contested entries are resolved by a real hex battle
+    // (simulateBattle) via the shared seeded RNG, keeping the two-layer design.
+    if (scenario.strategic !== undefined) {
+      const st = scenario.strategic;
+      const regions: RegionInit[] = st.regions.map((r) => ({
+        id: r.id,
+        adjacent: r.adjacent,
+        ...(r.name !== undefined ? { name: r.name } : {}),
+        ...(r.owner !== undefined ? { owner: r.owner } : {}),
+        ...(r.enterCost !== undefined ? { enterCost: r.enterCost } : {}),
+        ...(r.centerId !== undefined ? { centerId: r.centerId } : {}),
+        ...(r.blocked !== undefined ? { blocked: r.blocked } : {}),
+      }));
+      const garrisons: Record<string, number> = {};
+      for (const r of st.regions) if (r.garrison !== undefined) garrisons[r.id] = r.garrison;
+      this.strategic = new StrategicLoop({
+        graph: new RegionGraph(regions),
+        playerFaction: st.playerFaction,
+        armyRegion: st.armyRegion,
+        armyStrength: st.armyStrength,
+        moveBudget: st.moveBudget,
+        garrisons,
+        resolver: (atk, def, rng) =>
+          simulateBattle(
+            [strategicCombatant("army", BattleSide.PLAYER, atk), strategicCombatant("garrison", BattleSide.ENEMY, def)],
+            rng as SeededRng,
+          ).outcome === BattleOutcome.PLAYER,
+      });
+    }
   }
 
   private center(id: string): KnowledgeCenter {
@@ -253,6 +306,39 @@ export class Game {
     }
     this.turnNumber++;
     this.testSession.newTurn();
+    this.strategic?.beginTurn(); // refill the army's movement budget
+  }
+
+  // --- strategic (region-graph) campaign layer ---
+  get hasStrategicLayer(): boolean { return this.strategic !== null; }
+
+  private requireStrategic(): StrategicLoop {
+    if (this.strategic === null) throw new Error("This scenario has no strategic layer");
+    return this.strategic;
+  }
+
+  /** The region the player army currently occupies. */
+  get armyRegion(): string { return this.requireStrategic().army; }
+
+  /** Movement points the army has left this turn. */
+  get movementBudget(): number { return this.requireStrategic().budget; }
+
+  /** Regions the army can move to this turn (id, cost, whether enemy-held). */
+  strategicTargets(): Array<{ id: string; cost: number; enemy: boolean }> {
+    return this.requireStrategic().reachableTargets();
+  }
+
+  /** Owner faction of a strategic region, or undefined if neutral. */
+  regionOwner(id: string): string | undefined {
+    return this.requireStrategic().regions.owner(id);
+  }
+
+  /**
+   * Move the army to a region. Neutral/own regions are occupied; an enemy region
+   * triggers a hex battle (seeded) — a win captures it, a loss holds the line.
+   */
+  moveArmy(to: string): StrategicMove {
+    return this.requireStrategic().moveArmy(to, this.rng);
   }
 
   // --- hard mode (Ellátmány / supply logistics) ---
@@ -670,6 +756,7 @@ export class Game {
       heldArtifacts: [...this.heldArtifacts].sort(),
       supply: this.supply.balance,
       starving: this.starving,
+      ...(this.strategic ? { strategic: this.strategic.snapshot() } : {}),
     };
   }
 
@@ -710,6 +797,7 @@ export class Game {
     for (const id of save.heldArtifacts ?? []) g.heldArtifacts.add(id);
     if (save.supply !== undefined) g.supply.restore(save.supply);
     g.starving = save.starving ?? false;
+    if (save.strategic !== undefined && g.strategic !== null) g.strategic.restore(save.strategic);
     return g;
   }
 }

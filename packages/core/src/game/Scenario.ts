@@ -36,6 +36,31 @@ export interface KnowledgeCenterPlacement {
   readonly captureRequiredCorrect?: number;
 }
 
+/** One region on the strategic (campaign) map. */
+export interface StrategicRegionDef {
+  readonly id: string;
+  readonly name?: string;
+  readonly owner?: string;
+  readonly adjacent: readonly string[];
+  readonly enterCost?: number;
+  readonly centerId?: string;
+  readonly blocked?: boolean;
+  /** Defender strength if this region is contested (default 0 = undefended). */
+  readonly garrison?: number;
+}
+
+/** Optional strategic (region-graph) campaign layer for a scenario. */
+export interface StrategicDef {
+  readonly regions: readonly StrategicRegionDef[];
+  /** The human player's faction id (must own at least the army's start). */
+  readonly playerFaction: string;
+  /** Army start region and strength. */
+  readonly armyRegion: string;
+  readonly armyStrength: number;
+  /** Movement points per strategic turn. */
+  readonly moveBudget: number;
+}
+
 export interface ScenarioDef {
   readonly id: string;
   /** Tiles for the HexMap. */
@@ -72,4 +97,6 @@ export interface ScenarioDef {
   readonly unitUpkeep?: number;
   /** Starting supply in hard mode (default 0). */
   readonly initialSupply?: number;
+  /** Optional strategic (region-graph) campaign layer. */
+  readonly strategic?: StrategicDef;
 }
