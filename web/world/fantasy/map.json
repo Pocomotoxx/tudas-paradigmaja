@@ -1,4 +1,12 @@
 {
+ "meta": {
+  "id": "fantasy",
+  "name": "Fantáziavilág (kitalált kontinens)",
+  "kind": "fantasy",
+  "supportsHeroes": false,
+  "license": "MIT",
+  "attribution": "Saját, generált tartalom (seedelt Voronoi)."
+ },
  "viewBox": [
   0,
   0,

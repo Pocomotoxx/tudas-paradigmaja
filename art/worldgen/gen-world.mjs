@@ -131,6 +131,16 @@ ${svgPaths}</g>
 `;
 writeFileSync(`${OUT}/map.svg`, svg);
 
-const data = { viewBox:[0,0,W,H], seed:SEED, factions:FACTIONS, provinces };
+const data = {
+  meta: {
+    id: "fantasy",
+    name: "Fantáziavilág (kitalált kontinens)",
+    kind: "fantasy",
+    supportsHeroes: false, // no real birthplaces -> no scientist/explorer heroes
+    license: "MIT",
+    attribution: "Saját, generált tartalom (seedelt Voronoi).",
+  },
+  viewBox: [0, 0, W, H], seed: SEED, factions: FACTIONS, provinces,
+};
 writeFileSync(`${OUT}/map.json`, JSON.stringify(data,null,1));
 console.log(`provinces=${provinces.length} factions=${FACTIONS.length} capitals=${capIdx.length}`);
