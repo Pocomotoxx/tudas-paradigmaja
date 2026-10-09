@@ -69,10 +69,14 @@ function lighten(hex, f){
   return `rgb(${r},${g},${b})`;
 }
 
+// A province's base colour: its own patchwork colour if the pack provides one,
+// otherwise its faction's colour.
+function baseColor(p){ return p.color || PALETTE[p.faction] || "#c3ccd4"; }
+
 function paint(){
   for(const p of DATA.provinces){
     const el=document.getElementById("prov_"+p.id); if(!el) continue;
-    el.style.fill = PALETTE[p.faction] || "#c3ccd4";
+    el.style.fill = baseColor(p);
   }
 }
 
@@ -100,7 +104,7 @@ let selEl=null;
 function wire(){
   for(const p of DATA.provinces){
     const el=document.getElementById("prov_"+p.id); if(!el) continue;
-    const base = () => PALETTE[p.faction] || "#c3ccd4";
+    const base = () => baseColor(p);
     el.addEventListener("mouseenter", ()=>{ el.style.fill=lighten(base(),0.28); showInfo(p); });
     el.addEventListener("mouseleave", ()=>{ el.style.fill=base(); });
     el.addEventListener("click", ()=>{
@@ -122,7 +126,7 @@ function buildLegend(){
   leg.querySelectorAll("div[data-f]").forEach(row=>{
     row.addEventListener("mouseenter", ()=>{
       DATA.provinces.filter(p=>p.faction===row.dataset.f).forEach(p=>{
-        const el=document.getElementById("prov_"+p.id); if(el) el.style.fill=lighten(PALETTE[p.faction],0.35);
+        const el=document.getElementById("prov_"+p.id); if(el) el.style.fill=lighten(baseColor(p),0.35);
       });
     });
     row.addEventListener("mouseleave", paint);
