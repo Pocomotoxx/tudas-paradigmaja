@@ -83,22 +83,43 @@ const ctx = document.getElementById("map").getContext("2d");
 const DEPTH = 18; // px of extruded side wall for the 2.5D edge
 
 // --- Optional Blender sprite overlay --------------------------------------
-// If ./tiles/<kind>.png exists (produced by art/blender/render_atlas.py),
-// the rendered 2.5D tile is drawn in place of the coloured fallback hex.
-// Missing files simply fall back — the demo opens with or without tiles.
+// art/blender/render_atlas.py writes ./tiles/ with one PNG per kind plus an
+// index.json: { tileSize, tilt, orientation, tiles:[{kind,file}, ...] }.
+// index.json is the authoritative kind->file map; when it loads we honour it.
+// But browsers block fetch() over file:// (double-click open), so if the
+// fetch fails we fall back to the by-convention "tiles/<kind>.png" probe.
+// Either way, missing tiles just fall back to the coloured hex.
 const SPRITES = {};        // kind -> HTMLImageElement (loaded & complete)
-function loadSprites(kinds, done){
+let atlasMeta = null;      // { tileSize, tilt, orientation } when index.json loads
+
+function loadImages(map, done){ // map: kind -> relative file path
+  const kinds = Object.keys(map);
   let pending = kinds.length;
   if (!pending) { done(); return; }
   for (const kind of kinds) {
     const img = new Image();
-    img.onload = () => {
-      if (img.naturalWidth > 0) SPRITES[kind] = img;
-      if (--pending === 0) done();
-    };
+    img.onload = () => { if (img.naturalWidth > 0) SPRITES[kind] = img; if (--pending === 0) done(); };
     img.onerror = () => { if (--pending === 0) done(); };
-    img.src = "tiles/" + kind + ".png";
+    img.src = "tiles/" + map[kind];
   }
+}
+
+function loadSprites(kinds, done){
+  // Prefer the atlas index; fall back to the <kind>.png convention.
+  const byConvention = Object.fromEntries(kinds.map(k => [k, k + ".png"]));
+  fetch("tiles/index.json", { cache: "no-store" })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(idx => {
+      atlasMeta = { tileSize: idx.tileSize, tilt: idx.tilt, orientation: idx.orientation };
+      const fromIndex = {};
+      for (const t of (idx.tiles || [])) {
+        if (kinds.includes(t.kind) && t.file) fromIndex[t.kind] = t.file;
+      }
+      // Any kind the index omits still gets a convention probe.
+      for (const k of kinds) if (!(k in fromIndex)) fromIndex[k] = byConvention[k];
+      loadImages(fromIndex, done);
+    })
+    .catch(() => loadImages(byConvention, done)); // file:// or no index.json
 }
 // A Blender tile is rendered so one flat-to-flat hex width spans sqrt(3)*size.
 // We scale the sprite to that width and anchor its base at the hex centre,
@@ -176,7 +197,7 @@ const seen=new Set();
 const leg=document.getElementById("legend");
 leg.innerHTML="<b>Jelmagyarázat</b><br>"+MAP.filter(t=>t.label&&!seen.has(t.kind)&&seen.add(t.kind))
   .map(t=>`<i style="background:${PALETTE[t.kind]}"></i>${t.label} (${t.kind})`).join("<br>")
-  +"<br><br><span>Ha a Blender-sprite-ok (tiles/&lt;kind&gt;.png) elérhetők, azok rárajzolhatók — jelenleg a színes 2.5D hexek a tartalék.</span>";
+  +"<br><br><span>Ha a Blender-atlasz (tiles/index.json + tiles/&lt;kind&gt;.png) elérhető, a csempék onnan renderelnek; különben a színes 2.5D hexek a tartalék.</span>";
 </script>
 </body>
 </html>
