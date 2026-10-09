@@ -32,7 +32,10 @@ mkdirSync(OUT, { recursive: true });
 // EU-27 country codes (their NUTS 1 is used; excluded from the countries file).
 const EU27 = new Set(["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","EL","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE"]);
 // Non-EU European countries to include as one region each (ISO2 / GISCO CNTR_ID).
-const NON_EU = new Set(["NO","CH","IS","LI","UK","GB","RS","BA","ME","MK","AL","XK","MD","UA","BY","AD","MC","SM","VA","TR"]);
+// Most are already NUTS-1 regions in the NUTS file; the countries file mainly
+// supplies the UK (dropped from NUTS after Brexit) plus the microstates.
+// UA/BY/MD are left out so the eastern edge doesn't dominate the board.
+const NON_EU = new Set(["NO","CH","IS","LI","UK","GB","RS","BA","ME","MK","AL","XK","AD","MC","SM","VA","TR"]);
 
 const W = 1000, H = 760, MARGIN = 20;
 const fc = JSON.parse(readFileSync(SRC, "utf8"));
