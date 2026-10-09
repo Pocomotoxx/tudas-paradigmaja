@@ -145,30 +145,32 @@ const factionColor = {};
 countries.forEach((cc, i) => { factionColor[cc] = hslToHex((i * 360 / countries.length) % 360, 52, 58); }); // all mid-bright, none dark
 const factions = countries.map(cc => ({ id: cc, name: cc, color: factionColor[cc] }));
 
-// --- patchwork-quilt region colouring (graph colouring) ------------------
-// Every region (NUTS 1 region OR non-EU country) gets its OWN colour from a
-// varied mid-bright palette; adjacent regions never share a colour, so the map
-// reads like a patchwork quilt rather than solid country blocks. Welsh–Powell
-// greedy colouring over the border adjacency (deterministic: by degree desc,
-// ties by index). The palette has far more colours than any region needs.
-const QUILT = [
-  "#d1605e","#e08a3c","#d9b64a","#b7c24a","#78b44e","#4faa6e","#3bb1a0","#4aa6c9",
-  "#5a84c8","#7a6fc4","#a66bc0","#c766a8","#d4789a","#c98f6a","#8fae5c","#5fb59b",
-  "#6f9bd0","#9f7ec2","#c583b0","#bfa24e","#7bbd86","#56a8bd","#8a93cf","#cf7f7f",
+// --- subject map: every region teaches one of the 9 disciplines -----------
+// The COLOUR encodes the SUBJECT (not just a quilt): 9 colour families, the
+// SAME ones the fantasy pack uses, so colour<->subject is consistent across
+// both maps — important for a children's game. Adjacent regions may share a
+// colour (they can teach the same subject). Assignment is deterministic
+// (seeded shuffle, round-robin) so the 9 subjects are balanced across regions.
+const SUBJECTS = [
+  { id: "MAGYAR",       name: "Magyar",       color: "#d15a52" },
+  { id: "MATEMATIKA",   name: "Matematika",   color: "#3ca8c4" },
+  { id: "FIZIKA",       name: "Fizika",       color: "#bcb43f" },
+  { id: "KEMIA",        name: "Kémia",        color: "#9a66c4" },
+  { id: "BIOLOGIA",     name: "Biológia",     color: "#5fae5a" },
+  { id: "TORTENELEM",   name: "Történelem",   color: "#5a74c8" },
+  { id: "FOLDRAJZ",     name: "Földrajz",     color: "#d68f3e" },
+  { id: "INFORMATIKA",  name: "Informatika",  color: "#3bb08c" },
+  { id: "IDEGEN_NYELV", name: "Idegen nyelv", color: "#c662a4" },
 ];
 const adjList = feats.map((_, i) => adjOf(i));
-const order = feats.map((_, i) => i).sort((a, b) => adjList[b].length - adjList[a].length || a - b);
-const colorIdx = new Array(feats.length).fill(-1);
-for (const i of order) {
-  const used = new Set(adjList[i].map(j => colorIdx[j]).filter(c => c >= 0));
-  // Rotate the start per region so the WHOLE palette gets used (not just the
-  // first few indices): a greedy "smallest free" would bias the map warm.
-  const start = (i * 7) % QUILT.length;
-  let c = start;
-  for (let k = 0; k < QUILT.length; k++) { const idx = (start + k) % QUILT.length; if (!used.has(idx)) { c = idx; break; } }
-  colorIdx[i] = c;
-}
-const regionColor = colorIdx.map(c => QUILT[c]);
+// Deterministic shuffle (mulberry32) of region indices, then round-robin.
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const srnd = mulberry32(0x5ab10c);
+const shuffled = feats.map((_, i) => i);
+for (let i = shuffled.length - 1; i > 0; i--) { const j = Math.floor(srnd() * (i + 1)); [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; }
+const subjectIdx = new Array(feats.length).fill(0);
+shuffled.forEach((regionI, k) => { subjectIdx[regionI] = k % SUBJECTS.length; });
+const regionColor = subjectIdx.map(s => SUBJECTS[s].color);
 
 // --- build SVG paths + province records ----------------------------------
 function pathD(polys) {
@@ -184,9 +186,10 @@ const provinces = feats.map((f, i) => {
   const ring = f.polys[0][0]; let ax = 0, ay = 0;
   for (const [x, y] of ring) { ax += tx(x); ay += ty(y); }
   const cx = +(ax / ring.length).toFixed(1), cy = +(ay / ring.length).toFixed(1);
-  // SVG is already a patchwork; the web layer may still recolour by faction.
-  svgPaths += `<path id="prov_${i}" class="prov" data-faction="${f.country}" fill="${regionColor[i]}" d="${pathD(f.polys)}"/>\n`;
-  return { id: i, nutsId: f.id, name: f.name, level: f.level, cx, cy, faction: f.country, country: f.country, color: regionColor[i], capital: false, adj: adjList[i] };
+  // Colour encodes the subject; faction stays the country (game ownership).
+  const subj = SUBJECTS[subjectIdx[i]];
+  svgPaths += `<path id="prov_${i}" class="prov" data-faction="${f.country}" data-subject="${subj.id}" fill="${regionColor[i]}" d="${pathD(f.polys)}"/>\n`;
+  return { id: i, nutsId: f.id, name: f.name, level: f.level, cx, cy, faction: f.country, country: f.country, subject: subj.id, subjectName: subj.name, color: regionColor[i], capital: false, adj: adjList[i] };
 });
 
 const svg = `<?xml version="1.0" encoding="UTF-8"?>
@@ -209,7 +212,8 @@ const data = {
     attribution: "Administrative boundaries: © EuroGeographics © OpenStreetMap contributors © Turkstat · Cartography: Eurostat — GISCO.",
     rule: "EU: NUTS level 1; non-EU European countries: one region each.",
   },
-  viewBox: [0, 0, W, H], factions, provinces,
+  viewBox: [0, 0, W, H], subjects: SUBJECTS, factions, provinces,
 };
 writeFileSync(`${OUT}/map.json`, JSON.stringify(data, null, 1));
-console.log(`regions=${provinces.length} (EU NUTS-1 + ${nonEuCount} non-EU countries) countries=${countries.length} -> ${OUT}`);
+const counts = SUBJECTS.map(s => provinces.filter(p => p.subject === s.id).length);
+console.log(`regions=${provinces.length} (EU NUTS-1 + ${nonEuCount} non-EU) · subjects per region: ${counts.join("/")} -> ${OUT}`);
