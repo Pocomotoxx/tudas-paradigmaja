@@ -82,8 +82,46 @@ function shade(hex, f){
 const ctx = document.getElementById("map").getContext("2d");
 const DEPTH = 18; // px of extruded side wall for the 2.5D edge
 
+// --- Optional Blender sprite overlay --------------------------------------
+// If ./tiles/<kind>.png exists (produced by art/blender/render_atlas.py),
+// the rendered 2.5D tile is drawn in place of the coloured fallback hex.
+// Missing files simply fall back — the demo opens with or without tiles.
+const SPRITES = {};        // kind -> HTMLImageElement (loaded & complete)
+function loadSprites(kinds, done){
+  let pending = kinds.length;
+  if (!pending) { done(); return; }
+  for (const kind of kinds) {
+    const img = new Image();
+    img.onload = () => {
+      if (img.naturalWidth > 0) SPRITES[kind] = img;
+      if (--pending === 0) done();
+    };
+    img.onerror = () => { if (--pending === 0) done(); };
+    img.src = "tiles/" + kind + ".png";
+  }
+}
+// A Blender tile is rendered so one flat-to-flat hex width spans sqrt(3)*size.
+// We scale the sprite to that width and anchor its base at the hex centre,
+// nudged up so the tile's top face sits on the hex footprint.
+function drawSprite(t){
+  const img = SPRITES[t.kind];
+  if (!img) return false;
+  const c = hexToPixel(t.q, t.r);
+  const w = layout.size * Math.sqrt(3) * 1.04;      // flat-to-flat + hairline overlap
+  const h = w * (img.naturalHeight / img.naturalWidth);
+  // Base of the sprite aligns with the hex's bottom corner (+ a little depth).
+  const baseY = c.y + layout.size * layout.squash + DEPTH;
+  ctx.drawImage(img, c.x - w / 2, baseY - h, w, h);
+  if (t.label) {
+    ctx.fillStyle = "#10131a"; ctx.font = "12px system-ui"; ctx.textAlign = "center";
+    ctx.fillText(t.label, c.x, c.y + 4);
+  }
+  return true;
+}
+
 // corners: k=0 top, 1 upper-right, 2 lower-right, 3 bottom, 4 lower-left, 5 upper-left
 function drawHex(t){
+  if (drawSprite(t)) return;   // use the Blender tile when available
   const c = hexToPixel(t.q,t.r);
   const top = corners(c);
   const color = PALETTE[t.kind] || PALETTE.plain;
@@ -128,7 +166,10 @@ function render(){
   const order=[...MAP].sort((a,b)=>(a.r-b.r)||(a.q-b.q));
   for(const t of order) drawHex(t);
 }
-render();
+// Try to load the Blender sprites, then render (re-render once they arrive).
+const KINDS = [...new Set(MAP.map(t => t.kind))];
+render();                       // immediate coloured fallback
+loadSprites(KINDS, render);     // re-render with tiles if any loaded
 
 // Build legend
 const seen=new Set();
