@@ -36,7 +36,9 @@ A teljes vízió magja implementálva, determinista és mentés/visszatöltésse
 - **Haladó:** tárgy-szinergiák · artifactok (capture-kapuval) · hard mód
   (Ellátmány logisztika)
 - **Vizuális:** 2.5D Blender csempe-pipeline (`art/blender/`) + web-canvas
-  térkép-demó (`web/map-demo.html`)
+  hex-demó (`web/map-demo.html`); **régió-alapú (Total War-stílusú) stratégiai
+  térkép** saját kitalált kontinensen (`web/region-demo.html`, `web/world/`) —
+  a csaták továbbra is a hex-rétegen zajlanak
 
 ## Fejlesztés
 
