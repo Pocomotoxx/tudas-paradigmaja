@@ -19,7 +19,12 @@ function scenario(): ScenarioDef {
     playerUnit: { id: "golem", name: "Gólem", subject: Subject.MATEMATIKA, base: { attack: 6, defense: 10, health: 50, speed: 3, initiative: 5 } },
     enemy: { id: "guard", stats: { attack: 5, defense: 4, health: 60, speed: 2, initiative: 3 } },
     techNodes: [],
-    questions: [{ id: "m1", subject: Subject.MATEMATIKA, topic: "t", b: 0, tier: DifficultyTier.ALAP }],
+    questions: [
+      { id: "m1", subject: Subject.MATEMATIKA, topic: "t", b: 0, tier: DifficultyTier.ALAP },
+      { id: "k1", subject: Subject.KEMIA, topic: "t", b: 0, tier: DifficultyTier.ALAP },
+      { id: "k2", subject: Subject.KEMIA, topic: "t", b: 0.5, tier: DifficultyTier.ALAP },
+      { id: "k3", subject: Subject.KEMIA, topic: "t", b: -0.5, tier: DifficultyTier.ALAP },
+    ],
     knowledgeCenters: [{ id: "hub", subject: Subject.MATEMATIKA, hex: { q: 0, r: 0 }, stability: 100 }],
     strategic: {
       playerFaction: "blue",
@@ -27,10 +32,10 @@ function scenario(): ScenarioDef {
       armyStrength: 50, // strong army -> reliably wins the small garrison
       moveBudget: 2,
       regions: [
-        { id: "home", owner: "blue", adjacent: ["mid"] },
-        { id: "mid", adjacent: ["home", "front"] },
-        { id: "front", owner: "red", adjacent: ["mid", "keep"], garrison: 2 },
-        { id: "keep", owner: "red", adjacent: ["front"], garrison: 999 },
+        { id: "home", owner: "blue", adjacent: ["mid"], subject: Subject.MATEMATIKA, kkPerTurn: 2 },
+        { id: "mid", adjacent: ["home", "front"], subject: Subject.FIZIKA },
+        { id: "front", owner: "red", adjacent: ["mid", "keep"], garrison: 2, subject: Subject.KEMIA, kkPerTurn: 3 },
+        { id: "keep", owner: "red", adjacent: ["front"], garrison: 999, subject: Subject.FIZIKA },
       ],
     },
   };
@@ -86,6 +91,31 @@ describe("Game — strategic campaign layer (I43)", () => {
     expect(g2.armyRegion).toBe("front");
     expect(g2.regionOwner("front")).toBe("blue");
     expect(g2.movementBudget).toBe(save.strategic!.budgetLeft);
+  });
+
+  it("owned regions produce their subject's KK each turn", () => {
+    const g = new Game(scenario(), 7);
+    expect(g.regionSubject("home")).toBe(Subject.MATEMATIKA);
+    expect(g.regionKKYield("home")).toBe(2);
+    expect(g.regionKKYield("mid")).toBe(1); // subject present, default yield 1
+    // Only home owned at start -> +2 MATEMATIKA on endTurn.
+    g.endTurn();
+    expect(g.kkOf(Subject.MATEMATIKA)).toBe(2);
+    // Capture KEMIA front (yield 3); next turn adds MATEMATIKA(home 2) + KEMIA(front 3).
+    g.moveArmy("front");
+    g.endTurn();
+    expect(g.kkOf(Subject.MATEMATIKA)).toBe(4);
+    expect(g.kkOf(Subject.KEMIA)).toBe(3);
+  });
+
+  it("capture questions come from the region's subject", () => {
+    const g = new Game(scenario(), 7);
+    const qs = g.captureQuestions("front", 3); // front teaches KEMIA
+    expect(qs).toHaveLength(3);
+    expect(qs.every((q) => q.subject === Subject.KEMIA)).toBe(true);
+    expect(new Set(qs.map((q) => q.id)).size).toBe(3); // all distinct
+    // A region with no subject yields no capture questions.
+    expect(g.captureQuestions("keep", 3).map((q) => q.subject)).toEqual([]); // keep is FIZIKA but bank has none
   });
 
   it("a scenario without a strategic block has no strategic layer", () => {

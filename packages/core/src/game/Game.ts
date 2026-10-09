@@ -223,7 +223,15 @@ export class Game {
         ...(r.blocked !== undefined ? { blocked: r.blocked } : {}),
       }));
       const garrisons: Record<string, number> = {};
-      for (const r of st.regions) if (r.garrison !== undefined) garrisons[r.id] = r.garrison;
+      const subjects: Record<string, string> = {};
+      const kkYields: Record<string, number> = {};
+      for (const r of st.regions) {
+        if (r.garrison !== undefined) garrisons[r.id] = r.garrison;
+        if (r.subject !== undefined) {
+          subjects[r.id] = r.subject;
+          kkYields[r.id] = r.kkPerTurn ?? 1; // a region with a subject yields KK (default 1)
+        }
+      }
       this.strategic = new StrategicLoop({
         graph: new RegionGraph(regions),
         playerFaction: st.playerFaction,
@@ -231,6 +239,8 @@ export class Game {
         armyStrength: st.armyStrength,
         moveBudget: st.moveBudget,
         garrisons,
+        subjects,
+        kkYields,
         resolver: (atk, def, rng) =>
           simulateBattle(
             [strategicCombatant("army", BattleSide.PLAYER, atk), strategicCombatant("garrison", BattleSide.ENEMY, def)],
@@ -304,6 +314,12 @@ export class Game {
         this.starving = true;
       }
     }
+    // Strategic KK income: each owned region produces its subject's KK.
+    if (this.strategic !== null) {
+      for (const { subject, amount } of this.strategic.ownedKKYield()) {
+        this.kk.earn(subject as Subject, amount);
+      }
+    }
     this.turnNumber++;
     this.testSession.newTurn();
     this.strategic?.beginTurn(); // refill the army's movement budget
@@ -331,6 +347,37 @@ export class Game {
   /** Owner faction of a strategic region, or undefined if neutral. */
   regionOwner(id: string): string | undefined {
     return this.requireStrategic().regions.owner(id);
+  }
+
+  /** The discipline a region teaches/produces, or undefined. */
+  regionSubject(id: string): Subject | undefined {
+    const s = this.requireStrategic().subjectOf(id);
+    return s as Subject | undefined;
+  }
+
+  /** KK a region yields per turn in its subject while owned. */
+  regionKKYield(id: string): number {
+    return this.requireStrategic().kkYieldOf(id);
+  }
+
+  /**
+   * Questions to answer when capturing a region: `count` items drawn from the
+   * region's subject, adapted to the player's current theta for that subject,
+   * each distinct. Empty if the region has no subject or the bank lacks items.
+   */
+  captureQuestions(regionId: string, count = 3): QuestionItem[] {
+    const subject = this.regionSubject(regionId);
+    if (subject === undefined) return [];
+    const theta = this.rasch.thetaOf(subject);
+    const picked: QuestionItem[] = [];
+    const used = new Set<string>();
+    for (let i = 0; i < count; i++) {
+      const q = this.bank.selectFor(subject, theta, used);
+      if (q === null) break;
+      picked.push(q);
+      used.add(q.id);
+    }
+    return picked;
   }
 
   /**

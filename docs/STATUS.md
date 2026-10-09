@@ -41,7 +41,7 @@ Monorepo (npm workspaces, TypeScript project references, Vitest):
 | Szinergia | `synergy/SynergyRegistry` | tárgy-kombinációk, mesterszint-kapu, sereg-bónusz |
 | Artifact | `artifacts/Artifact` | stratégiai tárgyak (közvetlen vagy capture-kapu), sereg-bónusz |
 | Hős | `heroes/Scientist` | diszciplína-affinitás (bónusz/mínusz), vezető a seregen |
-| Stratégiai kör | `game/StrategicLoop` | kampány-kör a régió-gráfon: egy sereg mozog (budget), saját/semleges földön átvonul, ellenséges régióba lépve **hex-csata** dől el (seedelt), győzelemnél foglalás; save/load |
+| Stratégiai kör | `game/StrategicLoop` | kampány-kör a régió-gráfon: sereg-mozgás (budget), ellenséges régióba lépve **hex-csata**, foglalás; **régió tantárgya → KK-termelés** körönként; save/load |
 | Integráció | `game/Game`, `game/Scenario` | mindezt egy hurokba fűzi + teljes save/load (v2); opcionális stratégiai réteg (`scenario.strategic`): sereg-mozgás régiók közt, ütközésnél valódi hex-csata |
 
 Prezentáció: `TextRenderer`, `ScriptedSession`, `demoScenario*`, `europe*`,
