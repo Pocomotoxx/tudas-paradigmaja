@@ -82,6 +82,14 @@ export type {
   RegionGraphSnapshot,
 } from "./world/RegionGraph.js";
 
+export { StrategicLoop, defaultBattleResolver } from "./game/StrategicLoop.js";
+export type {
+  StrategicConfig,
+  StrategicMove,
+  StrategicSnapshot,
+  BattleResolver,
+} from "./game/StrategicLoop.js";
+
 export { SynergyRegistry, validateSynergy } from "./synergy/SynergyRegistry.js";
 export type { SynergyDef, SubjectAmount } from "./synergy/SynergyRegistry.js";
 
@@ -93,4 +101,4 @@ export type { CaptureInit, CaptureSubmitResult } from "./capture/CaptureGate.js"
 
 export { Game } from "./game/Game.js";
 export type { GameSave, MaintenanceResult } from "./game/Game.js";
-export type { ScenarioDef, GarrisonPlacement } from "./game/Scenario.js";
+export type { ScenarioDef, GarrisonPlacement, StrategicDef, StrategicRegionDef } from "./game/Scenario.js";
