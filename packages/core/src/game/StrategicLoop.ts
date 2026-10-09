@@ -39,6 +39,10 @@ export interface StrategicConfig {
   readonly moveBudget: number;
   /** Defender strength per region id (absent = undefended, strength 0). */
   readonly garrisons?: Readonly<Record<string, number>>;
+  /** Subject taught/produced per region id (the discipline it yields). */
+  readonly subjects?: Readonly<Record<string, string>>;
+  /** KK produced per turn per region id while owned (default 0 if absent). */
+  readonly kkYields?: Readonly<Record<string, number>>;
   /** Override the battle resolver (Game plugs in simulateBattle). */
   readonly resolver?: BattleResolver;
 }
@@ -68,6 +72,8 @@ export class StrategicLoop {
   private readonly moveBudget: number;
   private readonly resolver: BattleResolver;
   private readonly garrisons = new Map<string, number>();
+  private readonly subjects = new Map<string, string>();
+  private readonly kkYields = new Map<string, number>();
 
   private armyRegionId: string;
   private readonly armyStrength: number;
@@ -90,6 +96,12 @@ export class StrategicLoop {
     for (const [id, str] of Object.entries(cfg.garrisons ?? {})) {
       if (this.graph.has(id)) this.garrisons.set(id, str);
     }
+    for (const [id, subj] of Object.entries(cfg.subjects ?? {})) {
+      if (this.graph.has(id)) this.subjects.set(id, subj);
+    }
+    for (const [id, amt] of Object.entries(cfg.kkYields ?? {})) {
+      if (this.graph.has(id)) this.kkYields.set(id, amt);
+    }
     // The army's starting region is the player's from turn one.
     this.graph.setOwner(this.armyRegionId, this.playerFaction);
   }
@@ -101,6 +113,25 @@ export class StrategicLoop {
   get regions(): RegionGraph { return this.graph; }
 
   garrisonOf(id: string): number { return this.garrisons.get(id) ?? 0; }
+  subjectOf(id: string): string | undefined { return this.subjects.get(id); }
+  kkYieldOf(id: string): number { return this.kkYields.get(id) ?? 0; }
+
+  /**
+   * KK the player's currently-owned regions produce this turn, grouped by
+   * subject and summed. Sorted by subject id for determinism.
+   */
+  ownedKKYield(): Array<{ subject: string; amount: number }> {
+    const sums = new Map<string, number>();
+    for (const id of this.graph.regionsOf(this.playerFaction)) {
+      const subj = this.subjects.get(id);
+      const amt = this.kkYields.get(id) ?? 0;
+      if (subj === undefined || amt <= 0) continue;
+      sums.set(subj, (sums.get(subj) ?? 0) + amt);
+    }
+    return [...sums.entries()]
+      .map(([subject, amount]) => ({ subject, amount }))
+      .sort((a, b) => (a.subject < b.subject ? -1 : a.subject > b.subject ? 1 : 0));
+  }
 
   /** Refill the movement budget. Call at the start of each strategic turn. */
   beginTurn(): void { this.budgetLeft = this.moveBudget; }
