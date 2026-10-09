@@ -3,3 +3,7 @@ dist/
 *.tsbuildinfo
 coverage/
 .DS_Store
+
+# Python bytecode cache (Blender bpy scripts)
+__pycache__/
+*.pyc
