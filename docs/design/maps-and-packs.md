@@ -22,8 +22,13 @@ Egy csomag két fájl egy mappában (`web/world/<id>/`):
                      "nutsId?","country?" } ]
   }
   ```
-  Az `adj` a **provincia-szomszédság gráf** — ez lesz a stratégiai
-  mozgás/terjeszkedés alapja (a core `RegionGraph`-ja ezt olvassa majd).
+  Az `adj` a **provincia-szomszédság gráf** — ez a stratégiai mozgás/terjeszkedés
+  alapja. A core `RegionGraph` (determinista provincia-gráf: birtoklás,
+  budget-alapú sereg-mozgás, útkeresés, tudásközpont a régióban, save/load) ezt
+  olvassa; a prezentáció `buildRegionGraph(pack)` függvénye a `map.json`-ból
+  építi fel. A **csaták** továbbra is a hex-rétegen (`HexMap` + `simulateBattle`)
+  zajlanak — a régió-gráf csak azt tartja nyilván, ki mit birtokol, mi szomszédos,
+  és meddig/merre jut el egy sereg.
 
 A választó a `web/world/packs.json`-ből épül; a `web/region-demo.html` futásidőben
 vált köztük.

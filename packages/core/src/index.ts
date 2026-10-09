@@ -75,6 +75,13 @@ export {
 } from "./world/LocationType.js";
 export type { LocationTypeMeta, WorldLocation } from "./world/LocationType.js";
 
+export { RegionGraph } from "./world/RegionGraph.js";
+export type {
+  RegionInit,
+  ReachableRegion,
+  RegionGraphSnapshot,
+} from "./world/RegionGraph.js";
+
 export { SynergyRegistry, validateSynergy } from "./synergy/SynergyRegistry.js";
 export type { SynergyDef, SubjectAmount } from "./synergy/SynergyRegistry.js";
 
