@@ -1,0 +1,375 @@
+{
+ "heroes": [
+  {
+   "id": "newton",
+   "name": "Sir Isaac Newton",
+   "subject": "Fizika",
+   "region": "UK",
+   "birthLabel": "Woolsthorpe (Angol)"
+  },
+  {
+   "id": "pascal",
+   "name": "Blaise Pascal",
+   "subject": "Fizika",
+   "region": "FRK",
+   "birthLabel": "Clermont-Ferrand (Francia)"
+  },
+  {
+   "id": "watt",
+   "name": "James Watt",
+   "subject": "Fizika",
+   "region": "UK",
+   "birthLabel": "Greenock (Skót)"
+  },
+  {
+   "id": "volta",
+   "name": "Alessandro Volta",
+   "subject": "Fizika",
+   "region": "ITC",
+   "birthLabel": "Como (Olasz)"
+  },
+  {
+   "id": "ampere",
+   "name": "André-Marie Ampère",
+   "subject": "Fizika",
+   "region": "FRK",
+   "birthLabel": "Lyon (Francia)"
+  },
+  {
+   "id": "ohm",
+   "name": "Georg Simon Ohm",
+   "subject": "Fizika",
+   "region": "DE2",
+   "birthLabel": "Erlangen (Német)"
+  },
+  {
+   "id": "faraday",
+   "name": "Michael Faraday",
+   "subject": "Fizika",
+   "region": "UK",
+   "birthLabel": "London (Angol)"
+  },
+  {
+   "id": "joule",
+   "name": "James Prescott Joule",
+   "subject": "Fizika",
+   "region": "UK",
+   "birthLabel": "Salford (Angol)"
+  },
+  {
+   "id": "hertz",
+   "name": "Heinrich Hertz",
+   "subject": "Fizika",
+   "region": "DE6",
+   "birthLabel": "Hamburg (Német)"
+  },
+  {
+   "id": "kelvin",
+   "name": "Lord Kelvin (William Thomson)",
+   "subject": "Fizika",
+   "region": "UK",
+   "birthLabel": "Belfast (Ír/Brit)"
+  },
+  {
+   "id": "tesla",
+   "name": "Nikola Tesla",
+   "subject": "Fizika",
+   "region": "HR0",
+   "birthLabel": "Smiljan (Szerb)"
+  },
+  {
+   "id": "coulomb",
+   "name": "Charles-Augustin de Coulomb",
+   "subject": "Fizika",
+   "region": "FRI",
+   "birthLabel": "Angoulême (Francia)"
+  },
+  {
+   "id": "rontgen",
+   "name": "Wilhelm Röntgen",
+   "subject": "Fizika",
+   "region": "DEA",
+   "birthLabel": "Lennep (Német)"
+  },
+  {
+   "id": "becquerel",
+   "name": "Henri Becquerel",
+   "subject": "Fizika",
+   "region": "FR1",
+   "birthLabel": "Párizs (Francia)"
+  },
+  {
+   "id": "sievert",
+   "name": "Rolf Maximilian Sievert",
+   "subject": "Fizika",
+   "region": "SE1",
+   "birthLabel": "Stockholm (Svéd)"
+  },
+  {
+   "id": "gray",
+   "name": "Louis Harold Gray",
+   "subject": "Fizika",
+   "region": "UK",
+   "birthLabel": "London (Brit)"
+  },
+  {
+   "id": "siemens",
+   "name": "Werner von Siemens",
+   "subject": "Fizika",
+   "region": "DE9",
+   "birthLabel": "Lenthe (Német)"
+  },
+  {
+   "id": "weber",
+   "name": "Wilhelm Eduard Weber",
+   "subject": "Fizika",
+   "region": "DEE",
+   "birthLabel": "Wittenberg (Német)"
+  },
+  {
+   "id": "celsius",
+   "name": "Anders Celsius",
+   "subject": "Fizika",
+   "region": "SE1",
+   "birthLabel": "Uppsala (Svéd)"
+  },
+  {
+   "id": "fahrenheit",
+   "name": "Daniel Gabriel Fahrenheit",
+   "subject": "Fizika",
+   "region": "PL6",
+   "birthLabel": "Gdańsk (Német/Lengyel)"
+  },
+  {
+   "id": "reaumur",
+   "name": "René Antoine Ferchault de Réaumur",
+   "subject": "Fizika",
+   "region": "FRI",
+   "birthLabel": "La Rochelle (Francia)"
+  },
+  {
+   "id": "torricelli",
+   "name": "Evangelista Torricelli",
+   "subject": "Fizika",
+   "region": "ITH",
+   "birthLabel": "Faenza (Olasz)"
+  },
+  {
+   "id": "mach",
+   "name": "Ernst Mach",
+   "subject": "Fizika",
+   "region": "CZ0",
+   "birthLabel": "Chrlice (Osztrák/Cseh)"
+  },
+  {
+   "id": "stokes",
+   "name": "George Gabriel Stokes",
+   "subject": "Fizika",
+   "region": "IE0",
+   "birthLabel": "Skreen (Ír/Brit)"
+  },
+  {
+   "id": "poiseuille",
+   "name": "Jean Léonard Marie Poiseuille",
+   "subject": "Fizika",
+   "region": "FR1",
+   "birthLabel": "Párizs (Francia)"
+  },
+  {
+   "id": "avogadro",
+   "name": "Amedeo Avogadro",
+   "subject": "Fizika",
+   "region": "ITC",
+   "birthLabel": "Torino (Olasz)"
+  },
+  {
+   "id": "boltzmann",
+   "name": "Ludwig Boltzmann",
+   "subject": "Fizika",
+   "region": "AT1",
+   "birthLabel": "Bécs (Osztrák)"
+  },
+  {
+   "id": "planck",
+   "name": "Max Planck",
+   "subject": "Fizika",
+   "region": "DEF",
+   "birthLabel": "Kiel (Német)"
+  },
+  {
+   "id": "einstein",
+   "name": "Albert Einstein",
+   "subject": "Fizika",
+   "region": "DE1",
+   "birthLabel": "Ulm (Német)"
+  },
+  {
+   "id": "fermi",
+   "name": "Enrico Fermi",
+   "subject": "Fizika",
+   "region": "ITI",
+   "birthLabel": "Róma (Olasz)"
+  },
+  {
+   "id": "meitner",
+   "name": "Lise Meitner",
+   "subject": "Fizika",
+   "region": "AT1",
+   "birthLabel": "Bécs (Osztrák/Svéd)"
+  },
+  {
+   "id": "szilard",
+   "name": "Szilárd Leó",
+   "subject": "Fizika",
+   "region": "HU1",
+   "birthLabel": "Budapest (Magyar)"
+  },
+  {
+   "id": "gauss",
+   "name": "Carl Friedrich Gauss",
+   "subject": "Fizika",
+   "region": "DE9",
+   "birthLabel": "Braunschweig (Német)"
+  },
+  {
+   "id": "eotvos",
+   "name": "Eötvös Loránd",
+   "subject": "Fizika",
+   "region": "HU1",
+   "birthLabel": "Buda (Magyar)"
+  },
+  {
+   "id": "curie",
+   "name": "Marie Curie",
+   "subject": "Kémia",
+   "region": "PL9",
+   "birthLabel": "Varsó (Lengyel/Francia)"
+  },
+  {
+   "id": "nobel",
+   "name": "Alfred Nobel",
+   "subject": "Kémia",
+   "region": "SE1",
+   "birthLabel": "Stockholm (Svéd)"
+  },
+  {
+   "id": "copernicus",
+   "name": "Nicolaus Copernicus",
+   "subject": "Kémia",
+   "region": "PL6",
+   "birthLabel": "Toruń (Lengyel)"
+  },
+  {
+   "id": "bohr",
+   "name": "Niels Bohr",
+   "subject": "Kémia",
+   "region": "DK0",
+   "birthLabel": "Koppenhága (Dán)"
+  },
+  {
+   "id": "bolyai",
+   "name": "Bolyai János",
+   "subject": "Matematika",
+   "region": "HU1",
+   "birthLabel": "Kolozsvár (Magyar)"
+  },
+  {
+   "id": "neumann",
+   "name": "Neumann János",
+   "subject": "Matematika",
+   "region": "HU1",
+   "birthLabel": "Budapest (Magyar)"
+  },
+  {
+   "id": "wigner",
+   "name": "Wigner Jenő",
+   "subject": "Matematika",
+   "region": "HU1",
+   "birthLabel": "Budapest (Magyar)"
+  },
+  {
+   "id": "euler",
+   "name": "Leonhard Euler",
+   "subject": "Matematika",
+   "region": "CH0",
+   "birthLabel": "Bázel (Svájci)"
+  },
+  {
+   "id": "leibniz",
+   "name": "Gottfried Wilhelm Leibniz",
+   "subject": "Matematika",
+   "region": "DED",
+   "birthLabel": "Lipcse (Német)"
+  },
+  {
+   "id": "pythagoras",
+   "name": "Püthagorasz",
+   "subject": "Matematika",
+   "region": "EL4",
+   "birthLabel": "Szamosz (Görög)"
+  },
+  {
+   "id": "arkhimedesz",
+   "name": "Arkhimédesz",
+   "subject": "Matematika",
+   "region": "ITG",
+   "birthLabel": "Szürakuszai (Görög)"
+  },
+  {
+   "id": "poisson",
+   "name": "Siméon Denis Poisson",
+   "subject": "Matematika",
+   "region": "FRB",
+   "birthLabel": "Pithiviers (Francia)"
+  },
+  {
+   "id": "laplace",
+   "name": "Pierre-Simon Laplace",
+   "subject": "Matematika",
+   "region": "FRD",
+   "birthLabel": "Beaumont-en-Auge (Francia)"
+  },
+  {
+   "id": "fourier",
+   "name": "Jean-Baptiste Joseph Fourier",
+   "subject": "Matematika",
+   "region": "FRC",
+   "birthLabel": "Auxerre (Francia)"
+  },
+  {
+   "id": "cauchy",
+   "name": "Augustin-Louis Cauchy",
+   "subject": "Matematika",
+   "region": "FR1",
+   "birthLabel": "Párizs (Francia)"
+  },
+  {
+   "id": "riemann",
+   "name": "Bernhard Riemann",
+   "subject": "Matematika",
+   "region": "DE9",
+   "birthLabel": "Breselenz (Német)"
+  },
+  {
+   "id": "galois",
+   "name": "Évariste Galois",
+   "subject": "Matematika",
+   "region": "FR1",
+   "birthLabel": "Bourg-la-Reine (Francia)"
+  },
+  {
+   "id": "mandelbrot",
+   "name": "Benoît Mandelbrot",
+   "subject": "Matematika",
+   "region": "PL9",
+   "birthLabel": "Varsó (Lengyel/Francia)"
+  },
+  {
+   "id": "szentgyorgyi",
+   "name": "Szent-Györgyi Albert",
+   "subject": "Biológia",
+   "region": "HU1",
+   "birthLabel": "Budapest (Magyar)"
+  }
+ ]
+}
