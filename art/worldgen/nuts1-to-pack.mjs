@@ -8,21 +8,31 @@
 // instead, it is ODbL (attribution + share-alike on the database). The engine
 // stays MIT; this pack carries its own licence/attribution in map.json.meta.
 //
-// Input: a NUTS level-1 GeoJSON FeatureCollection in EPSG:4326 (lon/lat),
-// features with properties NUTS_ID + NAME_LATN (GISCO naming). Download it
-// locally (web egress is blocked in the cloud sandbox), e.g.:
-//   NUTS_RG_20M_2021_4326_LEVL_1.geojson  from Eurostat GISCO
+// Rule: EU members -> NUTS level 1 regions; non-EU European countries ->
+// one region per country. Pass the NUTS-1 GeoJSON and, optionally, a countries
+// GeoJSON (GISCO CNTR) to supply the non-EU single-country polygons.
+//
+// Inputs (EPSG:4326 lon/lat). Download locally (web egress is blocked in the
+// cloud sandbox), e.g. from Eurostat GISCO:
+//   NUTS_RG_20M_2021_4326_LEVL_1.geojson   (NUTS level 1)
+//   CNTR_RG_20M_2021_4326.geojson          (countries, for non-EU)
 //
 // Usage:
-//   node art/worldgen/nuts1-to-pack.mjs <nuts1.geojson> web/world/europe
+//   node art/worldgen/nuts1-to-pack.mjs <nuts1.geojson> web/world/europe [countries.geojson]
 //
 // No third-party deps — pure Node.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
 const SRC = process.argv[2];
 const OUT = process.argv[3] || "web/world/europe";
-if (!SRC) { console.error("usage: node nuts1-to-pack.mjs <nuts1.geojson> [outDir]"); process.exit(1); }
+const CNTR = process.argv[4]; // optional countries geojson for non-EU single regions
+if (!SRC) { console.error("usage: node nuts1-to-pack.mjs <nuts1.geojson> [outDir] [countries.geojson]"); process.exit(1); }
 mkdirSync(OUT, { recursive: true });
+
+// EU-27 country codes (their NUTS 1 is used; excluded from the countries file).
+const EU27 = new Set(["AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","EL","HU","IE","IT","LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE"]);
+// Non-EU European countries to include as one region each (ISO2 / GISCO CNTR_ID).
+const NON_EU = new Set(["NO","CH","IS","LI","UK","GB","RS","BA","ME","MK","AL","XK","MD","UA","BY","AD","MC","SM","VA","TR"]);
 
 const W = 1000, H = 760, MARGIN = 20;
 const fc = JSON.parse(readFileSync(SRC, "utf8"));
@@ -45,14 +55,29 @@ function ringsOf(geom) {
   })));
 }
 const feats = [];
+// EU: NUTS level 1 regions (3-char NUTS_ID, e.g. "DE1").
 for (const f of fc.features) {
   const id = f.properties.NUTS_ID || f.properties.id;
   const name = f.properties.NAME_LATN || f.properties.NUTS_NAME || f.properties.name || id;
   if (!id || !f.geometry) continue;
-  if ((id.length || 0) !== 3) continue; // NUTS level 1 == 3 chars (e.g. "DE1")
-  feats.push({ id, name, country: id.slice(0, 2), polys: ringsOf(f.geometry) });
+  if ((id.length || 0) !== 3) continue;
+  feats.push({ id, name, country: id.slice(0, 2), level: "nuts1", polys: ringsOf(f.geometry) });
 }
 if (!feats.length) { console.error("no NUTS-1 features (need 3-char NUTS_ID)"); process.exit(1); }
+
+// Non-EU: one region per country, from the countries GeoJSON if provided.
+let nonEuCount = 0;
+if (CNTR) {
+  const cc = JSON.parse(readFileSync(CNTR, "utf8"));
+  for (const f of cc.features) {
+    const id = f.properties.CNTR_ID || f.properties.ISO2 || f.properties.id;
+    const name = f.properties.NAME_ENGL || f.properties.CNTR_NAME || f.properties.name || id;
+    if (!id || !f.geometry) continue;
+    if (EU27.has(id) || !NON_EU.has(id)) continue; // skip EU (NUTS1 used) + non-European
+    feats.push({ id, name, country: id, level: "country", polys: ringsOf(f.geometry) });
+    nonEuCount++;
+  }
+}
 
 // Fit projected coords into the viewBox (preserve aspect).
 const sx = (W - 2 * MARGIN) / (maxX - minX);
@@ -117,7 +142,7 @@ const provinces = feats.map((f, i) => {
   for (const [x, y] of ring) { ax += tx(x); ay += ty(y); }
   const cx = +(ax / ring.length).toFixed(1), cy = +(ay / ring.length).toFixed(1);
   svgPaths += `<path id="prov_${i}" class="prov" data-faction="${f.country}" d="${pathD(f.polys)}"/>\n`;
-  return { id: i, nutsId: f.id, name: f.name, cx, cy, faction: f.country, country: f.country, capital: false, adj: adjOf(i) };
+  return { id: i, nutsId: f.id, name: f.name, level: f.level, cx, cy, faction: f.country, country: f.country, capital: false, adj: adjOf(i) };
 });
 
 const svg = `<?xml version="1.0" encoding="UTF-8"?>
@@ -137,9 +162,10 @@ const data = {
     id: "europe", name: "Európa — NUTS 1 nagyrégiók (valós)", kind: "europe",
     supportsHeroes: true, // real birthplaces -> scientist/explorer heroes
     license: "NUTS boundaries © EuroGeographics (GISCO), free to use with attribution; if built from OSM, ODbL. Engine is MIT.",
-    attribution: "© EuroGeographics / Eurostat GISCO (NUTS) · © OpenStreetMap contributors (ODbL).",
+    attribution: "Administrative boundaries: © EuroGeographics © OpenStreetMap contributors © Turkstat · Cartography: Eurostat — GISCO.",
+    rule: "EU: NUTS level 1; non-EU European countries: one region each.",
   },
   viewBox: [0, 0, W, H], factions, provinces,
 };
 writeFileSync(`${OUT}/map.json`, JSON.stringify(data, null, 1));
-console.log(`NUTS-1 regions=${provinces.length} countries=${countries.length} -> ${OUT}`);
+console.log(`regions=${provinces.length} (EU NUTS-1 + ${nonEuCount} non-EU countries) countries=${countries.length} -> ${OUT}`);

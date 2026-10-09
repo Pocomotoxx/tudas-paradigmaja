@@ -76,10 +76,15 @@ function paint(){
 }
 
 function showInfo(p){
-  const f = DATA.factions.find(x=>x.id===p.faction);
+  const f = DATA.factions.find(x=>x.id===p.faction) || {color:"#c3ccd4", name:p.faction};
+  const facLabel = f.subject ? `${f.name} <span class="k">(${f.subject})</span>` : f.name;
+  const ident = p.nutsId
+    ? `<div class="k">Azonosító:</div> ${p.nutsId}${p.level==="country"?' <span class="k">(ország)</span>':' <span class="k">(NUTS 1)</span>'}<br>`
+    : "";
   document.getElementById("info-body").innerHTML =
     `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+
-    `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${f.name} <span class="k">(${f.subject})</span><br>`+
+    ident+
+    `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${facLabel}<br>`+
     `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
     (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'');
 }
