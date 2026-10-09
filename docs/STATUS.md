@@ -28,7 +28,8 @@ Monorepo (npm workspaces, TypeScript project references, Vitest):
 | Terület | Modul(ok) | Mit ad |
 | --- | --- | --- |
 | RNG | `rng/SeededRng` | seedelt, reprodukálható véletlen, state-mentéssel |
-| Hex | `hex/Hex`, `hex/HexMap` | axiális hex, MP-költség, akadály, determinista útkeresés |
+| Hex | `hex/Hex`, `hex/HexMap` | axiális hex, MP-költség, akadály, determinista útkeresés (taktikai/csata-réteg) |
+| Régió-gráf | `world/RegionGraph` | **stratégiai réteg**: provincia-gráf, birtoklás, sereg-mozgás (budget-alapú elérhetőség + útkeresés), tudásközpont a régióban, save/load; a csaták a hex-rétegen |
 | Fázis | `phase/GamePhase` | STRATEGIC/ACADEMIC/TACTICAL, flow-védelem (teszt csak ACADEMIC) |
 | Gazdaság | `economy/TokenLedger`, `KKLedger`, `SupplyLedger` | teszt-token (G2-sapka), tárgyankénti KK, hard-mód ellátmány |
 | Oktatás | `education/RaschEstimator`, `QuestionBank`, `TestSession` | adaptív θ (1PL), adatvezérelt kérdésbank, teszt-ciklus (G3) |
