@@ -34,8 +34,8 @@
 // If art/tiles/<kind>.png exist next to a ./tiles/ folder, they overlay the
 // coloured hexes; otherwise coloured 2.5D hexes are drawn as a fallback.
 
-const SIZE = 46, SQUASH = 0.72;
-const layout = { size: SIZE, squash: SQUASH, originX: 380, originY: 150 };
+const SIZE = 50, SQUASH = 0.60;
+const layout = { size: SIZE, squash: SQUASH, originX: 380, originY: 140 };
 
 // Terrain palette (mirrors KIND_TERRAIN in the Blender script).
 const PALETTE = {
@@ -80,37 +80,46 @@ function shade(hex, f){
 }
 
 const ctx = document.getElementById("map").getContext("2d");
-const DEPTH = 10; // px of faux side wall for the 2.5D edge
+const DEPTH = 18; // px of extruded side wall for the 2.5D edge
 
+// corners: k=0 top, 1 upper-right, 2 lower-right, 3 bottom, 4 lower-left, 5 upper-left
 function drawHex(t){
   const c = hexToPixel(t.q,t.r);
   const top = corners(c);
   const color = PALETTE[t.kind] || PALETTE.plain;
-  // side wall (bottom three edges extruded down)
-  ctx.fillStyle = shade(color, 0.55);
+
+  // Side wall: extrude the lower outline (corners 1..5) straight down by DEPTH.
+  const lower = [1,2,3,4,5].map(i => top[i]);
+  ctx.fillStyle = shade(color, 0.5);
   ctx.beginPath();
-  ctx.moveTo(top[0].x, top[0].y);
-  for(let k=1;k<6;k++) ctx.lineTo(top[k].x, top[k].y+DEPTH);
+  ctx.moveTo(lower[0].x, lower[0].y);
+  for (const p of lower) ctx.lineTo(p.x, p.y);
+  for (let i = lower.length - 1; i >= 0; i--) ctx.lineTo(lower[i].x, lower[i].y + DEPTH);
   ctx.closePath();
-  // only the lower silhouette: redraw top over it
-  ctx.fillStyle = shade(color, 0.55);
-  ctx.beginPath();
-  for(let k=2;k<=4;k++){ // bottom corners
-    ctx.lineTo(top[k].x, top[k].y);
-    ctx.lineTo(top[k].x, top[k].y+DEPTH);
-  }
   ctx.fill();
-  // top face
+  // crisp bottom edge
+  ctx.strokeStyle = shade(color, 0.38);
+  ctx.beginPath();
+  ctx.moveTo(lower[0].x, lower[0].y + DEPTH);
+  for (let i = 1; i < lower.length; i++) ctx.lineTo(lower[i].x, lower[i].y + DEPTH);
+  ctx.stroke();
+
+  // Top face (lit).
   ctx.fillStyle = color;
-  ctx.strokeStyle = shade(color, 0.7);
+  ctx.strokeStyle = shade(color, 0.72);
   ctx.beginPath();
   ctx.moveTo(top[0].x, top[0].y);
-  for(let k=1;k<6;k++) ctx.lineTo(top[k].x, top[k].y);
-  ctx.closePath(); ctx.fill(); ctx.stroke();
-  // label
-  if(t.label){
-    ctx.fillStyle="#10131a"; ctx.font="12px system-ui"; ctx.textAlign="center";
-    ctx.fillText(t.label, c.x, c.y+4);
+  for (let k = 1; k < 6; k++) ctx.lineTo(top[k].x, top[k].y);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // Label.
+  if (t.label) {
+    ctx.fillStyle = "#10131a";
+    ctx.font = "12px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText(t.label, c.x, c.y + 4);
   }
 }
 
