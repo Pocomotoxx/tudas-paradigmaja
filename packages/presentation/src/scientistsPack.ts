@@ -32,6 +32,38 @@ interface Row {
 
 const F = Subject.FIZIKA, K = Subject.KEMIA, M = Subject.MATEMATIKA, B = Subject.BIOLOGIA;
 
+// --- Europe (NUTS 1) birthplace binding -----------------------------------
+// Real birthplace -> NUTS 1 region id (as in web/world/europe/map.json). Used
+// only by the Europe map pack; the fantasy pack keeps discipline-city birth.
+// Scientists born outside the European window (e.g. New Zealand, Tobolsk,
+// Alexandria) have no region and are simply not recruitable on the Europe map.
+const REGION: Record<string, string> = {
+  // FIZIKA
+  newton: "UK", pascal: "FRK", watt: "UK", volta: "ITC", ampere: "FRK",
+  ohm: "DE2", faraday: "UK", joule: "UK", hertz: "DE6", kelvin: "UK",
+  tesla: "HR0", coulomb: "FRI", rontgen: "DEA", becquerel: "FR1", sievert: "SE1",
+  gray: "UK", siemens: "DE9", weber: "DEE", celsius: "SE1", fahrenheit: "PL6",
+  reaumur: "FRI", torricelli: "ITH", mach: "CZ0", stokes: "IE0", poiseuille: "FR1",
+  avogadro: "ITC", boltzmann: "AT1", planck: "DEF", einstein: "DE1", fermi: "ITI",
+  meitner: "AT1", szilard: "HU1", gauss: "DE9", eotvos: "HU1",
+  // KEMIA
+  curie: "PL9", nobel: "SE1", copernicus: "PL6", bohr: "DK0",
+  // (mengyelejev, oganessian, rutherford: born outside Europe window)
+  // MATEMATIKA
+  bolyai: "HU1", neumann: "HU1", wigner: "HU1", euler: "CH0", leibniz: "DED",
+  pythagoras: "EL4", arkhimedesz: "ITG", poisson: "FRB", laplace: "FRD",
+  fourier: "FRC", cauchy: "FR1", riemann: "DE9", galois: "FR1", mandelbrot: "PL9",
+  // (euklidesz, eratoszthenesz: Egypt/Libya; hilbert: Königsberg, now Russia)
+  // BIOLOGIA
+  szentgyorgyi: "HU1",
+};
+
+// Hungarian-heritage scientists stay recruitable in Hungary (HU1 — Budapest /
+// Közép-Magyarország) even when their birthplace now lies in another country
+// (e.g. Bolyai: Kolozsvár/Cluj, today Romania). This overrides REGION.
+const HUNGARIAN = new Set(["szilard", "eotvos", "bolyai", "neumann", "wigner", "szentgyorgyi"]);
+const HU_REGION = "HU1";
+
 const ROSTER: readonly Row[] = [
   { id: "newton", name: "Sir Isaac Newton", subject: F, birthLabel: "Woolsthorpe (Angol)" },
   { id: "pascal", name: "Blaise Pascal", subject: F, birthLabel: "Clermont-Ferrand (Francia)" },
@@ -131,5 +163,34 @@ export function scientistsPack(): ScientistDef[] {
 export function scientistBirthLabels(): Record<string, string> {
   const out: Record<string, string> = {};
   for (const r of ROSTER) out[r.id] = r.birthLabel;
+  return out;
+}
+
+/**
+ * Europe (NUTS 1) recruitment regions, keyed by scientist id. Hungarian-
+ * heritage scientists are pinned to Hungary (HU1) regardless of their real
+ * birthplace; others map to the NUTS 1 region of their birthplace. Scientists
+ * born outside the European window are omitted.
+ */
+export function scientistHeroRegions(): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const r of ROSTER) {
+    const region = HUNGARIAN.has(r.id) ? HU_REGION : REGION[r.id];
+    if (region) out[r.id] = region;
+  }
+  return out;
+}
+
+/** Full Europe hero roster for the presentation layer (content view). */
+export function scientistHeroRoster(): Array<{
+  id: string; name: string; subject: Subject; region: string; birthLabel: string;
+}> {
+  const regions = scientistHeroRegions();
+  const out: Array<{ id: string; name: string; subject: Subject; region: string; birthLabel: string }> = [];
+  for (const r of ROSTER) {
+    const region = regions[r.id];
+    if (region === undefined) continue;
+    out.push({ id: r.id, name: r.name, subject: r.subject, region, birthLabel: r.birthLabel });
+  }
   return out;
 }
