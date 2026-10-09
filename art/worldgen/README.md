@@ -1,9 +1,18 @@
-# Worldgen — saját kitalált kontinens (régió-térkép)
+# Worldgen — régió-térkép csomagok
 
-`gen-world.mjs` egy **determinista, seedelt** Voronoi-kontinenst generál:
-provinciák + 9 frakció + fővárosok + provincia-szomszédság gráf. A kimenet
-teljesen **saját, generált tartalom (MIT)** — nincs külső térkép-asset és
-nincs idegen licenc.
+Két generátor, közös csomag-sémával (lásd `docs/design/maps-and-packs.md`):
+
+- **`gen-world.mjs`** — determinista, seedelt Voronoi *fantáziavilág* (MIT):
+  provinciák + 9 frakció + fővárosok + szomszédság-gráf. Nincs valós földrajz,
+  ezért `supportsHeroes:false`.
+- **`nuts1-to-pack.mjs`** — valós *Európa (NUTS 1)* csomag egy letöltött
+  GeoJSON-ból (dep nélküli, tiszta Node). Valós földrajz → `supportsHeroes:true`.
+  A geometria **nem MIT**: © EuroGeographics (GISCO) / OSM (ODbL) — a csomag a
+  `map.json.meta`-ban hordozza a licencet/attribúciót.
+  Futtatás (lokálisan, mert a felhő webelérése korlátozott):
+  `node art/worldgen/nuts1-to-pack.mjs <nuts1.geojson> web/world/europe`
+
+Az alábbi a `gen-world.mjs` (fantázia) részletei.
 
 ## Kimenet
 - `web/world/map.svg` — geometria (provincia-path-ok, semleges kitöltés,
@@ -15,7 +24,7 @@ nincs idegen licenc.
 ## Újragenerálás (lokálisan)
 ```bash
 npm i d3-delaunay          # csak a generáláshoz kell, nem futásidejű függőség
-node art/worldgen/gen-world.mjs web/world
+node art/worldgen/gen-world.mjs web/world/fantasy
 ```
 Ugyanaz a `SEED` ugyanazt a térképet adja. A sűrűség a `STEP` konstanssal
 állítható (nagyobb = kevesebb, nagyobb provincia).

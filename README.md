@@ -37,8 +37,11 @@ A teljes vízió magja implementálva, determinista és mentés/visszatöltésse
   (Ellátmány logisztika)
 - **Vizuális:** 2.5D Blender csempe-pipeline (`art/blender/`) + web-canvas
   hex-demó (`web/map-demo.html`); **régió-alapú (Total War-stílusú) stratégiai
-  térkép** saját kitalált kontinensen (`web/region-demo.html`, `web/world/`) —
-  a csaták továbbra is a hex-rétegen zajlanak
+  térkép, választható világgal** (`web/region-demo.html`): *Fantáziavilág* (saját,
+  MIT) vagy *Európa — NUTS 1* (valós geometria). A csaták a hex-rétegen maradnak.
+- **Hősök ↔ Európa:** a tudós/felfedező hősök a valós Európa-csomagon aktívak
+  (valós szülőhelyek); a fantáziavilágban kikapcsolva. Részletek:
+  [docs/design/maps-and-packs.md](docs/design/maps-and-packs.md)
 
 ## Fejlesztés
 
