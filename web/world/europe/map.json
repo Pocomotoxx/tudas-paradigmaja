@@ -16,194 +16,219 @@
  ],
  "factions": [
   {
+   "id": "AD",
+   "name": "AD",
+   "color": "#cc5c5c"
+  },
+  {
    "id": "AL",
    "name": "AL",
-   "color": "#cc5c5c"
+   "color": "#cc6c5c"
   },
   {
    "id": "AT",
    "name": "AT",
-   "color": "#cc6e5c"
+   "color": "#cc7b5c"
   },
   {
    "id": "BA",
    "name": "BA",
-   "color": "#cc7f5c"
+   "color": "#cc8b5c"
   },
   {
    "id": "BE",
    "name": "BE",
-   "color": "#cc915c"
+   "color": "#cc9a5c"
   },
   {
    "id": "BG",
    "name": "BG",
-   "color": "#cca35c"
+   "color": "#ccaa5c"
   },
   {
    "id": "CH",
    "name": "CH",
-   "color": "#ccb45c"
+   "color": "#ccb95c"
   },
   {
    "id": "CY",
    "name": "CY",
-   "color": "#ccc65c"
+   "color": "#ccc95c"
   },
   {
    "id": "CZ",
    "name": "CZ",
-   "color": "#c0cc5c"
+   "color": "#bfcc5c"
   },
   {
    "id": "DE",
    "name": "DE",
-   "color": "#aecc5c"
+   "color": "#afcc5c"
   },
   {
    "id": "DK",
    "name": "DK",
-   "color": "#9dcc5c"
+   "color": "#a0cc5c"
   },
   {
    "id": "EE",
    "name": "EE",
-   "color": "#8bcc5c"
+   "color": "#90cc5c"
   },
   {
    "id": "EL",
    "name": "EL",
-   "color": "#7acc5c"
+   "color": "#80cc5c"
   },
   {
    "id": "ES",
    "name": "ES",
-   "color": "#68cc5c"
+   "color": "#71cc5c"
   },
   {
    "id": "FI",
    "name": "FI",
-   "color": "#5ccc62"
+   "color": "#61cc5c"
   },
   {
    "id": "FR",
    "name": "FR",
-   "color": "#5ccc74"
+   "color": "#5ccc67"
   },
   {
    "id": "HR",
    "name": "HR",
-   "color": "#5ccc85"
+   "color": "#5ccc76"
   },
   {
    "id": "HU",
    "name": "HU",
-   "color": "#5ccc97"
+   "color": "#5ccc86"
   },
   {
    "id": "IE",
    "name": "IE",
-   "color": "#5ccca8"
+   "color": "#5ccc95"
   },
   {
    "id": "IS",
    "name": "IS",
-   "color": "#5cccba"
+   "color": "#5ccca5"
   },
   {
    "id": "IT",
    "name": "IT",
-   "color": "#5ccccc"
+   "color": "#5cccb4"
   },
   {
    "id": "LI",
    "name": "LI",
-   "color": "#5cbacc"
+   "color": "#5cccc4"
   },
   {
    "id": "LT",
    "name": "LT",
-   "color": "#5ca8cc"
+   "color": "#5cc4cc"
   },
   {
    "id": "LU",
    "name": "LU",
-   "color": "#5c97cc"
+   "color": "#5cb4cc"
   },
   {
    "id": "LV",
    "name": "LV",
-   "color": "#5c85cc"
+   "color": "#5ca5cc"
+  },
+  {
+   "id": "MC",
+   "name": "MC",
+   "color": "#5c95cc"
   },
   {
    "id": "ME",
    "name": "ME",
-   "color": "#5c74cc"
+   "color": "#5c86cc"
   },
   {
    "id": "MK",
    "name": "MK",
-   "color": "#5c62cc"
+   "color": "#5c76cc"
   },
   {
    "id": "MT",
    "name": "MT",
-   "color": "#685ccc"
+   "color": "#5c67cc"
   },
   {
    "id": "NL",
    "name": "NL",
-   "color": "#7a5ccc"
+   "color": "#615ccc"
   },
   {
    "id": "NO",
    "name": "NO",
-   "color": "#8b5ccc"
+   "color": "#715ccc"
   },
   {
    "id": "PL",
    "name": "PL",
-   "color": "#9d5ccc"
+   "color": "#805ccc"
   },
   {
    "id": "PT",
    "name": "PT",
-   "color": "#ae5ccc"
+   "color": "#905ccc"
   },
   {
    "id": "RO",
    "name": "RO",
-   "color": "#c05ccc"
+   "color": "#a05ccc"
   },
   {
    "id": "RS",
    "name": "RS",
-   "color": "#cc5cc6"
+   "color": "#af5ccc"
   },
   {
    "id": "SE",
    "name": "SE",
-   "color": "#cc5cb4"
+   "color": "#bf5ccc"
   },
   {
    "id": "SI",
    "name": "SI",
-   "color": "#cc5ca3"
+   "color": "#cc5cc9"
   },
   {
    "id": "SK",
    "name": "SK",
-   "color": "#cc5c91"
+   "color": "#cc5cb9"
+  },
+  {
+   "id": "SM",
+   "name": "SM",
+   "color": "#cc5caa"
   },
   {
    "id": "TR",
    "name": "TR",
-   "color": "#cc5c7f"
+   "color": "#cc5c9a"
+  },
+  {
+   "id": "UK",
+   "name": "UK",
+   "color": "#cc5c8b"
+  },
+  {
+   "id": "VA",
+   "name": "VA",
+   "color": "#cc5c7b"
   },
   {
    "id": "XK",
    "name": "XK",
-   "color": "#cc5c6e"
+   "color": "#cc5c6c"
   }
  ],
  "provinces": [
@@ -881,7 +906,8 @@
     36,
     52,
     38,
-    40
+    40,
+    111
    ]
   },
   {
@@ -1104,6 +1130,7 @@
     36,
     51,
     39,
+    111,
     53,
     54
    ]
@@ -1141,7 +1168,8 @@
    "adj": [
     52,
     53,
-    62
+    62,
+    112
    ]
   },
   {
@@ -1240,7 +1268,9 @@
    "faction": "IE",
    "country": "IE",
    "capital": false,
-   "adj": []
+   "adj": [
+    113
+   ]
   },
   {
    "id": 61,
@@ -1314,7 +1344,8 @@
     110,
     103,
     102,
-    98
+    98,
+    114
    ]
   },
   {
@@ -1330,7 +1361,9 @@
    "adj": [
     62,
     65,
-    63
+    63,
+    114,
+    115
    ]
   },
   {
@@ -2096,6 +2129,78 @@
     62,
     65,
     67
+   ]
+  },
+  {
+   "id": 111,
+   "nutsId": "AD",
+   "name": "Andorra",
+   "level": "country",
+   "cx": 401.6,
+   "cy": 577.8,
+   "faction": "AD",
+   "country": "AD",
+   "capital": false,
+   "adj": [
+    39,
+    52
+   ]
+  },
+  {
+   "id": 112,
+   "nutsId": "MC",
+   "name": "Monaco",
+   "level": "country",
+   "cx": 469.9,
+   "cy": 555.6,
+   "faction": "MC",
+   "country": "MC",
+   "capital": false,
+   "adj": [
+    54
+   ]
+  },
+  {
+   "id": 113,
+   "nutsId": "UK",
+   "name": "United Kingdom",
+   "level": "country",
+   "cx": 347.9,
+   "cy": 360.4,
+   "faction": "UK",
+   "country": "UK",
+   "capital": false,
+   "adj": [
+    60
+   ]
+  },
+  {
+   "id": 114,
+   "nutsId": "SM",
+   "name": "San Marino",
+   "level": "country",
+   "cx": 528.8,
+   "cy": 551.9,
+   "faction": "SM",
+   "country": "SM",
+   "capital": false,
+   "adj": [
+    65,
+    66
+   ]
+  },
+  {
+   "id": 115,
+   "nutsId": "VA",
+   "name": "Vatican City",
+   "level": "country",
+   "cx": 528.8,
+   "cy": 590.1,
+   "faction": "VA",
+   "country": "VA",
+   "capital": false,
+   "adj": [
+    66
    ]
   }
  ]
