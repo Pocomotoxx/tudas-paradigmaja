@@ -27,6 +27,10 @@ export {
 export type { QuestionItem } from "./education/QuestionBank.js";
 export { TestSession, DEFAULT_TIER_REWARD } from "./education/TestSession.js";
 export type { TestResult } from "./education/TestSession.js";
+export { buildChoices } from "./education/MultipleChoice.js";
+export type { Choice, ChoiceSet } from "./education/MultipleChoice.js";
+export { Difficulty, DIFFICULTIES, difficultyParams } from "./game/Difficulty.js";
+export type { DifficultyParams } from "./game/Difficulty.js";
 
 export { BonusSystem, BonusOp, STATS, validateBonus } from "./units/BonusSystem.js";
 export type { Bonus, Stat, StatBlock } from "./units/BonusSystem.js";

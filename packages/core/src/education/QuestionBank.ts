@@ -27,6 +27,12 @@ export interface QuestionItem {
   /** Rasch difficulty parameter. */
   readonly b: number;
   readonly tier: DifficultyTier;
+  /** Optional multiple-choice content (felelet választós). */
+  readonly prompt?: string;
+  /** The correct answer text. */
+  readonly correct?: string;
+  /** Wrong-answer options to draw distractors from. */
+  readonly distractors?: readonly string[];
 }
 
 /** Validate a single raw record, returning a typed QuestionItem or throwing. */
@@ -50,12 +56,28 @@ export function validateQuestion(raw: unknown): QuestionItem {
   if (!TIERS.includes(r.tier as DifficultyTier)) {
     throw new TypeError(`Question.tier invalid: ${String(r.tier)} (id=${r.id})`);
   }
+  // Optional multiple-choice content: validated only when any MC field is present.
+  const hasMc = r.prompt !== undefined || r.correct !== undefined || r.distractors !== undefined;
+  if (hasMc) {
+    if (typeof r.correct !== "string" || r.correct.length === 0) {
+      throw new TypeError(`Question.correct must be a non-empty string for MC (id=${r.id})`);
+    }
+    if (!Array.isArray(r.distractors) || r.distractors.some((d) => typeof d !== "string" || d.length === 0)) {
+      throw new TypeError(`Question.distractors must be an array of non-empty strings (id=${r.id})`);
+    }
+    if (r.prompt !== undefined && typeof r.prompt !== "string") {
+      throw new TypeError(`Question.prompt must be a string (id=${r.id})`);
+    }
+  }
   return {
     id: r.id,
     subject: r.subject as Subject,
     topic: r.topic,
     b: r.b,
     tier: r.tier as DifficultyTier,
+    ...(typeof r.prompt === "string" ? { prompt: r.prompt } : {}),
+    ...(typeof r.correct === "string" ? { correct: r.correct } : {}),
+    ...(Array.isArray(r.distractors) ? { distractors: r.distractors as string[] } : {}),
   };
 }
 
