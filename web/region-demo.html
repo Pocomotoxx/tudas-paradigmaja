@@ -59,6 +59,7 @@
 <script>
 const PALETTE = {}; // faction id -> color (from map.json)
 let DATA = null, byId = {};
+let HEROES = {};    // nutsId -> [ {id,name,subject,birthLabel}, ... ]  (Europe only)
 
 function lighten(hex, f){
   const n=parseInt(hex.slice(1),16);
@@ -81,12 +82,18 @@ function showInfo(p){
   const ident = p.nutsId
     ? `<div class="k">Azonosító:</div> ${p.nutsId}${p.level==="country"?' <span class="k">(ország)</span>':' <span class="k">(NUTS 1)</span>'}<br>`
     : "";
+  const heroes = (p.nutsId && HEROES[p.nutsId]) || [];
+  const heroHtml = heroes.length
+    ? `<br><br><div class="k">Toborozható hősök (${heroes.length}):</div>` +
+      heroes.map(h=>`<div>&#9733; <b>${h.name}</b> <span class="k">— ${h.subject} · ${h.birthLabel}</span></div>`).join("")
+    : (DATA.meta && DATA.meta.supportsHeroes ? '<br><br><span class="k">Nincs itt toborozható hős.</span>' : '');
   document.getElementById("info-body").innerHTML =
     `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+
     ident+
     `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${facLabel}<br>`+
     `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
-    (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'');
+    (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'')+
+    heroHtml;
 }
 
 let selEl=null;
@@ -135,25 +142,56 @@ function addCapitals(svg){
   svg.appendChild(g);
 }
 
+// Hero recruitment markers: a small gold dot on each region with heroes, sized
+// by how many can be recruited there. Loaded from world/<dir>/heroes.json.
+function addHeroMarkers(svg){
+  const ns="http://www.w3.org/2000/svg";
+  const g=document.createElementNS(ns,"g");
+  for(const p of DATA.provinces){
+    const list = p.nutsId && HEROES[p.nutsId];
+    if(!list || !list.length) continue;
+    const dot=document.createElementNS(ns,"circle");
+    dot.setAttribute("cx",p.cx); dot.setAttribute("cy",p.cy);
+    dot.setAttribute("r", Math.min(6, 2.4 + list.length*0.7).toFixed(1));
+    dot.setAttribute("fill","#ffd65a"); dot.setAttribute("stroke","#5a4a10"); dot.setAttribute("stroke-width","0.5");
+    dot.style.pointerEvents="none";
+    g.appendChild(dot);
+  }
+  svg.appendChild(g);
+}
+
 function loadPack(dir, pack){
   const box=document.getElementById("mapbox"); box.textContent="betöltés…";
   Promise.all([
     fetch("world/"+dir+"/map.svg").then(r=>{ if(!r.ok) throw 0; return r.text(); }),
     fetch("world/"+dir+"/map.json").then(r=>{ if(!r.ok) throw 0; return r.json(); }),
   ]).then(([svgText, data])=>{
-    DATA=data; for(const k in PALETTE) delete PALETTE[k]; byId={};
+    DATA=data; for(const k in PALETTE) delete PALETTE[k]; byId={}; HEROES={};
     data.factions.forEach(f=>PALETTE[f.id]=f.color);
     data.provinces.forEach(p=>byId[p.id]=p);
     const doc=new DOMParser().parseFromString(svgText,"image/svg+xml");
     const svg=doc.documentElement;
     box.innerHTML=""; box.appendChild(svg);
     paint(); wire(); buildLegend(); addCapitals(svg);
-    const heroes = (data.meta && data.meta.supportsHeroes);
+    const supports = (data.meta && data.meta.supportsHeroes);
     document.getElementById("hero-flag").textContent =
-      heroes ? "· hősök/felfedezők: IGEN (valós szülőhelyek)" : "· hősök/felfedezők: nincs (fantáziavilág)";
+      supports ? "· hősök/felfedezők: IGEN (valós szülőhelyek)" : "· hősök/felfedezők: nincs (fantáziavilág)";
     document.getElementById("info-body").innerHTML =
       '<span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span>' +
       (data.meta && data.meta.attribution ? '<br><br><span class="k">Forrás: '+data.meta.attribution+'</span>' : '');
+    // Heroes: load and group by region, then drop gold markers on the map.
+    if(supports){
+      fetch("world/"+dir+"/heroes.json").then(r=>r.ok?r.json():null).then(h=>{
+        if(!h||!h.heroes) return;
+        for(const hero of h.heroes){ (HEROES[hero.region] ||= []).push(hero); }
+        addHeroMarkers(svg);
+        const total=h.heroes.length, regs=Object.keys(HEROES).length;
+        const hu=(HEROES["HU1"]||[]).length;
+        document.getElementById("info-body").innerHTML +=
+          `<br><br><span class="k">${total} tudós-hős ${regs} régióban (&#9733; = toborzóhely). `+
+          `Ebből ${hu} magyar hős Magyarországon (HU1), a valós szülőhelytől függetlenül.</span>`;
+      }).catch(()=>{});
+    }
   }).catch(()=>{
     box.innerHTML = '<div style="padding:40px;color:#9aa4b2">Ez a térkép-csomag ('+
       (pack?pack.name:dir)+') még nincs legenerálva.<br><br>'+
