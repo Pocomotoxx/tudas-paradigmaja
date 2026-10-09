@@ -1,0 +1,7 @@
+{
+  "packs": [
+    { "id": "fantasy", "name": "Fantáziavilág (kitalált kontinens)", "kind": "fantasy", "dir": "fantasy", "supportsHeroes": false },
+    { "id": "europe",  "name": "Európa — NUTS 1 nagyrégiók (valós)",   "kind": "europe",  "dir": "europe",  "supportsHeroes": true }
+  ],
+  "default": "fantasy"
+}

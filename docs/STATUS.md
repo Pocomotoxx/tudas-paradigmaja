@@ -14,9 +14,12 @@ Monorepo (npm workspaces, TypeScript project references, Vitest):
 - `art/blender` — 2.5D csempe-render pipeline (`bpy` szkriptek, lokálisan futnak).
 - `web/map-demo.html` — önálló, build nélküli 2.5D hex-demó.
 - `web/region-demo.html` + `web/world/` — régió-alapú (Total War-stílusú)
-  stratégiai térkép **saját kitalált kontinensen** (seedelt Voronoi-provinciák,
-  9 frakció, szomszédság-gráf); a csaták a hex-rétegen maradnak.
-- `art/worldgen/` — a régió-térkép determinista generátora (`gen-world.mjs`).
+  stratégiai térkép **választható világgal**: *Fantáziavilág* (saját, MIT,
+  seedelt Voronoi) vagy *Európa — NUTS 1* (valós, © EuroGeographics/OSM). Közös
+  csomag-séma (`packs.json` + `<id>/map.svg` + `map.json` szomszédság-gráffal);
+  a csaták a hex-rétegen maradnak. A hősök az Európa-csomagon aktívak.
+- `art/worldgen/` — térkép-generátorok: `gen-world.mjs` (fantázia) és
+  `nuts1-to-pack.mjs` (valós NUTS 1 → csomag). Lásd `docs/design/maps-and-packs.md`.
 - `docs/design` — tervdokumentumok (GDD, architektúra, gazdaság, frakciók, hősök,
   2.5D vizuális irány).
 
