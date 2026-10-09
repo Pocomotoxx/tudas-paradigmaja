@@ -12,7 +12,11 @@ Monorepo (npm workspaces, TypeScript project references, Vitest):
 - `packages/presentation` — cserélhető prezentáció a core publikus API-ja felett
   (jelenleg szöveges/ASCII renderer + web-canvas hex-vetítés).
 - `art/blender` — 2.5D csempe-render pipeline (`bpy` szkriptek, lokálisan futnak).
-- `web/map-demo.html` — önálló, build nélküli 2.5D térkép-demó.
+- `web/map-demo.html` — önálló, build nélküli 2.5D hex-demó.
+- `web/region-demo.html` + `web/world/` — régió-alapú (Total War-stílusú)
+  stratégiai térkép **saját kitalált kontinensen** (seedelt Voronoi-provinciák,
+  9 frakció, szomszédság-gráf); a csaták a hex-rétegen maradnak.
+- `art/worldgen/` — a régió-térkép determinista generátora (`gen-world.mjs`).
 - `docs/design` — tervdokumentumok (GDD, architektúra, gazdaság, frakciók, hősök,
   2.5D vizuális irány).
 
