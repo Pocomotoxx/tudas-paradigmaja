@@ -1,0 +1,2102 @@
+{
+ "meta": {
+  "id": "europe",
+  "name": "Európa — NUTS 1 nagyrégiók (valós)",
+  "kind": "europe",
+  "supportsHeroes": true,
+  "license": "NUTS boundaries © EuroGeographics (GISCO), free to use with attribution; if built from OSM, ODbL. Engine is MIT.",
+  "attribution": "Administrative boundaries: © EuroGeographics © OpenStreetMap contributors © Turkstat · Cartography: Eurostat — GISCO.",
+  "rule": "EU: NUTS level 1; non-EU European countries: one region each."
+ },
+ "viewBox": [
+  0,
+  0,
+  1000,
+  760
+ ],
+ "factions": [
+  {
+   "id": "AL",
+   "name": "AL",
+   "color": "#cc5c5c"
+  },
+  {
+   "id": "AT",
+   "name": "AT",
+   "color": "#cc6e5c"
+  },
+  {
+   "id": "BA",
+   "name": "BA",
+   "color": "#cc7f5c"
+  },
+  {
+   "id": "BE",
+   "name": "BE",
+   "color": "#cc915c"
+  },
+  {
+   "id": "BG",
+   "name": "BG",
+   "color": "#cca35c"
+  },
+  {
+   "id": "CH",
+   "name": "CH",
+   "color": "#ccb45c"
+  },
+  {
+   "id": "CY",
+   "name": "CY",
+   "color": "#ccc65c"
+  },
+  {
+   "id": "CZ",
+   "name": "CZ",
+   "color": "#c0cc5c"
+  },
+  {
+   "id": "DE",
+   "name": "DE",
+   "color": "#aecc5c"
+  },
+  {
+   "id": "DK",
+   "name": "DK",
+   "color": "#9dcc5c"
+  },
+  {
+   "id": "EE",
+   "name": "EE",
+   "color": "#8bcc5c"
+  },
+  {
+   "id": "EL",
+   "name": "EL",
+   "color": "#7acc5c"
+  },
+  {
+   "id": "ES",
+   "name": "ES",
+   "color": "#68cc5c"
+  },
+  {
+   "id": "FI",
+   "name": "FI",
+   "color": "#5ccc62"
+  },
+  {
+   "id": "FR",
+   "name": "FR",
+   "color": "#5ccc74"
+  },
+  {
+   "id": "HR",
+   "name": "HR",
+   "color": "#5ccc85"
+  },
+  {
+   "id": "HU",
+   "name": "HU",
+   "color": "#5ccc97"
+  },
+  {
+   "id": "IE",
+   "name": "IE",
+   "color": "#5ccca8"
+  },
+  {
+   "id": "IS",
+   "name": "IS",
+   "color": "#5cccba"
+  },
+  {
+   "id": "IT",
+   "name": "IT",
+   "color": "#5ccccc"
+  },
+  {
+   "id": "LI",
+   "name": "LI",
+   "color": "#5cbacc"
+  },
+  {
+   "id": "LT",
+   "name": "LT",
+   "color": "#5ca8cc"
+  },
+  {
+   "id": "LU",
+   "name": "LU",
+   "color": "#5c97cc"
+  },
+  {
+   "id": "LV",
+   "name": "LV",
+   "color": "#5c85cc"
+  },
+  {
+   "id": "ME",
+   "name": "ME",
+   "color": "#5c74cc"
+  },
+  {
+   "id": "MK",
+   "name": "MK",
+   "color": "#5c62cc"
+  },
+  {
+   "id": "MT",
+   "name": "MT",
+   "color": "#685ccc"
+  },
+  {
+   "id": "NL",
+   "name": "NL",
+   "color": "#7a5ccc"
+  },
+  {
+   "id": "NO",
+   "name": "NO",
+   "color": "#8b5ccc"
+  },
+  {
+   "id": "PL",
+   "name": "PL",
+   "color": "#9d5ccc"
+  },
+  {
+   "id": "PT",
+   "name": "PT",
+   "color": "#ae5ccc"
+  },
+  {
+   "id": "RO",
+   "name": "RO",
+   "color": "#c05ccc"
+  },
+  {
+   "id": "RS",
+   "name": "RS",
+   "color": "#cc5cc6"
+  },
+  {
+   "id": "SE",
+   "name": "SE",
+   "color": "#cc5cb4"
+  },
+  {
+   "id": "SI",
+   "name": "SI",
+   "color": "#cc5ca3"
+  },
+  {
+   "id": "SK",
+   "name": "SK",
+   "color": "#cc5c91"
+  },
+  {
+   "id": "TR",
+   "name": "TR",
+   "color": "#cc5c7f"
+  },
+  {
+   "id": "XK",
+   "name": "XK",
+   "color": "#cc5c6e"
+  }
+ ],
+ "provinces": [
+  {
+   "id": 0,
+   "nutsId": "CY0",
+   "name": "Kýpros",
+   "level": "nuts1",
+   "cx": 775.9,
+   "cy": 716.5,
+   "faction": "CY",
+   "country": "CY",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 1,
+   "nutsId": "CZ0",
+   "name": "Česko",
+   "level": "nuts1",
+   "cx": 562.2,
+   "cy": 438.7,
+   "faction": "CZ",
+   "country": "CZ",
+   "capital": false,
+   "adj": [
+    20,
+    81,
+    79,
+    99,
+    96,
+    103,
+    3
+   ]
+  },
+  {
+   "id": 2,
+   "nutsId": "DE1",
+   "name": "Baden-Württemberg",
+   "level": "nuts1",
+   "cx": 489,
+   "cy": 464,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    3,
+    110,
+    48,
+    18,
+    8
+   ]
+  },
+  {
+   "id": 3,
+   "nutsId": "DE2",
+   "name": "Bayern",
+   "level": "nuts1",
+   "cx": 512.3,
+   "cy": 456.3,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    1,
+    103,
+    20,
+    2,
+    8,
+    23
+   ]
+  },
+  {
+   "id": 4,
+   "nutsId": "DE3",
+   "name": "Berlin",
+   "level": "nuts1",
+   "cx": 540,
+   "cy": 390,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    5
+   ]
+  },
+  {
+   "id": 5,
+   "nutsId": "DE4",
+   "name": "Brandenburg",
+   "level": "nuts1",
+   "cx": 539.2,
+   "cy": 389.8,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    4,
+    9,
+    80,
+    20,
+    21,
+    16
+   ]
+  },
+  {
+   "id": 6,
+   "nutsId": "DE5",
+   "name": "Bremen",
+   "level": "nuts1",
+   "cx": 485.9,
+   "cy": 378,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    16
+   ]
+  },
+  {
+   "id": 7,
+   "nutsId": "DE6",
+   "name": "Hamburg",
+   "level": "nuts1",
+   "cx": 500.4,
+   "cy": 369.7,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    16,
+    22
+   ]
+  },
+  {
+   "id": 8,
+   "nutsId": "DE7",
+   "name": "Hessen",
+   "level": "nuts1",
+   "cx": 488.8,
+   "cy": 426.7,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    2,
+    18,
+    3,
+    23,
+    16,
+    17
+   ]
+  },
+  {
+   "id": 9,
+   "nutsId": "DE8",
+   "name": "Mecklenburg-Vorpommern",
+   "level": "nuts1",
+   "cx": 530.5,
+   "cy": 364.4,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    5,
+    80,
+    16,
+    22
+   ]
+  },
+  {
+   "id": 10,
+   "nutsId": "TR3",
+   "name": "Ege",
+   "level": "nuts1",
+   "cx": 714.4,
+   "cy": 664,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    11,
+    12,
+    13,
+    101
+   ]
+  },
+  {
+   "id": 11,
+   "nutsId": "TR4",
+   "name": "Doğu Marmara",
+   "level": "nuts1",
+   "cx": 737.8,
+   "cy": 621.1,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    10,
+    12,
+    101,
+    15,
+    100
+   ]
+  },
+  {
+   "id": 12,
+   "nutsId": "TR5",
+   "name": "Batı Anadolu",
+   "level": "nuts1",
+   "cx": 764.3,
+   "cy": 650.6,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    10,
+    11,
+    13,
+    15,
+    14
+   ]
+  },
+  {
+   "id": 13,
+   "nutsId": "TR6",
+   "name": "Akdeniz",
+   "level": "nuts1",
+   "cx": 778.7,
+   "cy": 682.4,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    10,
+    12,
+    14,
+    26,
+    27
+   ]
+  },
+  {
+   "id": 14,
+   "nutsId": "TR7",
+   "name": "Orta Anadolu",
+   "level": "nuts1",
+   "cx": 800.8,
+   "cy": 640.9,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    12,
+    15,
+    13,
+    26,
+    24,
+    25
+   ]
+  },
+  {
+   "id": 15,
+   "nutsId": "TR8",
+   "name": "Batı Karadeniz",
+   "level": "nuts1",
+   "cx": 790.3,
+   "cy": 605.9,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    11,
+    12,
+    14,
+    24
+   ]
+  },
+  {
+   "id": 16,
+   "nutsId": "DE9",
+   "name": "Niedersachsen",
+   "level": "nuts1",
+   "cx": 487.8,
+   "cy": 384.6,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    5,
+    21,
+    9,
+    6,
+    7,
+    22,
+    8,
+    23,
+    17,
+    75,
+    74
+   ]
+  },
+  {
+   "id": 17,
+   "nutsId": "DEA",
+   "name": "Nordrhein-Westfalen",
+   "level": "nuts1",
+   "cx": 473.7,
+   "cy": 408.3,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    8,
+    18,
+    16,
+    75,
+    107,
+    77
+   ]
+  },
+  {
+   "id": 18,
+   "nutsId": "DEB",
+   "name": "Rheinland-Pfalz",
+   "level": "nuts1",
+   "cx": 472.4,
+   "cy": 440.4,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    2,
+    48,
+    8,
+    17,
+    107,
+    19,
+    69
+   ]
+  },
+  {
+   "id": 19,
+   "nutsId": "DEC",
+   "name": "Saarland",
+   "level": "nuts1",
+   "cx": 465.5,
+   "cy": 448.9,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    18,
+    48,
+    69
+   ]
+  },
+  {
+   "id": 20,
+   "nutsId": "DED",
+   "name": "Sachsen",
+   "level": "nuts1",
+   "cx": 538.6,
+   "cy": 418.1,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    1,
+    81,
+    3,
+    23,
+    5,
+    80,
+    21
+   ]
+  },
+  {
+   "id": 21,
+   "nutsId": "DEE",
+   "name": "Sachsen-Anhalt",
+   "level": "nuts1",
+   "cx": 520,
+   "cy": 400.8,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    5,
+    20,
+    16,
+    23
+   ]
+  },
+  {
+   "id": 22,
+   "nutsId": "DEF",
+   "name": "Schleswig-Holstein",
+   "level": "nuts1",
+   "cx": 498.7,
+   "cy": 358.9,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    7,
+    16,
+    9,
+    28
+   ]
+  },
+  {
+   "id": 23,
+   "nutsId": "DEG",
+   "name": "Thüringen",
+   "level": "nuts1",
+   "cx": 513.5,
+   "cy": 420.8,
+   "faction": "DE",
+   "country": "DE",
+   "capital": false,
+   "adj": [
+    3,
+    20,
+    8,
+    16,
+    21
+   ]
+  },
+  {
+   "id": 24,
+   "nutsId": "TR9",
+   "name": "Doğu Karadeniz",
+   "level": "nuts1",
+   "cx": 846.3,
+   "cy": 610.3,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    14,
+    25,
+    15
+   ]
+  },
+  {
+   "id": 25,
+   "nutsId": "TRA",
+   "name": "Kuzeydoğu Anadolu",
+   "level": "nuts1",
+   "cx": 872.7,
+   "cy": 623.9,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    14,
+    24,
+    26
+   ]
+  },
+  {
+   "id": 26,
+   "nutsId": "TRB",
+   "name": "Ortadoğu Anadolu",
+   "level": "nuts1",
+   "cx": 869.7,
+   "cy": 656.3,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    13,
+    27,
+    14,
+    25
+   ]
+  },
+  {
+   "id": 27,
+   "nutsId": "TRC",
+   "name": "Güneydoğu Anadolu",
+   "level": "nuts1",
+   "cx": 847.5,
+   "cy": 674.5,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    13,
+    26
+   ]
+  },
+  {
+   "id": 28,
+   "nutsId": "DK0",
+   "name": "Danmark",
+   "level": "nuts1",
+   "cx": 493,
+   "cy": 319.8,
+   "faction": "DK",
+   "country": "DK",
+   "capital": false,
+   "adj": [
+    22
+   ]
+  },
+  {
+   "id": 29,
+   "nutsId": "EE0",
+   "name": "Eesti",
+   "level": "nuts1",
+   "cx": 683.6,
+   "cy": 271.2,
+   "faction": "EE",
+   "country": "EE",
+   "capital": false,
+   "adj": [
+    70
+   ]
+  },
+  {
+   "id": 30,
+   "nutsId": "EL3",
+   "name": "Attiki",
+   "level": "nuts1",
+   "cx": 658.7,
+   "cy": 664.1,
+   "faction": "EL",
+   "country": "EL",
+   "capital": false,
+   "adj": [
+    34
+   ]
+  },
+  {
+   "id": 31,
+   "nutsId": "EL4",
+   "name": "Nisia Aigaiou, Kriti",
+   "level": "nuts1",
+   "cx": 672.8,
+   "cy": 715.5,
+   "faction": "EL",
+   "country": "EL",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 32,
+   "nutsId": "EL5",
+   "name": "Voreia Elláda",
+   "level": "nuts1",
+   "cx": 655.6,
+   "cy": 615.3,
+   "faction": "EL",
+   "country": "EL",
+   "capital": false,
+   "adj": [
+    101,
+    34,
+    95,
+    72,
+    109
+   ]
+  },
+  {
+   "id": 33,
+   "nutsId": "XK0",
+   "name": "Kosovo",
+   "level": "nuts1",
+   "cx": 627,
+   "cy": 578.8,
+   "faction": "XK",
+   "country": "XK",
+   "capital": false,
+   "adj": [
+    92,
+    72,
+    95,
+    71
+   ]
+  },
+  {
+   "id": 34,
+   "nutsId": "EL6",
+   "name": "Kentriki Elláda",
+   "level": "nuts1",
+   "cx": 646.8,
+   "cy": 645.3,
+   "faction": "EL",
+   "country": "EL",
+   "capital": false,
+   "adj": [
+    30,
+    32
+   ]
+  },
+  {
+   "id": 35,
+   "nutsId": "ES1",
+   "name": "Noroeste",
+   "level": "nuts1",
+   "cx": 312.3,
+   "cy": 571.3,
+   "faction": "ES",
+   "country": "ES",
+   "capital": false,
+   "adj": [
+    36,
+    38,
+    86
+   ]
+  },
+  {
+   "id": 36,
+   "nutsId": "ES2",
+   "name": "Noreste",
+   "level": "nuts1",
+   "cx": 367.2,
+   "cy": 592.4,
+   "faction": "ES",
+   "country": "ES",
+   "capital": false,
+   "adj": [
+    35,
+    38,
+    51,
+    52,
+    39
+   ]
+  },
+  {
+   "id": 37,
+   "nutsId": "ES3",
+   "name": "Comunidad de Madrid",
+   "level": "nuts1",
+   "cx": 341.2,
+   "cy": 617.7,
+   "faction": "ES",
+   "country": "ES",
+   "capital": false,
+   "adj": [
+    38
+   ]
+  },
+  {
+   "id": 38,
+   "nutsId": "ES4",
+   "name": "Centro (ES)",
+   "level": "nuts1",
+   "cx": 335.5,
+   "cy": 609.9,
+   "faction": "ES",
+   "country": "ES",
+   "capital": false,
+   "adj": [
+    35,
+    36,
+    86,
+    39,
+    37,
+    40
+   ]
+  },
+  {
+   "id": 39,
+   "nutsId": "ES5",
+   "name": "Este",
+   "level": "nuts1",
+   "cx": 389.1,
+   "cy": 611,
+   "faction": "ES",
+   "country": "ES",
+   "capital": false,
+   "adj": [
+    36,
+    52,
+    38,
+    40
+   ]
+  },
+  {
+   "id": 40,
+   "nutsId": "ES6",
+   "name": "Sur",
+   "level": "nuts1",
+   "cx": 337.7,
+   "cy": 672.5,
+   "faction": "ES",
+   "country": "ES",
+   "capital": false,
+   "adj": [
+    38,
+    39,
+    86
+   ]
+  },
+  {
+   "id": 41,
+   "nutsId": "FI1",
+   "name": "Manner-Suomi",
+   "level": "nuts1",
+   "cx": 676.8,
+   "cy": 157.2,
+   "faction": "FI",
+   "country": "FI",
+   "capital": false,
+   "adj": [
+    78,
+    97
+   ]
+  },
+  {
+   "id": 42,
+   "nutsId": "FI2",
+   "name": "Åland",
+   "level": "nuts1",
+   "cx": 616.1,
+   "cy": 243.1,
+   "faction": "FI",
+   "country": "FI",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 43,
+   "nutsId": "FR1",
+   "name": "Ile-de-France",
+   "level": "nuts1",
+   "cx": 413.8,
+   "cy": 461.2,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    46,
+    47,
+    48,
+    45,
+    44
+   ]
+  },
+  {
+   "id": 44,
+   "nutsId": "FRB",
+   "name": "Centre — Val de Loire",
+   "level": "nuts1",
+   "cx": 403.2,
+   "cy": 481.4,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    43,
+    45,
+    46,
+    53,
+    51,
+    49
+   ]
+  },
+  {
+   "id": 45,
+   "nutsId": "FRC",
+   "name": "Bourgogne-Franche-Comté",
+   "level": "nuts1",
+   "cx": 438.2,
+   "cy": 488.7,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    43,
+    48,
+    44,
+    53,
+    110
+   ]
+  },
+  {
+   "id": 46,
+   "nutsId": "FRD",
+   "name": "Normandie",
+   "level": "nuts1",
+   "cx": 384.1,
+   "cy": 453.4,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    43,
+    47,
+    44,
+    49,
+    50
+   ]
+  },
+  {
+   "id": 47,
+   "nutsId": "FRE",
+   "name": "Hauts-de-France",
+   "level": "nuts1",
+   "cx": 417.1,
+   "cy": 436.4,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    43,
+    46,
+    48,
+    106,
+    107
+   ]
+  },
+  {
+   "id": 48,
+   "nutsId": "FRF",
+   "name": "Grand Est",
+   "level": "nuts1",
+   "cx": 449.6,
+   "cy": 461.9,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    2,
+    110,
+    18,
+    19,
+    69,
+    43,
+    47,
+    45,
+    107
+   ]
+  },
+  {
+   "id": 49,
+   "nutsId": "FRG",
+   "name": "Pays de la Loire",
+   "level": "nuts1",
+   "cx": 374.2,
+   "cy": 482.8,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    44,
+    51,
+    46,
+    50
+   ]
+  },
+  {
+   "id": 50,
+   "nutsId": "FRH",
+   "name": "Bretagne",
+   "level": "nuts1",
+   "cx": 351.3,
+   "cy": 471.5,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    46,
+    49
+   ]
+  },
+  {
+   "id": 51,
+   "nutsId": "FRI",
+   "name": "Nouvelle-Aquitaine",
+   "level": "nuts1",
+   "cx": 384.1,
+   "cy": 531.4,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    36,
+    52,
+    44,
+    53,
+    49
+   ]
+  },
+  {
+   "id": 52,
+   "nutsId": "FRJ",
+   "name": "Occitanie",
+   "level": "nuts1",
+   "cx": 406.8,
+   "cy": 556.4,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    36,
+    51,
+    39,
+    53,
+    54
+   ]
+  },
+  {
+   "id": 53,
+   "nutsId": "FRK",
+   "name": "Auvergne-Rhône-Alpes",
+   "level": "nuts1",
+   "cx": 437.7,
+   "cy": 521.9,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    44,
+    45,
+    51,
+    110,
+    52,
+    54,
+    62
+   ]
+  },
+  {
+   "id": 54,
+   "nutsId": "FRL",
+   "name": "Provence-Alpes-Côte d’Azur",
+   "level": "nuts1",
+   "cx": 454.3,
+   "cy": 549.4,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": [
+    52,
+    53,
+    62
+   ]
+  },
+  {
+   "id": 55,
+   "nutsId": "FRM",
+   "name": "Corse",
+   "level": "nuts1",
+   "cx": 489.1,
+   "cy": 583.8,
+   "faction": "FR",
+   "country": "FR",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 56,
+   "nutsId": "HR0",
+   "name": "Hrvatska",
+   "level": "nuts1",
+   "cx": 575.7,
+   "cy": 529.1,
+   "faction": "HR",
+   "country": "HR",
+   "capital": false,
+   "adj": [
+    58,
+    98,
+    59,
+    91,
+    104,
+    71
+   ]
+  },
+  {
+   "id": 57,
+   "nutsId": "HU1",
+   "name": "Közép-Magyarország",
+   "level": "nuts1",
+   "cx": 608.1,
+   "cy": 484.2,
+   "faction": "HU",
+   "country": "HU",
+   "capital": false,
+   "adj": [
+    59,
+    58,
+    99
+   ]
+  },
+  {
+   "id": 58,
+   "nutsId": "HU2",
+   "name": "Dunántúl",
+   "level": "nuts1",
+   "cx": 586.6,
+   "cy": 496,
+   "faction": "HU",
+   "country": "HU",
+   "capital": false,
+   "adj": [
+    56,
+    98,
+    59,
+    57,
+    99,
+    96
+   ]
+  },
+  {
+   "id": 59,
+   "nutsId": "HU3",
+   "name": "Alföld és Észak",
+   "level": "nuts1",
+   "cx": 623.2,
+   "cy": 486.7,
+   "faction": "HU",
+   "country": "HU",
+   "capital": false,
+   "adj": [
+    56,
+    58,
+    91,
+    57,
+    99,
+    87,
+    90
+   ]
+  },
+  {
+   "id": 60,
+   "nutsId": "IE0",
+   "name": "Ireland",
+   "level": "nuts1",
+   "cx": 290.6,
+   "cy": 368.1,
+   "faction": "IE",
+   "country": "IE",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 61,
+   "nutsId": "IS0",
+   "name": "Ísland",
+   "level": "nuts1",
+   "cx": 155.3,
+   "cy": 149.8,
+   "faction": "IS",
+   "country": "IS",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 62,
+   "nutsId": "ITC",
+   "name": "Nord-Ovest",
+   "level": "nuts1",
+   "cx": 489.7,
+   "cy": 525.1,
+   "faction": "IT",
+   "country": "IT",
+   "capital": false,
+   "adj": [
+    53,
+    110,
+    54,
+    65,
+    66
+   ]
+  },
+  {
+   "id": 63,
+   "nutsId": "ITF",
+   "name": "Sud",
+   "level": "nuts1",
+   "cx": 566.2,
+   "cy": 618.3,
+   "faction": "IT",
+   "country": "IT",
+   "capital": false,
+   "adj": [
+    66
+   ]
+  },
+  {
+   "id": 64,
+   "nutsId": "ITG",
+   "name": "Isole",
+   "level": "nuts1",
+   "cx": 548.2,
+   "cy": 671.3,
+   "faction": "IT",
+   "country": "IT",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 65,
+   "nutsId": "ITH",
+   "name": "Nord-Est",
+   "level": "nuts1",
+   "cx": 520.1,
+   "cy": 525.2,
+   "faction": "IT",
+   "country": "IT",
+   "capital": false,
+   "adj": [
+    62,
+    66,
+    110,
+    103,
+    102,
+    98
+   ]
+  },
+  {
+   "id": 66,
+   "nutsId": "ITI",
+   "name": "Centro (IT)",
+   "level": "nuts1",
+   "cx": 524.2,
+   "cy": 569.8,
+   "faction": "IT",
+   "country": "IT",
+   "capital": false,
+   "adj": [
+    62,
+    65,
+    63
+   ]
+  },
+  {
+   "id": 67,
+   "nutsId": "LI0",
+   "name": "Liechtenstein",
+   "level": "nuts1",
+   "cx": 494.8,
+   "cy": 490.9,
+   "faction": "LI",
+   "country": "LI",
+   "capital": false,
+   "adj": [
+    103,
+    110
+   ]
+  },
+  {
+   "id": 68,
+   "nutsId": "LT0",
+   "name": "Lietuva",
+   "level": "nuts1",
+   "cx": 663.6,
+   "cy": 337.8,
+   "faction": "LT",
+   "country": "LT",
+   "capital": false,
+   "adj": [
+    70,
+    84
+   ]
+  },
+  {
+   "id": 69,
+   "nutsId": "LU0",
+   "name": "Luxembourg",
+   "level": "nuts1",
+   "cx": 454.7,
+   "cy": 440.1,
+   "faction": "LU",
+   "country": "LU",
+   "capital": false,
+   "adj": [
+    18,
+    19,
+    107,
+    48
+   ]
+  },
+  {
+   "id": 70,
+   "nutsId": "LV0",
+   "name": "Latvija",
+   "level": "nuts1",
+   "cx": 670.7,
+   "cy": 308.6,
+   "faction": "LV",
+   "country": "LV",
+   "capital": false,
+   "adj": [
+    29,
+    68
+   ]
+  },
+  {
+   "id": 71,
+   "nutsId": "ME0",
+   "name": "Crna Gora",
+   "level": "nuts1",
+   "cx": 607.3,
+   "cy": 575.9,
+   "faction": "ME",
+   "country": "ME",
+   "capital": false,
+   "adj": [
+    33,
+    95,
+    92,
+    56,
+    104
+   ]
+  },
+  {
+   "id": 72,
+   "nutsId": "MK0",
+   "name": "Severna Makedonija ",
+   "level": "nuts1",
+   "cx": 635.3,
+   "cy": 595.1,
+   "faction": "MK",
+   "country": "MK",
+   "capital": false,
+   "adj": [
+    32,
+    95,
+    109,
+    33,
+    92
+   ]
+  },
+  {
+   "id": 73,
+   "nutsId": "MT0",
+   "name": "Malta",
+   "level": "nuts1",
+   "cx": 552.3,
+   "cy": 704.1,
+   "faction": "MT",
+   "country": "MT",
+   "capital": false,
+   "adj": []
+  },
+  {
+   "id": 74,
+   "nutsId": "NL1",
+   "name": "Noord-Nederland",
+   "level": "nuts1",
+   "cx": 458.9,
+   "cy": 379.8,
+   "faction": "NL",
+   "country": "NL",
+   "capital": false,
+   "adj": [
+    16,
+    75,
+    76
+   ]
+  },
+  {
+   "id": 75,
+   "nutsId": "NL2",
+   "name": "Oost-Nederland",
+   "level": "nuts1",
+   "cx": 452.2,
+   "cy": 393.7,
+   "faction": "NL",
+   "country": "NL",
+   "capital": false,
+   "adj": [
+    16,
+    17,
+    74,
+    77,
+    76
+   ]
+  },
+  {
+   "id": 76,
+   "nutsId": "NL3",
+   "name": "West-Nederland",
+   "level": "nuts1",
+   "cx": 437.4,
+   "cy": 394.7,
+   "faction": "NL",
+   "country": "NL",
+   "capital": false,
+   "adj": [
+    74,
+    75,
+    77,
+    106
+   ]
+  },
+  {
+   "id": 77,
+   "nutsId": "NL4",
+   "name": "Zuid-Nederland",
+   "level": "nuts1",
+   "cx": 445.8,
+   "cy": 411.6,
+   "faction": "NL",
+   "country": "NL",
+   "capital": false,
+   "adj": [
+    17,
+    107,
+    75,
+    76,
+    106
+   ]
+  },
+  {
+   "id": 78,
+   "nutsId": "NO0",
+   "name": "Norge",
+   "level": "nuts1",
+   "cx": 555.7,
+   "cy": 158.7,
+   "faction": "NO",
+   "country": "NO",
+   "capital": false,
+   "adj": [
+    41,
+    97,
+    94
+   ]
+  },
+  {
+   "id": 79,
+   "nutsId": "PL2",
+   "name": "Makroregion południowy",
+   "level": "nuts1",
+   "cx": 612.6,
+   "cy": 434.5,
+   "faction": "PL",
+   "country": "PL",
+   "capital": false,
+   "adj": [
+    1,
+    81,
+    99,
+    83,
+    84
+   ]
+  },
+  {
+   "id": 80,
+   "nutsId": "PL4",
+   "name": "Makroregion północno-zachodni",
+   "level": "nuts1",
+   "cx": 574.6,
+   "cy": 387.5,
+   "faction": "PL",
+   "country": "PL",
+   "capital": false,
+   "adj": [
+    5,
+    9,
+    20,
+    81,
+    82,
+    83
+   ]
+  },
+  {
+   "id": 81,
+   "nutsId": "PL5",
+   "name": "Makroregion południowo-zachodni",
+   "level": "nuts1",
+   "cx": 578.7,
+   "cy": 419.6,
+   "faction": "PL",
+   "country": "PL",
+   "capital": false,
+   "adj": [
+    1,
+    20,
+    79,
+    80,
+    83
+   ]
+  },
+  {
+   "id": 82,
+   "nutsId": "PL6",
+   "name": "Makroregion północny",
+   "level": "nuts1",
+   "cx": 606.2,
+   "cy": 367.5,
+   "faction": "PL",
+   "country": "PL",
+   "capital": false,
+   "adj": [
+    84,
+    80,
+    83,
+    85
+   ]
+  },
+  {
+   "id": 83,
+   "nutsId": "PL7",
+   "name": "Makroregion centralny",
+   "level": "nuts1",
+   "cx": 615.1,
+   "cy": 411.7,
+   "faction": "PL",
+   "country": "PL",
+   "capital": false,
+   "adj": [
+    79,
+    84,
+    81,
+    80,
+    82,
+    85
+   ]
+  },
+  {
+   "id": 84,
+   "nutsId": "PL8",
+   "name": "Makroregion wschodni",
+   "level": "nuts1",
+   "cx": 648.8,
+   "cy": 404.3,
+   "faction": "PL",
+   "country": "PL",
+   "capital": false,
+   "adj": [
+    68,
+    82,
+    79,
+    83,
+    99,
+    85
+   ]
+  },
+  {
+   "id": 85,
+   "nutsId": "PL9",
+   "name": "Makroregion województwo mazowieckie",
+   "level": "nuts1",
+   "cx": 629.6,
+   "cy": 394.3,
+   "faction": "PL",
+   "country": "PL",
+   "capital": false,
+   "adj": [
+    82,
+    84,
+    83
+   ]
+  },
+  {
+   "id": 86,
+   "nutsId": "PT1",
+   "name": "Continente",
+   "level": "nuts1",
+   "cx": 290.9,
+   "cy": 629.2,
+   "faction": "PT",
+   "country": "PT",
+   "capital": false,
+   "adj": [
+    35,
+    38,
+    40
+   ]
+  },
+  {
+   "id": 87,
+   "nutsId": "RO1",
+   "name": "Macroregiunea Unu",
+   "level": "nuts1",
+   "cx": 666.9,
+   "cy": 498.2,
+   "faction": "RO",
+   "country": "RO",
+   "capital": false,
+   "adj": [
+    59,
+    90,
+    88,
+    89
+   ]
+  },
+  {
+   "id": 88,
+   "nutsId": "RO2",
+   "name": "Macroregiunea Doi",
+   "level": "nuts1",
+   "cx": 700.8,
+   "cy": 510.2,
+   "faction": "RO",
+   "country": "RO",
+   "capital": false,
+   "adj": [
+    87,
+    89,
+    108
+   ]
+  },
+  {
+   "id": 89,
+   "nutsId": "RO3",
+   "name": "Macroregiunea Trei",
+   "level": "nuts1",
+   "cx": 684.9,
+   "cy": 538.2,
+   "faction": "RO",
+   "country": "RO",
+   "capital": false,
+   "adj": [
+    87,
+    88,
+    90,
+    108
+   ]
+  },
+  {
+   "id": 90,
+   "nutsId": "RO4",
+   "name": "Macroregiunea Patru",
+   "level": "nuts1",
+   "cx": 648.6,
+   "cy": 530.2,
+   "faction": "RO",
+   "country": "RO",
+   "capital": false,
+   "adj": [
+    59,
+    87,
+    91,
+    89,
+    108,
+    92
+   ]
+  },
+  {
+   "id": 91,
+   "nutsId": "RS1",
+   "name": "Serbia - sever",
+   "level": "nuts1",
+   "cx": 616.2,
+   "cy": 527.7,
+   "faction": "RS",
+   "country": "RS",
+   "capital": false,
+   "adj": [
+    56,
+    59,
+    104,
+    90,
+    92
+   ]
+  },
+  {
+   "id": 92,
+   "nutsId": "RS2",
+   "name": "Serbia - jug ",
+   "level": "nuts1",
+   "cx": 630.2,
+   "cy": 557.5,
+   "faction": "RS",
+   "country": "RS",
+   "capital": false,
+   "adj": [
+    33,
+    72,
+    71,
+    104,
+    109,
+    90,
+    108,
+    91
+   ]
+  },
+  {
+   "id": 93,
+   "nutsId": "SE1",
+   "name": "Östra Sverige",
+   "level": "nuts1",
+   "cx": 575.3,
+   "cy": 261.4,
+   "faction": "SE",
+   "country": "SE",
+   "capital": false,
+   "adj": [
+    97,
+    94
+   ]
+  },
+  {
+   "id": 94,
+   "nutsId": "SE2",
+   "name": "Södra Sverige",
+   "level": "nuts1",
+   "cx": 543.4,
+   "cy": 294.1,
+   "faction": "SE",
+   "country": "SE",
+   "capital": false,
+   "adj": [
+    78,
+    97,
+    93
+   ]
+  },
+  {
+   "id": 95,
+   "nutsId": "AL0",
+   "name": "Shqipëria",
+   "level": "nuts1",
+   "cx": 618.8,
+   "cy": 605.1,
+   "faction": "AL",
+   "country": "AL",
+   "capital": false,
+   "adj": [
+    32,
+    72,
+    33,
+    71
+   ]
+  },
+  {
+   "id": 96,
+   "nutsId": "AT1",
+   "name": "Ostösterreich",
+   "level": "nuts1",
+   "cx": 568.4,
+   "cy": 474.8,
+   "faction": "AT",
+   "country": "AT",
+   "capital": false,
+   "adj": [
+    1,
+    99,
+    103,
+    58,
+    98,
+    102
+   ]
+  },
+  {
+   "id": 97,
+   "nutsId": "SE3",
+   "name": "Norra Sverige",
+   "level": "nuts1",
+   "cx": 587.3,
+   "cy": 174,
+   "faction": "SE",
+   "country": "SE",
+   "capital": false,
+   "adj": [
+    41,
+    78,
+    94,
+    93
+   ]
+  },
+  {
+   "id": 98,
+   "nutsId": "SI0",
+   "name": "Slovenija",
+   "level": "nuts1",
+   "cx": 559.4,
+   "cy": 508.5,
+   "faction": "SI",
+   "country": "SI",
+   "capital": false,
+   "adj": [
+    56,
+    58,
+    96,
+    65,
+    102
+   ]
+  },
+  {
+   "id": 99,
+   "nutsId": "SK0",
+   "name": "Slovensko",
+   "level": "nuts1",
+   "cx": 611.8,
+   "cy": 460.7,
+   "faction": "SK",
+   "country": "SK",
+   "capital": false,
+   "adj": [
+    1,
+    79,
+    96,
+    57,
+    58,
+    59,
+    84
+   ]
+  },
+  {
+   "id": 100,
+   "nutsId": "TR1",
+   "name": "İstanbul",
+   "level": "nuts1",
+   "cx": 715.3,
+   "cy": 602.9,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    11,
+    101
+   ]
+  },
+  {
+   "id": 101,
+   "nutsId": "TR2",
+   "name": "Batı Marmara",
+   "level": "nuts1",
+   "cx": 703.1,
+   "cy": 628.3,
+   "faction": "TR",
+   "country": "TR",
+   "capital": false,
+   "adj": [
+    10,
+    11,
+    32,
+    109,
+    100,
+    108
+   ]
+  },
+  {
+   "id": 102,
+   "nutsId": "AT2",
+   "name": "Südösterreich",
+   "level": "nuts1",
+   "cx": 554.8,
+   "cy": 495.2,
+   "faction": "AT",
+   "country": "AT",
+   "capital": false,
+   "adj": [
+    65,
+    103,
+    98,
+    96
+   ]
+  },
+  {
+   "id": 103,
+   "nutsId": "AT3",
+   "name": "Westösterreich",
+   "level": "nuts1",
+   "cx": 526.5,
+   "cy": 483.1,
+   "faction": "AT",
+   "country": "AT",
+   "capital": false,
+   "adj": [
+    1,
+    96,
+    3,
+    110,
+    65,
+    102,
+    67
+   ]
+  },
+  {
+   "id": 104,
+   "nutsId": "BA0",
+   "name": "Bosna I Hercegovina",
+   "level": "nuts1",
+   "cx": 593.1,
+   "cy": 547.8,
+   "faction": "BA",
+   "country": "BA",
+   "capital": false,
+   "adj": [
+    56,
+    91,
+    71,
+    92
+   ]
+  },
+  {
+   "id": 105,
+   "nutsId": "BE1",
+   "name": "Région de Bruxelles-Capitale/Brussels Hoofdstedelijk Gewest",
+   "level": "nuts1",
+   "cx": 434.2,
+   "cy": 420.9,
+   "faction": "BE",
+   "country": "BE",
+   "capital": false,
+   "adj": [
+    106
+   ]
+  },
+  {
+   "id": 106,
+   "nutsId": "BE2",
+   "name": "Vlaams Gewest",
+   "level": "nuts1",
+   "cx": 432.1,
+   "cy": 416.5,
+   "faction": "BE",
+   "country": "BE",
+   "capital": false,
+   "adj": [
+    47,
+    107,
+    76,
+    77,
+    105
+   ]
+  },
+  {
+   "id": 107,
+   "nutsId": "BE3",
+   "name": "Région wallonne",
+   "level": "nuts1",
+   "cx": 440.1,
+   "cy": 430.2,
+   "faction": "BE",
+   "country": "BE",
+   "capital": false,
+   "adj": [
+    17,
+    18,
+    77,
+    69,
+    47,
+    106,
+    48
+   ]
+  },
+  {
+   "id": 108,
+   "nutsId": "BG3",
+   "name": "Severna i Yugoiztochna Bulgaria",
+   "level": "nuts1",
+   "cx": 681.8,
+   "cy": 568,
+   "faction": "BG",
+   "country": "BG",
+   "capital": false,
+   "adj": [
+    88,
+    89,
+    90,
+    92,
+    109,
+    101
+   ]
+  },
+  {
+   "id": 109,
+   "nutsId": "BG4",
+   "name": "Yugozapadna i Yuzhna tsentralna Bulgaria",
+   "level": "nuts1",
+   "cx": 671.3,
+   "cy": 586.3,
+   "faction": "BG",
+   "country": "BG",
+   "capital": false,
+   "adj": [
+    32,
+    72,
+    101,
+    92,
+    108
+   ]
+  },
+  {
+   "id": 110,
+   "nutsId": "CH0",
+   "name": "Schweiz/Suisse/Svizzera",
+   "level": "nuts1",
+   "cx": 482.5,
+   "cy": 496.6,
+   "faction": "CH",
+   "country": "CH",
+   "capital": false,
+   "adj": [
+    2,
+    103,
+    48,
+    45,
+    53,
+    62,
+    65,
+    67
+   ]
+  }
+ ]
+}

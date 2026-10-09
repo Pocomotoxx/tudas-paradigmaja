@@ -107,8 +107,9 @@ function buildLegend(){
   const leg=document.getElementById("legend");
   leg.innerHTML = DATA.factions.map(f=>{
     const n = DATA.provinces.filter(p=>p.faction===f.id).length;
+    const sub = f.subject ? `— ${f.subject} ` : "";
     return `<div data-f="${f.id}"><i style="background:${f.color}"></i>${f.name}
-      <span class="k">— ${f.subject} (${n})</span></div>`;
+      <span class="k">${sub}(${n})</span></div>`;
   }).join("");
   // Clicking a legend row flashes that faction's provinces.
   leg.querySelectorAll("div[data-f]").forEach(row=>{
