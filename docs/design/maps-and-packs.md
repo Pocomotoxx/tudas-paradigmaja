@@ -37,17 +37,31 @@ szülőhely adna értelmet.
 Generálás: `node art/worldgen/gen-world.mjs web/world/fantasy`
 
 ### 2. Európa — NUTS 1 (`europe`) — **valós geometria, külön licenc**
-Valós Európa a NUTS 1 nagyrégiók szerint (~92 régió). Mivel valós a földrajz,
-**a hősök/felfedezők itt aktívak** (`supportsHeroes: true`): a tudósok valós
-szülőhelye NUTS 1 régióhoz rendelhető.
-Generálás (lokálisan, a letöltött GeoJSON-ból):
-`node art/worldgen/nuts1-to-pack.mjs <nuts1.geojson> web/world/europe`
+Valós Európa. **Szabály: EU-tagok → NUTS 1 nagyrégiók; a nem-EU európai
+országok → egy-egy ország = egy régió.** Mivel valós a földrajz, **a
+hősök/felfedezők itt aktívak** (`supportsHeroes: true`): a tudósok valós
+szülőhelye a régióhoz (NUTS 1, illetve nem-EU esetén országhoz) rendelhető.
 
-> **Licenc-határ (fontos):** a NUTS-határok **nem** a mi assetünk. Eurostat/GISCO
-> NUTS geometria: **© EuroGeographics**, szabadon használható **forrásmegjelöléssel**.
-> Ha OSM-ből építed: **ODbL** (forrásmegjelölés + share-alike az adatbázisra).
-> A **motor marad MIT**; az Európa-csomag a saját licencét/attribúcióját a
-> `map.json.meta`-ban hordozza, és a demó ki is írja.
+Forrás: hivatalos Eurostat NUTS 2024, level 1 (GISCO).
+
+Generálás (lokálisan, a letöltött GeoJSON-okból):
+```bash
+# EU NUTS 1 régiók + (opcionálisan) a nem-EU országok határai:
+node art/worldgen/nuts1-to-pack.mjs \
+  NUTS_RG_20M_2021_4326_LEVL_1.geojson web/world/europe \
+  CNTR_RG_20M_2021_4326.geojson
+```
+A konverter kiszűri a nem-európai országokat, az EU-tagokat a NUTS 1 fedi, a
+nem-EU európai országok (NO, CH, UK, RS, BA, ME, MK, AL, XK, MD, UA, BY, IS,
+LI, TR, …) egy-egy régióként kerülnek be. A provincia-rekord `level` mezője
+`"nuts1"` vagy `"country"`.
+
+> **Licenc-határ (fontos):** a határok **nem** a mi assetünk.
+> Administrative boundaries: **© EuroGeographics © OpenStreetMap contributors
+> © Turkstat**; Cartography: **Eurostat — GISCO**. A GISCO NUTS szabadon
+> használható **forrásmegjelöléssel**; OSM-ből **ODbL** (forrásmegjelölés +
+> share-alike az adatbázisra). A **motor marad MIT**; az Európa-csomag a
+> licencét/attribúcióját a `map.json.meta`-ban hordozza, és a demó ki is írja.
 
 ## Miért nem generálható a felhőben az Európa-csomag?
 
