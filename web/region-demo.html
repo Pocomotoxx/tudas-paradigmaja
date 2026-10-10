@@ -424,7 +424,7 @@ function addCapitals3D(){
   if(!DATA) return;
   for(const p of DATA.provinces.filter(x=>x.capital)){
     const w=toWorld(p.cx,p.cy);
-    const pin = makePin(0xffffff, 0.55, 2.4);
+    const pin = makePin(0xff2222, 0.55, 2.4);
     pin.position.set(w.x, w.y, SLAB_H);
     pin.userData.isMarker=true;
     markerGroup.add(pin);
