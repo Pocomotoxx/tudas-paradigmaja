@@ -44,6 +44,20 @@
   .owned-line{ color:#ffd700; font-weight:600; }
   .terrain-row{ display:flex; align-items:center; gap:6px; margin:4px 0; }
   .terrain-row svg{ flex:0 0 auto; }
+  /* turn system */
+  #turn-bar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  #turn-bar .res{ color:var(--muted); font-size:13px; }
+  #turn-bar .res b{ color:#e7ebf0; }
+  #btn-end-turn{ background:#2a4a2a; color:#7ddf7d; border:1px solid #3a6b3a;
+    border-radius:6px; padding:5px 14px; cursor:pointer; font-size:13px; font-weight:600; }
+  #btn-end-turn:hover{ background:#3a5e3a; }
+  #btn-end-turn:disabled{ opacity:.45; cursor:default; }
+  #event-log{ max-height:120px; overflow-y:auto; font-size:12px; }
+  #event-log div{ padding:2px 0; border-bottom:1px solid #2e343d; }
+  #event-log div:last-child{ border:none; }
+  #event-log .ev-bot{ color:#ff8a5c; }
+  #event-log .ev-player{ color:#7ddf7d; }
+  #event-log .ev-info{ color:var(--muted); }
   .peak-icon{ fill:#aab4bf; stroke:#2c333c; stroke-width:.5; }
   .peak-icon.snow{ fill:#eef2f6; }
   #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
@@ -79,6 +93,19 @@
     <div id="cam-hint">Forgatás: jobb gomb · Zoom: görgő · Mozgatás: középső gomb</div>
   </div>
   <div class="side">
+    <div class="card">
+      <h3>Körrendszer</h3>
+      <div id="turn-bar">
+        <span class="res">Kör: <b id="turn-num">1</b></span>
+        <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
+        <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
+        <button id="btn-end-turn">Kör vége ▶</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Eseménynapló</h3>
+      <div id="event-log"><div class="ev-info">A játék elkezdődött.</div></div>
+    </div>
     <div class="card" id="info">
       <h3>Provincia</h3>
       <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
@@ -144,6 +171,19 @@ const PALETTE = {};
 let DATA = null, byId = {};
 let HEROES = {};
 let owned = new Set();
+
+// ── turn system state ─────────────────────────────────────────────────────
+let turnNumber = 1;
+let gold = 0;
+let kk = 0;
+// Bot owns a separate set of provinces
+const botOwned = new Set();
+// Income per province per turn
+const INCOME = { gold: 8, kk: 3 };
+// Bot income multiplier
+const BOT_INCOME = { gold: 6, kk: 2 };
+let botGold = 20, botKK = 10;
+let eventLog = [];
 
 const DIFFICULTIES = {
   1:{ rebellionIntervalTurns:10, choiceCount:2, subjectUnrestCascade:false, answerTimeLimitMs:null },
@@ -491,7 +531,20 @@ function renderOwnedCard(){
 }
 
 function toggleOwned(id){
-  if(owned.has(id)) owned.delete(id); else owned.add(id);
+  if(owned.has(id)){
+    owned.delete(id);
+    addEvent(`&#9744; Felszabadítva: <b>${byId[id]?.name??id}</b>`, 'ev-info');
+  } else {
+    const cost = 20;
+    if(gold < cost){
+      addEvent(`&#9888; Nincs elég arany (kell: ${cost}, van: ${gold})`, 'ev-info');
+      return;
+    }
+    gold -= cost;
+    owned.add(id);
+    renderTurnBar();
+    addEvent(`&#9873; Elfoglalva: <b>${byId[id]?.name??id}</b> (-${cost} arany)`, 'ev-player');
+  }
   renderOwnershipOverlay3D(); renderOwnedCard();
 }
 
@@ -662,6 +715,113 @@ function animate(){
 }
 animate();
 
+// ── turn system ───────────────────────────────────────────────────────────
+
+function addEvent(text, cls='ev-info'){
+  eventLog.unshift({ text, cls });
+  if(eventLog.length > 30) eventLog.pop();
+  renderEventLog();
+}
+
+function renderEventLog(){
+  const el = document.getElementById('event-log');
+  el.innerHTML = eventLog.map(e=>`<div class="${e.cls}">${e.text}</div>`).join('');
+}
+
+function renderTurnBar(){
+  document.getElementById('turn-num').textContent = turnNumber;
+  document.getElementById('res-gold').textContent = gold;
+  document.getElementById('res-kk').textContent = kk;
+}
+
+// Utility score U(G) for a province — simplified from the spec
+function utilityScore(prov){
+  if(!DATA) return 0;
+  // V: value of the target
+  const isCapital = prov.capital ? 300 : 0;
+  const adjBonus = (prov.adj?.length ?? 0) * 10; // more connections = more strategic
+  const V = 100 + isCapital + adjBonus;
+  // K: knowledge synergy — bot prefers math/history provinces
+  const subj = DATA.subjects?.find(s=>s.id===prov.subject);
+  const K = subj ? 1.4 : 1.0;
+  // T: threat — penalise provinces adjacent to many player-owned (contested)
+  const playerAdjCount = (prov.adj??[]).filter(id=>owned.has(id)).length;
+  const T = playerAdjCount * 20;
+  // Distance cost: rough estimate — provinces adjacent to bot territory cost less
+  const botAdjCount = (prov.adj??[]).filter(id=>botOwned.has(id)).length;
+  const distCost = botOwned.size === 0 ? 1 : Math.max(1, 3 - botAdjCount);
+  return (V * K - T) / distCost;
+}
+
+function botTurn(){
+  if(!DATA) return;
+  // Collect income for bot
+  botGold += botOwned.size * BOT_INCOME.gold + BOT_INCOME.gold;
+  botKK   += botOwned.size * BOT_INCOME.kk   + BOT_INCOME.kk;
+
+  // Find best unclaimed province (not owned by player or bot)
+  const candidates = DATA.provinces.filter(p =>
+    !owned.has(p.id) && !botOwned.has(p.id)
+  );
+  if(!candidates.length) return;
+
+  // Sort by utility score descending
+  candidates.sort((a,b) => utilityScore(b) - utilityScore(a));
+  const cost = 20; // gold cost per conquest
+  if(botGold < cost) return; // bot can't afford
+
+  const target = candidates[0];
+  botOwned.add(target.id);
+  botGold -= cost;
+
+  // Visual: orange outline for bot territory
+  renderBotOverlay();
+  addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
+}
+
+function renderBotOverlay(){
+  // Re-use ownGroup concept but in a separate group — bot gets orange outlines
+  // We'll tint bot-owned meshes slightly and add a red-orange border
+  if(!DATA) return;
+  // Clear existing bot visuals from scene (we tag them)
+  scene.children.filter(c=>c.userData.isBotOverlay).forEach(c=>scene.remove(c));
+  for(const id of botOwned){
+    const line = outlineById.get(id); if(!line) continue;
+    const geo = line.geometry.clone();
+    const pos = geo.attributes.position;
+    for(let i=0;i<pos.count;i++) pos.setZ(i, pos.getZ(i)+0.14);
+    pos.needsUpdate = true;
+    const botLine = new THREE.Line(geo, new THREE.LineBasicMaterial({ color:0xff6600 }));
+    botLine.userData.isBotOverlay = true;
+    scene.add(botLine);
+  }
+}
+
+function playerIncome(){
+  const prev = { gold, kk };
+  gold += owned.size * INCOME.gold + INCOME.gold;
+  kk   += owned.size * INCOME.kk   + INCOME.kk;
+  addEvent(`&#9733; Bevétel: +${gold-prev.gold} arany, +${kk-prev.kk} KK`, 'ev-player');
+}
+
+function endTurn(){
+  document.getElementById('btn-end-turn').disabled = true;
+  // 1. Player income
+  playerIncome();
+  // 2. Bot acts
+  botTurn();
+  // 3. Next turn
+  turnNumber++;
+  renderTurnBar();
+  addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
+  document.getElementById('btn-end-turn').disabled = false;
+}
+
+function initTurnSystem(){
+  renderTurnBar();
+  document.getElementById('btn-end-turn').addEventListener('click', endTurn);
+}
+
 // ── controls wiring ───────────────────────────────────────────────────────
 
 document.getElementById('diff-select').addEventListener('change',e=>{
@@ -670,7 +830,7 @@ document.getElementById('diff-select').addEventListener('change',e=>{
 });
 document.getElementById('btn-reset-cam').addEventListener('click', resetCamera);
 
-renderDiffCard(); renderUnrestCard();
+renderDiffCard(); renderUnrestCard(); initTurnSystem();
 
 // ── pack loader bootstrap ─────────────────────────────────────────────────
 
