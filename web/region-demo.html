@@ -44,6 +44,34 @@
   .owned-line{ color:#ffd700; font-weight:600; }
   .terrain-row{ display:flex; align-items:center; gap:6px; margin:4px 0; }
   .terrain-row svg{ flex:0 0 auto; }
+  /* detail panels */
+  .prov-header{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .prov-color-bar{ width:5px; border-radius:3px; align-self:stretch; flex:0 0 5px; }
+  .prov-name{ font-size:15px; font-weight:700; color:#fff; line-height:1.2; }
+  .prov-name small{ display:block; font-size:11px; font-weight:400; color:var(--muted); }
+  .badge{ display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
+  .badge.player{ background:#1a3a1a; color:#7ddf7d; border:1px solid #3a6b3a; }
+  .badge.bot{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.neutral{ background:#2a2e38; color:var(--muted); border:1px solid #3a414b; }
+  .badge.capital{ background:#2a2010; color:#ffd700; border:1px solid #6b5a10; }
+  .info-row{ display:flex; justify-content:space-between; align-items:baseline;
+    padding:3px 0; border-bottom:1px solid #2e343d; font-size:13px; }
+  .info-row:last-child{ border:none; }
+  .info-row .lbl{ color:var(--muted); }
+  .info-row .val{ font-weight:500; color:#e7ebf0; text-align:right; }
+  /* unrest progress bar */
+  .unrest-bar-wrap{ background:#1e2330; border-radius:4px; height:6px; margin:4px 0; overflow:hidden; }
+  .unrest-bar-fill{ height:100%; border-radius:4px; transition:width .3s; }
+  /* subject card */
+  #subj-card{ display:none; }
+  #subj-card.visible{ display:block; }
+  .subj-header{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .subj-dot{ width:12px; height:12px; border-radius:50%; flex:0 0 12px; }
+  .subj-name{ font-weight:700; color:#fff; }
+  .hero-row{ padding:3px 0; border-bottom:1px solid #2e343d; font-size:12px; }
+  .hero-row:last-child{ border:none; }
+  .hero-row .hname{ font-weight:600; }
+  .hero-row .hmeta{ color:var(--muted); }
   /* turn system */
   #turn-bar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   #turn-bar .res{ color:var(--muted); font-size:13px; }
@@ -109,6 +137,10 @@
     <div class="card" id="info">
       <h3>Provincia</h3>
       <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
+    </div>
+    <div class="card" id="subj-card">
+      <h3>Alattvaló (tantárgy)</h3>
+      <div id="subj-body"></div>
     </div>
     <div class="card">
       <h3>Nehézség</h3>
@@ -581,34 +613,118 @@ function toggleOwned(id){
 
 // ── info panel ────────────────────────────────────────────────────────────
 
+function ownerBadge(id){
+  if(owned.has(id))    return '<span class="badge player">&#9873; Játékos</span>';
+  if(botOwned.has(id)) return '<span class="badge bot">&#9876; Bot</span>';
+  return '<span class="badge neutral">Semleges</span>';
+}
+
+function terrainIcon(t){
+  if(t==='mountain') return '&#9650; Hegyvidék';
+  if(t==='hill')     return '&#11835; Dombvidék';
+  return '&#9644; Síkság';
+}
+
 function showInfo(p){
-  const f=DATA.factions.find(x=>x.id===p.faction)||{color:'#c3ccd4',name:p.faction};
-  const facLabel=f.subject?`${f.name} <span class="k">(${f.subject})</span>`:f.name;
-  const ident=p.nutsId
-    ?`<div class="k">Azonosító:</div> ${p.nutsId}${p.level==='country'?' <span class="k">(ország)</span>':' <span class="k">(NUTS 1)</span>'}<br>`:'' ;
-  const heroes=(p.nutsId&&HEROES[p.nutsId])||[];
-  const heroHtml=heroes.length
-    ?`<br><br><div class="k">Toborozható hősök (${heroes.length}):</div>`+
-      heroes.map(h=>`<div>&#9733; <b>${h.name}</b> <span class="k">— ${h.subject} · ${h.birthLabel}</span></div>`).join('')
-    :(DATA.meta?.supportsHeroes?'<br><br><span class="k">Nincs itt toborozható hős.</span>':'');
-  const subj=p.subject&&DATA.subjects?.find(s=>s.id===p.subject);
-  const subjHtml=subj?`<div class="k">Tantárgy:</div> <span style="color:${subj.color}">&#9632;</span> <b>${subj.name}</b><br>`:'';
-  const unrestHtml=(subj&&cascadeEnabled()&&unrestOf(subj.id)>0)
-    ?`<div class="warn-line">&#9888; Nyugtalanság: ${unrestOf(subj.id)}/10 — ~${Math.round(desertionChance(subj.id)*100)}% dezertálási esély/kör</div>`:'' ;
-  const terrainLabel=p.terrain==='mountain'?'&#9650; Hegyvidék (5.5 e.)':p.terrain==='hill'?'Dombvidék (2.0 e.)':'Síkság (0.3 e.)';
-  const isOwned=owned.has(p.id);
-  const ownedHtml=
-    `<div class="${isOwned?'owned-line':'k'}">${isOwned?'&#9873; A játékos tulajdonában':'Nincs elfoglalva'}</div>`+
-    `<button class="own-btn${isOwned?' release':''}" id="own-toggle-btn">${isOwned?'Felszabadítom':'Elfoglalom'}</button>`;
-  document.getElementById('info-body').innerHTML=
-    `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+ident+subjHtml+
-    `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${facLabel}<br>`+
-    `<div class="k">Domborzat:</div> ${terrainLabel}<br>`+
-    `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
-    (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'')+
-    unrestHtml+ownedHtml+heroHtml;
-  const btn=document.getElementById('own-toggle-btn');
-  if(btn) btn.addEventListener('click',()=>{ toggleOwned(p.id); showInfo(p); });
+  const f = DATA.factions.find(x=>x.id===p.faction)||{color:'#c3ccd4',name:p.faction};
+  const subj = p.subject && DATA.subjects?.find(s=>s.id===p.subject);
+  const accentColor = subj?.color || f.color || '#c3ccd4';
+  const heroes = (p.nutsId && HEROES[p.nutsId]) || [];
+  const isOwned = owned.has(p.id);
+  const isBot   = botOwned.has(p.id);
+  const unrestVal = subj && cascadeEnabled() ? unrestOf(subj.id) : 0;
+  const unrestPct = unrestVal / 10 * 100;
+  const unrestColor = unrestVal >= 7 ? '#ff4422' : unrestVal >= 4 ? '#ff8a5c' : '#ffd65a';
+
+  // Province header
+  const header =
+    `<div class="prov-header">
+      <div class="prov-color-bar" style="background:${accentColor}"></div>
+      <div>
+        <div class="prov-name">
+          ${p.name}
+          ${p.capital ? '<span class="badge capital" style="margin-left:6px">&#9733; Főváros</span>' : ''}
+        </div>
+        <small>${subj ? subj.name : (f.name||'')}</small>
+      </div>
+    </div>`;
+
+  // Info rows
+  const rows = [
+    ['Tulajdon', ownerBadge(p.id)],
+    ['Frakció', `<span style="color:${f.color}">&#9632;</span> ${f.name}`],
+    ['Domborzat', terrainIcon(p.terrain)],
+    ['Szomszédok', p.adj.length + ' tartomány'],
+    ...(p.nutsId ? [['Azonosító', `<span style="font-size:11px">${p.nutsId}</span>`]] : []),
+    ['KK-hozam', `+${INCOME.kk} / kör`],
+    ['Arany-hozam', `+${INCOME.gold} / kör`],
+  ].map(([l,v])=>`<div class="info-row"><span class="lbl">${l}</span><span class="val">${v}</span></div>`).join('');
+
+  // Unrest bar (only when relevant)
+  const unrestBar = (subj && cascadeEnabled()) ?
+    `<div style="margin-top:8px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:2px">
+        <span>Nyugtalanság</span><span style="color:${unrestColor}">${unrestVal}/10</span>
+      </div>
+      <div class="unrest-bar-wrap">
+        <div class="unrest-bar-fill" style="width:${unrestPct}%;background:${unrestColor}"></div>
+      </div>
+      ${unrestVal>0?`<div style="font-size:11px;color:${unrestColor};margin-top:2px">~${Math.round(desertionChance(subj.id)*100)}% dezertálási esély/kör</div>`:''}
+    </div>` : '';
+
+  // Heroes
+  const heroBlock = heroes.length
+    ? `<div style="margin-top:10px;font-size:12px;color:var(--muted);margin-bottom:4px">Toborozható hősök (${heroes.length})</div>`+
+      heroes.map(h=>`<div class="hero-row"><span class="hname">&#9733; ${h.name}</span> <span class="hmeta">— ${h.subject} · ${h.birthLabel}</span></div>`).join('')
+    : (DATA.meta?.supportsHeroes ? `<div style="margin-top:8px;font-size:12px;color:var(--muted)">Nincs toborozható hős.</div>` : '');
+
+  // Action button
+  const actionBtn =
+    `<div style="margin-top:10px">
+      <button class="own-btn${isOwned?' release':''}" id="own-toggle-btn" ${isBot?'disabled title="Bot tulajdona"':''}>
+        ${isOwned ? '&#9744; Felszabadítom' : isBot ? '&#9876; Bot területe' : '&#9873; Elfoglalom (20 &#9733;)'}
+      </button>
+    </div>`;
+
+  document.getElementById('info-body').innerHTML = header + rows + unrestBar + heroBlock + actionBtn;
+  const btn = document.getElementById('own-toggle-btn');
+  if(btn && !isBot) btn.addEventListener('click', ()=>{ toggleOwned(p.id); showInfo(p); });
+
+  // Show subject card
+  if(subj) showSubject(subj);
+  else { const sc=document.getElementById('subj-card'); sc.classList.remove('visible'); }
+}
+
+function showSubject(subj){
+  if(!DATA) return;
+  const provs = DATA.provinces.filter(p=>p.subject===subj.id);
+  const playerCount = provs.filter(p=>owned.has(p.id)).length;
+  const botCount    = provs.filter(p=>botOwned.has(p.id)).length;
+  const totalKK     = playerCount * INCOME.kk;
+  const u = cascadeEnabled() ? unrestOf(subj.id) : 0;
+  const uColor = u>=7?'#ff4422':u>=4?'#ff8a5c':'#ffd65a';
+
+  const rows = [
+    ['Tartományok', provs.length + ' db'],
+    ['Játékos kezén', playerCount + ' db'],
+    ['Bot kezén', botCount + ' db'],
+    ['Semleges', (provs.length-playerCount-botCount) + ' db'],
+    ['KK-termelés', `+${totalKK} / kör`],
+    ...(cascadeEnabled() ? [['Nyugtalanság', `<span style="color:${uColor}">${u}/10</span>`]] : []),
+  ].map(([l,v])=>`<div class="info-row"><span class="lbl">${l}</span><span class="val">${v}</span></div>`).join('');
+
+  const uBar = cascadeEnabled()
+    ? `<div class="unrest-bar-wrap" style="margin-top:6px">
+        <div class="unrest-bar-fill" style="width:${u/10*100}%;background:${uColor}"></div>
+      </div>` : '';
+
+  document.getElementById('subj-body').innerHTML =
+    `<div class="subj-header">
+      <div class="subj-dot" style="background:${subj.color}"></div>
+      <span class="subj-name">${subj.name}</span>
+    </div>` + rows + uBar;
+
+  document.getElementById('subj-card').classList.add('visible');
 }
 
 // ── legend ────────────────────────────────────────────────────────────────
