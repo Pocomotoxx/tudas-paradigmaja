@@ -42,6 +42,8 @@ Monorepo (npm workspaces, TypeScript project references, Vitest):
 | Artifact | `artifacts/Artifact` | stratégiai tárgyak (közvetlen vagy capture-kapu), sereg-bónusz |
 | Hős | `heroes/Scientist` | diszciplína-affinitás (bónusz/mínusz), vezető a seregen |
 | Stratégiai kör | `game/StrategicLoop` | kampány-kör a régió-gráfon: sereg-mozgás (budget), ellenséges régióba lépve **hex-csata**, foglalás; **régió tantárgya → KK-termelés** körönként; save/load |
+| Nehézség | `game/Difficulty`, `education/MultipleChoice` | 4 szint: lázadás-intervallum 10/8/6/3 kör, feleletválasztós opciószám 2/3/5/7, 3–4. szinten tantárgy-nyugtalanság kaszkád |
+| Tantárgy-nyugtalanság | `game/SubjectUnrest` | 3–4. szint: sok rossz válasz → a tantárgy összes régiójában nő a nyugtalanság, és a tantárgy egységei növekvő eséllyel dezertálnak |
 | Integráció | `game/Game`, `game/Scenario` | mindezt egy hurokba fűzi + teljes save/load (v2); opcionális stratégiai réteg (`scenario.strategic`): sereg-mozgás régiók közt, ütközésnél valódi hex-csata |
 
 Prezentáció: `TextRenderer`, `ScriptedSession`, `demoScenario*`, `europe*`,

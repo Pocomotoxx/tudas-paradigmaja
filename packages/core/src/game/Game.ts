@@ -43,6 +43,8 @@ import { validateArtifact, type ArtifactDef } from "../artifacts/Artifact.js";
 import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
 import { RegionGraph, type RegionInit } from "../world/RegionGraph.js";
 import { StrategicLoop, type StrategicMove, type StrategicSnapshot } from "./StrategicLoop.js";
+import { Difficulty, difficultyParams, type DifficultyParams } from "./Difficulty.js";
+import { SubjectUnrest, type SubjectUnrestSnapshot } from "./SubjectUnrest.js";
 
 export interface GameSave {
   readonly version: 2;
@@ -70,6 +72,10 @@ export interface GameSave {
   readonly starving: boolean;
   /** Strategic (region-graph) campaign state, when the scenario has one. */
   readonly strategic?: StrategicSnapshot;
+  /** Subject-unrest cascade state (difficulty 3–4). */
+  readonly subjectUnrest?: SubjectUnrestSnapshot;
+  /** Per-center turn of the last allowed rebellion (rebellion-interval gate). */
+  readonly lastRebellionTurns?: Record<string, number>;
 }
 
 /** Build a battle combatant from an abstract strategic strength value. */
@@ -134,6 +140,9 @@ export class Game {
   private readonly recruitProvenance = new Map<string, { locationId: string; templateId: string }>();
 
   private strategic: StrategicLoop | null = null;
+  private readonly diff: DifficultyParams;
+  private readonly subjectUnrest: SubjectUnrest;
+  private readonly lastRebellionTurn = new Map<string, number>();
 
   private heroPos: Hex;
   private turnNumber = 1;
@@ -143,6 +152,8 @@ export class Game {
 
   constructor(scenario: ScenarioDef, seed: number) {
     this.scenario = scenario;
+    this.diff = difficultyParams(scenario.difficulty ?? Difficulty.ONE);
+    this.subjectUnrest = new SubjectUnrest({ enabled: this.diff.subjectUnrestCascade });
     this.map = new HexMap(scenario.tiles);
     this.phase = new PhaseMachine(GamePhase.STRATEGIC);
     this.rng = new SeededRng(seed);
@@ -250,6 +261,33 @@ export class Game {
     }
   }
 
+  /**
+   * Apply a maintenance answer to a center: feed the subject-unrest cascade,
+   * then let the center update. A newly-triggered rebellion is suppressed when
+   * the difficulty's rebellion interval has not yet elapsed since this center's
+   * last rebellion (the answer is reverted so no rebellion occurs this turn).
+   * Returns the authoritative center instance (may be a restored one).
+   */
+  private applyCenterAnswer(id: string, correct: boolean): KnowledgeCenter {
+    let c = this.center(id);
+    this.subjectUnrest.recordAnswer(c.subject, correct);
+    const wasRebelled = c.rebelled;
+    const before = c.toSnapshot();
+    c.answer(correct, this.turnNumber);
+    if (!wasRebelled && c.rebelled) {
+      const last = this.lastRebellionTurn.get(id);
+      if (last !== undefined && this.turnNumber - last < this.diff.rebellionIntervalTurns) {
+        // Rebellions can occur at most every rebellionIntervalTurns turns.
+        const idx = this.centers.findIndex((x) => x.id === id);
+        c = KnowledgeCenter.fromSnapshot(before);
+        this.centers[idx] = c;
+      } else {
+        this.lastRebellionTurn.set(id, this.turnNumber);
+      }
+    }
+    return c;
+  }
+
   private center(id: string): KnowledgeCenter {
     const c = this.centers.find((x) => x.id === id);
     if (c === undefined) throw new RangeError(`Unknown knowledge center: ${id}`);
@@ -320,10 +358,33 @@ export class Game {
         this.kk.earn(subject as Subject, amount);
       }
     }
+    // Subject-unrest cascade (difficulty 3–4): a subject under unrest sheds
+    // some of its own units to desertion, at a chance that grows with unrest.
+    if (this.subjectUnrest.isEnabled) {
+      for (const subj of this.subjectUnrest.unrestfulSubjects()) {
+        const units = this.recruits.filter((u) => u.subject === subj).sort((a, b) => (a.id < b.id ? -1 : 1));
+        const n = this.subjectUnrest.rollDesertions(subj, units.length, this.rng);
+        for (let i = 0; i < n; i++) {
+          const gone = units[i]!;
+          const idx = this.recruits.findIndex((u) => u.id === gone.id);
+          if (idx >= 0) this.recruits.splice(idx, 1);
+          this.recruitProvenance.delete(gone.id);
+        }
+      }
+    }
     this.turnNumber++;
     this.testSession.newTurn();
     this.strategic?.beginTurn(); // refill the army's movement budget
   }
+
+  // --- difficulty & subject unrest (I47/I48) ---
+  get difficulty(): Difficulty { return this.diff.level; }
+  get choiceCount(): number { return this.diff.choiceCount; }
+  get rebellionIntervalTurns(): number { return this.diff.rebellionIntervalTurns; }
+  /** Current unrest for a subject (0 unless difficulty 3–4 with wrong answers). */
+  unrestOf(subject: Subject): number { return this.subjectUnrest.unrestOf(subject); }
+  /** Desertion chance for a subject's units this turn (0..1). */
+  desertionChance(subject: Subject): number { return this.subjectUnrest.desertionChance(subject); }
 
   // --- strategic (region-graph) campaign layer ---
   get hasStrategicLayer(): boolean { return this.strategic !== null; }
@@ -421,11 +482,11 @@ export class Game {
     if (this.phase.current === GamePhase.TACTICAL) {
       throw new PhaseError("Maintenance checks are not allowed during combat");
     }
-    const c = this.center(id); // validates id (RangeError if unknown)
+    this.center(id); // validates id (RangeError if unknown)
     if (!this.capturedCenters.has(id)) {
       throw new PhaseError(`Center ${id} is not captured yet`);
     }
-    c.answer(correct, this.turnNumber);
+    this.applyCenterAnswer(id, correct);
   }
 
   // --- three-question timed capture (vision §11) ---
@@ -519,9 +580,9 @@ export class Game {
   resolveMaintenance(correct: boolean): MaintenanceResult {
     const pending = this.pendingMaintenance;
     if (pending === null) throw new PhaseError("No open maintenance check to resolve");
-    const c = this.center(pending.centerId);
-    const newTheta = this.rasch.update(c.subject, pending.question.b, correct);
-    c.answer(correct, this.turnNumber);
+    const subject = this.center(pending.centerId).subject;
+    const newTheta = this.rasch.update(subject, pending.question.b, correct);
+    const c = this.applyCenterAnswer(pending.centerId, correct);
     this.usedMaintenanceIds.add(pending.question.id);
     this.pendingMaintenance = null;
     return {
@@ -804,6 +865,8 @@ export class Game {
       supply: this.supply.balance,
       starving: this.starving,
       ...(this.strategic ? { strategic: this.strategic.snapshot() } : {}),
+      subjectUnrest: this.subjectUnrest.snapshot(),
+      lastRebellionTurns: Object.fromEntries([...this.lastRebellionTurn.entries()].sort()),
     };
   }
 
@@ -845,6 +908,8 @@ export class Game {
     if (save.supply !== undefined) g.supply.restore(save.supply);
     g.starving = save.starving ?? false;
     if (save.strategic !== undefined && g.strategic !== null) g.strategic.restore(save.strategic);
+    if (save.subjectUnrest !== undefined) g.subjectUnrest.restore(save.subjectUnrest);
+    for (const [id, t] of Object.entries(save.lastRebellionTurns ?? {})) g.lastRebellionTurn.set(id, t);
     return g;
   }
 }
