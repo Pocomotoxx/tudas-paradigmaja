@@ -12,7 +12,7 @@ function bank(n = 6): QuestionBank {
   return new QuestionBank(items);
 }
 
-function gate(opts: { windowMs?: number; required?: number; questions?: number } = {}) {
+function gate(opts: { windowMs?: number; required?: number; questions?: number; perQuestionMs?: number | null } = {}) {
   return new CaptureGate({
     targetId: "var",
     subject: Subject.MATEMATIKA,
@@ -20,6 +20,7 @@ function gate(opts: { windowMs?: number; required?: number; questions?: number }
     rasch: new RaschEstimator(),
     windowMs: opts.windowMs ?? 10000,
     ...(opts.required !== undefined ? { requiredCorrect: opts.required } : {}),
+    ...(opts.perQuestionMs !== undefined ? { perQuestionMs: opts.perQuestionMs } : {}),
   });
 }
 
@@ -108,6 +109,45 @@ describe("CaptureGate — three-question timed capture (vision §11)", () => {
     const g = gate();
     g.start(100);
     expect(() => g.submit(true, 50)).toThrow(RangeError);
+  });
+
+  it("is fully untimed with windowMs: Infinity and no perQuestionMs", () => {
+    const g = gate({ windowMs: Infinity });
+    expect(g.isUntimed).toBe(true);
+    g.start(0);
+    expect(g.remainingMs(999_999_999)).toBe(Infinity);
+    expect(g.questionRemainingMs(999_999_999)).toBe(Infinity);
+    expect(g.submit(true, 999_999_999).correctCount).toBe(1); // never expires
+    expect(g.poll(10 ** 15)).toBe(CaptureStatus.PENDING);
+  });
+
+  it("perQuestionMs times out the CURRENT question even when windowMs is infinite", () => {
+    const g = gate({ windowMs: Infinity, perQuestionMs: 1000 });
+    expect(g.isUntimed).toBe(false);
+    g.start(0);
+    expect(g.submit(true, 500).correctCount).toBe(1); // within the 1s per-question limit
+    const r = g.submit(true, 1600); // 2nd question drawn at t=500, deadline 1500
+    expect(r.status).toBe(CaptureStatus.TIMED_OUT);
+    expect(r.correctCount).toBe(1);
+  });
+
+  it("perQuestionMs resets on every new question", () => {
+    const g = gate({ windowMs: Infinity, perQuestionMs: 1000, required: 3 });
+    g.start(0);
+    g.submit(true, 900); // 1/3, next question deadline = 900 + 1000 = 1900
+    expect(g.questionRemainingMs(1800)).toBe(100);
+    expect(g.submit(true, 1800).correctCount).toBe(2); // still within the fresh deadline
+  });
+
+  it("abandon() ends a PENDING attempt with no success and no further moves", () => {
+    const g = gate();
+    g.start(0);
+    g.submit(true, 10); // 1/3
+    const r = g.abandon(20);
+    expect(r.status).toBe(CaptureStatus.ABANDONED);
+    expect(g.captured).toBe(false);
+    expect(() => g.submit(true, 30)).toThrow();
+    expect(() => g.abandon(40)).toThrow(); // already resolved
   });
 
   it("start throws when no question exists for the subject", () => {

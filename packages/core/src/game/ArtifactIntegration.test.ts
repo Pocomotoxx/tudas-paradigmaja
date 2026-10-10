@@ -4,9 +4,10 @@ import { BonusOp } from "../units/BonusSystem.js";
 import { DifficultyTier } from "../education/QuestionBank.js";
 import { CaptureStatus } from "../capture/CaptureGate.js";
 import { Game } from "./Game.js";
+import { Difficulty } from "./Difficulty.js";
 import type { ScenarioDef } from "./Scenario.js";
 
-function scenario(): ScenarioDef {
+function scenario(difficulty?: Difficulty): ScenarioDef {
   const tiles = [];
   for (let q = -1; q <= 1; q++) for (let r = -1; r <= 1; r++) if (Math.abs(-q - r) <= 1) tiles.push({ q, r });
   return {
@@ -39,6 +40,7 @@ function scenario(): ScenarioDef {
         capture: { subject: Subject.MATEMATIKA, windowMs: 10000, requiredCorrect: 3 },
       },
     ],
+    ...(difficulty !== undefined ? { difficulty } : {}),
   };
 }
 
@@ -63,10 +65,26 @@ describe("Game — artifact integration (I27)", () => {
     expect(game.isArtifactHeld("relic")).toBe(true);
   });
 
-  it("a timed-out capture does not grant the artifact", () => {
+  it("level 1 is untimed: an artifact capture never times out on its own", () => {
+    const game = new Game(scenario(), 1); // default difficulty = ONE
+    game.beginArtifactCapture("relic", 0);
+    const r = game.submitArtifactCapture(true, 999_999_999); // absurdly late, still fine
+    expect(r.status).toBe(CaptureStatus.PENDING);
+  });
+
+  it("level 1: the player may abandon an artifact capture, no penalty", () => {
     const game = new Game(scenario(), 1);
     game.beginArtifactCapture("relic", 0);
-    const r = game.submitArtifactCapture(true, 20000); // past the 10s window
+    game.abandonArtifactCapture(100);
+    expect(game.isArtifactHeld("relic")).toBe(false);
+    game.beginArtifactCapture("relic", 200); // re-attempt from scratch
+    expect(() => game.beginArtifactCapture("relic", 300)).toThrow(); // already in progress
+  });
+
+  it("level 4: a 10s per-question countdown times the capture out", () => {
+    const game = new Game(scenario(Difficulty.FOUR), 1);
+    game.beginArtifactCapture("relic", 0);
+    const r = game.submitArtifactCapture(true, 12_000); // past the 10s per-question limit
     expect(r.status).toBe(CaptureStatus.TIMED_OUT);
     expect(game.isArtifactHeld("relic")).toBe(false);
   });

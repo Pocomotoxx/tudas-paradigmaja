@@ -3,9 +3,10 @@ import { Subject } from "../economy/KKLedger.js";
 import { DifficultyTier } from "../education/QuestionBank.js";
 import { CaptureStatus } from "../capture/CaptureGate.js";
 import { Game } from "./Game.js";
+import { Difficulty } from "./Difficulty.js";
 import type { ScenarioDef } from "./Scenario.js";
 
-function scenario(): ScenarioDef {
+function scenario(difficulty?: Difficulty): ScenarioDef {
   const tiles = [];
   for (let q = -1; q <= 1; q++) for (let r = -1; r <= 1; r++) if (Math.abs(-q - r) <= 1) tiles.push({ q, r });
   return {
@@ -42,6 +43,7 @@ function scenario(): ScenarioDef {
         captureRequiredCorrect: 3,
       },
     ],
+    ...(difficulty !== undefined ? { difficulty } : {}),
   };
 }
 
@@ -69,11 +71,31 @@ describe("Game — capture-gate integration (I13)", () => {
     expect(() => game.startMaintenance("var")).not.toThrow();
   });
 
-  it("a timed-out capture does not grant control", () => {
+  it("level 1 is untimed: no answer, however late, times a capture out", () => {
+    const game = new Game(scenario(), 1); // default difficulty = ONE
+    game.beginCapture("var", 0);
+    game.submitCapture(true, 100); // 1/3
+    const res = game.submitCapture(true, 999_999_999); // absurdly late, still fine
+    expect(res.status).toBe(CaptureStatus.PENDING); // 2/3, not timed out
+  });
+
+  it("level 1: the player may abandon the settlement at any time, no penalty", () => {
     const game = new Game(scenario(), 1);
     game.beginCapture("var", 0);
     game.submitCapture(true, 100); // 1/3
-    const res = game.submitCapture(true, 20000); // past the 10s window
+    game.abandonCapture(500);
+    expect(game.hasPendingCapture).toBe(false);
+    expect(game.isCenterCaptured("var")).toBe(false);
+    // The center may be re-attempted from scratch afterwards.
+    game.beginCapture("var", 600);
+    expect(game.hasPendingCapture).toBe(true);
+  });
+
+  it("level 4: each question has only a 10s countdown — running out times out the capture", () => {
+    const game = new Game(scenario(Difficulty.FOUR), 1);
+    game.beginCapture("var", 0);
+    game.submitCapture(true, 100); // 1/3, well within 10s
+    const res = game.submitCapture(true, 12_000); // past the 10s per-question limit
     expect(res.status).toBe(CaptureStatus.TIMED_OUT);
     expect(res.captured).toBe(false);
     expect(game.isCenterCaptured("var")).toBe(false);

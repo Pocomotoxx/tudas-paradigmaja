@@ -1,7 +1,7 @@
 // demoScenario — a single playable slice used by the CLI demo and tests.
 // Pure data (G1: one scripted scenario).
 
-import { Subject, BonusOp, DifficultyTier, type ScenarioDef } from "@tudas-paradigmaja/core";
+import { Subject, BonusOp, DifficultyTier, type Difficulty, type ScenarioDef } from "@tudas-paradigmaja/core";
 
 export function demoScenario(): ScenarioDef {
   const tiles = [];
@@ -44,8 +44,13 @@ export function demoScenario(): ScenarioDef {
   };
 }
 
-/** Demo scenario with a capture-required knowledge center (3-question gate). */
-export function demoScenarioWithCapture(): ScenarioDef {
+/**
+ * Demo scenario with a capture-required knowledge center (3-question gate).
+ * `difficulty` governs the per-question answer timer (see core Difficulty):
+ * default (undefined -> level 1) is untimed; pass Difficulty.THREE/FOUR to
+ * exercise the 20s/10s countdown.
+ */
+export function demoScenarioWithCapture(difficulty?: Difficulty): ScenarioDef {
   const base = demoScenarioWithCenter();
   return {
     ...base,
@@ -61,6 +66,7 @@ export function demoScenarioWithCapture(): ScenarioDef {
         captureRequiredCorrect: 3,
       },
     ],
+    ...(difficulty !== undefined ? { difficulty } : {}),
   };
 }
 
