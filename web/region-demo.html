@@ -110,6 +110,30 @@
   #q-cancel{ background:none; border:none; color:var(--muted); font-size:12px;
     cursor:pointer; margin-top:14px; padding:0; }
   #q-cancel:hover{ color:#e7ebf0; }
+  /* Game over modal */
+  #go-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:300;
+    display:flex; align-items:center; justify-content:center; }
+  #go-overlay.hidden{ display:none; }
+  #go-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:36px 40px; max-width:440px; width:90%; text-align:center;
+    box-shadow:0 32px 80px rgba(0,0,0,.7); }
+  #go-title{ font-size:28px; font-weight:800; margin-bottom:8px; }
+  #go-title.win{ color:#7ddf7d; }
+  #go-title.lose{ color:#ff6b6b; }
+  #go-sub{ color:var(--muted); font-size:14px; margin-bottom:20px; }
+  #go-stats{ background:#262b33; border-radius:8px; padding:12px 16px;
+    font-size:13px; text-align:left; margin-bottom:20px; display:flex; flex-direction:column; gap:6px; }
+  #go-stats .gs-row{ display:flex; justify-content:space-between; }
+  #go-stats .gs-lbl{ color:var(--muted); }
+  #go-stats .gs-val{ font-weight:600; color:#e7ebf0; }
+  #go-newgame{ background:#2a4a2a; color:#7ddf7d; border:1px solid #3a6b3a;
+    border-radius:8px; padding:10px 28px; cursor:pointer; font-size:15px; font-weight:700; }
+  #go-newgame:hover{ background:#3a5e3a; }
+  /* XP bar */
+  #xp-bar{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); margin-top:4px; }
+  #xp-bar b{ color:#ffd700; }
+  #xp-fill-wrap{ flex:1; background:#262b33; border-radius:4px; height:5px; overflow:hidden; }
+  #xp-fill{ height:100%; background:#ffd700; border-radius:4px; transition:width .4s; }
   #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
   #ctrl-bar button{ background:rgba(26,30,38,.85); color:#9aa4b2; border:1px solid #3a414b;
     border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; backdrop-filter:blur(4px); }
@@ -150,6 +174,11 @@
         <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
         <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
         <button id="btn-end-turn">Kör vége ▶</button>
+      </div>
+      <div id="xp-bar">
+        <b id="xp-label">XP: 0</b>
+        <div id="xp-fill-wrap"><div id="xp-fill" style="width:0%"></div></div>
+        <span id="xp-streak"></span>
       </div>
     </div>
     <div class="card">
@@ -244,12 +273,29 @@ function pickQuestion(subjectId){
 
 let _timerInterval = null;
 
+function provinceChoiceCount(prov){
+  // i62: province b difficulty (-3..+3) shifts choice count within difficulty band
+  const base = DIFFICULTIES[currentDifficulty].choiceCount;
+  const b = prov.b ?? 0; // IRT difficulty, typically -3..+3
+  const delta = b > 1 ? 2 : b > 0 ? 1 : b < -1 ? -1 : 0;
+  return Math.min(7, Math.max(2, base + delta));
+}
+
+function provinceTimeLimit(prov){
+  const base = DIFFICULTIES[currentDifficulty].answerTimeLimitMs;
+  if(!base) return null;
+  const b = prov.b ?? 0;
+  // harder provinces get less time
+  if(b > 1) return Math.max(5000, base - 5000);
+  return base;
+}
+
 function showQuestionModal(prov, onSuccess, onCancel){
   const q = pickQuestion(prov.subject);
   const subj = DATA.subjects?.find(s=>s.id===prov.subject);
   const overlay = document.getElementById('q-overlay');
-  const choiceCount = DIFFICULTIES[currentDifficulty].choiceCount;
-  const timeLimitMs = DIFFICULTIES[currentDifficulty].answerTimeLimitMs;
+  const choiceCount = provinceChoiceCount(prov);
+  const timeLimitMs = provinceTimeLimit(prov);
 
   // Build shuffled choices: correct + N-1 distractors
   const distractors = (q ? [...q.distractors] : []).sort(()=>Math.random()-.5).slice(0, choiceCount-1);
@@ -296,8 +342,15 @@ function showQuestionModal(prov, onSuccess, onCancel){
         clearInterval(_timerInterval);
         setTimeout(()=>{
           finishModal(correct, prov);
-          if(correct) onSuccess && onSuccess();
-          else {
+          if(correct){
+            streak++;
+            const earned = XP_PER_CORRECT + (streak > 1 ? XP_STREAK_BONUS * (streak - 1) : 0);
+            addXP(earned);
+            const streakMsg = streak > 1 ? ` 🔥 Sorozat ×${streak} (+${earned} XP)` : ` (+${earned} XP)`;
+            addEvent('&#10003; Helyes válasz!' + streakMsg, 'ev-player');
+            onSuccess && onSuccess();
+          } else {
+            streak = 0; renderXPBar();
             addEvent('&#10007; Rossz válasz! Nem sikerült elfoglalni: <b>' + prov.name + '</b>', 'ev-info');
             onCancel && onCancel();
           }
@@ -338,6 +391,81 @@ const INCOME = { gold: 8, kk: 3 };
 const BOT_INCOME = { gold: 6, kk: 2 };
 let botGold = 20, botKK = 10;
 let eventLog = [];
+
+// ── XP / streak system (i64) ──────────────────────────────────────────────
+let xp = 0;
+let streak = 0;
+const XP_PER_CORRECT = 10;
+const XP_STREAK_BONUS = 5; // extra per streak level (×streak count)
+const XP_PER_LEVEL = 100;
+
+function addXP(amount){
+  xp += amount;
+  renderXPBar();
+}
+
+function renderXPBar(){
+  const level = Math.floor(xp / XP_PER_LEVEL) + 1;
+  const inLevel = xp % XP_PER_LEVEL;
+  document.getElementById('xp-label').textContent = `XP: ${xp}  (Szint ${level})`;
+  document.getElementById('xp-fill').style.width = (inLevel) + '%';
+  const el = document.getElementById('xp-streak');
+  el.textContent = streak >= 2 ? `🔥 ×${streak}` : '';
+}
+
+// ── victory conditions (i61) ──────────────────────────────────────────────
+const WIN_THRESHOLD = 0.60; // 60% of total provinces
+
+let gameOver = false;
+
+function checkVictory(){
+  if(gameOver || !DATA) return;
+  const total = DATA.provinces.length;
+  if(!total) return;
+  const playerRatio = owned.size / total;
+  const botRatio    = botOwned.size / total;
+  if(playerRatio >= WIN_THRESHOLD){ showGameOver(true); return; }
+  if(botRatio    >= WIN_THRESHOLD){ showGameOver(false); }
+}
+
+function showGameOver(win){
+  gameOver = true;
+  document.getElementById('btn-end-turn').disabled = true;
+  const total = DATA.provinces.length;
+  const overlay = document.getElementById('go-overlay');
+  const title = document.getElementById('go-title');
+  const sub = document.getElementById('go-sub');
+  const stats = document.getElementById('go-stats');
+  title.textContent = win ? '🏆 Győzelem!' : '💀 Vereség';
+  title.className   = win ? 'win' : 'lose';
+  sub.textContent   = win
+    ? `Elfoglaltad a térkép ${Math.round(WIN_THRESHOLD*100)}%-át — A Tudás Győzött!`
+    : `A bot elérte a ${Math.round(WIN_THRESHOLD*100)}%-os határt — Vereség!`;
+  stats.innerHTML = [
+    ['Körök száma', turnNumber],
+    ['Elfoglalt tartományok', `${owned.size} / ${total}`],
+    ['Bot tartományai', `${botOwned.size} / ${total}`],
+    ['Összesített XP', xp],
+    ['Szint', Math.floor(xp/XP_PER_LEVEL)+1],
+    ['Arany maradt', gold],
+  ].map(([l,v])=>`<div class="gs-row"><span class="gs-lbl">${l}</span><span class="gs-val">${v}</span></div>`).join('');
+  overlay.classList.remove('hidden');
+}
+
+function resetGame(){
+  gameOver = false;
+  turnNumber = 1;
+  gold = 0; kk = 0;
+  botGold = 20; botKK = 10;
+  xp = 0; streak = 0;
+  owned.clear(); botOwned.clear();
+  eventLog = [];
+  document.getElementById('event-log').innerHTML = '<div class="ev-info">Új játék kezdődött.</div>';
+  document.getElementById('go-overlay').classList.add('hidden');
+  document.getElementById('btn-end-turn').disabled = false;
+  renderTurnBar(); renderXPBar();
+  if(DATA){ renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard(); }
+}
 
 const DIFFICULTIES = {
   1:{ rebellionIntervalTurns:10, choiceCount:2, subjectUnrestCascade:false, answerTimeLimitMs:null },
@@ -736,6 +864,7 @@ function toggleOwned(id){
           triggerConquest(id, true);
           addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)`, 'ev-player');
           renderOwnershipOverlay3D(); renderOwnedCard();
+          checkVictory();
           const selProv = byId[id]; if(selProv) showInfo(selProv);
         },
         ()=>{ // cancel / wrong
@@ -750,6 +879,7 @@ function toggleOwned(id){
       triggerConquest(id, true);
       addEvent(`&#9873; Elfoglalva: <b>${prov?.name??id}</b> (-${cost} arany)`, 'ev-player');
       renderOwnershipOverlay3D(); renderOwnedCard();
+      checkVictory();
     }
   }
 }
@@ -1097,8 +1227,26 @@ function utilityScore(prov){
   return (V * K - T) / distCost;
 }
 
+// i63: improved bot score — adjacency + player-blocking priority
+function botScore(prov){
+  if(!DATA) return 0;
+  const isCapital = prov.capital ? 400 : 0;
+  const adjCount  = prov.adj?.length ?? 0;
+  const subj = DATA.subjects?.find(s=>s.id===prov.subject);
+  const K = subj ? 1.5 : 1.0;
+  // Prefer provinces adjacent to bot territory (expansion continuity)
+  const botAdj  = (prov.adj??[]).filter(id=>botOwned.has(id)).length;
+  // Reward blocking player: bonus if adjacent to player province
+  const playerAdj = (prov.adj??[]).filter(id=>owned.has(id)).length;
+  const blockBonus = playerAdj * 50;
+  const base = (100 + isCapital + adjCount * 8) * K;
+  // Distance cost: isolated provinces cost more (no adjacency)
+  const distCost = botOwned.size === 0 ? 1 : Math.max(1, 4 - botAdj * 2);
+  return (base + blockBonus) / distCost;
+}
+
 function botTurn(){
-  if(!DATA) return;
+  if(!DATA || gameOver) return;
   // Collect income for bot
   botGold += botOwned.size * BOT_INCOME.gold + BOT_INCOME.gold;
   botKK   += botOwned.size * BOT_INCOME.kk   + BOT_INCOME.kk;
@@ -1109,19 +1257,22 @@ function botTurn(){
   );
   if(!candidates.length) return;
 
-  // Sort by utility score descending
-  candidates.sort((a,b) => utilityScore(b) - utilityScore(a));
-  const cost = 20; // gold cost per conquest
-  if(botGold < cost) return; // bot can't afford
+  candidates.sort((a,b) => botScore(b) - botScore(a));
+  const cost = 20;
+  if(botGold < cost) return;
 
-  const target = candidates[0];
-  botOwned.add(target.id);
-  botGold -= cost;
-
-  // Visual: orange outline + conquest animation
-  renderBotOverlay();
-  triggerConquest(target.id, false);
-  addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
+  // Bot can afford up to 2 conquests per turn if gold allows
+  let conquered = 0;
+  for(const target of candidates){
+    if(botGold < cost || conquered >= 2) break;
+    botOwned.add(target.id);
+    botGold -= cost;
+    conquered++;
+    renderBotOverlay();
+    triggerConquest(target.id, false);
+    addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
+  }
+  checkVictory();
 }
 
 function renderBotOverlay(){
@@ -1150,12 +1301,11 @@ function playerIncome(){
 }
 
 function endTurn(){
+  if(gameOver) return;
   document.getElementById('btn-end-turn').disabled = true;
-  // 1. Player income
   playerIncome();
-  // 2. Bot acts
   botTurn();
-  // 3. Next turn
+  if(gameOver) return; // bot may have triggered game over
   turnNumber++;
   renderTurnBar();
   addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
@@ -1163,8 +1313,9 @@ function endTurn(){
 }
 
 function initTurnSystem(){
-  renderTurnBar();
+  renderTurnBar(); renderXPBar();
   document.getElementById('btn-end-turn').addEventListener('click', endTurn);
+  document.getElementById('go-newgame').addEventListener('click', resetGame);
 }
 
 // ── controls wiring ───────────────────────────────────────────────────────
@@ -1188,6 +1339,14 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
   const first=byPack[sel.value]; loadPack(first.dir,first);
 }).catch(()=>{ loadPack('fantasy',{name:'Fantáziavilág'}); });
 </script>
+<div id="go-overlay" class="hidden">
+  <div id="go-box">
+    <div id="go-title"></div>
+    <div id="go-sub"></div>
+    <div id="go-stats"></div>
+    <button id="go-newgame">&#8635; Új játék</button>
+  </div>
+</div>
 <div id="q-overlay" class="hidden">
   <div id="q-box">
     <div id="q-subject"></div>
