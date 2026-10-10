@@ -26,6 +26,19 @@
   .prov.sel{ stroke:#fff; stroke-width:1.6; }
   #info b{ color:#fff; } #info .k{ color:var(--muted); }
   .cap-star{ fill:#fff; stroke:#333; stroke-width:.4; }
+  select{ background:#1b1e24; color:#e7ebf0; border:1px solid #3a414b; border-radius:5px; padding:2px 6px; }
+  .diff-row{ display:flex; justify-content:space-between; margin:3px 0; }
+  .unrest-row{ display:flex; align-items:center; gap:6px; margin:6px 0; }
+  .unrest-row i{ display:inline-block; width:10px; height:10px; border-radius:2px; flex:0 0 auto; }
+  .unrest-row .name{ flex:1 1 auto; }
+  .unrest-row button{ background:#333a44; color:#e7ebf0; border:1px solid #454d58;
+    border-radius:4px; width:22px; height:22px; cursor:pointer; font-size:12px; line-height:1; }
+  .unrest-row button:hover{ background:#454d58; }
+  .unrest-row .pct{ width:38px; text-align:right; color:var(--muted); font-size:12px; }
+  .unrest-row.danger .pct{ color:#ff8a5c; font-weight:600; }
+  .warn-line{ color:#ff8a5c; font-weight:600; }
+  .unrest-badge{ animation:unrest-pulse 1.4s ease-in-out infinite; }
+  @keyframes unrest-pulse{ 0%,100%{ opacity:.65; } 50%{ opacity:1; } }
 </style>
 </head>
 <body>
@@ -33,7 +46,14 @@
   <b>A Tudás Paradigmája</b> —
   <span>régió-alapú stratégiai réteg (a csaták a hex-rétegben zajlanak)</span>
   &nbsp;·&nbsp; Térkép:
-  <select id="pack-select" style="background:#1b1e24;color:#e7ebf0;border:1px solid #3a414b;border-radius:5px;padding:2px 6px"></select>
+  <select id="pack-select"></select>
+  &nbsp;·&nbsp; Nehézség:
+  <select id="diff-select">
+    <option value="1">1 — korlátlan idő</option>
+    <option value="2">2 — korlátlan idő</option>
+    <option value="3">3 — 20 mp / kérdés</option>
+    <option value="4">4 — 10 mp / kérdés</option>
+  </select>
   <span id="hero-flag" class="k"></span>
 </header>
 <div id="wrap">
@@ -44,8 +64,16 @@
       <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
     </div>
     <div class="card">
+      <h3>Nehézség</h3>
+      <div id="diff-body"></div>
+    </div>
+    <div class="card">
       <h3 id="legend-title">Frakciók</h3>
       <div class="legend" id="legend"></div>
+    </div>
+    <div class="card">
+      <h3>Tantárgy-nyugtalanság (szimuláció)</h3>
+      <div id="unrest-body"></div>
     </div>
     <div class="card">
       <h3>Megjegyzés</h3>
@@ -60,6 +88,135 @@
 const PALETTE = {}; // faction id -> color (from map.json)
 let DATA = null, byId = {};
 let HEROES = {};    // nutsId -> [ {id,name,subject,birthLabel}, ... ]  (Europe only)
+
+// --- Difficulty (mirrors packages/core/src/game/Difficulty.ts) -----------
+// A standalone, no-build demo can't import the compiled core package directly
+// here, so this small table mirrors the authoritative one in core — same
+// philosophy as PALETTE/hexToPixel mirroring the engine elsewhere on this page.
+const DIFFICULTIES = {
+  1: { rebellionIntervalTurns:10, choiceCount:2, subjectUnrestCascade:false, answerTimeLimitMs:null },
+  2: { rebellionIntervalTurns:8,  choiceCount:3, subjectUnrestCascade:false, answerTimeLimitMs:null },
+  3: { rebellionIntervalTurns:6,  choiceCount:5, subjectUnrestCascade:true,  answerTimeLimitMs:20000 },
+  4: { rebellionIntervalTurns:3,  choiceCount:7, subjectUnrestCascade:true,  answerTimeLimitMs:10000 },
+};
+let currentDifficulty = 1;
+
+// --- Subject unrest (mirrors packages/core/src/game/SubjectUnrest.ts) ----
+// Confirmed balance (SUBJECT_UNREST_DEFAULTS, see core): 3 wrong answers are
+// free, the 4th starts raising unrest; at max unrest (10) a subject's units
+// have an 80% per-turn desertion chance. Active only on difficulty 3–4.
+const UNREST_DEFAULTS = { wrongThreshold:3, unrestStep:1, coolStep:1, maxUnrest:10, desertionPerUnrest:0.08 };
+let unrestWrong = {};  // subjectId -> consecutive-wrong counter
+let unrestLevel = {};  // subjectId -> unrest 0..10
+
+function cascadeEnabled(){ return DIFFICULTIES[currentDifficulty].subjectUnrestCascade; }
+
+function recordAnswer(subjectId, correct){
+  if(!cascadeEnabled()) return;
+  if(correct){
+    unrestLevel[subjectId] = Math.max(0, (unrestLevel[subjectId]||0) - UNREST_DEFAULTS.coolStep);
+    unrestWrong[subjectId] = Math.max(0, (unrestWrong[subjectId]||0) - 1);
+  } else {
+    const w = (unrestWrong[subjectId]||0) + 1;
+    unrestWrong[subjectId] = w;
+    if(w > UNREST_DEFAULTS.wrongThreshold){
+      unrestLevel[subjectId] = Math.min(UNREST_DEFAULTS.maxUnrest, (unrestLevel[subjectId]||0) + UNREST_DEFAULTS.unrestStep);
+    }
+  }
+  renderUnrestCard(); renderUnrestOverlay();
+}
+function resetUnrest(subjectId){
+  delete unrestWrong[subjectId]; delete unrestLevel[subjectId];
+  renderUnrestCard(); renderUnrestOverlay();
+}
+function unrestOf(subjectId){ return unrestLevel[subjectId]||0; }
+function desertionChance(subjectId){ return Math.min(1, unrestOf(subjectId)*UNREST_DEFAULTS.desertionPerUnrest); }
+
+// --- Difficulty card: current level's rules in plain language -------------
+function renderDiffCard(){
+  const d = DIFFICULTIES[currentDifficulty];
+  const time = d.answerTimeLimitMs===null ? "korlátlan (akár otthagyhatod a települést)" : (d.answerTimeLimitMs/1000)+" mp / kérdés";
+  document.getElementById("diff-body").innerHTML =
+    `<div class="diff-row"><span class="k">Válaszidő:</span> <b>${time}</b></div>`+
+    `<div class="diff-row"><span class="k">Lázadás legfeljebb:</span> <b>${d.rebellionIntervalTurns} körönként</b></div>`+
+    `<div class="diff-row"><span class="k">Feleletválasztós opciók:</span> <b>${d.choiceCount}</b></div>`+
+    `<div class="diff-row"><span class="k">Tantárgy-nyugtalanság:</span> <b>${d.subjectUnrestCascade?"aktív":"nincs hatással"}</b></div>`;
+}
+
+// --- Subject-unrest simulation card: per-subject wrong/correct buttons ----
+// Only meaningful on a subject map (Europe pack); the fantasy pack has no
+// per-province subject, so the simulator explains that instead of a list.
+function renderUnrestCard(){
+  const box=document.getElementById("unrest-body");
+  if(!DATA || !DATA.subjects || !DATA.subjects.length){
+    box.innerHTML = '<span class="k">Ez a térkép nem tananyag-térkép (a régióknak nincs tantárgya) — a szimuláció csak az Európa-csomagon elérhető.</span>';
+    return;
+  }
+  if(!cascadeEnabled()){
+    box.innerHTML = '<span class="k">Az 1–2. nehézségi szinten a tantárgy-nyugtalanság nincs hatással. Válts 3. vagy 4. szintre a kipróbáláshoz.</span>';
+    return;
+  }
+  box.innerHTML = DATA.subjects.map(s=>{
+    const u=unrestOf(s.id), pct=Math.round(desertionChance(s.id)*100);
+    return `<div class="unrest-row${u>0?' danger':''}" data-s="${s.id}">`+
+      `<i style="background:${s.color}"></i><span class="name">${s.name}</span>`+
+      `<button data-act="correct" title="Helyes válasz">✓</button>`+
+      `<button data-act="wrong" title="Rossz válasz">✗</button>`+
+      `<button data-act="reset" title="Nullázás">↺</button>`+
+      `<span class="pct">${u}/10 · ${pct}%</span>`+
+    `</div>`;
+  }).join("");
+  box.querySelectorAll(".unrest-row").forEach(row=>{
+    const id = row.dataset.s;
+    row.querySelector('[data-act="correct"]').addEventListener("click", ()=>recordAnswer(id, true));
+    row.querySelector('[data-act="wrong"]').addEventListener("click", ()=>recordAnswer(id, false));
+    row.querySelector('[data-act="reset"]').addEventListener("click", ()=>resetUnrest(id));
+  });
+}
+
+// --- Map overlay: hazard stripes + a pulsing warning badge on every region
+// whose subject is currently unrestful (cascade active + unrest > 0). ------
+function ensureHazardPattern(svg){
+  if(svg.querySelector("#hazard-stripes")) return;
+  const ns="http://www.w3.org/2000/svg";
+  const defs=document.createElementNS(ns,"defs");
+  defs.innerHTML =
+    '<pattern id="hazard-stripes" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'+
+    '<rect width="7" height="7" fill="none"/><line x1="0" y1="0" x2="0" y2="7" stroke="#ff5a36" stroke-width="3.5"/>'+
+    '</pattern>';
+  svg.insertBefore(defs, svg.firstChild);
+}
+
+function renderUnrestOverlay(){
+  if(!DATA) return;
+  const svg = document.querySelector("#mapbox svg"); if(!svg) return;
+  const old = svg.querySelector("#unrest-overlay"); if(old) old.remove();
+  if(!DATA.subjects || !DATA.subjects.length || !cascadeEnabled()) return;
+  const unrestful = DATA.subjects.filter(s=>unrestOf(s.id)>0);
+  if(!unrestful.length) return;
+  ensureHazardPattern(svg);
+  const ns="http://www.w3.org/2000/svg";
+  const g=document.createElementNS(ns,"g"); g.id="unrest-overlay"; g.style.pointerEvents="none";
+  for(const s of unrestful){
+    const chance = desertionChance(s.id);
+    const opacity = 0.22 + chance*0.55;
+    for(const p of DATA.provinces.filter(x=>x.subject===s.id)){
+      const srcPath = document.getElementById("prov_"+p.id); if(!srcPath) continue;
+      const overlay=document.createElementNS(ns,"path");
+      overlay.setAttribute("d", srcPath.getAttribute("d"));
+      overlay.setAttribute("fill", "url(#hazard-stripes)");
+      overlay.setAttribute("opacity", opacity.toFixed(2));
+      g.appendChild(overlay);
+      const badge=document.createElementNS(ns,"g");
+      badge.setAttribute("class","unrest-badge");
+      badge.innerHTML =
+        `<circle cx="${p.cx}" cy="${p.cy}" r="4.2" fill="#ff5a36" stroke="#5a1c10" stroke-width="0.5"/>`+
+        `<text x="${p.cx}" y="${p.cy+2.4}" text-anchor="middle" font-size="5.2" fill="#fff" font-weight="700">!</text>`;
+      g.appendChild(badge);
+    }
+  }
+  svg.appendChild(g);
+}
 
 function lighten(hex, f){
   const n=parseInt(hex.slice(1),16);
@@ -95,6 +252,9 @@ function showInfo(p){
   const subjHtml = subj
     ? `<div class="k">Tantárgy:</div> <span style="color:${subj.color}">&#9632;</span> <b>${subj.name}</b><br>`
     : "";
+  const unrestHtml = (subj && cascadeEnabled() && unrestOf(subj.id)>0)
+    ? `<div class="warn-line">&#9888; Nyugtalanság: ${unrestOf(subj.id)}/10 — ~${Math.round(desertionChance(subj.id)*100)}% dezertálási esély/kör</div>`
+    : "";
   document.getElementById("info-body").innerHTML =
     `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+
     ident+
@@ -102,6 +262,7 @@ function showInfo(p){
     `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${facLabel}<br>`+
     `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
     (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'')+
+    unrestHtml+
     heroHtml;
 }
 
@@ -194,12 +355,14 @@ function loadPack(dir, pack){
     fetch("world/"+dir+"/map.json").then(r=>{ if(!r.ok) throw 0; return r.json(); }),
   ]).then(([svgText, data])=>{
     DATA=data; for(const k in PALETTE) delete PALETTE[k]; byId={}; HEROES={};
+    unrestWrong={}; unrestLevel={}; // fresh start on every pack switch
     data.factions.forEach(f=>PALETTE[f.id]=f.color);
     data.provinces.forEach(p=>byId[p.id]=p);
     const doc=new DOMParser().parseFromString(svgText,"image/svg+xml");
     const svg=doc.documentElement;
     box.innerHTML=""; box.appendChild(svg);
     paint(); wire(); buildLegend(); addCapitals(svg);
+    renderUnrestCard(); renderUnrestOverlay();
     const supports = (data.meta && data.meta.supportsHeroes);
     document.getElementById("hero-flag").textContent =
       supports ? "· hősök/felfedezők: IGEN (valós szülőhelyek)" : "· hősök/felfedezők: nincs (fantáziavilág)";
@@ -233,6 +396,12 @@ function loadPack(dir, pack){
       '<span class="k">A csomag legenerálása után itt jelennek meg a provincia-adatok.</span>';
   });
 }
+
+document.getElementById("diff-select").addEventListener("change", (e)=>{
+  currentDifficulty = Number(e.target.value);
+  renderDiffCard(); renderUnrestCard(); renderUnrestOverlay();
+});
+renderDiffCard(); renderUnrestCard();
 
 fetch("world/packs.json").then(r=>r.json()).then(idx=>{
   const sel=document.getElementById("pack-select");
