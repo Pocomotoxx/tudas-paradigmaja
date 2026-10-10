@@ -401,26 +401,46 @@ function resetCamera(){
 
 // ── 3D markers ────────────────────────────────────────────────────────────
 
+// Build a pin: thin needle (CylinderGeometry) + head sphere, merged into a Group
+function makePin(headColor, headR, needleH){
+  const group = new THREE.Group();
+  // needle: thin tapered cylinder, base at z=0, tip at z=needleH
+  const needleGeo = new THREE.CylinderGeometry(0.04, 0.12, needleH, 6);
+  needleGeo.rotateX(Math.PI/2); // align along Z axis
+  needleGeo.translate(0, 0, needleH/2);
+  const needleMat = new THREE.MeshStandardMaterial({ color:0xcccccc, roughness:0.4, metalness:0.6 });
+  group.add(new THREE.Mesh(needleGeo, needleMat));
+  // head sphere
+  const headGeo = new THREE.SphereGeometry(headR, 8, 8);
+  headGeo.translate(0, 0, needleH);
+  const headMat = new THREE.MeshStandardMaterial({ color:headColor, roughness:0.3, metalness:0.2 });
+  group.add(new THREE.Mesh(headGeo, headMat));
+  group.children.forEach(c=>c.userData.isMarker=true);
+  group.userData.isMarker = true;
+  return group;
+}
+
 function addCapitals3D(){
   if(!DATA) return;
-  const geo = new THREE.SphereGeometry(0.85, 7, 7);
-  const mat = new THREE.MeshBasicMaterial({ color:0xffffff });
   for(const p of DATA.provinces.filter(x=>x.capital)){
     const w=toWorld(p.cx,p.cy);
-    const m=new THREE.Mesh(geo,mat); m.position.set(w.x,w.y,SLAB_H+1.3);
-    m.userData.isMarker=true; markerGroup.add(m);
+    const pin = makePin(0xffffff, 0.55, 2.4);
+    pin.position.set(w.x, w.y, SLAB_H);
+    pin.userData.isMarker=true;
+    markerGroup.add(pin);
   }
 }
 
 function addHeroMarkers3D(){
   if(!DATA) return;
-  const mat = new THREE.MeshBasicMaterial({ color:0xffd65a });
   for(const p of DATA.provinces){
     const list=p.nutsId&&HEROES[p.nutsId]; if(!list?.length) continue;
     const w=toWorld(p.cx,p.cy);
-    const r=Math.min(1.2,0.5+list.length*0.15);
-    const m=new THREE.Mesh(new THREE.SphereGeometry(r,6,6),mat.clone());
-    m.position.set(w.x,w.y,SLAB_H+0.9); m.userData.isMarker=true; markerGroup.add(m);
+    const r=Math.min(0.5,0.28+list.length*0.07);
+    const pin = makePin(0xffd65a, r, 1.6);
+    pin.position.set(w.x, w.y, SLAB_H);
+    pin.userData.isMarker=true;
+    markerGroup.add(pin);
   }
 }
 
