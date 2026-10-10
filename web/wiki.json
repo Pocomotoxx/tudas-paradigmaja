@@ -7,32 +7,67 @@
       {
         "heading": "Szófajok",
         "body": "A szófaj a szavak nyelvtani osztálya. Főbb szófajok: **ige** (cselekvést, történést fejez ki, pl. fut, olvas), **főnév** (dolgot, személyt nevez meg, pl. ház, ember), **melléknév** (tulajdonságot fejez ki, pl. szép, nagy), **számnév** (mennyiséget jelöl, pl. három), **névmás** (szófajokat helyettesít, pl. ő, ez), **határozószó** (körülményt fejez ki, pl. gyorsan).",
-        "keywords": ["ige", "főnév", "melléknév", "számnév", "névmás", "határozószó", "szófaj"]
+        "keywords": [
+          "ige",
+          "főnév",
+          "melléknév",
+          "számnév",
+          "névmás",
+          "határozószó",
+          "szófaj"
+        ]
       },
       {
         "heading": "Magyar ábécé – magánhangzók",
         "body": "A magyar ábécé **14 magánhangzót** tartalmaz: a, á, e, é, i, í, o, ó, ö, ő, u, ú, ü, ű. A rövid–hosszú pár jellemzi őket (pl. a–á, o–ó, ü–ű). A magánhangzók hosszúságát ékezet jelzi.",
-        "keywords": ["magánhangzó", "ábécé", "14", "ékezet"]
+        "keywords": [
+          "magánhangzó",
+          "ábécé",
+          "14",
+          "ékezet"
+        ]
       },
       {
         "heading": "Toldi – Arany János",
         "body": "A **Toldi** Arany János 1847-ben írt elbeszélő költeménye, amely Toldi Miklós ifjúkorát meséli el. Az eposz a népi hőst állítja középpontba; Petőfi Sándor ajánlására jelent meg és azonnal sikert aratott.",
-        "keywords": ["Toldi", "Arany János", "elbeszélő költemény", "eposz"]
+        "keywords": [
+          "Toldi",
+          "Arany János",
+          "elbeszélő költemény",
+          "eposz"
+        ]
       },
       {
         "heading": "Toldalékok – többes szám",
         "body": "A magyarban a többes számot a **-k** toldalék jelzi (pl. ház → házak, ember → emberek). A kötőhangzó (a/e/o) a mássalhangzóra végződő szavakhoz kapcsolja a toldalékot a kiejtés megkönnyítésére.",
-        "keywords": ["-k", "többes szám", "toldalék", "kötőhangzó"]
+        "keywords": [
+          "-k",
+          "többes szám",
+          "toldalék",
+          "kötőhangzó"
+        ]
       },
       {
         "heading": "Mondatfajták",
         "body": "Mondatfajták írásjel szerint: **kijelentő mondat** (.), **kérdő mondat** (?), **felkiáltó mondat** (!), **óhajtó mondat** (!), **felszólító mondat** (!). A kérdő mondatban a beszélő kérdést tesz fel, válaszra vár; végén kérdőjel áll.",
-        "keywords": ["kérdő mondat", "kérdőjel", "mondatfajta", "kijelentő", "felkiáltó"]
+        "keywords": [
+          "kérdő mondat",
+          "kérdőjel",
+          "mondatfajta",
+          "kijelentő",
+          "felkiáltó"
+        ]
       },
       {
         "heading": "Az ember tragédiája – Madách Imre",
         "body": "**Az ember tragédiája** Madách Imre 1861-ben megjelent drámai költeménye. Az emberiség történetét és jövőjét ábrázolja Ádám álmain keresztül, Lucifer kíséretében. Kérdése: van-e értelme az emberi létnek?",
-        "keywords": ["Madách Imre", "Az ember tragédiája", "drámai költemény", "Ádám", "Lucifer"]
+        "keywords": [
+          "Madách Imre",
+          "Az ember tragédiája",
+          "drámai költemény",
+          "Ádám",
+          "Lucifer"
+        ]
       }
     ]
   },
@@ -44,27 +79,54 @@
       {
         "heading": "Összeadás és szorzás",
         "body": "Alapműveletek: **összeadás** (7 + 8 = 15), **szorzás** (9 × 6 = 54). A szorzás ismételt összeadás: 9 × 6 = 9+9+9+9+9+9 = 54. A számtani alapműveletek sorrendje: hatványozás → szorzás/osztás → összeadás/kivonás.",
-        "keywords": ["összeadás", "szorzás", "alapműveletek", "15", "54"]
+        "keywords": [
+          "összeadás",
+          "szorzás",
+          "alapműveletek",
+          "15",
+          "54"
+        ]
       },
       {
         "heading": "Háromszög",
         "body": "A háromszög **3 oldallal** és 3 szöggel rendelkező sokszög. Belső szögeinek összege mindig 180°. Fajtái: egyenlő oldalú, egyenlő szárú, derékszögű háromszög.",
-        "keywords": ["háromszög", "3 oldal", "szög", "180°"]
+        "keywords": [
+          "háromszög",
+          "3 oldal",
+          "szög",
+          "180°"
+        ]
       },
       {
         "heading": "Hatványozás – 12²",
         "body": "A **hatványozás** ismételt szorzás: 12² = 12 × 12 = **144**. Általánosan: aⁿ = a × a × … × a (n-szer). Speciális esetek: a¹ = a, a⁰ = 1 (a ≠ 0).",
-        "keywords": ["hatványozás", "12²", "144", "négyzet"]
+        "keywords": [
+          "hatványozás",
+          "12²",
+          "144",
+          "négyzet"
+        ]
       },
       {
         "heading": "Kör kerülete",
         "body": "A kör kerülete: **K = 2πr**, ahol r a sugár és π ≈ 3,14159. A kör területe: T = πr². Ha például r = 5 cm, akkor K = 2 × π × 5 ≈ 31,4 cm.",
-        "keywords": ["kör", "kerület", "2πr", "sugár", "π"]
+        "keywords": [
+          "kör",
+          "kerület",
+          "2πr",
+          "sugár",
+          "π"
+        ]
       },
       {
         "heading": "Elsőfokú egyenlet",
         "body": "Az egyenlet megoldása: 3x + 5 = 20 → 3x = 15 → **x = 5**. Lépései: azonos műveletet végzünk mindkét oldalon, hogy az ismeretlent egyedül kapjuk.",
-        "keywords": ["egyenlet", "x = 5", "elsőfokú", "ismeretlen"]
+        "keywords": [
+          "egyenlet",
+          "x = 5",
+          "elsőfokú",
+          "ismeretlen"
+        ]
       }
     ]
   },
@@ -76,32 +138,66 @@
       {
         "heading": "Víz forráspontja",
         "body": "A víz **100 °C-on forr** normál légköri nyomáson (101 325 Pa). Magasabb nyomáson magasabb a forráspont (pl. kukta), alacsonyabb nyomáson (pl. hegycsúcson) alacsonyabb.",
-        "keywords": ["forrás", "100 °C", "víz", "légköri nyomás"]
+        "keywords": [
+          "forrás",
+          "100 °C",
+          "víz",
+          "légköri nyomás"
+        ]
       },
       {
         "heading": "Erő – newton",
         "body": "Az erő SI-mértékegysége a **newton (N)**. 1 N = 1 kg·m/s². Newton második törvénye: **F = m × a** (erő = tömeg × gyorsulás). Egy kg tömegű test 1 m/s²-os gyorsítása 1 N erőt igényel.",
-        "keywords": ["newton", "N", "erő", "SI", "F = ma"]
+        "keywords": [
+          "newton",
+          "N",
+          "erő",
+          "SI",
+          "F = ma"
+        ]
       },
       {
         "heading": "Gravitáció",
         "body": "A **gravitáció** a Föld középpontja felé húzza a testeket. A gravitációs gyorsulás Földön g ≈ 9,81 m/s². Newton gravitációs törvénye szerint két test vonzza egymást tömegük szorzatával arányos, távolságuk négyzetével fordítottan arányos erővel.",
-        "keywords": ["gravitáció", "9,81 m/s²", "Newton", "vonzás", "Föld"]
+        "keywords": [
+          "gravitáció",
+          "9,81 m/s²",
+          "Newton",
+          "vonzás",
+          "Föld"
+        ]
       },
       {
         "heading": "Fény sebessége",
         "body": "A fény sebessége vákuumban **≈ 300 000 km/s** (pontosan 299 792 458 m/s). Ez a természet alapvető állandója (c). Semmi sem haladhat gyorsabban a fénynél az einsteini relativitáselmélet szerint.",
-        "keywords": ["fény", "300 000 km/s", "c", "sebesség", "vákuum"]
+        "keywords": [
+          "fény",
+          "300 000 km/s",
+          "c",
+          "sebesség",
+          "vákuum"
+        ]
       },
       {
         "heading": "Teljesítmény – watt",
         "body": "A **watt (W)** a teljesítmény mértékegysége. P = W/t (munka per idő). 1 W = 1 J/s. A fogyasztók teljesítményét wattban adjuk meg (pl. egy 60 W-os izzó 60 J energiát használ el másodpercenként).",
-        "keywords": ["watt", "W", "teljesítmény", "P = W/t"]
+        "keywords": [
+          "watt",
+          "W",
+          "teljesítmény",
+          "P = W/t"
+        ]
       },
       {
         "heading": "Newton II. törvénye",
         "body": "Newton második törvénye: az erő egyenlő a **tömeg × gyorsulás** szorzatával: **F = m · a**. Ha a tömeg kétszeres, ugyanakkora erő csak fele akkora gyorsulást okoz. Egység: [F] = kg · m/s² = N.",
-        "keywords": ["Newton II.", "F = ma", "tömeg", "gyorsulás", "erő"]
+        "keywords": [
+          "Newton II.",
+          "F = ma",
+          "tömeg",
+          "gyorsulás",
+          "erő"
+        ]
       }
     ]
   },
@@ -113,32 +209,67 @@
       {
         "heading": "Víz – H₂O",
         "body": "A víz vegyjele **H₂O**: 2 hidrogén- és 1 oxigénatom alkotja. Sarokkötéssel rendelkező poláris molekula; a hidrogénkötések magyarázzák szokatlanul magas forráspontját (100 °C). Az élet nélkülözhetetlen oldószere.",
-        "keywords": ["H₂O", "víz", "hidrogén", "oxigén", "molekula"]
+        "keywords": [
+          "H₂O",
+          "víz",
+          "hidrogén",
+          "oxigén",
+          "molekula"
+        ]
       },
       {
         "heading": "Hidrogénatom – protonszám",
         "body": "A hidrogén a periódusos rendszer **1. eleme**, rendszáma 1 → **1 proton** van a magjában. Elektron is 1 db van. A legkönnyebb és leggyakoribb elem a Világegyetemben.",
-        "keywords": ["hidrogén", "1 proton", "rendszám", "atom"]
+        "keywords": [
+          "hidrogén",
+          "1 proton",
+          "rendszám",
+          "atom"
+        ]
       },
       {
         "heading": "Konyhasó – NaCl",
         "body": "A konyhasó vegyjele **NaCl** (nátrium-klorid). Nátrium-ion (Na⁺) és klorid-ion (Cl⁻) ionos rácsot alkotnak. Olvadáspontja 801 °C; vízben jól oldódik és elektrolitos oldatot ad.",
-        "keywords": ["NaCl", "konyhasó", "nátrium", "klorid", "ionos kötés"]
+        "keywords": [
+          "NaCl",
+          "konyhasó",
+          "nátrium",
+          "klorid",
+          "ionos kötés"
+        ]
       },
       {
         "heading": "Oxigén és égés",
         "body": "Az égéshez **oxigén (O₂)** szükséges – ez az oxidációs folyamat. Az oxigén a levegő ~21%-a. Égési reakció: üzemanyag + O₂ → CO₂ + H₂O + hő. Oxigén nélkül a tűz kialszik.",
-        "keywords": ["oxigén", "égés", "O₂", "oxidáció", "levegő"]
+        "keywords": [
+          "oxigén",
+          "égés",
+          "O₂",
+          "oxidáció",
+          "levegő"
+        ]
       },
       {
         "heading": "Periódusos rendszer – Mengyelejev",
         "body": "**Dmitrij Ivanovics Mengyelejev** orosz kémikus 1869-ben alkotta meg a periódusos rendszert, amelyben az elemeket rendszámuk (protonszámuk) és kémiai tulajdonságaik alapján rendezte táblázatba. Hiányzó elemek helyét is előre jelezte.",
-        "keywords": ["Mengyelejev", "periódusos rendszer", "elemek", "rendszám"]
+        "keywords": [
+          "Mengyelejev",
+          "periódusos rendszer",
+          "elemek",
+          "rendszám"
+        ]
       },
       {
         "heading": "pH-skála",
         "body": "A pH a savasság mérőszáma. **pH 7 = semleges** (pl. tiszta víz), pH < 7 = savas, pH > 7 = lúgos. A skála 0–14 terjedelmű, logaritmikus: pH 6 tízszer savasabb pH 7-nél.",
-        "keywords": ["pH", "7", "semleges", "savas", "lúgos", "skála"]
+        "keywords": [
+          "pH",
+          "7",
+          "semleges",
+          "savas",
+          "lúgos",
+          "skála"
+        ]
       }
     ]
   },
@@ -150,32 +281,66 @@
       {
         "heading": "Szív – keringési rendszer",
         "body": "A **szív** egy izomból álló pumpa, amely a vért az érrendszeren keresztül a test egész részébe juttatja. 4 ütege van: bal és jobb kamra, bal és jobb pitvar. Percenként ~70-szer dobog (pulzus).",
-        "keywords": ["szív", "pumpa", "vér", "keringés", "pulzus"]
+        "keywords": [
+          "szív",
+          "pumpa",
+          "vér",
+          "keringés",
+          "pulzus"
+        ]
       },
       {
         "heading": "Halak légzése – kopoltyú",
         "body": "A halak **kopoltyúval** lélegeznek. A kopoltyú vékony lamellák sorozata, amelyen keresztül a vízből kivonják az oldott oxigént. A víz a szájon be, a kopoltyúrésen ki áramlik.",
-        "keywords": ["kopoltyú", "hal", "légzés", "oxigén", "víz"]
+        "keywords": [
+          "kopoltyú",
+          "hal",
+          "légzés",
+          "oxigén",
+          "víz"
+        ]
       },
       {
         "heading": "Klorofill – fotoszintézis",
         "body": "A **klorofill** a növények zöld színanyaga, amely a kloroplasztokban található. Feladata a napfény energiájának elnyelése a fotoszintézishez: 6CO₂ + 6H₂O + fény → C₆H₁₂O₆ + 6O₂. A klorofill a zöld fényt visszaveri, ezért zöld a növény.",
-        "keywords": ["klorofill", "zöld", "fotoszintézis", "kloroplaszt", "napfény"]
+        "keywords": [
+          "klorofill",
+          "zöld",
+          "fotoszintézis",
+          "kloroplaszt",
+          "napfény"
+        ]
       },
       {
         "heading": "Mitokondrium – sejt energiája",
         "body": "A **mitokondrium** a sejt 'erőműve': itt megy végbe a sejtlégzés, amelynek során a glükózból ATP (adenozin-trifoszfát) formájában energia szabadul fel. Saját DNS-sel rendelkezik, ami endoszimbionta eredetére utal.",
-        "keywords": ["mitokondrium", "energia", "ATP", "sejtlégzés", "sejtszervecske"]
+        "keywords": [
+          "mitokondrium",
+          "energia",
+          "ATP",
+          "sejtlégzés",
+          "sejtszervecske"
+        ]
       },
       {
         "heading": "Az emberi csontrendszer",
         "body": "A felnőtt emberi test **206 csontból** áll (újszülöttnél ~270, mert egyes csontok összenőnek). A csontrendszer védi a belső szerveket, tartást ad, és a vérképzés helyszíne.",
-        "keywords": ["206 csont", "csontrendszer", "emberi test", "csontváz"]
+        "keywords": [
+          "206 csont",
+          "csontrendszer",
+          "emberi test",
+          "csontváz"
+        ]
       },
       {
         "heading": "Evolúció – Darwin",
         "body": "**Charles Darwin** brit természettudós 1859-ben publikálta *A fajok eredete* c. művét. Elmélete szerint az evolúció hajtóereje a **természetes szelekció**: a kedvező tulajdonságú egyedek több utódot hagynak, így az adott jegyek elterjednek a populációban.",
-        "keywords": ["Darwin", "evolúció", "természetes szelekció", "fajok eredete"]
+        "keywords": [
+          "Darwin",
+          "evolúció",
+          "természetes szelekció",
+          "fajok eredete"
+        ]
       }
     ]
   },
@@ -187,32 +352,68 @@
       {
         "heading": "Honfoglalás – 895",
         "body": "A magyar törzsek **895 körül** foglalták el a Kárpát-medencét Árpád vezér irányítása alatt. A honfoglalás a magyar államiság előzménye. A magyarok a sztyeppéről érkeztek, lovas nomád életmódot folytattak.",
-        "keywords": ["honfoglalás", "895", "Árpád", "Kárpát-medence", "törzsek"]
+        "keywords": [
+          "honfoglalás",
+          "895",
+          "Árpád",
+          "Kárpát-medence",
+          "törzsek"
+        ]
       },
       {
         "heading": "I. István – első király",
         "body": "**I. (Szent) István** volt Magyarország első koronázott királya (1000-ben koronázták meg). Bevezette a kereszténységet, megszervezte az egyházi és világi igazgatást, megalapította az esztergomi érsekséget.",
-        "keywords": ["I. István", "első király", "1000", "kereszténység", "korona"]
+        "keywords": [
+          "I. István",
+          "első király",
+          "1000",
+          "kereszténység",
+          "korona"
+        ]
       },
       {
         "heading": "Mohácsi vész – 1526",
         "body": "Az **1526-os mohácsi csatában** II. Lajos magyar király seregét a törökök legyőzték. A csatában maga a király is meghalt. Az ütközet nyomán Magyarország három részre szakadt: királyi, erdélyi és török hódoltságra.",
-        "keywords": ["mohácsi vész", "1526", "II. Lajos", "törökök", "három részre"]
+        "keywords": [
+          "mohácsi vész",
+          "1526",
+          "II. Lajos",
+          "törökök",
+          "három részre"
+        ]
       },
       {
         "heading": "Mátyás király – Hollós",
         "body": "**Hunyadi Mátyás** (1458–1490) a 'Hollós király' melléknevét a Hunyadi-ház hollós címeréről kapta. Reneszánsz uralkodó volt, bevezette a Fekete Sereget, felépítette a budai palotát és pártfogolta a művészeteket.",
-        "keywords": ["Mátyás király", "Hollós", "Hunyadi", "Fekete Sereg", "reneszánsz"]
+        "keywords": [
+          "Mátyás király",
+          "Hollós",
+          "Hunyadi",
+          "Fekete Sereg",
+          "reneszánsz"
+        ]
       },
       {
         "heading": "1848-as forradalom",
         "body": "Az **1848-as forradalom** március 15-én robbant ki Pesten. A 12 pont követelései között szerepelt a sajtószabadság, a jobbágyság felszabadítása és a független felelős kormány. Petőfi Sándor szavalta a Nemzeti dalt a Nemzeti Múzeum előtt.",
-        "keywords": ["1848", "forradalom", "március 15", "12 pont", "Petőfi"]
+        "keywords": [
+          "1848",
+          "forradalom",
+          "március 15",
+          "12 pont",
+          "Petőfi"
+        ]
       },
       {
         "heading": "Trianoni békeszerződés",
         "body": "A **Trianoni békeszerződést** 1920. június 4-én írták alá. Magyarország elveszítette területének kb. kétharmadát és lakosságának mintegy felét az első világháborút lezáró párizsi békerendszer keretében.",
-        "keywords": ["Trianon", "1920", "békeszerződés", "első világháború", "területveszteség"]
+        "keywords": [
+          "Trianon",
+          "1920",
+          "békeszerződés",
+          "első világháború",
+          "területveszteség"
+        ]
       }
     ]
   },
@@ -224,32 +425,67 @@
       {
         "heading": "Budapest – Magyarország fővárosa",
         "body": "**Budapest** Magyarország fővárosa és legnagyobb városa, a Duna két partján terül el. 1873-ban egyesítették Budát, Pestet és Óbudát. Lakóinak száma ~1,7 millió, az agglomerációval ~3 millió.",
-        "keywords": ["Budapest", "főváros", "Magyarország", "Duna", "1873"]
+        "keywords": [
+          "Budapest",
+          "főváros",
+          "Magyarország",
+          "Duna",
+          "1873"
+        ]
       },
       {
         "heading": "Duna – Európa folyói",
         "body": "A **Duna** Európa második leghosszabb folyója (2 860 km), a kontinens leghosszabb folyója, amely Magyarországon is átfolyik. Bajorországból ered, 10 országon halad át, és a Fekete-tengerbe torkollik.",
-        "keywords": ["Duna", "folyó", "Magyarország", "Fekete-tenger", "2860 km"]
+        "keywords": [
+          "Duna",
+          "folyó",
+          "Magyarország",
+          "Fekete-tenger",
+          "2860 km"
+        ]
       },
       {
         "heading": "Csendes-óceán",
         "body": "A **Csendes-óceán** a Föld legnagyobb óceánja: felszíne ~165 millió km², az összes szárazföldnél nagyobb. Átlagmélysége ~4 000 m, legmélyebb pontja a Mariana-árok (~11 000 m).",
-        "keywords": ["Csendes-óceán", "legnagyobb óceán", "Mariana-árok", "165 millió km²"]
+        "keywords": [
+          "Csendes-óceán",
+          "legnagyobb óceán",
+          "Mariana-árok",
+          "165 millió km²"
+        ]
       },
       {
         "heading": "Mount Everest",
         "body": "A **Mount Everest** (8 849 m) a Föld legmagasabb hegycsúcsa, a Himalájában, Nepál és Kína határán. Első megmászása: Edmund Hillary és Tenzing Norgay – 1953. május 29.",
-        "keywords": ["Mount Everest", "8849 m", "legmagasabb", "Himalája", "Hillary"]
+        "keywords": [
+          "Mount Everest",
+          "8849 m",
+          "legmagasabb",
+          "Himalája",
+          "Hillary"
+        ]
       },
       {
         "heading": "Szahara",
         "body": "A **Szahara** a Föld legnagyobb forró sivataga (~9,2 millió km²), Észak-Afrikában. Éghajlata extrém száraz, nappal 50 °C feletti hőmérséklet, éjjel fagypontra eshet. Legnagyobb hideg sivatag az Antarktisz.",
-        "keywords": ["Szahara", "sivatag", "Észak-Afrika", "9,2 millió km²", "forró"]
+        "keywords": [
+          "Szahara",
+          "sivatag",
+          "Észak-Afrika",
+          "9,2 millió km²",
+          "forró"
+        ]
       },
       {
         "heading": "Oroszország – legnagyobb ország",
         "body": "**Oroszország** a Föld legnagyobb területű országa (~17,1 millió km²), Eurázsiában. 11 időzónán nyúlik át, határos 14 országgal. Fővárosa Moszkva.",
-        "keywords": ["Oroszország", "legnagyobb ország", "17,1 millió km²", "Moszkva", "Eurázsia"]
+        "keywords": [
+          "Oroszország",
+          "legnagyobb ország",
+          "17,1 millió km²",
+          "Moszkva",
+          "Eurázsia"
+        ]
       }
     ]
   },
@@ -261,32 +497,69 @@
       {
         "heading": "CPU – Központi feldolgozóegység",
         "body": "A **CPU** (Central Processing Unit) = **Központi feldolgozóegység**, a számítógép 'agya'. Elvégzi az aritmetikai és logikai műveleteket, vezérli a többi komponenst. Teljesítményét GHz-ben (órajel) és magok számában mérik.",
-        "keywords": ["CPU", "Central Processing Unit", "Központi feldolgozóegység", "processzor", "GHz"]
+        "keywords": [
+          "CPU",
+          "Central Processing Unit",
+          "Központi feldolgozóegység",
+          "processzor",
+          "GHz"
+        ]
       },
       {
         "heading": "Adattárolás – bájt",
         "body": "A tárhely alap mértékegysége a **bájt (B)** = 8 bit. 1 bit a legkisebb egység (0 vagy 1). Előtagok: 1 KB = 1024 B, 1 MB = 1024 KB, 1 GB = 1024 MB, 1 TB = 1024 GB.",
-        "keywords": ["bájt", "bit", "KB", "MB", "GB", "tárhely"]
+        "keywords": [
+          "bájt",
+          "bit",
+          "KB",
+          "MB",
+          "GB",
+          "tárhely"
+        ]
       },
       {
         "heading": "Böngésző",
         "body": "A **böngésző** (web browser) az internet böngészésére szolgáló program, amely HTTP/HTTPS protokollon tölti le és jeleníti meg a weboldalakat. Példák: Chrome, Firefox, Safari, Edge.",
-        "keywords": ["böngésző", "browser", "internet", "HTTP", "weboldal"]
+        "keywords": [
+          "böngésző",
+          "browser",
+          "internet",
+          "HTTP",
+          "weboldal"
+        ]
       },
       {
         "heading": "Bináris (kettes) számrendszer",
         "body": "A számítógép alapvetően a **kettes (bináris) számrendszert** használja, ahol csak 0 és 1 jegy létezik. Minden adat bitek sorozataként tárolódik. Decimális 5 = bináris 101; decimális 10 = bináris 1010.",
-        "keywords": ["bináris", "kettes számrendszer", "bit", "0 és 1", "digitális"]
+        "keywords": [
+          "bináris",
+          "kettes számrendszer",
+          "bit",
+          "0 és 1",
+          "digitális"
+        ]
       },
       {
         "heading": "World Wide Web – www",
         "body": "A **www** a **World Wide Web** rövidítése, Tim Berners-Lee találmánya (1989). Hiperlinkekkel összekapcsolt weblapok hálózata, amely az interneten keresztül érhető el. Az internet maga a fizikai hálózat; a web az egyik alkalmazás rajta.",
-        "keywords": ["www", "World Wide Web", "internet", "Tim Berners-Lee", "hiperhivatkozás"]
+        "keywords": [
+          "www",
+          "World Wide Web",
+          "internet",
+          "Tim Berners-Lee",
+          "hiperhivatkozás"
+        ]
       },
       {
         "heading": "Alan Turing",
         "body": "**Alan Turing** (1912–1954) brit matematikus, a számítógép-tudomány és mesterséges intelligencia egyik alapítója. Megalkotta a Turing-gép elméleti modelljét, feltörte az Enigma kódot a második világháborúban, és bevezette a Turing-tesztet az intelligencia mérésére.",
-        "keywords": ["Alan Turing", "Turing-gép", "mesterséges intelligencia", "Enigma", "informatika"]
+        "keywords": [
+          "Alan Turing",
+          "Turing-gép",
+          "mesterséges intelligencia",
+          "Enigma",
+          "informatika"
+        ]
       }
     ]
   },
@@ -298,32 +571,281 @@
       {
         "heading": "Angol alapszókincs",
         "body": "Az angol a világ legszélesebb körben használt nyelve. Alapvető köszönések: **Hello** (Szia), **Good morning** (Jó reggelt), **Good night** (Jó éjt), **Thank you** (Köszönöm), **Please** (Kérem), **Sorry** (Elnézést). Számok: **one, two, three, four, five, six, seven, eight, nine, ten**. Színek: **red** (piros), **blue** (kék), **green** (zöld), **yellow** (sárga), **black** (fekete), **white** (fehér). Az angol abc 26 betűből áll.",
-        "keywords": ["hello", "good morning", "thank you", "please", "sorry", "one", "two", "three", "angol", "köszönés"]
+        "keywords": [
+          "hello",
+          "good morning",
+          "thank you",
+          "please",
+          "sorry",
+          "one",
+          "two",
+          "three",
+          "angol",
+          "köszönés"
+        ]
       },
       {
         "heading": "Angol igeidők",
         "body": "Az angolban három fő igeidő létezik. **Jelen idő (Present Simple)**: She reads every day — az igéhez egyes szám harmadik személyben -s/-es kerül. **Folyamatos jelen (Present Continuous)**: She is reading now — az is/am/are segédigével és -ing toldalékkal képezzük. **Múlt idő (Past Simple)**: She read yesterday — a szabályos igéknél -ed, a rendhagyóknál tőváltás: go→went, see→saw, eat→ate. **Jövő idő**: She will read tomorrow — a will segédigével fejezzük ki.",
-        "keywords": ["present simple", "past simple", "will", "ing", "igeidő", "went", "saw", "szabályos ige", "rendhagyó ige"]
+        "keywords": [
+          "present simple",
+          "past simple",
+          "will",
+          "ing",
+          "igeidő",
+          "went",
+          "saw",
+          "szabályos ige",
+          "rendhagyó ige"
+        ]
       },
       {
         "heading": "Német alapszókincs",
         "body": "A német Közép-Európa legelterjedtebb anyanyelve. Köszönések: **Guten Morgen** (Jó reggelt), **Guten Tag** (Jó napot), **Auf Wiedersehen** (Viszontlátásra), **Bitte** (Kérem), **Danke** (Köszönöm), **Entschuldigung** (Elnézést). A németben minden főnévnek neme van: **der** (hímnem), **die** (nőnem), **das** (semleges nem). Pl. der Mann (a férfi), die Frau (a nő), das Kind (a gyerek).",
-        "keywords": ["guten morgen", "guten tag", "auf wiedersehen", "danke", "bitte", "der", "die", "das", "főnévi nem", "német"]
+        "keywords": [
+          "guten morgen",
+          "guten tag",
+          "auf wiedersehen",
+          "danke",
+          "bitte",
+          "der",
+          "die",
+          "das",
+          "főnévi nem",
+          "német"
+        ]
       },
       {
         "heading": "Német nyelvtan — esetek",
         "body": "A németben négy eset van. **Nominatív** (alany): Der Hund bellt — a kutya ugat. **Akkuzatív** (tárgy): Ich sehe den Hund — Látom a kutyát. **Datívusz** (részeshatározó): Ich gebe dem Hund Futter — Adok enni a kutyának. **Genitív** (birtok): Das Haus des Mannes — A férfi háza. A névelők az esetek szerint változnak: der→den (akk.), dem (dat.). Különleges szavak: **ich** (én), **du** (te), **er/sie/es** (ő), **wir** (mi), **ihr** (ti), **sie/Sie** (ők/Ön).",
-        "keywords": ["nominatív", "akkuzatív", "datívusz", "genitív", "eset", "der den dem des", "ich", "du", "wir", "névmás"]
+        "keywords": [
+          "nominatív",
+          "akkuzatív",
+          "datívusz",
+          "genitív",
+          "eset",
+          "der den dem des",
+          "ich",
+          "du",
+          "wir",
+          "névmás"
+        ]
       },
       {
         "heading": "Francia alapszókincs",
         "body": "A francia a romantikus nyelvek egyike, amely a latinból fejlődött ki. Köszönések: **Bonjour** (Jó napot/Jó reggelt), **Bonsoir** (Jó estét), **Merci** (Köszönöm), **S'il vous plaît** (Kérem), **Excusez-moi** (Elnézést), **Au revoir** (Viszontlátásra). A franciában a főneveknek két nemük van: **le/un** (hímnem), **la/une** (nőnem). Pl. le livre (a könyv), la table (az asztal). A néma betűk miatt a kiejtés különbözik az írástól.",
-        "keywords": ["bonjour", "merci", "au revoir", "bonsoir", "le", "la", "un", "une", "hímnem", "nőnem", "francia"]
+        "keywords": [
+          "bonjour",
+          "merci",
+          "au revoir",
+          "bonsoir",
+          "le",
+          "la",
+          "un",
+          "une",
+          "hímnem",
+          "nőnem",
+          "francia"
+        ]
       },
       {
         "heading": "Nyelvtanulási módszerek",
         "body": "A hatékony nyelvtanuláshoz több módszer kombinálása ajánlott. **Szókártyák (flashcard)**: Egy oldalon az idegen szó, másikon a fordítás — napi ismétléssel rögzíthetők. **Spaced repetition**: A nehezebb szavakat sűrűbben, a könnyen megjegyzetteket ritkábban kell ismételni. **Input-módszer**: Minél több célnyelvi szöveget (könyv, film, zene) fogyasszunk el. **Tandem**: Anyanyelvi beszélővel cserélünk — te tanítod a magyart, ő a célnyelvet. Az Európai Referenciakeret (KER/CEFR) szintjei: A1–A2 (kezdő), B1–B2 (középhaladó), C1–C2 (haladó/anyanyelvi szintű).",
-        "keywords": ["szókártya", "flashcard", "spaced repetition", "tandem", "KER", "CEFR", "A1", "B2", "C1", "input-módszer", "nyelvtanulás"]
+        "keywords": [
+          "szókártya",
+          "flashcard",
+          "spaced repetition",
+          "tandem",
+          "KER",
+          "CEFR",
+          "A1",
+          "B2",
+          "C1",
+          "input-módszer",
+          "nyelvtanulás"
+        ]
+      }
+    ],
+    "phrases": [
+      {
+        "lang": "Angol",
+        "source": "Good morning",
+        "target": "Jó reggelt"
+      },
+      {
+        "lang": "Angol",
+        "source": "Good afternoon",
+        "target": "Jó napot"
+      },
+      {
+        "lang": "Angol",
+        "source": "Good night",
+        "target": "Jó éjszakát"
+      },
+      {
+        "lang": "Angol",
+        "source": "How are you?",
+        "target": "Hogy vagy?"
+      },
+      {
+        "lang": "Angol",
+        "source": "I am fine, thank you.",
+        "target": "Jól vagyok, köszönöm."
+      },
+      {
+        "lang": "Angol",
+        "source": "What is your name?",
+        "target": "Mi a neved?"
+      },
+      {
+        "lang": "Angol",
+        "source": "My name is...",
+        "target": "A nevem..."
+      },
+      {
+        "lang": "Angol",
+        "source": "Nice to meet you.",
+        "target": "Örülök, hogy megismertelek."
+      },
+      {
+        "lang": "Angol",
+        "source": "Where are you from?",
+        "target": "Honnan való vagy?"
+      },
+      {
+        "lang": "Angol",
+        "source": "I don't understand.",
+        "target": "Nem értem."
+      },
+      {
+        "lang": "Angol",
+        "source": "Can you help me?",
+        "target": "Tudna segíteni?"
+      },
+      {
+        "lang": "Angol",
+        "source": "How much does it cost?",
+        "target": "Mennyibe kerül?"
+      },
+      {
+        "lang": "Német",
+        "source": "Guten Morgen",
+        "target": "Jó reggelt"
+      },
+      {
+        "lang": "Német",
+        "source": "Guten Tag",
+        "target": "Jó napot"
+      },
+      {
+        "lang": "Német",
+        "source": "Gute Nacht",
+        "target": "Jó éjszakát"
+      },
+      {
+        "lang": "Német",
+        "source": "Wie geht es Ihnen?",
+        "target": "Hogy van? (udvarias)"
+      },
+      {
+        "lang": "Német",
+        "source": "Danke, gut.",
+        "target": "Köszönöm, jól."
+      },
+      {
+        "lang": "Német",
+        "source": "Wie heißen Sie?",
+        "target": "Hogy hívják? (udvarias)"
+      },
+      {
+        "lang": "Német",
+        "source": "Ich heiße...",
+        "target": "A nevem... / ...vagyok"
+      },
+      {
+        "lang": "Német",
+        "source": "Ich verstehe nicht.",
+        "target": "Nem értem."
+      },
+      {
+        "lang": "Német",
+        "source": "Können Sie mir helfen?",
+        "target": "Tud segíteni?"
+      },
+      {
+        "lang": "Német",
+        "source": "Auf Wiedersehen",
+        "target": "Viszontlátásra"
+      },
+      {
+        "lang": "Német",
+        "source": "Entschuldigung!",
+        "target": "Elnézést!"
+      },
+      {
+        "lang": "Német",
+        "source": "Wie viel kostet das?",
+        "target": "Mennyibe kerül ez?"
+      },
+      {
+        "lang": "Francia",
+        "source": "Bonjour",
+        "target": "Jó napot / Jó reggelt"
+      },
+      {
+        "lang": "Francia",
+        "source": "Bonsoir",
+        "target": "Jó estét"
+      },
+      {
+        "lang": "Francia",
+        "source": "Bonne nuit",
+        "target": "Jó éjszakát"
+      },
+      {
+        "lang": "Francia",
+        "source": "Comment allez-vous ?",
+        "target": "Hogy van? (udvarias)"
+      },
+      {
+        "lang": "Francia",
+        "source": "Je vais bien, merci.",
+        "target": "Jól vagyok, köszönöm."
+      },
+      {
+        "lang": "Francia",
+        "source": "Comment vous appelez-vous ?",
+        "target": "Hogy hívják?"
+      },
+      {
+        "lang": "Francia",
+        "source": "Je m'appelle...",
+        "target": "A nevem..."
+      },
+      {
+        "lang": "Francia",
+        "source": "Je ne comprends pas.",
+        "target": "Nem értem."
+      },
+      {
+        "lang": "Francia",
+        "source": "Pouvez-vous m'aider ?",
+        "target": "Tud segíteni?"
+      },
+      {
+        "lang": "Francia",
+        "source": "Au revoir",
+        "target": "Viszontlátásra"
+      },
+      {
+        "lang": "Francia",
+        "source": "S'il vous plaît",
+        "target": "Kérem (udvarias)"
+      },
+      {
+        "lang": "Francia",
+        "source": "Combien ça coûte ?",
+        "target": "Mennyibe kerül?"
       }
     ]
   }

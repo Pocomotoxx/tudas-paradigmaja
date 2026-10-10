@@ -193,6 +193,29 @@
   #wiki-btn{ background:#1e3060; border:1px solid #3a5080; color:#7daaff;
     border-radius:7px; padding:5px 12px; font-size:12px; cursor:pointer; margin-top:8px; }
   #wiki-btn:hover{ background:#253870; }
+  /* phrase flashcard widget */
+  .phrase-section{ margin-top:22px; }
+  .phrase-section h4{ font-size:13px; font-weight:700; color:#a8c4ff; margin:0 0 10px; }
+  .phrase-lang-tabs{ display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+  .phrase-lang-tab{ background:#1e2330; border:1px solid #2a3040; color:#8a93a8;
+    border-radius:6px; padding:4px 12px; font-size:12px; cursor:pointer; }
+  .phrase-lang-tab:hover{ border-color:#3a5080; color:#c8d0e0; }
+  .phrase-lang-tab.active{ background:#1e3060; border-color:#3a5080; color:#7daaff; font-weight:600; }
+  .phrase-card{ background:#1e2330; border:1px solid #2a3040; border-radius:12px;
+    padding:22px 20px; text-align:center; cursor:pointer; min-height:100px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:border-color .15s; position:relative; }
+  .phrase-card:hover{ border-color:#3a5080; }
+  .phrase-card .phrase-src{ font-size:20px; font-weight:700; color:#e7ebf0; }
+  .phrase-card .phrase-tgt{ font-size:16px; color:#7daaff; margin-top:8px; display:none; }
+  .phrase-card .phrase-hint{ font-size:11px; color:#556; margin-top:10px; }
+  .phrase-card.flipped .phrase-tgt{ display:block; }
+  .phrase-card.flipped .phrase-hint{ display:none; }
+  .phrase-nav{ display:flex; align-items:center; justify-content:center; gap:14px; margin-top:10px; }
+  .phrase-nav button{ background:#1e2330; border:1px solid #2a3040; color:#a0a8b8;
+    border-radius:6px; padding:5px 14px; font-size:13px; cursor:pointer; }
+  .phrase-nav button:hover{ border-color:#3a5080; color:#e7ebf0; }
+  .phrase-counter{ font-size:12px; color:#556; min-width:60px; text-align:center; }
   /* i67: campaign */
   #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
     display:flex; align-items:center; justify-content:center; }
@@ -1733,7 +1756,73 @@ function showWikiSubject(subjectKey){
         <h4>${a.heading}</h4>
         <p>${markdownBold(a.body)}</p>
       </div>`).join('')}
+    ${data.phrases ? buildPhraseWidget(data.phrases) : ''}
   `;
+  if(data.phrases) initPhraseWidget(view, data.phrases);
+}
+
+function buildPhraseWidget(phrases){
+  const langs = [...new Set(phrases.map(p=>p.lang))];
+  return `<div class="phrase-section">
+    <h4>🃏 Kifejezéstár — kattints a kártyára a fordításhoz</h4>
+    <div class="phrase-lang-tabs">
+      ${langs.map((l,i)=>`<button class="phrase-lang-tab${i===0?' active':''}" data-lang="${l}">${l}</button>`).join('')}
+    </div>
+    <div class="phrase-card" id="phrase-card">
+      <div class="phrase-src" id="phrase-src"></div>
+      <div class="phrase-tgt" id="phrase-tgt"></div>
+      <div class="phrase-hint" id="phrase-hint">Kattints a fordításhoz ▼</div>
+    </div>
+    <div class="phrase-nav">
+      <button id="phrase-prev">◀</button>
+      <span class="phrase-counter" id="phrase-counter"></span>
+      <button id="phrase-next">▶</button>
+    </div>
+  </div>`;
+}
+
+function initPhraseWidget(container, phrases){
+  const langs = [...new Set(phrases.map(p=>p.lang))];
+  let activeLang = langs[0];
+  let idx = 0;
+
+  function filtered(){ return phrases.filter(p=>p.lang===activeLang); }
+
+  function render(){
+    const list = filtered();
+    if(!list.length) return;
+    if(idx >= list.length) idx = 0;
+    const p = list[idx];
+    container.querySelector('#phrase-src').textContent = p.source;
+    container.querySelector('#phrase-tgt').textContent = p.target;
+    container.querySelector('#phrase-counter').textContent = `${idx+1} / ${list.length}`;
+    container.querySelector('#phrase-card').classList.remove('flipped');
+  }
+
+  container.querySelector('#phrase-card').addEventListener('click', ()=>{
+    container.querySelector('#phrase-card').classList.toggle('flipped');
+  });
+  container.querySelector('#phrase-prev').addEventListener('click', ()=>{
+    const list = filtered();
+    idx = (idx - 1 + list.length) % list.length;
+    render();
+  });
+  container.querySelector('#phrase-next').addEventListener('click', ()=>{
+    const list = filtered();
+    idx = (idx + 1) % list.length;
+    render();
+  });
+  container.querySelectorAll('.phrase-lang-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      container.querySelectorAll('.phrase-lang-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      activeLang = btn.dataset.lang;
+      idx = 0;
+      render();
+    });
+  });
+
+  render();
 }
 
 function markdownBold(text){
