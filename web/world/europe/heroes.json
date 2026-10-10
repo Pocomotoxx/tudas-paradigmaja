@@ -370,6 +370,206 @@
    "subject": "Biológia",
    "region": "HU1",
    "birthLabel": "Budapest (Magyar)"
+  },
+  {
+   "id": "janus_pannonius",
+   "name": "Janus Pannonius",
+   "subject": "Magyar irodalom",
+   "region": "HR04",
+   "birthLabel": "Csezmicze (Horvát)",
+   "birth": 1434,
+   "death": 1472,
+   "ability": { "name": "Humanista ének", "desc": "Kulturális épületek +1 szint, tudományos fejlődés +10%" }
+  },
+  {
+   "id": "balassi",
+   "name": "Balassi Bálint",
+   "subject": "Magyar irodalom",
+   "region": "SK03",
+   "birthLabel": "Zólyom (Felvidék)",
+   "birth": 1554,
+   "death": 1594,
+   "ability": { "name": "Katonaének", "desc": "Harcoló egységek védelme +20%, morál +15%" }
+  },
+  {
+   "id": "zrinyi",
+   "name": "Zrínyi Miklós",
+   "subject": "Magyar irodalom",
+   "region": "HR04",
+   "birthLabel": "Ozalj (Horvát)",
+   "birth": 1620,
+   "death": 1664,
+   "ability": { "name": "Szigeti veszedelem", "desc": "Ostromlott erőd kétszer annyi ideig kitart, védelmi egységek +25%" }
+  },
+  {
+   "id": "mikes",
+   "name": "Mikes Kelemen",
+   "subject": "Magyar irodalom",
+   "region": "RO12",
+   "birthLabel": "Zágon (Erdély)",
+   "birth": 1690,
+   "death": 1761,
+   "ability": { "name": "Törökországi levelek", "desc": "Diplomáciai hatás: szövetségesek lojalitása +20%" }
+  },
+  {
+   "id": "kazinczy",
+   "name": "Kazinczy Ferenc",
+   "subject": "Magyar irodalom",
+   "region": "RO11",
+   "birthLabel": "Érsemjén (Partium)",
+   "birth": 1759,
+   "death": 1831,
+   "ability": { "name": "Nyelvújítás", "desc": "Tudományos fejlődés +15% az egész birodalomban" }
+  },
+  {
+   "id": "csokonai",
+   "name": "Csokonai Vitéz Mihály",
+   "subject": "Magyar irodalom",
+   "region": "HU3",
+   "birthLabel": "Debrecen (Magyar)",
+   "birth": 1773,
+   "death": 1805,
+   "ability": { "name": "Lilla-dalok", "desc": "Szomszédos régiók elégedettsége +10, dezertálás esélye csökken" }
+  },
+  {
+   "id": "berzsenyi",
+   "name": "Berzsenyi Dániel",
+   "subject": "Magyar irodalom",
+   "region": "SK02",
+   "birthLabel": "Hétény (Felvidék)",
+   "birth": 1776,
+   "death": 1836,
+   "ability": { "name": "Magyarokhoz", "desc": "Magyar régiók morálja +25%, egységek nem dezertálnak" }
+  },
+  {
+   "id": "kolcsey",
+   "name": "Kölcsey Ferenc",
+   "subject": "Magyar irodalom",
+   "region": "RO11",
+   "birthLabel": "Sződemeter (Partium)",
+   "birth": 1790,
+   "death": 1838,
+   "ability": { "name": "Himnusz", "desc": "Nemzeti egység: lázadás esélye -50% az egész birodalomban" }
+  },
+  {
+   "id": "vorosmarty",
+   "name": "Vörösmarty Mihály",
+   "subject": "Magyar irodalom",
+   "region": "HU2",
+   "birthLabel": "Pusztanyék (Magyar)",
+   "birth": 1800,
+   "death": 1855,
+   "ability": { "name": "Szózat", "desc": "Védelmi háborúban minden egység ereje +15%, harc végéig" }
+  },
+  {
+   "id": "petofi",
+   "name": "Petőfi Sándor",
+   "subject": "Magyar irodalom",
+   "region": "HU3",
+   "birthLabel": "Kiskőrös (Magyar)",
+   "birth": 1823,
+   "death": 1849,
+   "ability": { "name": "Talpra Magyar!", "desc": "Csatakiáltás: egység sebessége és támadása +30% egy körre (AoE)" }
+  },
+  {
+   "id": "arany",
+   "name": "Arany János",
+   "subject": "Magyar irodalom",
+   "region": "RO11",
+   "birthLabel": "Nagyszalonta (Partium)",
+   "birth": 1817,
+   "death": 1882,
+   "ability": { "name": "Toldi", "desc": "A hős párbajban legyőzheti az ellenséges hőst, HP +40%" }
+  },
+  {
+   "id": "madach",
+   "name": "Madách Imre",
+   "subject": "Magyar irodalom",
+   "region": "SK03",
+   "birthLabel": "Alsósztregova (Felvidék)",
+   "birth": 1823,
+   "death": 1864,
+   "ability": { "name": "Az ember tragédiája", "desc": "Tudományos kutatás +20%, de morál -5 (az igazság terhe)" }
+  },
+  {
+   "id": "jokai",
+   "name": "Jókai Mór",
+   "subject": "Magyar irodalom",
+   "region": "HU2",
+   "birthLabel": "Komárom (Magyar)",
+   "birth": 1825,
+   "death": 1904,
+   "ability": { "name": "Arany ember", "desc": "Kereskedelem: a régió bevétele +25%, szomszédok is +10%" }
+  },
+  {
+   "id": "mikszath",
+   "name": "Mikszáth Kálmán",
+   "subject": "Magyar irodalom",
+   "region": "SK03",
+   "birthLabel": "Szklabonya (Felvidék)",
+   "birth": 1847,
+   "death": 1910,
+   "ability": { "name": "Különös házasság", "desc": "Politikai manőver: egy semleges régió harchadjárat nélkül szerezhető meg" }
+  },
+  {
+   "id": "ady",
+   "name": "Ady Endre",
+   "subject": "Magyar irodalom",
+   "region": "FR1",
+   "birthLabel": "Érmindszent → Párizs (Modernista)",
+   "birth": 1877,
+   "death": 1919,
+   "ability": { "name": "Vér és arany", "desc": "Gazdaság +20% és kultúra +20% — a Nyugat szelleme hat vissza" }
+  },
+  {
+   "id": "babits",
+   "name": "Babits Mihály",
+   "subject": "Magyar irodalom",
+   "region": "HU2",
+   "birthLabel": "Szekszárd (Magyar)",
+   "birth": 1883,
+   "death": 1941,
+   "ability": { "name": "Jónás könyve", "desc": "Sebesült egységek gyógyulása 2× gyorsabb, katonai veszteség -15%" }
+  },
+  {
+   "id": "kosztolanyi",
+   "name": "Kosztolányi Dezső",
+   "subject": "Magyar irodalom",
+   "region": "RS22",
+   "birthLabel": "Szabadka (Vajdaság)",
+   "birth": 1885,
+   "death": 1936,
+   "ability": { "name": "Édes Anna", "desc": "Kémszolgálat aktív: ellenséges hadmozgások előre jelezve" }
+  },
+  {
+   "id": "moricz",
+   "name": "Móricz Zsigmond",
+   "subject": "Magyar irodalom",
+   "region": "HU3",
+   "birthLabel": "Tiszacsécse (Magyar)",
+   "birth": 1879,
+   "death": 1942,
+   "ability": { "name": "Légy jó mindhalálig", "desc": "Paraszti régiók termelése +30%, népi egységek toborzása ingyenes" }
+  },
+  {
+   "id": "jozsef_attila",
+   "name": "József Attila",
+   "subject": "Magyar irodalom",
+   "region": "HU1",
+   "birthLabel": "Budapest (Magyar)",
+   "birth": 1905,
+   "death": 1937,
+   "ability": { "name": "Óda", "desc": "Ipari városok termelése +20%, munkásegységek morálja +25%" }
+  },
+  {
+   "id": "radnoti",
+   "name": "Radnóti Miklós",
+   "subject": "Magyar irodalom",
+   "region": "HU1",
+   "birthLabel": "Budapest (Magyar)",
+   "birth": 1909,
+   "death": 1944,
+   "ability": { "name": "Erőltetett menet", "desc": "Sereg napi menetteljesítménye +50%, lehetetlen körülmények közt is halad" }
   }
  ]
 }

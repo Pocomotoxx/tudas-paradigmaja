@@ -68,10 +68,13 @@
   .subj-header{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
   .subj-dot{ width:12px; height:12px; border-radius:50%; flex:0 0 12px; }
   .subj-name{ font-weight:700; color:#fff; }
-  .hero-row{ padding:3px 0; border-bottom:1px solid #2e343d; font-size:12px; }
+  .hero-row{ padding:5px 0; border-bottom:1px solid #2e343d; font-size:12px; }
   .hero-row:last-child{ border:none; }
   .hero-row .hname{ font-weight:600; }
   .hero-row .hmeta{ color:var(--muted); }
+  .hero-row .hyears{ color:#8a9ab5; font-size:11px; margin-left:4px; }
+  .hero-row .hability{ margin-top:2px; font-size:11px; color:#c9a84c; }
+  .hero-row .hability .aname{ font-weight:600; }
   /* turn system */
   #turn-bar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   #turn-bar .res{ color:var(--muted); font-size:13px; }
@@ -1054,7 +1057,11 @@ function showInfo(p){
   // Heroes
   const heroBlock = heroes.length
     ? `<div style="margin-top:10px;font-size:12px;color:var(--muted);margin-bottom:4px">Toborozható hősök (${heroes.length})</div>`+
-      heroes.map(h=>`<div class="hero-row"><span class="hname">&#9733; ${h.name}</span> <span class="hmeta">— ${h.subject} · ${h.birthLabel}</span></div>`).join('')
+      heroes.map(h=>{
+        const years = (h.birth||h.death) ? `<span class="hyears">(${h.birth||'?'}–${h.death||'?'})</span>` : '';
+        const ability = h.ability ? `<div class="hability">⚡ <span class="aname">${h.ability.name}</span> — ${h.ability.desc}</div>` : '';
+        return `<div class="hero-row"><span class="hname">&#9733; ${h.name}</span>${years} <span class="hmeta">— ${h.subject} · ${h.birthLabel}</span>${ability}</div>`;
+      }).join('')
     : (DATA.meta?.supportsHeroes ? `<div style="margin-top:8px;font-size:12px;color:var(--muted)">Nincs toborozható hős.</div>` : '');
 
   // Action button
