@@ -88,6 +88,28 @@
   #event-log .ev-info{ color:var(--muted); }
   .peak-icon{ fill:#aab4bf; stroke:#2c333c; stroke-width:.5; }
   .peak-icon.snow{ fill:#eef2f6; }
+  /* Question modal */
+  #q-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:200;
+    display:flex; align-items:center; justify-content:center; }
+  #q-overlay.hidden{ display:none; }
+  #q-box{ background:#1e2330; border:1px solid #3a414b; border-radius:12px;
+    padding:28px 32px; max-width:520px; width:90%; box-shadow:0 24px 64px rgba(0,0,0,.6); }
+  #q-subject{ font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--muted); margin-bottom:6px; }
+  #q-prompt{ font-size:16px; font-weight:600; color:#e7ebf0; margin-bottom:20px; line-height:1.4; }
+  #q-choices{ display:flex; flex-direction:column; gap:8px; }
+  .q-choice{ background:#262b33; border:1px solid #3a414b; border-radius:7px;
+    padding:9px 14px; cursor:pointer; font-size:14px; color:#c8cdd6;
+    text-align:left; transition:background .12s, border-color .12s; }
+  .q-choice:hover{ background:#2e3545; border-color:#556; color:#fff; }
+  .q-choice.correct{ background:#1a4a1a; border-color:#3a8a3a; color:#aaffaa; }
+  .q-choice.wrong{ background:#4a1a1a; border-color:#8a3a3a; color:#ffaaaa; }
+  .q-choice:disabled{ cursor:default; }
+  #q-timer{ font-size:12px; color:var(--muted); margin-bottom:14px; }
+  #q-timer b{ color:#ffd700; }
+  #q-cancel{ background:none; border:none; color:var(--muted); font-size:12px;
+    cursor:pointer; margin-top:14px; padding:0; }
+  #q-cancel:hover{ color:#e7ebf0; }
   #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
   #ctrl-bar button{ background:rgba(26,30,38,.85); color:#9aa4b2; border:1px solid #3a414b;
     border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; backdrop-filter:blur(4px); }
@@ -202,6 +224,106 @@ import { OrbitControls } from 'three/controls/OrbitControls';
 const PALETTE = {};
 let DATA = null, byId = {};
 let HEROES = {};
+let QBANK = []; // loaded from qbank.json
+
+// subject id mapping: map.json uses uppercase, qbank uses lowercase
+const SUBJ_MAP = {
+  MAGYAR:'magyar', MATEMATIKA:'matematika', FIZIKA:'fizika', KEMIA:'kemia',
+  BIOLOGIA:'biologia', TORTENELEM:'tortenelem', FOLDRAJZ:'foldrajz',
+  INFORMATIKA:'informatika', IDEGEN_NYELV:'idegen'
+};
+
+fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=d; }).catch(()=>{});
+
+function pickQuestion(subjectId){
+  const key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
+  const pool = QBANK.filter(q=>q.subject===key);
+  if(!pool.length) return null;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+let _timerInterval = null;
+
+function showQuestionModal(prov, onSuccess, onCancel){
+  const q = pickQuestion(prov.subject);
+  const subj = DATA.subjects?.find(s=>s.id===prov.subject);
+  const overlay = document.getElementById('q-overlay');
+  const choiceCount = DIFFICULTIES[currentDifficulty].choiceCount;
+  const timeLimitMs = DIFFICULTIES[currentDifficulty].answerTimeLimitMs;
+
+  // Build shuffled choices: correct + N-1 distractors
+  const distractors = (q ? [...q.distractors] : []).sort(()=>Math.random()-.5).slice(0, choiceCount-1);
+  const choices = q ? [q.correct, ...distractors].sort(()=>Math.random()-.5) : [];
+
+  document.getElementById('q-subject').textContent =
+    subj ? subj.name + ' — Tudáskapu' : 'Tudáskapu';
+  document.getElementById('q-prompt').textContent =
+    q ? q.prompt : 'Nincs elérhető kérdés ehhez a tartományhoz.';
+
+  const timerEl = document.getElementById('q-timer');
+  if(timeLimitMs && q){
+    timerEl.classList.remove('hidden');
+    let remaining = timeLimitMs / 1000;
+    timerEl.innerHTML = 'Maradt: <b>' + remaining + ' mp</b>';
+    _timerInterval = setInterval(()=>{
+      remaining--;
+      timerEl.innerHTML = 'Maradt: <b>' + remaining + ' mp</b>';
+      if(remaining <= 0){
+        clearInterval(_timerInterval);
+        finishModal(false, null);
+        addEvent('&#9201; Lejárt az idő! Nem sikerült elfoglalni: ' + prov.name, 'ev-info');
+        onCancel && onCancel();
+      }
+    }, 1000);
+  } else {
+    timerEl.classList.add('hidden');
+  }
+
+  const choicesEl = document.getElementById('q-choices');
+  if(q){
+    choicesEl.innerHTML = choices.map((c,i)=>
+      `<button class="q-choice" data-idx="${i}">${c}</button>`
+    ).join('');
+    choicesEl.querySelectorAll('.q-choice').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const correct = btn.textContent === q.correct;
+        // Disable all buttons
+        choicesEl.querySelectorAll('.q-choice').forEach(b=>{
+          b.disabled = true;
+          if(b.textContent === q.correct) b.classList.add('correct');
+          else if(b === btn && !correct) b.classList.add('wrong');
+        });
+        clearInterval(_timerInterval);
+        setTimeout(()=>{
+          finishModal(correct, prov);
+          if(correct) onSuccess && onSuccess();
+          else {
+            addEvent('&#10007; Rossz válasz! Nem sikerült elfoglalni: <b>' + prov.name + '</b>', 'ev-info');
+            onCancel && onCancel();
+          }
+        }, 900);
+      });
+    });
+  } else {
+    choicesEl.innerHTML = '<button class="q-choice correct" id="q-noq-btn">Nincs kérdés — automatikus siker</button>';
+    document.getElementById('q-noq-btn').addEventListener('click', ()=>{
+      finishModal(true, prov); onSuccess && onSuccess();
+    });
+  }
+
+  document.getElementById('q-cancel').onclick = ()=>{
+    clearInterval(_timerInterval);
+    finishModal(false, prov);
+    onCancel && onCancel();
+  };
+
+  overlay.classList.remove('hidden');
+}
+
+function finishModal(){
+  document.getElementById('q-overlay').classList.add('hidden');
+  clearInterval(_timerInterval);
+}
 let owned = new Set();
 
 // ── turn system state ─────────────────────────────────────────────────────
@@ -593,22 +715,43 @@ function renderOwnedCard(){
 }
 
 function toggleOwned(id){
+  const prov = byId[id];
   if(owned.has(id)){
     owned.delete(id);
-    addEvent(`&#9744; Felszabadítva: <b>${byId[id]?.name??id}</b>`, 'ev-info');
+    addEvent(`&#9744; Felszabadítva: <b>${prov?.name??id}</b>`, 'ev-info');
+    renderOwnershipOverlay3D(); renderOwnedCard();
   } else {
     const cost = 20;
     if(gold < cost){
       addEvent(`&#9888; Nincs elég arany (kell: ${cost}, van: ${gold})`, 'ev-info');
       return;
     }
-    gold -= cost;
-    owned.add(id);
-    renderTurnBar();
-    triggerConquest(id, true);
-    addEvent(`&#9873; Elfoglalva: <b>${byId[id]?.name??id}</b> (-${cost} arany)`, 'ev-player');
+    // Ask question before capturing
+    if(prov && prov.subject && QBANK.length){
+      showQuestionModal(prov,
+        ()=>{ // success
+          gold -= cost;
+          owned.add(id);
+          renderTurnBar();
+          triggerConquest(id, true);
+          addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)`, 'ev-player');
+          renderOwnershipOverlay3D(); renderOwnedCard();
+          const selProv = byId[id]; if(selProv) showInfo(selProv);
+        },
+        ()=>{ // cancel / wrong
+          const selProv = byId[id]; if(selProv) showInfo(selProv);
+        }
+      );
+    } else {
+      // No question bank available — capture directly
+      gold -= cost;
+      owned.add(id);
+      renderTurnBar();
+      triggerConquest(id, true);
+      addEvent(`&#9873; Elfoglalva: <b>${prov?.name??id}</b> (-${cost} arany)`, 'ev-player');
+      renderOwnershipOverlay3D(); renderOwnedCard();
+    }
   }
-  renderOwnershipOverlay3D(); renderOwnedCard();
 }
 
 // ── info panel ────────────────────────────────────────────────────────────
@@ -1045,5 +1188,14 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
   const first=byPack[sel.value]; loadPack(first.dir,first);
 }).catch(()=>{ loadPack('fantasy',{name:'Fantáziavilág'}); });
 </script>
+<div id="q-overlay" class="hidden">
+  <div id="q-box">
+    <div id="q-subject"></div>
+    <div id="q-prompt"></div>
+    <div id="q-timer" class="hidden"></div>
+    <div id="q-choices"></div>
+    <button id="q-cancel">&#10005; Mégsem</button>
+  </div>
+</div>
 </body>
 </html>
