@@ -1,7 +1,7 @@
 # Állapotjelentés — A Tudás Paradigmája
 
 > Élő összefoglaló a projekt felépítéséről és az implementált rendszerekről.
-> Frissítve: 2026-10-09. Tesztek: **222 zöld**, `tsc` build tiszta.
+> Frissítve: 2026-10-10. Tesztek: **280 zöld**, `tsc` build tiszta.
 
 ## Felépítés
 
@@ -42,7 +42,8 @@ Monorepo (npm workspaces, TypeScript project references, Vitest):
 | Artifact | `artifacts/Artifact` | stratégiai tárgyak (közvetlen vagy capture-kapu), sereg-bónusz |
 | Hős | `heroes/Scientist` | diszciplína-affinitás (bónusz/mínusz), vezető a seregen |
 | Stratégiai kör | `game/StrategicLoop` | kampány-kör a régió-gráfon: sereg-mozgás (budget), ellenséges régióba lépve **hex-csata**, foglalás; **régió tantárgya → KK-termelés** körönként; save/load |
-| Nehézség | `game/Difficulty`, `education/MultipleChoice` | 4 szint: lázadás-intervallum 10/8/6/3 kör, feleletválasztós opciószám 2/3/5/7, 3–4. szinten tantárgy-nyugtalanság kaszkád |
+| Nehézség | `game/Difficulty`, `education/MultipleChoice` | 4 szint: lázadás-intervallum 10/8/6/3 kör, feleletválasztós opciószám 2/3/5/7, 3–4. szinten tantárgy-nyugtalanság kaszkád, **válaszidő**: 1–2. szint korlátlan (a játékos bármikor elhagyhatja a települést), 3. szint 20 mp, 4. szint 10 mp kérdésenként |
+| Foglalás-időzítés | `capture/CaptureGate` | nehézség-vezérelt: `windowMs` lehet `Infinity` (korlátlan) + opcionális `perQuestionMs` (kérdésenkénti visszaszámlálás); `abandon()` — a játékos büntetlenül otthagyhatja a próbálkozást |
 | Tantárgy-nyugtalanság | `game/SubjectUnrest` | 3–4. szint: sok rossz válasz → a tantárgy összes régiójában nő a nyugtalanság, és a tantárgy egységei növekvő eséllyel dezertálnak |
 | Integráció | `game/Game`, `game/Scenario` | mindezt egy hurokba fűzi + teljes save/load (v2); opcionális stratégiai réteg (`scenario.strategic`): sereg-mozgás régiók közt, ütközésnél valódi hex-csata |
 
