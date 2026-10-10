@@ -39,6 +39,15 @@
   .warn-line{ color:#ff8a5c; font-weight:600; }
   .unrest-badge{ animation:unrest-pulse 1.4s ease-in-out infinite; }
   @keyframes unrest-pulse{ 0%,100%{ opacity:.65; } 50%{ opacity:1; } }
+  .owned-border{ fill:none; stroke:#ffd700; stroke-width:2.4; stroke-linejoin:round; pointer-events:none; }
+  .owned-flag-pole{ stroke:#6b5a10; stroke-width:1; pointer-events:none; }
+  .owned-flag-cloth{ fill:#ffd700; stroke:#6b5a10; stroke-width:.4; pointer-events:none; }
+  .own-btn{ background:#3a3220; color:#ffd700; border:1px solid #6b5a10; border-radius:5px;
+    padding:4px 10px; cursor:pointer; font-size:12px; margin-top:6px; }
+  .own-btn:hover{ background:#4a4028; }
+  .own-btn.release{ background:#333a44; color:#e7ebf0; border-color:#454d58; }
+  .own-btn.release:hover{ background:#454d58; }
+  .owned-line{ color:#ffd700; font-weight:600; }
 </style>
 </head>
 <body>
@@ -68,6 +77,12 @@
       <div id="diff-body"></div>
     </div>
     <div class="card">
+      <h3>Terület-tulajdon (szimuláció)</h3>
+      <div id="owned-body"><span class="k">Kattints egy provinciára, majd az „Elfoglalom” gombra.
+      A kitöltés színe (tantárgy) nem változik — a tulajdonlást arany szegély +
+      zászló jelzi.</span></div>
+    </div>
+    <div class="card">
       <h3 id="legend-title">Frakciók</h3>
       <div class="legend" id="legend"></div>
     </div>
@@ -88,6 +103,8 @@
 const PALETTE = {}; // faction id -> color (from map.json)
 let DATA = null, byId = {};
 let HEROES = {};    // nutsId -> [ {id,name,subject,birthLabel}, ... ]  (Europe only)
+let owned = new Set(); // province ids captured by the player (demo-only state;
+                        // mirrors RegionGraph.owner() in core, not persisted)
 
 // --- Difficulty (mirrors packages/core/src/game/Difficulty.ts) -----------
 // A standalone, no-build demo can't import the compiled core package directly
@@ -218,6 +235,46 @@ function renderUnrestOverlay(){
   svg.appendChild(g);
 }
 
+// Ownership overlay: fill colour stays the province's subject colour — only a
+// gold border + a small flag mark that it's captured by the player.
+function renderOwnershipOverlay(){
+  if(!DATA) return;
+  const svg = document.querySelector("#mapbox svg"); if(!svg) return;
+  const old = svg.querySelector("#owned-overlay"); if(old) old.remove();
+  if(!owned.size) return;
+  const ns="http://www.w3.org/2000/svg";
+  const g=document.createElementNS(ns,"g"); g.id="owned-overlay"; g.style.pointerEvents="none";
+  for(const id of owned){
+    const p = byId[id]; const srcPath = document.getElementById("prov_"+id);
+    if(!p || !srcPath) continue;
+    const border=document.createElementNS(ns,"path");
+    border.setAttribute("d", srcPath.getAttribute("d"));
+    border.setAttribute("class","owned-border");
+    g.appendChild(border);
+    const flag=document.createElementNS(ns,"g");
+    const x=p.cx, y=p.cy;
+    flag.innerHTML =
+      `<line class="owned-flag-pole" x1="${x}" y1="${y-7}" x2="${x}" y2="${y+2}"/>`+
+      `<polygon class="owned-flag-cloth" points="${x},${y-7} ${x+6},${y-5} ${x},${y-3}"/>`;
+    g.appendChild(flag);
+  }
+  svg.appendChild(g);
+}
+
+function renderOwnedCard(){
+  const box=document.getElementById("owned-body");
+  if(!owned.size){
+    box.innerHTML =
+      '<span class="k">Kattints egy provinciára, majd az „Elfoglalom” gombra. '+
+      'A kitöltés színe (tantárgy) nem változik — a tulajdonlást arany szegély + zászló jelzi.</span>';
+    return;
+  }
+  const names = [...owned].map(id=>byId[id] ? byId[id].name : id);
+  box.innerHTML =
+    `<div class="owned-line">${owned.size} elfoglalt terület</div>`+
+    `<div class="k">${names.join(", ")}</div>`;
+}
+
 function lighten(hex, f){
   const n=parseInt(hex.slice(1),16);
   const r=Math.min(255,((n>>16)&255)+(255-((n>>16)&255))*f)|0;
@@ -255,6 +312,10 @@ function showInfo(p){
   const unrestHtml = (subj && cascadeEnabled() && unrestOf(subj.id)>0)
     ? `<div class="warn-line">&#9888; Nyugtalanság: ${unrestOf(subj.id)}/10 — ~${Math.round(desertionChance(subj.id)*100)}% dezertálási esély/kör</div>`
     : "";
+  const isOwned = owned.has(p.id);
+  const ownedHtml =
+    `<div class="${isOwned?'owned-line':'k'}">${isOwned?'&#9873; A játékos tulajdonában':'Nincs elfoglalva'}</div>`+
+    `<button class="own-btn ${isOwned?'release':''}" id="own-toggle-btn">${isOwned?'Felszabadítom':'Elfoglalom'}</button>`;
   document.getElementById("info-body").innerHTML =
     `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+
     ident+
@@ -263,7 +324,15 @@ function showInfo(p){
     `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
     (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'')+
     unrestHtml+
+    ownedHtml+
     heroHtml;
+  const btn = document.getElementById("own-toggle-btn");
+  if(btn) btn.addEventListener("click", ()=>{ toggleOwned(p.id); showInfo(p); });
+}
+
+function toggleOwned(id){
+  if(owned.has(id)) owned.delete(id); else owned.add(id);
+  renderOwnershipOverlay(); renderOwnedCard();
 }
 
 let selEl=null;
@@ -355,7 +424,7 @@ function loadPack(dir, pack){
     fetch("world/"+dir+"/map.json").then(r=>{ if(!r.ok) throw 0; return r.json(); }),
   ]).then(([svgText, data])=>{
     DATA=data; for(const k in PALETTE) delete PALETTE[k]; byId={}; HEROES={};
-    unrestWrong={}; unrestLevel={}; // fresh start on every pack switch
+    unrestWrong={}; unrestLevel={}; owned=new Set(); // fresh start on every pack switch
     data.factions.forEach(f=>PALETTE[f.id]=f.color);
     data.provinces.forEach(p=>byId[p.id]=p);
     const doc=new DOMParser().parseFromString(svgText,"image/svg+xml");
@@ -363,6 +432,7 @@ function loadPack(dir, pack){
     box.innerHTML=""; box.appendChild(svg);
     paint(); wire(); buildLegend(); addCapitals(svg);
     renderUnrestCard(); renderUnrestOverlay();
+    renderOwnedCard(); renderOwnershipOverlay();
     const supports = (data.meta && data.meta.supportsHeroes);
     document.getElementById("hero-flag").textContent =
       supports ? "· hősök/felfedezők: IGEN (valós szülőhelyek)" : "· hősök/felfedezők: nincs (fantáziavilág)";
