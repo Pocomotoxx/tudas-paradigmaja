@@ -44,7 +44,7 @@ import type { ScenarioDef, KnowledgeCenterPlacement } from "./Scenario.js";
 import { RegionGraph, type RegionInit } from "../world/RegionGraph.js";
 import { StrategicLoop, type StrategicMove, type StrategicSnapshot } from "./StrategicLoop.js";
 import { Difficulty, difficultyParams, type DifficultyParams } from "./Difficulty.js";
-import { SubjectUnrest, type SubjectUnrestSnapshot } from "./SubjectUnrest.js";
+import { SubjectUnrest, SUBJECT_UNREST_DEFAULTS, type SubjectUnrestSnapshot } from "./SubjectUnrest.js";
 
 export interface GameSave {
   readonly version: 2;
@@ -153,7 +153,14 @@ export class Game {
   constructor(scenario: ScenarioDef, seed: number) {
     this.scenario = scenario;
     this.diff = difficultyParams(scenario.difficulty ?? Difficulty.ONE);
-    this.subjectUnrest = new SubjectUnrest({ enabled: this.diff.subjectUnrestCascade });
+    // Confirmed balance (see SubjectUnrest.SUBJECT_UNREST_DEFAULTS): explicit
+    // here so the numbers are visible at the call site, not just an implicit
+    // default. Same thresholds for both levels 3 and 4 — only whether the
+    // cascade runs at all differs by level.
+    this.subjectUnrest = new SubjectUnrest({
+      enabled: this.diff.subjectUnrestCascade,
+      ...SUBJECT_UNREST_DEFAULTS,
+    });
     this.map = new HexMap(scenario.tiles);
     this.phase = new PhaseMachine(GamePhase.STRATEGIC);
     this.rng = new SeededRng(seed);

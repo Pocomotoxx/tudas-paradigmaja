@@ -8,9 +8,27 @@
 // disabled (difficulty 1–2) every operation is a no-op and unrest stays 0.
 //
 // Determinism: desertions are rolled from the shared seeded RNG.
+//
+// Balance (confirmed with the project owner, 2026-10-10): the 4th consecutive
+// wrong answer is what starts unrest rising (wrongThreshold 3 — three wrong
+// answers are "free"); at maximum unrest (10 points) a subject's units have an
+// 80% per-turn desertion chance (desertionPerUnrest 0.08 × 10 = 0.8). These
+// are the same for both levels 3 and 4 — only whether the cascade runs at all
+// differs by level (see Difficulty.subjectUnrestCascade).
 
 import type { Rng } from "../rng/SeededRng.js";
 import { ALL_SUBJECTS, type Subject } from "../economy/KKLedger.js";
+
+/** The confirmed balance defaults (see file header). Exported so callers can
+ *  reference or override them explicitly instead of relying on implicit
+ *  defaults buried in the constructor. */
+export const SUBJECT_UNREST_DEFAULTS = {
+  wrongThreshold: 3,
+  unrestStep: 1,
+  coolStep: 1,
+  maxUnrest: 10,
+  desertionPerUnrest: 0.08,
+} as const;
 
 export interface SubjectUnrestConfig {
   /** Whether the cascade is active (difficulty 3–4). */
@@ -23,7 +41,7 @@ export interface SubjectUnrestConfig {
   readonly coolStep?: number;
   /** Maximum unrest per subject. Default 10. */
   readonly maxUnrest?: number;
-  /** Desertion chance added per unrest point (0..1). Default 0.08. */
+  /** Desertion chance added per unrest point (0..1). Default 0.08 (80% at max unrest). */
   readonly desertionPerUnrest?: number;
 }
 
@@ -42,11 +60,11 @@ export class SubjectUnrest {
 
   constructor(cfg: SubjectUnrestConfig) {
     this.enabled = cfg.enabled;
-    this.wrongThreshold = cfg.wrongThreshold ?? 3;
-    this.unrestStep = cfg.unrestStep ?? 1;
-    this.coolStep = cfg.coolStep ?? 1;
-    this.maxUnrest = cfg.maxUnrest ?? 10;
-    this.desertionPerUnrest = cfg.desertionPerUnrest ?? 0.08;
+    this.wrongThreshold = cfg.wrongThreshold ?? SUBJECT_UNREST_DEFAULTS.wrongThreshold;
+    this.unrestStep = cfg.unrestStep ?? SUBJECT_UNREST_DEFAULTS.unrestStep;
+    this.coolStep = cfg.coolStep ?? SUBJECT_UNREST_DEFAULTS.coolStep;
+    this.maxUnrest = cfg.maxUnrest ?? SUBJECT_UNREST_DEFAULTS.maxUnrest;
+    this.desertionPerUnrest = cfg.desertionPerUnrest ?? SUBJECT_UNREST_DEFAULTS.desertionPerUnrest;
   }
 
   get isEnabled(): boolean { return this.enabled; }
