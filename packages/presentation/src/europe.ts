@@ -15,6 +15,7 @@ import {
   type ScenarioDef,
 } from "@tudas-paradigmaja/core";
 import { scientistsPack } from "./scientistsPack.js";
+import { coreQuestionBank } from "./questionBank.js";
 
 /** Fictional alternative-Europe locations on a small hex map. */
 export function europeLocations(): WorldLocation[] {
@@ -28,14 +29,10 @@ export function europeLocations(): WorldLocation[] {
   ];
 }
 
+// The real, content-rich multiple-choice bank (I50) — all 9 subjects, enough
+// distractors for the hardest difficulty's 7-option questions.
 function questions() {
-  const q = (id: string, subject: Subject, b: number) => ({ id, subject, topic: "t", b, tier: DifficultyTier.ALAP });
-  return [
-    q("mat1", Subject.MATEMATIKA, 0), q("mat2", Subject.MATEMATIKA, 1), q("mat3", Subject.MATEMATIKA, 2), q("mat4", Subject.MATEMATIKA, 3),
-    q("fk1", Subject.KEMIA, 0), q("fk2", Subject.KEMIA, 1), q("fk3", Subject.KEMIA, 2),
-    q("tor1", Subject.TORTENELEM, 0), q("tor2", Subject.TORTENELEM, 1), q("tor3", Subject.TORTENELEM, 2), q("tor4", Subject.TORTENELEM, 3),
-    q("bio1", Subject.BIOLOGIA, 0), q("bio2", Subject.BIOLOGIA, 1), q("bio3", Subject.BIOLOGIA, 2),
-  ];
+  return coreQuestionBank();
 }
 
 export interface EuropeScenario {
