@@ -134,6 +134,46 @@
   #xp-bar b{ color:#ffd700; }
   #xp-fill-wrap{ flex:1; background:#262b33; border-radius:4px; height:5px; overflow:hidden; }
   #xp-fill{ height:100%; background:#ffd700; border-radius:4px; transition:width .4s; }
+  /* i65: defense mode indicator */
+  #q-mode-badge{ font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    padding:2px 8px; border-radius:4px; margin-bottom:8px; display:inline-block; }
+  #q-mode-badge.attack{ background:#1a4a1a; color:#7ddf7d; }
+  #q-mode-badge.defend{ background:#4a2a0a; color:#ffa060; border:1px solid #8a5030; }
+  /* i66: buildings */
+  .bld-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .bld-btn{ background:#262b33; border:1px solid #3a414b; border-radius:6px;
+    padding:6px 10px; cursor:pointer; font-size:12px; color:#c8cdd6; text-align:center; }
+  .bld-btn:hover{ background:#2e3545; color:#fff; }
+  .bld-btn.owned{ background:#1a3040; border-color:#2a6080; color:#80ccff; cursor:default; }
+  .bld-btn.cant-afford{ opacity:.45; cursor:not-allowed; }
+  .bld-icons{ font-size:13px; margin-top:2px; }
+  /* i67: campaign */
+  #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
+    display:flex; align-items:center; justify-content:center; }
+  #camp-overlay.hidden{ display:none; }
+  #camp-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:32px 36px; max-width:560px; width:92%; }
+  #camp-box h2{ font-size:22px; font-weight:800; color:#e7ebf0; margin-bottom:6px; }
+  #camp-box .camp-sub{ color:var(--muted); font-size:13px; margin-bottom:20px; }
+  .camp-list{ display:flex; flex-direction:column; gap:10px; }
+  .camp-item{ background:#262b33; border:1px solid #3a414b; border-radius:10px;
+    padding:14px 18px; cursor:pointer; transition:border-color .15s; }
+  .camp-item:hover{ border-color:#7ddf7d; }
+  .camp-item.locked{ opacity:.4; cursor:not-allowed; }
+  .camp-item.locked:hover{ border-color:#3a414b; }
+  .camp-item .ci-title{ font-weight:700; font-size:15px; color:#e7ebf0; margin-bottom:4px; }
+  .camp-item .ci-desc{ font-size:12px; color:var(--muted); }
+  .camp-item .ci-badge{ font-size:11px; font-weight:700; float:right; padding:2px 7px;
+    border-radius:4px; margin-left:8px; }
+  .ci-badge.easy{ background:#1a4a1a; color:#7ddf7d; }
+  .ci-badge.medium{ background:#3a3010; color:#ffd060; }
+  .ci-badge.hard{ background:#4a1010; color:#ff8080; }
+  #camp-close{ background:none; border:none; color:var(--muted); cursor:pointer;
+    font-size:13px; margin-top:18px; }
+  #camp-close:hover{ color:#e7ebf0; }
+  #btn-campaign{ background:#2a3a4a; color:#80ccff; border:1px solid #2a5a7a;
+    border-radius:6px; padding:5px 12px; cursor:pointer; font-size:13px; }
+  #btn-campaign:hover{ background:#3a4a5a; }
   #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
   #ctrl-bar button{ background:rgba(26,30,38,.85); color:#9aa4b2; border:1px solid #3a414b;
     border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; backdrop-filter:blur(4px); }
@@ -156,6 +196,7 @@
     <option value="4">4 — 10 mp / kérdés</option>
   </select>
   <span id="hero-flag" style="color:var(--muted)"></span>
+  &nbsp;·&nbsp; <button id="btn-campaign">&#9654; Hadjárat</button>
 </header>
 <div id="wrap">
   <div id="mapbox">
@@ -290,12 +331,19 @@ function provinceTimeLimit(prov){
   return base;
 }
 
-function showQuestionModal(prov, onSuccess, onCancel){
+function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
   const q = pickQuestion(prov.subject);
   const subj = DATA.subjects?.find(s=>s.id===prov.subject);
   const overlay = document.getElementById('q-overlay');
   const choiceCount = provinceChoiceCount(prov);
   const timeLimitMs = provinceTimeLimit(prov);
+  // Set mode badge (defend sets it before calling)
+  const badge = document.getElementById('q-mode-badge');
+  if(mode === 'attack'){
+    badge.className = 'attack';
+    badge.textContent = '⚔ Támadás';
+    badge.classList.remove('hidden');
+  }
 
   // Build shuffled choices: correct + N-1 distractors
   const distractors = (q ? [...q.distractors] : []).sort(()=>Math.random()-.5).slice(0, choiceCount-1);
@@ -343,6 +391,7 @@ function showQuestionModal(prov, onSuccess, onCancel){
         setTimeout(()=>{
           finishModal(correct, prov);
           if(correct){
+            sfx('correct');
             streak++;
             const earned = XP_PER_CORRECT + (streak > 1 ? XP_STREAK_BONUS * (streak - 1) : 0);
             addXP(earned);
@@ -350,6 +399,7 @@ function showQuestionModal(prov, onSuccess, onCancel){
             addEvent('&#10003; Helyes válasz!' + streakMsg, 'ev-player');
             onSuccess && onSuccess();
           } else {
+            sfx('wrong');
             streak = 0; renderXPBar();
             addEvent('&#10007; Rossz válasz! Nem sikerült elfoglalni: <b>' + prov.name + '</b>', 'ev-info');
             onCancel && onCancel();
@@ -376,6 +426,8 @@ function showQuestionModal(prov, onSuccess, onCancel){
 function finishModal(){
   document.getElementById('q-overlay').classList.add('hidden');
   clearInterval(_timerInterval);
+  const badge = document.getElementById('q-mode-badge');
+  badge.className = 'attack hidden';
 }
 let owned = new Set();
 
@@ -430,6 +482,7 @@ function checkVictory(){
 
 function showGameOver(win){
   gameOver = true;
+  sfx(win ? 'win' : 'lose');
   document.getElementById('btn-end-turn').disabled = true;
   const total = DATA.provinces.length;
   const overlay = document.getElementById('go-overlay');
@@ -459,6 +512,8 @@ function resetGame(){
   botGold = 20; botKK = 10;
   xp = 0; streak = 0;
   owned.clear(); botOwned.clear();
+  for(const k in buildings) delete buildings[k];
+  activeCampaign = null;
   eventLog = [];
   document.getElementById('event-log').innerHTML = '<div class="ev-info">Új játék kezdődött.</div>';
   document.getElementById('go-overlay').classList.add('hidden');
@@ -862,6 +917,7 @@ function toggleOwned(id){
           owned.add(id);
           renderTurnBar();
           triggerConquest(id, true);
+          sfx('conquest');
           addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)`, 'ev-player');
           renderOwnershipOverlay3D(); renderOwnedCard();
           checkVictory();
@@ -959,9 +1015,13 @@ function showInfo(p){
       </button>
     </div>`;
 
-  document.getElementById('info-body').innerHTML = header + rows + unrestBar + heroBlock + actionBtn;
+  const bldBlock = buildingsHTML(p.id);
+  document.getElementById('info-body').innerHTML = header + rows + unrestBar + heroBlock + bldBlock + actionBtn;
   const btn = document.getElementById('own-toggle-btn');
   if(btn && !isBot) btn.addEventListener('click', ()=>{ toggleOwned(p.id); showInfo(p); });
+  document.querySelectorAll('.bld-btn:not([disabled])').forEach(b=>{
+    b.addEventListener('click', ()=>buildAt(b.dataset.prov, b.dataset.bld));
+  });
 
   // Show subject card
   if(subj) showSubject(subj);
@@ -1295,17 +1355,20 @@ function renderBotOverlay(){
 
 function playerIncome(){
   const prev = { gold, kk };
-  gold += owned.size * INCOME.gold + INCOME.gold;
-  kk   += owned.size * INCOME.kk   + INCOME.kk;
+  gold += owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
+  kk   += owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
   addEvent(`&#9733; Bevétel: +${gold-prev.gold} arany, +${kk-prev.kk} KK`, 'ev-player');
 }
 
 function endTurn(){
   if(gameOver) return;
+  sfx('turn');
   document.getElementById('btn-end-turn').disabled = true;
   playerIncome();
   botTurn();
-  if(gameOver) return; // bot may have triggered game over
+  if(gameOver) return;
+  botAttackTurn(); // i65: bot may attack player province
+  if(gameOver) return;
   turnNumber++;
   renderTurnBar();
   addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
@@ -1316,6 +1379,13 @@ function initTurnSystem(){
   renderTurnBar(); renderXPBar();
   document.getElementById('btn-end-turn').addEventListener('click', endTurn);
   document.getElementById('go-newgame').addEventListener('click', resetGame);
+  document.getElementById('btn-campaign').addEventListener('click', ()=>{
+    renderCampaignList();
+    document.getElementById('camp-overlay').classList.remove('hidden');
+  });
+  document.getElementById('camp-close').addEventListener('click', ()=>{
+    document.getElementById('camp-overlay').classList.add('hidden');
+  });
 }
 
 // ── controls wiring ───────────────────────────────────────────────────────
@@ -1327,6 +1397,224 @@ document.getElementById('diff-select').addEventListener('change',e=>{
 document.getElementById('btn-reset-cam').addEventListener('click', resetCamera);
 
 renderDiffCard(); renderUnrestCard(); initTurnSystem();
+
+// ── i68: Web Audio sound system ───────────────────────────────────────────
+let _audioCtx = null;
+function getAudioCtx(){
+  if(!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return _audioCtx;
+}
+function playTone(freq, type, duration, gainVal=0.18, delay=0){
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+    gain.gain.setValueAtTime(gainVal, ctx.currentTime + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+    osc.start(ctx.currentTime + delay);
+    osc.stop(ctx.currentTime + delay + duration + 0.05);
+  } catch(e){}
+}
+function sfx(name){
+  switch(name){
+    case 'correct':
+      playTone(523, 'sine', 0.12, 0.15);
+      playTone(659, 'sine', 0.12, 0.15, 0.12);
+      playTone(784, 'sine', 0.18, 0.15, 0.24);
+      break;
+    case 'wrong':
+      playTone(220, 'sawtooth', 0.18, 0.12);
+      playTone(180, 'sawtooth', 0.22, 0.10, 0.15);
+      break;
+    case 'conquest':
+      playTone(440, 'square', 0.08, 0.10);
+      playTone(554, 'square', 0.08, 0.10, 0.09);
+      playTone(659, 'sine', 0.14, 0.12, 0.18);
+      break;
+    case 'lose_province':
+      playTone(330, 'sawtooth', 0.14, 0.12);
+      playTone(262, 'sawtooth', 0.18, 0.10, 0.15);
+      break;
+    case 'turn':
+      playTone(392, 'sine', 0.1, 0.08);
+      break;
+    case 'win':
+      [523,659,784,1047].forEach((f,i)=>playTone(f,'sine',0.25,0.18,i*0.13));
+      break;
+    case 'lose':
+      [330,294,262,220].forEach((f,i)=>playTone(f,'sawtooth',0.25,0.12,i*0.15));
+      break;
+    case 'build':
+      playTone(440, 'sine', 0.08, 0.10);
+      playTone(550, 'sine', 0.12, 0.12, 0.09);
+      break;
+  }
+}
+
+// ── i66: Buildings system ─────────────────────────────────────────────────
+const BUILDINGS = {
+  fort:    { name:'Erőd',    icon:'&#127963;', cost:30, desc:'+2 véd. bónusz', goldBonus:0, kkBonus:0, defBonus:2 },
+  library: { name:'Könyvtár',icon:'&#128218;', cost:25, desc:'+2 KK/kör',      goldBonus:0, kkBonus:2, defBonus:0 },
+  mine:    { name:'Aranyér', icon:'&#9935;',   cost:25, desc:'+3 arany/kör',   goldBonus:3, kkBonus:0, defBonus:0 },
+};
+const buildings = {}; // { [provId]: Set of building keys }
+
+function provBuildings(id){ return buildings[id] || (buildings[id] = new Set()); }
+
+function buildingGoldBonus(){
+  let total = 0;
+  for(const id of owned){ for(const k of provBuildings(id)) total += BUILDINGS[k].goldBonus; }
+  return total;
+}
+function buildingKKBonus(){
+  let total = 0;
+  for(const id of owned){ for(const k of provBuildings(id)) total += BUILDINGS[k].kkBonus; }
+  return total;
+}
+function provDefBonus(id){
+  let bonus = 0;
+  for(const k of provBuildings(id)) bonus += BUILDINGS[k].defBonus;
+  return bonus;
+}
+
+function buildAt(provId, bldKey){
+  const bld = BUILDINGS[bldKey];
+  if(!bld || !owned.has(provId)) return;
+  if(gold < bld.cost){ addEvent(`&#9888; Nincs elég arany az épülethez (kell: ${bld.cost})`, 'ev-info'); return; }
+  if(provBuildings(provId).has(bldKey)){ return; }
+  gold -= bld.cost;
+  provBuildings(provId).add(bldKey);
+  renderTurnBar();
+  sfx('build');
+  addEvent(`${bld.icon} ${bld.name} felépítve: <b>${byId[provId]?.name}</b> (-${bld.cost} arany)`, 'ev-player');
+  const prov = byId[provId]; if(prov) showInfo(prov);
+}
+
+function buildingsHTML(provId){
+  if(!owned.has(provId)) return '';
+  const built = provBuildings(provId);
+  const btns = Object.entries(BUILDINGS).map(([k,b])=>{
+    const has = built.has(k);
+    const canAfford = gold >= b.cost;
+    const cls = has ? 'owned' : (!canAfford ? 'cant-afford' : '');
+    return `<button class="bld-btn ${cls}" data-bld="${k}" data-prov="${provId}" ${has?'disabled title="Már megépítve"':(!canAfford?'disabled title="Nincs elég arany"':'')}>
+      <div>${b.icon} ${b.name}</div>
+      <div style="font-size:10px;color:var(--muted)">${has?'&#10003; Kész':b.desc+' · '+b.cost+' &#9733;'}</div>
+    </button>`;
+  }).join('');
+  return `<div style="margin-top:10px;font-size:12px;font-weight:600;color:var(--muted)">Épületek</div>
+    <div class="bld-row">${btns}</div>`;
+}
+
+// ── i65: Defense mechanism ────────────────────────────────────────────────
+function botAttackTurn(){
+  if(!DATA || gameOver) return;
+  // Bot tries to take 1 player province per turn with 30% chance, harder on higher difficulty
+  const attackChance = [0, 0.20, 0.30, 0.45, 0.60][currentDifficulty] || 0.30;
+  if(Math.random() > attackChance) return;
+  const playerProvs = DATA.provinces.filter(p => owned.has(p.id));
+  if(!playerProvs.length) return;
+  // Prefer provinces adjacent to bot territory
+  const adjacent = playerProvs.filter(p => (p.adj??[]).some(id=>botOwned.has(id)));
+  const target = adjacent.length ? adjacent[Math.floor(Math.random()*adjacent.length)]
+                                 : playerProvs[Math.floor(Math.random()*playerProvs.length)];
+  const defBonus = provDefBonus(target.id);
+  // Show defense modal
+  addEvent(`&#9876; Bot támadja: <b>${target.name}</b>!`, 'ev-bot');
+  sfx('lose_province'); // suspense
+  showDefenseModal(target, defBonus);
+}
+
+function showDefenseModal(prov, defBonus){
+  const badge = document.getElementById('q-mode-badge');
+  badge.className = 'defend';
+  badge.textContent = '&#128737; Védekezés';
+  badge.classList.remove('hidden');
+  // Increase difficulty slightly for defense
+  const savedDiff = currentDifficulty;
+  const defDiff = Math.min(4, currentDifficulty + (defBonus > 0 ? -1 : 1));
+  const origDiff = currentDifficulty;
+  currentDifficulty = Math.max(1, defDiff);
+  showQuestionModal(prov,
+    ()=>{ // correct — defended!
+      currentDifficulty = origDiff;
+      addEvent(`&#128737; Megvédve: <b>${prov.name}</b>!`, 'ev-player');
+      sfx('conquest');
+    },
+    ()=>{ // wrong — province lost
+      currentDifficulty = origDiff;
+      owned.delete(prov.id);
+      botOwned.add(prov.id);
+      renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard();
+      addEvent(`&#9876; Elveszett: <b>${prov.name}</b> — Bot elfoglalta!`, 'ev-bot');
+      sfx('lose_province');
+      checkVictory();
+      const selProv = byId[prov.id]; if(selProv) showInfo(selProv);
+    }
+  );
+  // Reset badge after modal closes (handled in finishModal via class check)
+}
+
+// ── i67: Campaign mode ────────────────────────────────────────────────────
+const CAMPAIGNS = [
+  { id:'c1', name:'Első lépések', difficulty:'easy',
+    desc:'Könnyű pálya — 3 tartomány és végtelen idő. Tökéletes a kezdőknek.',
+    startGold:40, startKK:20, winThreshold:0.50,
+    botStartProvinces:1, diffOverride:1, unlocked:true },
+  { id:'c2', name:'Közép-Európa', difficulty:'medium',
+    desc:'Közepes pálya — Europa pack, bot 3 kezdőtartománnyal, 40% arányhoz kell.',
+    startGold:30, startKK:15, winThreshold:0.40,
+    botStartProvinces:3, diffOverride:2, unlocked:true },
+  { id:'c3', name:'Nagy Hadjárat', difficulty:'hard',
+    desc:'Nehéz pálya — szoros kérdések, 10 mp időlimit, 55% arányhoz kell.',
+    startGold:20, startKK:10, winThreshold:0.55,
+    botStartProvinces:5, diffOverride:4, unlocked:true },
+  { id:'c4', name:'Mesterek Bajnoksága', difficulty:'hard',
+    desc:'Elit pálya — bot azonnal kezd terjeszkedni, 65% arány, minden tartomány számít.',
+    startGold:15, startKK:8, winThreshold:0.65,
+    botStartProvinces:8, diffOverride:4, unlocked:true },
+];
+
+let activeCampaign = null;
+
+function renderCampaignList(){
+  const list = document.getElementById('camp-list');
+  list.innerHTML = CAMPAIGNS.map(c=>`
+    <div class="camp-item${c.unlocked?'':' locked'}" data-camp="${c.id}">
+      <span class="ci-badge ${c.difficulty}">${c.difficulty==='easy'?'Könnyű':c.difficulty==='medium'?'Közepes':'Nehéz'}</span>
+      <div class="ci-title">${c.name}</div>
+      <div class="ci-desc">${c.desc}</div>
+    </div>`).join('');
+  list.querySelectorAll('.camp-item:not(.locked)').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const camp = CAMPAIGNS.find(c=>c.id===el.dataset.camp);
+      if(camp) startCampaign(camp);
+    });
+  });
+}
+
+function startCampaign(camp){
+  activeCampaign = camp;
+  document.getElementById('camp-overlay').classList.add('hidden');
+  // Apply campaign settings
+  resetGame();
+  gold = camp.startGold;
+  kk = camp.startKK;
+  currentDifficulty = camp.diffOverride;
+  document.getElementById('diff-select').value = camp.diffOverride;
+  // Give bot starting provinces
+  if(DATA){
+    const neutral = DATA.provinces.filter(p=>!owned.has(p.id)&&!botOwned.has(p.id));
+    neutral.sort(()=>Math.random()-.5);
+    neutral.slice(0, camp.botStartProvinces).forEach(p=>botOwned.add(p.id));
+    renderBotOverlay(); renderTurnBar();
+  }
+  addEvent(`&#9654; Hadjárat indult: <b>${camp.name}</b>`, 'ev-info');
+  sfx('conquest');
+}
 
 // ── pack loader bootstrap ─────────────────────────────────────────────────
 
@@ -1347,8 +1635,17 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
     <button id="go-newgame">&#8635; Új játék</button>
   </div>
 </div>
+<div id="camp-overlay" class="hidden">
+  <div id="camp-box">
+    <h2>&#9654; Hadjárat mód</h2>
+    <div class="camp-sub">Válassz pályát — minden hadjárat egyedi feltételekkel indul</div>
+    <div class="camp-list" id="camp-list"></div>
+    <button id="camp-close">&#10005; Mégsem</button>
+  </div>
+</div>
 <div id="q-overlay" class="hidden">
   <div id="q-box">
+    <div id="q-mode-badge" class="attack hidden"></div>
     <div id="q-subject"></div>
     <div id="q-prompt"></div>
     <div id="q-timer" class="hidden"></div>
