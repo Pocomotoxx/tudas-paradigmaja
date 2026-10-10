@@ -183,14 +183,15 @@ renderer.setClearColor(0x0d1117);
 
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 2000);
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 2000);
+camera.up.set(0, 0, 1); // Z is "up" in our world (extrusion direction)
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.07;
-controls.minDistance = 12;
-controls.maxDistance = 260;
-controls.maxPolarAngle = Math.PI * 0.52; // can't go below horizon
+controls.minDistance = 8;
+controls.maxDistance = 280;
+controls.maxPolarAngle = Math.PI * 0.48; // max ~86° from Z-up = nearly horizontal
 
 // Lights — permanent, not cleared between packs
 const ambLight = new THREE.AmbientLight(0xffffff, 0.55);
@@ -209,6 +210,7 @@ const seaMesh = new THREE.Mesh(
 );
 seaMesh.position.z = -0.65;
 scene.add(seaMesh);
+scene.fog = new THREE.Fog(0x0d1117, 60, 170);
 
 // Groups for dynamic overlays
 const unrestGroup  = new THREE.Group();
@@ -227,7 +229,7 @@ let hoveredId = null, selectedId = null;
 // SVG→world coordinate transform (computed per pack)
 let svgCx = 0, svgCy = 0, svgScale = 1;
 
-const HEIGHTS = { plain:0.3, hill:2.0, mountain:5.5 };
+const HEIGHTS = { plain:0.4, hill:3.2, mountain:9 };
 
 // ── coordinate helpers ────────────────────────────────────────────────────
 
@@ -389,9 +391,9 @@ async function loadPack(dir, pack){
 }
 
 function resetCamera(){
-  camera.position.set(0, -55, 88);
-  camera.lookAt(0, 0, 2);
-  controls.target.set(0, 0, 2);
+  camera.position.set(0, -80, 28);
+  camera.lookAt(0, 8, 3);
+  controls.target.set(0, 8, 3);
   controls.update();
 }
 
