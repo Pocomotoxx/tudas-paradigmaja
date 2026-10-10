@@ -11,8 +11,11 @@
   header{ padding:10px 16px; background:var(--panel); }
   header b{ font-weight:600; } header span{ color:var(--muted); }
   #wrap{ display:flex; gap:16px; padding:16px; flex-wrap:wrap; align-items:flex-start; }
-  #mapbox{ flex:1 1 560px; min-width:320px; background:#11141a; border-radius:8px; padding:8px; }
-  #mapbox svg{ width:100%; height:auto; display:block; border-radius:6px; }
+  #mapbox{ flex:1 1 560px; min-width:320px; background:#11141a; border-radius:8px;
+    padding:8px 8px 28px; perspective:1400px; }
+  #mapbox svg{ width:100%; height:auto; display:block; border-radius:6px;
+    transform:rotateX(16deg); transform-origin:50% 100%;
+    box-shadow:0 26px 34px -14px rgba(0,0,0,.65); }
   .side{ flex:0 0 240px; }
   .card{ background:var(--panel); border-radius:8px; padding:12px 14px; margin-bottom:12px; }
   .card h3{ margin:0 0 8px; font-size:13px; color:var(--muted); font-weight:600;
@@ -48,6 +51,10 @@
   .own-btn.release{ background:#333a44; color:#e7ebf0; border-color:#454d58; }
   .own-btn.release:hover{ background:#454d58; }
   .owned-line{ color:#ffd700; font-weight:600; }
+  .terrain-row{ display:flex; align-items:center; gap:6px; margin:4px 0; }
+  .terrain-row svg{ flex:0 0 auto; }
+  .peak-icon{ fill:#aab4bf; stroke:#2c333c; stroke-width:.5; }
+  .peak-icon.snow{ fill:#eef2f6; }
 </style>
 </head>
 <body>
@@ -89,6 +96,19 @@
     <div class="card">
       <h3>Tantárgy-nyugtalanság (szimuláció)</h3>
       <div id="unrest-body"></div>
+    </div>
+    <div class="card">
+      <h3>Domborzat (sematikus)</h3>
+      <div class="terrain-row"><svg width="14" height="12" viewBox="0 0 14 12">
+        <polygon class="peak-icon" points="7,1 13,11 1,11"/>
+        <polygon class="peak-icon snow" points="7,1 9.4,5 4.6,5"/>
+      </svg> Hegyvidék</div>
+      <div class="terrain-row"><svg width="14" height="12" viewBox="0 0 14 12">
+        <line x1="1" y1="2" x2="7" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
+        <line x1="6" y1="2" x2="12" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
+      </svg> Dombvidék</div>
+      <div class="k" style="margin-top:4px;">Síkság: nincs jelölés. A domborzat
+      egyelőre nem valós magassági adatból jön — csak vizuális utalás.</div>
     </div>
     <div class="card">
       <h3>Megjegyzés</h3>
@@ -275,6 +295,53 @@ function renderOwnedCard(){
     `<div class="k">${names.join(", ")}</div>`;
 }
 
+// Terrain is a schematic hint (see add-terrain.mjs), not real elevation data:
+// hill regions get a light diagonal hatch, mountain regions get a darker
+// hatch plus small peak markers. Static per pack load (unlike the unrest/
+// ownership overlays), so it's rendered once in loadPack().
+function ensureTerrainPatterns(svg){
+  if(svg.querySelector("#hill-hatch")) return;
+  const ns="http://www.w3.org/2000/svg";
+  const defs = svg.querySelector("defs") || (()=>{ const d=document.createElementNS(ns,"defs"); svg.insertBefore(d, svg.firstChild); return d; })();
+  const hill=document.createElementNS(ns,"pattern");
+  hill.setAttribute("id","hill-hatch"); hill.setAttribute("width","6"); hill.setAttribute("height","6");
+  hill.setAttribute("patternUnits","userSpaceOnUse"); hill.setAttribute("patternTransform","rotate(45)");
+  hill.innerHTML = '<line x1="0" y1="0" x2="0" y2="6" stroke="#cfd6dd" stroke-width="1.1"/>';
+  defs.appendChild(hill);
+  const mtn=document.createElementNS(ns,"pattern");
+  mtn.setAttribute("id","mountain-hatch"); mtn.setAttribute("width","6"); mtn.setAttribute("height","6");
+  mtn.setAttribute("patternUnits","userSpaceOnUse"); mtn.setAttribute("patternTransform","rotate(45)");
+  mtn.innerHTML = '<line x1="0" y1="0" x2="0" y2="6" stroke="#3a4049" stroke-width="2.4"/>';
+  defs.appendChild(mtn);
+}
+
+function renderTerrainOverlay(svg){
+  if(!DATA) return;
+  ensureTerrainPatterns(svg);
+  const ns="http://www.w3.org/2000/svg";
+  const g=document.createElementNS(ns,"g"); g.id="terrain-overlay"; g.style.pointerEvents="none";
+  for(const p of DATA.provinces){
+    if(!p.terrain || p.terrain==="plain") continue;
+    const srcPath = document.getElementById("prov_"+p.id); if(!srcPath) continue;
+    const overlay=document.createElementNS(ns,"path");
+    overlay.setAttribute("d", srcPath.getAttribute("d"));
+    overlay.setAttribute("fill", p.terrain==="mountain" ? "url(#mountain-hatch)" : "url(#hill-hatch)");
+    overlay.setAttribute("opacity", p.terrain==="mountain" ? "0.38" : "0.22");
+    g.appendChild(overlay);
+    if(p.terrain==="mountain"){
+      const peak=document.createElementNS(ns,"g");
+      const x=p.cx, y=p.cy;
+      peak.innerHTML =
+        `<polygon class="peak-icon" points="${x},${y-6} ${x+6.5},${y+5.5} ${x-6.5},${y+5.5}"/>`+
+        `<polygon class="peak-icon snow" points="${x},${y-6} ${x+2.4},${y-1.4} ${x-2.4},${y-1.4}"/>`;
+      g.appendChild(peak);
+    }
+  }
+  // insert right above the base province paths, below the unrest/ownership
+  // overlays so warnings and the ownership border still read on top.
+  svg.appendChild(g);
+}
+
 function lighten(hex, f){
   const n=parseInt(hex.slice(1),16);
   const r=Math.min(255,((n>>16)&255)+(255-((n>>16)&255))*f)|0;
@@ -312,6 +379,8 @@ function showInfo(p){
   const unrestHtml = (subj && cascadeEnabled() && unrestOf(subj.id)>0)
     ? `<div class="warn-line">&#9888; Nyugtalanság: ${unrestOf(subj.id)}/10 — ~${Math.round(desertionChance(subj.id)*100)}% dezertálási esély/kör</div>`
     : "";
+  const terrainLabel = p.terrain==="mountain" ? "&#9650; Hegyvidék" : p.terrain==="hill" ? "Dombvidék" : "Síkság";
+  const terrainHtml = `<div class="k">Domborzat:</div> ${terrainLabel} <span class="k">(sematikus)</span><br>`;
   const isOwned = owned.has(p.id);
   const ownedHtml =
     `<div class="${isOwned?'owned-line':'k'}">${isOwned?'&#9873; A játékos tulajdonában':'Nincs elfoglalva'}</div>`+
@@ -321,6 +390,7 @@ function showInfo(p){
     ident+
     subjHtml+
     `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${facLabel}<br>`+
+    terrainHtml+
     `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
     (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'')+
     unrestHtml+
@@ -431,6 +501,7 @@ function loadPack(dir, pack){
     const svg=doc.documentElement;
     box.innerHTML=""; box.appendChild(svg);
     paint(); wire(); buildLegend(); addCapitals(svg);
+    renderTerrainOverlay(svg);
     renderUnrestCard(); renderUnrestOverlay();
     renderOwnedCard(); renderOwnershipOverlay();
     const supports = (data.meta && data.meta.supportsHeroes);
