@@ -147,6 +147,49 @@
   .bld-btn.owned{ background:#1a3040; border-color:#2a6080; color:#80ccff; cursor:default; }
   .bld-btn.cant-afford{ opacity:.45; cursor:not-allowed; }
   .bld-icons{ font-size:13px; margin-top:2px; }
+  /* i73: wiki */
+  #wiki-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:450;
+    display:flex; align-items:center; justify-content:center; }
+  #wiki-overlay.hidden{ display:none; }
+  #wiki-box{ background:#1a1e2a; border:1px solid #3a414b; border-radius:16px;
+    padding:0; max-width:780px; width:95%; max-height:88vh; display:flex; flex-direction:column; overflow:hidden; }
+  #wiki-header{ display:flex; align-items:center; gap:12px; padding:18px 24px 14px;
+    border-bottom:1px solid #2a3040; flex-shrink:0; }
+  #wiki-header h2{ flex:1; font-size:20px; font-weight:800; color:#e7ebf0; margin:0; }
+  #wiki-search{ background:#262b33; border:1px solid #3a414b; color:#e7ebf0;
+    border-radius:8px; padding:7px 12px; font-size:13px; width:200px; }
+  #wiki-search::placeholder{ color:#556; }
+  #wiki-close{ background:none; border:none; color:#889; font-size:22px; cursor:pointer;
+    padding:4px 8px; border-radius:6px; }
+  #wiki-close:hover{ background:#2a3040; color:#e7ebf0; }
+  #wiki-body{ display:flex; flex:1; overflow:hidden; }
+  #wiki-nav{ width:160px; flex-shrink:0; border-right:1px solid #2a3040;
+    overflow-y:auto; padding:8px 0; }
+  .wiki-nav-item{ display:flex; align-items:center; gap:8px; padding:9px 14px;
+    cursor:pointer; font-size:13px; color:#a0a8b8; transition:background .12s,color .12s; }
+  .wiki-nav-item:hover{ background:#222840; color:#c8d0e0; }
+  .wiki-nav-item.active{ background:#1e3060; color:#7daaff; font-weight:600; }
+  .wiki-nav-icon{ font-size:16px; }
+  #wiki-content{ flex:1; overflow-y:auto; padding:20px 28px; }
+  .wiki-subj-title{ font-size:17px; font-weight:800; color:#e7ebf0; margin:0 0 6px; }
+  .wiki-summary{ color:#8a93a8; font-size:13px; margin-bottom:18px; line-height:1.6; }
+  .wiki-article{ margin-bottom:20px; padding:14px 16px; background:#1e2330;
+    border:1px solid #2a3040; border-radius:10px; }
+  .wiki-article h4{ font-size:14px; font-weight:700; color:#a8c4ff; margin:0 0 7px; }
+  .wiki-article p{ font-size:13px; color:#b8c0d0; margin:0; line-height:1.7; }
+  .wiki-article p strong{ color:#e7ebf0; }
+  #wiki-no-results{ color:#556; font-size:14px; padding:20px 0; text-align:center; display:none; }
+  #wiki-search-results{ display:none; }
+  .wiki-result-item{ padding:12px 14px; background:#1e2330; border:1px solid #2a3040;
+    border-radius:8px; margin-bottom:10px; cursor:pointer; }
+  .wiki-result-item:hover{ border-color:#3a5080; }
+  .wiki-result-subj{ font-size:11px; color:#6a8aaa; margin-bottom:3px; }
+  .wiki-result-heading{ font-size:13px; font-weight:700; color:#a8c4ff; }
+  .wiki-result-snippet{ font-size:12px; color:#8a93a8; margin-top:3px; line-height:1.5; }
+  /* wiki button in question modal */
+  #wiki-btn{ background:#1e3060; border:1px solid #3a5080; color:#7daaff;
+    border-radius:7px; padding:5px 12px; font-size:12px; cursor:pointer; margin-top:8px; }
+  #wiki-btn:hover{ background:#253870; }
   /* i67: campaign */
   #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
     display:flex; align-items:center; justify-content:center; }
@@ -197,6 +240,7 @@
   </select>
   <span id="hero-flag" style="color:var(--muted)"></span>
   &nbsp;·&nbsp; <button id="btn-campaign">&#9654; Hadjárat</button>
+  &nbsp;·&nbsp; <button id="btn-wiki" style="background:#1e3060;color:#7daaff;border:1px solid #3a5080;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:13px;">&#128218; Wiki</button>
 </header>
 <div id="wrap">
   <div id="mapbox">
@@ -353,6 +397,8 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
     subj ? subj.name + ' — Tudáskapu' : 'Tudáskapu';
   document.getElementById('q-prompt').textContent =
     q ? q.prompt : 'Nincs elérhető kérdés ehhez a tartományhoz.';
+  // i73: show wiki button for this question
+  if(typeof setWikiBtn === 'function') setWikiBtn(prov.subject, q?.prompt);
 
   const timerEl = document.getElementById('q-timer');
   if(timeLimitMs && q){
@@ -428,6 +474,10 @@ function finishModal(){
   clearInterval(_timerInterval);
   const badge = document.getElementById('q-mode-badge');
   badge.className = 'attack hidden';
+  const wb = document.getElementById('wiki-btn');
+  if(wb) wb.style.display = 'none';
+  const qe = document.getElementById('q-explanation');
+  if(qe) { qe.textContent=''; qe.className=''; }
 }
 let owned = new Set();
 
@@ -1626,6 +1676,194 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
   sel.addEventListener('change',()=>{ const p=byPack[sel.value]; loadPack(p.dir,p); });
   const first=byPack[sel.value]; loadPack(first.dir,first);
 }).catch(()=>{ loadPack('fantasy',{name:'Fantáziavilág'}); });
+
+// ── i73: Mini Wikipedia ────────────────────────────────────────────────────
+let WIKI_DATA = null;
+let _wikiCurrentSubject = null;
+let _wikiCurrentQuestion = null; // { subject, prompt } set when opened from q-modal
+
+fetch('wiki.json').then(r=>r.json()).then(d=>{
+  WIKI_DATA = d;
+  buildWikiNav();
+}).catch(()=>{});
+
+function buildWikiNav(){
+  if(!WIKI_DATA) return;
+  const nav = document.getElementById('wiki-nav');
+  if(!nav) return;
+  nav.innerHTML = Object.entries(WIKI_DATA).map(([k,v])=>
+    `<div class="wiki-nav-item" data-subj="${k}">
+       <span class="wiki-nav-icon">${v.icon}</span>
+       <span>${v.title}</span>
+     </div>`
+  ).join('');
+  nav.querySelectorAll('.wiki-nav-item').forEach(el=>{
+    el.addEventListener('click',()=>showWikiSubject(el.dataset.subj));
+  });
+}
+
+function showWikiSubject(subjectKey){
+  if(!WIKI_DATA) return;
+  const data = WIKI_DATA[subjectKey];
+  if(!data) return;
+  _wikiCurrentSubject = subjectKey;
+  // nav highlight
+  document.querySelectorAll('.wiki-nav-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.subj === subjectKey);
+  });
+  // clear search
+  document.getElementById('wiki-search').value = '';
+  document.getElementById('wiki-search-results').style.display = 'none';
+  document.getElementById('wiki-no-results').style.display = 'none';
+  document.getElementById('wiki-subject-view').style.display = '';
+  // render subject
+  const view = document.getElementById('wiki-subject-view');
+  view.innerHTML = `
+    <p class="wiki-subj-title">${data.icon} ${data.title}</p>
+    <p class="wiki-summary">${data.summary}</p>
+    ${data.articles.map(a=>`
+      <div class="wiki-article">
+        <h4>${a.heading}</h4>
+        <p>${markdownBold(a.body)}</p>
+      </div>`).join('')}
+  `;
+}
+
+function markdownBold(text){
+  return text.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+}
+
+function openWiki(subjectKey, scrollHeading){
+  document.getElementById('wiki-overlay').classList.remove('hidden');
+  if(!WIKI_DATA){
+    // wiki.json still loading — show spinner then retry
+    document.getElementById('wiki-subject-view').innerHTML = '<p style="color:#556;padding:20px">Betöltés…</p>';
+    fetch('wiki.json').then(r=>r.json()).then(d=>{ WIKI_DATA=d; buildWikiNav(); openWiki(subjectKey,scrollHeading); });
+    return;
+  }
+  buildWikiNav();
+  if(subjectKey && WIKI_DATA && WIKI_DATA[subjectKey]){
+    showWikiSubject(subjectKey);
+    if(scrollHeading){
+      // wait for render then scroll to relevant article
+      setTimeout(()=>{
+        const articles = document.querySelectorAll('.wiki-article h4');
+        for(const el of articles){
+          if(el.textContent.includes(scrollHeading)){
+            el.closest('.wiki-article').scrollIntoView({behavior:'smooth',block:'start'});
+            el.closest('.wiki-article').style.outline='1px solid #4a7aff';
+            setTimeout(()=>{ el.closest('.wiki-article').style.outline=''; }, 2000);
+            break;
+          }
+        }
+      }, 80);
+    }
+  } else if(WIKI_DATA){
+    showWikiSubject(Object.keys(WIKI_DATA)[0]);
+  }
+}
+
+function wikiSearch(query){
+  if(!WIKI_DATA || !query.trim()){
+    document.getElementById('wiki-search-results').style.display = 'none';
+    document.getElementById('wiki-no-results').style.display = 'none';
+    document.getElementById('wiki-subject-view').style.display = '';
+    return;
+  }
+  const q = query.toLowerCase();
+  const results = [];
+  for(const [sk, sv] of Object.entries(WIKI_DATA)){
+    if(sv.summary.toLowerCase().includes(q) || sv.title.toLowerCase().includes(q)){
+      results.push({ subj:sk, icon:sv.icon, heading:sv.title, snippet:sv.summary.slice(0,120)+'…' });
+    }
+    for(const a of sv.articles){
+      const bodyLow = a.body.toLowerCase();
+      const headLow = a.heading.toLowerCase();
+      const kwMatch = (a.keywords||[]).some(kw=>kw.toLowerCase().includes(q)||q.includes(kw.toLowerCase()));
+      if(headLow.includes(q) || bodyLow.includes(q) || kwMatch){
+        const idx = bodyLow.indexOf(q);
+        const snippet = idx>=0 ? '…'+a.body.slice(Math.max(0,idx-30), idx+80).replace(/\*\*/g,'')+'…' : a.body.slice(0,100)+'…';
+        results.push({ subj:sk, icon:sv.icon, heading:a.heading, snippet });
+      }
+    }
+  }
+  document.getElementById('wiki-subject-view').style.display = 'none';
+  const resDiv = document.getElementById('wiki-search-results');
+  const noRes = document.getElementById('wiki-no-results');
+  if(!results.length){
+    resDiv.style.display = 'none';
+    noRes.style.display = '';
+    return;
+  }
+  noRes.style.display = 'none';
+  resDiv.style.display = '';
+  resDiv.innerHTML = `<p style="font-size:12px;color:#556;margin:0 0 12px">Találatok: ${results.length}</p>` +
+    results.map((r,i)=>`
+      <div class="wiki-result-item" data-subj="${r.subj}" data-heading="${r.heading}">
+        <div class="wiki-result-subj">${r.icon} ${WIKI_DATA[r.subj].title}</div>
+        <div class="wiki-result-heading">${r.heading}</div>
+        <div class="wiki-result-snippet">${r.snippet}</div>
+      </div>`).join('');
+  resDiv.querySelectorAll('.wiki-result-item').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.getElementById('wiki-search').value = '';
+      showWikiSubject(el.dataset.subj);
+      setTimeout(()=>{
+        const articles = document.querySelectorAll('.wiki-article h4');
+        for(const a of articles){
+          if(a.textContent === el.dataset.heading){
+            a.closest('.wiki-article').scrollIntoView({behavior:'smooth',block:'start'});
+            a.closest('.wiki-article').style.outline='1px solid #4a7aff';
+            setTimeout(()=>{ a.closest('.wiki-article').style.outline=''; },2000);
+            break;
+          }
+        }
+      },80);
+    });
+  });
+}
+
+// Find best wiki article for a question prompt
+function findWikiForQuestion(subjectId, prompt){
+  if(!WIKI_DATA || !subjectId) return null;
+  const sv = WIKI_DATA[subjectId];
+  if(!sv) return null;
+  const pLow = prompt.toLowerCase();
+  let best = null, bestScore = 0;
+  for(const a of sv.articles){
+    let score = 0;
+    for(const kw of (a.keywords||[])){
+      if(pLow.includes(kw.toLowerCase())) score += 2;
+    }
+    if(a.body.toLowerCase().split(' ').some(w=>w.length>4&&pLow.includes(w))) score++;
+    if(score > bestScore){ bestScore=score; best=a; }
+  }
+  return best;
+}
+
+// Wire up wiki button in question modal
+function setWikiBtn(subjectId, prompt){
+  const btn = document.getElementById('wiki-btn');
+  if(!btn) return;
+  if(!WIKI_DATA || !subjectId){ btn.style.display='none'; return; }
+  btn.style.display='';
+  btn.onclick = ()=>{
+    const art = findWikiForQuestion(subjectId, prompt||'');
+    openWiki(subjectId, art?.heading);
+  };
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('wiki-close').addEventListener('click',()=>{
+    document.getElementById('wiki-overlay').classList.add('hidden');
+  });
+  document.getElementById('wiki-overlay').addEventListener('click', e=>{
+    if(e.target === document.getElementById('wiki-overlay'))
+      document.getElementById('wiki-overlay').classList.add('hidden');
+  });
+  document.getElementById('btn-wiki').addEventListener('click',()=>openWiki());
+  document.getElementById('wiki-search').addEventListener('input', e=>wikiSearch(e.target.value));
+});
 </script>
 <div id="go-overlay" class="hidden">
   <div id="go-box">
@@ -1633,6 +1871,24 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
     <div id="go-sub"></div>
     <div id="go-stats"></div>
     <button id="go-newgame">&#8635; Új játék</button>
+  </div>
+</div>
+<!-- i73: Wiki overlay -->
+<div id="wiki-overlay" class="hidden">
+  <div id="wiki-box">
+    <div id="wiki-header">
+      <h2>&#128218; Tudásbázis</h2>
+      <input id="wiki-search" type="text" placeholder="Keresés…" autocomplete="off">
+      <button id="wiki-close">&#10005;</button>
+    </div>
+    <div id="wiki-body">
+      <div id="wiki-nav"></div>
+      <div id="wiki-content">
+        <div id="wiki-search-results"></div>
+        <div id="wiki-no-results">Nincs találat.</div>
+        <div id="wiki-subject-view"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div id="camp-overlay" class="hidden">
@@ -1650,7 +1906,11 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
     <div id="q-prompt"></div>
     <div id="q-timer" class="hidden"></div>
     <div id="q-choices"></div>
-    <button id="q-cancel">&#10005; Mégsem</button>
+    <div id="q-explanation"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+      <button id="q-cancel">&#10005; Mégsem</button>
+      <button id="wiki-btn" style="display:none;">&#128218; Wiki</button>
+    </div>
   </div>
 </div>
 </body>
