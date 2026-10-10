@@ -493,9 +493,15 @@ export class Game {
   get hasPendingCapture(): boolean { return this.pendingCapture !== null; }
 
   /**
-   * Begin capturing a center via the three-question timed gate. The center must
+   * Begin capturing a center via the three-question gate. The center must
    * require capture and not already be captured. `nowMs` is the caller-supplied
    * clock (core stays clock-free). Guarded against TACTICAL phase.
+   *
+   * Timing is difficulty-driven, not per-scenario: levels 1–2 are fully
+   * untimed (the player may ponder indefinitely, or call abandonCapture() to
+   * leave the settlement with no penalty); levels 3–4 give each question its
+   * own 20s / 10s countdown (CaptureGate.perQuestionMs) — running out times the
+   * whole attempt out, same as abandoning, just not by choice.
    */
   beginCapture(centerId: string, nowMs: number): QuestionItem {
     if (this.phase.current === GamePhase.TACTICAL) {
@@ -517,7 +523,8 @@ export class Game {
       subject: c.subject,
       bank: this.bank,
       rasch: this.rasch,
-      windowMs: placement.captureWindowMs ?? 30000,
+      windowMs: Infinity,
+      perQuestionMs: this.diff.answerTimeLimitMs,
       ...(placement.captureRequiredCorrect !== undefined
         ? { requiredCorrect: placement.captureRequiredCorrect }
         : {}),
@@ -543,6 +550,24 @@ export class Game {
   /** Current pending capture status, or null if none. */
   captureStatus(): CaptureStatus | null {
     return this.pendingCapture?.status ?? null;
+  }
+
+  /** Milliseconds left on the pending capture's CURRENT question (Infinity if untimed). */
+  captureQuestionRemainingMs(nowMs: number): number {
+    if (this.pendingCapture === null) throw new PhaseError("No capture in progress");
+    return this.pendingCapture.questionRemainingMs(nowMs);
+  }
+
+  /**
+   * Walk away from the pending capture without finishing — "elhagyja a
+   * települést". No penalty: the center stays uncaptured and may be
+   * re-attempted later. Always available, but it is the only way to leave an
+   * untimed (level 1–2) attempt, since those never expire on their own.
+   */
+  abandonCapture(nowMs: number): void {
+    if (this.pendingCapture === null) throw new PhaseError("No capture in progress");
+    this.pendingCapture.abandon(nowMs);
+    this.pendingCapture = null;
   }
 
   get hasPendingMaintenance(): boolean { return this.pendingMaintenance !== null; }
@@ -765,7 +790,12 @@ export class Game {
     return def;
   }
 
-  /** Begin the three-question timed capture for a capture-gated artifact. */
+  /**
+   * Begin the three-question capture for a capture-gated artifact. Timing is
+   * difficulty-driven, same as beginCapture: untimed on levels 1–2 (the
+   * authored `def.capture.windowMs` is kept as metadata but no longer the
+   * active timer), a 20s / 10s per-question countdown on levels 3–4.
+   */
   beginArtifactCapture(id: string, nowMs: number): QuestionItem {
     if (this.phase.current === GamePhase.TACTICAL) {
       throw new PhaseError("Cannot capture an artifact during combat");
@@ -779,7 +809,8 @@ export class Game {
       subject: def.capture.subject,
       bank: this.bank,
       rasch: this.rasch,
-      windowMs: def.capture.windowMs,
+      windowMs: Infinity,
+      perQuestionMs: this.diff.answerTimeLimitMs,
       ...(def.capture.requiredCorrect !== undefined ? { requiredCorrect: def.capture.requiredCorrect } : {}),
     });
     const q = gate.start(nowMs);
@@ -799,6 +830,19 @@ export class Game {
     }
     if (res.status !== CaptureStatus.PENDING) this.pendingArtifactCapture = null;
     return { status: res.status, held };
+  }
+
+  /** Milliseconds left on the pending artifact capture's CURRENT question. */
+  artifactCaptureQuestionRemainingMs(nowMs: number): number {
+    if (this.pendingArtifactCapture === null) throw new PhaseError("No artifact capture in progress");
+    return this.pendingArtifactCapture.gate.questionRemainingMs(nowMs);
+  }
+
+  /** Walk away from the pending artifact capture without finishing. No penalty. */
+  abandonArtifactCapture(nowMs: number): void {
+    if (this.pendingArtifactCapture === null) throw new PhaseError("No artifact capture in progress");
+    this.pendingArtifactCapture.gate.abandon(nowMs);
+    this.pendingArtifactCapture = null;
   }
 
   /** Army-wide bonuses from all held artifacts. */
