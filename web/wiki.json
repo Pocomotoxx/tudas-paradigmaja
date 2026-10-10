@@ -846,6 +846,66 @@
         "lang": "Francia",
         "source": "Combien ça coûte ?",
         "target": "Mennyibe kerül?"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "Buenos días",
+        "target": "Jó reggelt"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "Buenas tardes",
+        "target": "Jó napot / Jó délutánt"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "Buenas noches",
+        "target": "Jó estét / Jó éjszakát"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "¿Cómo estás?",
+        "target": "Hogy vagy?"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "Muy bien, gracias.",
+        "target": "Nagyon jól, köszönöm."
+      },
+      {
+        "lang": "Spanyol",
+        "source": "¿Cómo te llamas?",
+        "target": "Hogy hívnak?"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "Me llamo...",
+        "target": "A nevem... / ...vagyok"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "No entiendo.",
+        "target": "Nem értem."
+      },
+      {
+        "lang": "Spanyol",
+        "source": "¿Puede ayudarme?",
+        "target": "Tud segíteni?"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "Hasta luego",
+        "target": "Viszontlátásra"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "Por favor",
+        "target": "Kérem / Legyen szíves"
+      },
+      {
+        "lang": "Spanyol",
+        "source": "¿Cuánto cuesta?",
+        "target": "Mennyibe kerül?"
       }
     ]
   }

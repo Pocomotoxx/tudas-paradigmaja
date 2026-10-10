@@ -195,7 +195,12 @@
   #wiki-btn:hover{ background:#253870; }
   /* phrase flashcard widget */
   .phrase-section{ margin-top:22px; }
-  .phrase-section h4{ font-size:13px; font-weight:700; color:#a8c4ff; margin:0 0 10px; }
+  .phrase-section-header{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .phrase-section-header h4{ font-size:13px; font-weight:700; color:#a8c4ff; margin:0; flex:1; }
+  .phrase-edit-toggle{ background:#1e2330; border:1px solid #2a3040; color:#8a93a8;
+    border-radius:6px; padding:3px 10px; font-size:11px; cursor:pointer; }
+  .phrase-edit-toggle:hover{ border-color:#3a5080; color:#c8d0e0; }
+  .phrase-edit-toggle.active{ background:#1e3a20; border-color:#3a6040; color:#7dcc88; }
   .phrase-lang-tabs{ display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
   .phrase-lang-tab{ background:#1e2330; border:1px solid #2a3040; color:#8a93a8;
     border-radius:6px; padding:4px 12px; font-size:12px; cursor:pointer; }
@@ -204,7 +209,7 @@
   .phrase-card{ background:#1e2330; border:1px solid #2a3040; border-radius:12px;
     padding:22px 20px; text-align:center; cursor:pointer; min-height:100px;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    transition:border-color .15s; position:relative; }
+    transition:border-color .15s; }
   .phrase-card:hover{ border-color:#3a5080; }
   .phrase-card .phrase-src{ font-size:20px; font-weight:700; color:#e7ebf0; }
   .phrase-card .phrase-tgt{ font-size:16px; color:#7daaff; margin-top:8px; display:none; }
@@ -216,6 +221,30 @@
     border-radius:6px; padding:5px 14px; font-size:13px; cursor:pointer; }
   .phrase-nav button:hover{ border-color:#3a5080; color:#e7ebf0; }
   .phrase-counter{ font-size:12px; color:#556; min-width:60px; text-align:center; }
+  /* editor panel */
+  .phrase-editor{ margin-top:14px; background:#161a24; border:1px solid #2a3040;
+    border-radius:10px; padding:14px; display:none; }
+  .phrase-editor.open{ display:block; }
+  .phrase-editor-title{ font-size:12px; font-weight:700; color:#7dcc88; margin:0 0 10px; }
+  .phrase-add-form{ display:grid; grid-template-columns:1fr 1fr auto; gap:6px; margin-bottom:12px; align-items:end; }
+  .phrase-add-form select, .phrase-add-form input{
+    background:#1e2330; border:1px solid #2a3040; color:#e7ebf0;
+    border-radius:6px; padding:6px 10px; font-size:12px; }
+  .phrase-add-form select:focus, .phrase-add-form input:focus{ outline:none; border-color:#3a5080; }
+  .phrase-add-btn{ background:#1e3a20; border:1px solid #3a6040; color:#7dcc88;
+    border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; white-space:nowrap; }
+  .phrase-add-btn:hover{ background:#253e28; }
+  .phrase-list{ max-height:200px; overflow-y:auto; }
+  .phrase-list-item{ display:flex; align-items:center; gap:8px; padding:5px 0;
+    border-bottom:1px solid #1e2330; font-size:12px; }
+  .phrase-list-item:last-child{ border:none; }
+  .phrase-list-src{ font-weight:600; color:#e7ebf0; flex:1; }
+  .phrase-list-tgt{ color:#7daaff; flex:1; }
+  .phrase-list-tag{ font-size:10px; color:#3a6040; background:#1e2a1e; border-radius:4px;
+    padding:1px 5px; }
+  .phrase-del-btn{ background:none; border:none; color:#664; font-size:14px; cursor:pointer;
+    padding:0 4px; }
+  .phrase-del-btn:hover{ color:#cc5555; }
   /* i67: campaign */
   #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
     display:flex; align-items:center; justify-content:center; }
@@ -1761,36 +1790,125 @@ function showWikiSubject(subjectKey){
   if(data.phrases) initPhraseWidget(view, data.phrases);
 }
 
-function buildPhraseWidget(phrases){
-  const langs = [...new Set(phrases.map(p=>p.lang))];
+const PHRASE_STORAGE_KEY = 'tudas_custom_phrases_v1';
+
+function loadCustomPhrases(){
+  try{ return JSON.parse(localStorage.getItem(PHRASE_STORAGE_KEY)||'[]'); }catch(e){ return []; }
+}
+function saveCustomPhrases(arr){
+  try{ localStorage.setItem(PHRASE_STORAGE_KEY, JSON.stringify(arr)); }catch(e){}
+}
+
+function buildPhraseWidget(basePhrases){
+  const custom = loadCustomPhrases();
+  const all = [...basePhrases, ...custom];
+  const langs = [...new Set(all.map(p=>p.lang))];
   return `<div class="phrase-section">
-    <h4>🃏 Kifejezéstár — kattints a kártyára a fordításhoz</h4>
-    <div class="phrase-lang-tabs">
+    <div class="phrase-section-header">
+      <h4>🃏 Kifejezéstár — kattints a kártyára a fordításhoz</h4>
+      <button class="phrase-edit-toggle" id="phrase-edit-toggle">✏️ Szerkesztés</button>
+    </div>
+    <div class="phrase-lang-tabs" id="phrase-lang-tabs">
       ${langs.map((l,i)=>`<button class="phrase-lang-tab${i===0?' active':''}" data-lang="${l}">${l}</button>`).join('')}
     </div>
     <div class="phrase-card" id="phrase-card">
       <div class="phrase-src" id="phrase-src"></div>
       <div class="phrase-tgt" id="phrase-tgt"></div>
-      <div class="phrase-hint" id="phrase-hint">Kattints a fordításhoz ▼</div>
+      <div class="phrase-hint">Kattints a fordításhoz ▼</div>
     </div>
     <div class="phrase-nav">
       <button id="phrase-prev">◀</button>
       <span class="phrase-counter" id="phrase-counter"></span>
       <button id="phrase-next">▶</button>
     </div>
+    <div class="phrase-editor" id="phrase-editor">
+      <div class="phrase-editor-title">✏️ Saját kifejezések kezelése</div>
+      <div class="phrase-add-form">
+        <select id="phrase-new-lang">
+          ${langs.map(l=>`<option value="${l}">${l}</option>`).join('')}
+          <option value="__new__">+ Új nyelv…</option>
+        </select>
+        <input id="phrase-new-src" placeholder="Idegen kifejezés" />
+        <input id="phrase-new-tgt" placeholder="Magyar fordítás" />
+        <button class="phrase-add-btn" id="phrase-add-btn">＋ Hozzáad</button>
+      </div>
+      <div id="phrase-new-lang-row" style="display:none;margin-bottom:8px">
+        <input id="phrase-new-lang-name" placeholder="Új nyelv neve" style="background:#1e2330;border:1px solid #2a3040;color:#e7ebf0;border-radius:6px;padding:6px 10px;font-size:12px;width:200px" />
+      </div>
+      <div class="phrase-list" id="phrase-custom-list"></div>
+    </div>
   </div>`;
 }
 
-function initPhraseWidget(container, phrases){
-  const langs = [...new Set(phrases.map(p=>p.lang))];
-  let activeLang = langs[0];
+function initPhraseWidget(container, basePhrases){
+  let custom = loadCustomPhrases();
+  let activeLang = null;
   let idx = 0;
+  let editOpen = false;
 
-  function filtered(){ return phrases.filter(p=>p.lang===activeLang); }
+  function allPhrases(){ return [...basePhrases, ...custom]; }
+  function allLangs(){ return [...new Set(allPhrases().map(p=>p.lang))]; }
+  function filtered(){ return allPhrases().filter(p=>p.lang===activeLang); }
+
+  function initLang(){
+    activeLang = allLangs()[0] || null;
+  }
+  initLang();
+
+  function rebuildLangTabs(){
+    const langs = allLangs();
+    const tabs = container.querySelector('#phrase-lang-tabs');
+    tabs.innerHTML = langs.map(l=>`<button class="phrase-lang-tab${l===activeLang?' active':''}" data-lang="${l}">${l}</button>`).join('');
+    tabs.querySelectorAll('.phrase-lang-tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tabs.querySelectorAll('.phrase-lang-tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        activeLang = btn.dataset.lang;
+        idx = 0;
+        render();
+      });
+    });
+    // update new-lang select
+    const sel = container.querySelector('#phrase-new-lang');
+    if(sel){
+      const cur = sel.value;
+      sel.innerHTML = langs.map(l=>`<option value="${l}">${l}</option>`).join('')+'<option value="__new__">+ Új nyelv…</option>';
+      if(langs.includes(cur)) sel.value = cur;
+    }
+  }
+
+  function renderCustomList(){
+    const list = container.querySelector('#phrase-custom-list');
+    if(!list) return;
+    if(!custom.length){ list.innerHTML = '<div style="color:#556;font-size:12px;padding:6px 0">Még nincs saját kifejezés.</div>'; return; }
+    list.innerHTML = custom.map((p,i)=>`
+      <div class="phrase-list-item">
+        <span class="phrase-list-src">${p.source}</span>
+        <span class="phrase-list-tgt">${p.target}</span>
+        <span class="phrase-list-tag">${p.lang}</span>
+        <button class="phrase-del-btn" data-i="${i}" title="Törlés">✕</button>
+      </div>`).join('');
+    list.querySelectorAll('.phrase-del-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        custom.splice(Number(btn.dataset.i), 1);
+        saveCustomPhrases(custom);
+        if(idx >= filtered().length) idx = Math.max(0, filtered().length-1);
+        rebuildLangTabs();
+        renderCustomList();
+        render();
+      });
+    });
+  }
 
   function render(){
     const list = filtered();
-    if(!list.length) return;
+    if(!list.length){
+      container.querySelector('#phrase-src').textContent = '—';
+      container.querySelector('#phrase-tgt').textContent = '';
+      container.querySelector('#phrase-counter').textContent = '0 / 0';
+      container.querySelector('#phrase-card').classList.remove('flipped');
+      return;
+    }
     if(idx >= list.length) idx = 0;
     const p = list[idx];
     container.querySelector('#phrase-src').textContent = p.source;
@@ -1803,25 +1921,52 @@ function initPhraseWidget(container, phrases){
     container.querySelector('#phrase-card').classList.toggle('flipped');
   });
   container.querySelector('#phrase-prev').addEventListener('click', ()=>{
-    const list = filtered();
-    idx = (idx - 1 + list.length) % list.length;
-    render();
+    const list = filtered(); idx = (idx-1+list.length)%list.length; render();
   });
   container.querySelector('#phrase-next').addEventListener('click', ()=>{
-    const list = filtered();
-    idx = (idx + 1) % list.length;
-    render();
-  });
-  container.querySelectorAll('.phrase-lang-tab').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      container.querySelectorAll('.phrase-lang-tab').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      activeLang = btn.dataset.lang;
-      idx = 0;
-      render();
-    });
+    const list = filtered(); idx = (idx+1)%list.length; render();
   });
 
+  // edit toggle
+  container.querySelector('#phrase-edit-toggle').addEventListener('click', ()=>{
+    editOpen = !editOpen;
+    const ed = container.querySelector('#phrase-editor');
+    ed.classList.toggle('open', editOpen);
+    container.querySelector('#phrase-edit-toggle').classList.toggle('active', editOpen);
+    if(editOpen) renderCustomList();
+  });
+
+  // new lang show/hide
+  container.querySelector('#phrase-new-lang').addEventListener('change', e=>{
+    const row = container.querySelector('#phrase-new-lang-row');
+    row.style.display = e.target.value==='__new__' ? '' : 'none';
+  });
+
+  // add button
+  container.querySelector('#phrase-add-btn').addEventListener('click', ()=>{
+    const sel = container.querySelector('#phrase-new-lang');
+    let lang = sel.value;
+    if(lang==='__new__'){
+      lang = container.querySelector('#phrase-new-lang-name').value.trim();
+      if(!lang) return;
+      container.querySelector('#phrase-new-lang-name').value='';
+      container.querySelector('#phrase-new-lang-row').style.display='none';
+    }
+    const src = container.querySelector('#phrase-new-src').value.trim();
+    const tgt = container.querySelector('#phrase-new-tgt').value.trim();
+    if(!src || !tgt) return;
+    custom.push({lang, source:src, target:tgt});
+    saveCustomPhrases(custom);
+    container.querySelector('#phrase-new-src').value='';
+    container.querySelector('#phrase-new-tgt').value='';
+    if(!allLangs().includes(activeLang)) activeLang = lang;
+    rebuildLangTabs();
+    renderCustomList();
+    idx = filtered().length-1;
+    render();
+  });
+
+  rebuildLangTabs();
   render();
 }
 
