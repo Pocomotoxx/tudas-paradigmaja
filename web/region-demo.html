@@ -1853,10 +1853,12 @@ function setWikiBtn(subjectId, prompt){
   const btn = document.getElementById('wiki-btn');
   if(!btn) return;
   if(!WIKI_DATA || !subjectId){ btn.style.display='none'; return; }
+  const wikiKey = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
+  if(!WIKI_DATA[wikiKey]){ btn.style.display='none'; return; }
   btn.style.display='';
   btn.onclick = ()=>{
-    const art = findWikiForQuestion(subjectId, prompt||'');
-    openWiki(subjectId, art?.heading);
+    const art = findWikiForQuestion(wikiKey, prompt||'');
+    openWiki(wikiKey, art?.heading);
   };
 }
 

@@ -289,5 +289,42 @@
         "keywords": ["Alan Turing", "Turing-gép", "mesterséges intelligencia", "Enigma", "informatika"]
       }
     ]
+  },
+  "idegen": {
+    "title": "Idegen nyelvek",
+    "icon": "🌍",
+    "summary": "Az idegen nyelvek tanulása kulcsfontosságú a modern világban. Az angol a nemzetközi kommunikáció nyelve, a német Közép-Európa vezető nyelve, a francia pedig a diplomácia és kultúra hagyományos nyelve.",
+    "articles": [
+      {
+        "heading": "Angol alapszókincs",
+        "body": "Az angol a világ legszélesebb körben használt nyelve. Alapvető köszönések: **Hello** (Szia), **Good morning** (Jó reggelt), **Good night** (Jó éjt), **Thank you** (Köszönöm), **Please** (Kérem), **Sorry** (Elnézést). Számok: **one, two, three, four, five, six, seven, eight, nine, ten**. Színek: **red** (piros), **blue** (kék), **green** (zöld), **yellow** (sárga), **black** (fekete), **white** (fehér). Az angol abc 26 betűből áll.",
+        "keywords": ["hello", "good morning", "thank you", "please", "sorry", "one", "two", "three", "angol", "köszönés"]
+      },
+      {
+        "heading": "Angol igeidők",
+        "body": "Az angolban három fő igeidő létezik. **Jelen idő (Present Simple)**: She reads every day — az igéhez egyes szám harmadik személyben -s/-es kerül. **Folyamatos jelen (Present Continuous)**: She is reading now — az is/am/are segédigével és -ing toldalékkal képezzük. **Múlt idő (Past Simple)**: She read yesterday — a szabályos igéknél -ed, a rendhagyóknál tőváltás: go→went, see→saw, eat→ate. **Jövő idő**: She will read tomorrow — a will segédigével fejezzük ki.",
+        "keywords": ["present simple", "past simple", "will", "ing", "igeidő", "went", "saw", "szabályos ige", "rendhagyó ige"]
+      },
+      {
+        "heading": "Német alapszókincs",
+        "body": "A német Közép-Európa legelterjedtebb anyanyelve. Köszönések: **Guten Morgen** (Jó reggelt), **Guten Tag** (Jó napot), **Auf Wiedersehen** (Viszontlátásra), **Bitte** (Kérem), **Danke** (Köszönöm), **Entschuldigung** (Elnézést). A németben minden főnévnek neme van: **der** (hímnem), **die** (nőnem), **das** (semleges nem). Pl. der Mann (a férfi), die Frau (a nő), das Kind (a gyerek).",
+        "keywords": ["guten morgen", "guten tag", "auf wiedersehen", "danke", "bitte", "der", "die", "das", "főnévi nem", "német"]
+      },
+      {
+        "heading": "Német nyelvtan — esetek",
+        "body": "A németben négy eset van. **Nominatív** (alany): Der Hund bellt — a kutya ugat. **Akkuzatív** (tárgy): Ich sehe den Hund — Látom a kutyát. **Datívusz** (részeshatározó): Ich gebe dem Hund Futter — Adok enni a kutyának. **Genitív** (birtok): Das Haus des Mannes — A férfi háza. A névelők az esetek szerint változnak: der→den (akk.), dem (dat.). Különleges szavak: **ich** (én), **du** (te), **er/sie/es** (ő), **wir** (mi), **ihr** (ti), **sie/Sie** (ők/Ön).",
+        "keywords": ["nominatív", "akkuzatív", "datívusz", "genitív", "eset", "der den dem des", "ich", "du", "wir", "névmás"]
+      },
+      {
+        "heading": "Francia alapszókincs",
+        "body": "A francia a romantikus nyelvek egyike, amely a latinból fejlődött ki. Köszönések: **Bonjour** (Jó napot/Jó reggelt), **Bonsoir** (Jó estét), **Merci** (Köszönöm), **S'il vous plaît** (Kérem), **Excusez-moi** (Elnézést), **Au revoir** (Viszontlátásra). A franciában a főneveknek két nemük van: **le/un** (hímnem), **la/une** (nőnem). Pl. le livre (a könyv), la table (az asztal). A néma betűk miatt a kiejtés különbözik az írástól.",
+        "keywords": ["bonjour", "merci", "au revoir", "bonsoir", "le", "la", "un", "une", "hímnem", "nőnem", "francia"]
+      },
+      {
+        "heading": "Nyelvtanulási módszerek",
+        "body": "A hatékony nyelvtanuláshoz több módszer kombinálása ajánlott. **Szókártyák (flashcard)**: Egy oldalon az idegen szó, másikon a fordítás — napi ismétléssel rögzíthetők. **Spaced repetition**: A nehezebb szavakat sűrűbben, a könnyen megjegyzetteket ritkábban kell ismételni. **Input-módszer**: Minél több célnyelvi szöveget (könyv, film, zene) fogyasszunk el. **Tandem**: Anyanyelvi beszélővel cserélünk — te tanítod a magyart, ő a célnyelvet. Az Európai Referenciakeret (KER/CEFR) szintjei: A1–A2 (kezdő), B1–B2 (középhaladó), C1–C2 (haladó/anyanyelvi szintű).",
+        "keywords": ["szókártya", "flashcard", "spaced repetition", "tandem", "KER", "CEFR", "A1", "B2", "C1", "input-módszer", "nyelvtanulás"]
+      }
+    ]
   }
 }
