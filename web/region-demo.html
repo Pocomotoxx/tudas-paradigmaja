@@ -174,6 +174,41 @@
   #btn-campaign{ background:#2a3a4a; color:#80ccff; border:1px solid #2a5a7a;
     border-radius:6px; padding:5px 12px; cursor:pointer; font-size:13px; }
   #btn-campaign:hover{ background:#3a4a5a; }
+  /* i69: achievements */
+  #ach-toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+    background:#1e2330; border:1px solid #ffd700; border-radius:10px; padding:10px 18px;
+    font-size:13px; color:#ffd700; z-index:500; transition:transform .4s ease, opacity .4s;
+    opacity:0; pointer-events:none; white-space:nowrap; }
+  #ach-toast.show{ transform:translateX(-50%) translateY(0); opacity:1; }
+  #ach-panel{ display:flex; flex-direction:column; gap:6px; }
+  .ach-row{ display:flex; align-items:center; gap:10px; padding:6px 0;
+    border-bottom:1px solid #2e343d; }
+  .ach-row:last-child{ border:none; }
+  .ach-icon{ font-size:20px; flex:0 0 26px; text-align:center; }
+  .ach-name{ font-weight:600; font-size:13px; color:#e7ebf0; }
+  .ach-desc{ font-size:11px; color:var(--muted); }
+  .ach-row.locked .ach-icon{ opacity:.3; }
+  .ach-row.locked .ach-name{ color:var(--muted); }
+  /* i70: explanation */
+  #q-explanation{ background:#1a2a1a; border:1px solid #3a6a3a; border-radius:7px;
+    padding:10px 14px; font-size:13px; color:#aaffaa; margin-top:12px; display:none; }
+  #q-explanation.visible{ display:block; }
+  /* i71: stats panel */
+  #stats-card{ display:none; }
+  #stats-card.visible{ display:block; }
+  .stat-subj-row{ display:flex; align-items:center; gap:8px; margin:4px 0; font-size:12px; }
+  .stat-bar-wrap{ flex:1; background:#262b33; border-radius:3px; height:7px; overflow:hidden; }
+  .stat-bar-fill{ height:100%; border-radius:3px; transition:width .5s; }
+  .stat-label{ width:80px; color:var(--muted); white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; font-size:11px; }
+  .stat-pct{ width:32px; text-align:right; color:#e7ebf0; font-size:11px; }
+  /* i72: minimap */
+  #minimap{ position:absolute; top:10px; left:10px; width:140px; height:90px;
+    background:rgba(20,24,30,.82); border:1px solid #3a414b; border-radius:6px;
+    overflow:hidden; cursor:pointer; z-index:10; }
+  #minimap svg{ width:100%; height:100%; display:block; }
+  #minimap-hint{ position:absolute; top:14px; left:156px; font-size:10px;
+    color:var(--muted); pointer-events:none; }
   #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
   #ctrl-bar button{ background:rgba(26,30,38,.85); color:#9aa4b2; border:1px solid #3a414b;
     border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; backdrop-filter:blur(4px); }
@@ -206,6 +241,7 @@
       <button id="btn-reset-cam">⌂ Kamera</button>
     </div>
     <div id="cam-hint">Forgatás: jobb gomb · Zoom: görgő · Mozgatás: középső gomb</div>
+    <div id="minimap"><svg id="minimap-svg" viewBox="0 0 140 90"></svg></div>
   </div>
   <div class="side">
     <div class="card">
@@ -242,6 +278,14 @@
       <h3>Terület-tulajdon (szimuláció)</h3>
       <div id="owned-body"><span class="k">Kattints egy provinciára, majd az „Elfoglalom" gombra.
       A szín (tantárgy) marad — a tulajdonlást arany vonal jelzi.</span></div>
+    </div>
+    <div class="card" id="stats-card">
+      <h3>Statisztika</h3>
+      <div id="stats-body"></div>
+    </div>
+    <div class="card">
+      <h3>Teljesítmények &#127942;</h3>
+      <div id="ach-panel"></div>
     </div>
     <div class="card">
       <h3 id="legend-title">Frakciók</h3>
@@ -313,6 +357,32 @@ function pickQuestion(subjectId){
 }
 
 let _timerInterval = null;
+
+// i69 — early declarations so checkAchievements() can be called from anywhere
+const _achieveFlags = { defended: false, campaignWin: false };
+const unlockedAch = new Set();
+let _toastTimer = null;
+const ACHIEVEMENTS = [
+  { id:'first_conquest',  icon:'&#9873;', name:'Első hódítás',      desc:'Foglalj el egy tartományt',              check: ()=>owned.size >= 1 },
+  { id:'streak_3',        icon:'&#128293;', name:'Tüzes sorozat',   desc:'3-as helyes sorozat',                    check: ()=>streak >= 3 },
+  { id:'streak_5',        icon:'&#9889;',  name:'Villám sorozat',   desc:'5-ös helyes sorozat',                    check: ()=>streak >= 5 },
+  { id:'provinces_5',     icon:'&#127758;', name:'Kis birodalom',   desc:'Foglalj el 5 tartományt',                check: ()=>owned.size >= 5 },
+  { id:'provinces_10',    icon:'&#9876;',  name:'Nagy birodalom',   desc:'Foglalj el 10 tartományt',               check: ()=>owned.size >= 10 },
+  { id:'gold_100',        icon:'&#9733;',  name:'Gazdag kincstár',  desc:'Gyűjts 100 aranyat',                     check: ()=>gold >= 100 },
+  { id:'xp_100',          icon:'&#127942;', name:'Tudós',           desc:'Érj el 100 XP-t',                        check: ()=>xp >= 100 },
+  { id:'xp_500',          icon:'&#127891;', name:'Mester',          desc:'Érj el 500 XP-t',                        check: ()=>xp >= 500 },
+  { id:'all_subjects',    icon:'&#128218;', name:'Enciklopédista',  desc:'Foglalj el minden tantárgy 1 tartományát',
+    check: ()=>{ if(!DATA) return false;
+      const subjIds = [...new Set(DATA.provinces.filter(p=>p.subject).map(p=>p.subject))];
+      return subjIds.length>0 && subjIds.every(s=>DATA.provinces.some(p=>p.subject===s&&owned.has(p.id))); }
+  },
+  { id:'defended',        icon:'&#128737;', name:'Védelmező',       desc:'Védd meg sikeresen tartományodat',       check: ()=>_achieveFlags.defended },
+  { id:'built_all',       icon:'&#127963;', name:'Építész',         desc:'Építs mind a 3 épülettípust',
+    check: ()=>{ const types=new Set(); for(const id of owned) for(const k of provBuildings(id)) types.add(k); return types.size>=3; }
+  },
+  { id:'turn_20',         icon:'&#9201;',   name:'Kitartó',         desc:'Érd el a 20. kört',                      check: ()=>turnNumber >= 20 },
+  { id:'campaign_win',    icon:'&#9654;',   name:'Hadjárat-győztes',desc:'Nyerj meg egy hadjáratot',               check: ()=>_achieveFlags.campaignWin },
+];
 
 function provinceChoiceCount(prov){
   // i62: province b difficulty (-3..+3) shifts choice count within difficulty band
@@ -388,6 +458,7 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
           else if(b === btn && !correct) b.classList.add('wrong');
         });
         clearInterval(_timerInterval);
+        showExplanation(q, correct); // i70: show explanation immediately
         setTimeout(()=>{
           finishModal(correct, prov);
           if(correct){
@@ -397,14 +468,18 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
             addXP(earned);
             const streakMsg = streak > 1 ? ` 🔥 Sorozat ×${streak} (+${earned} XP)` : ` (+${earned} XP)`;
             addEvent('&#10003; Helyes válasz!' + streakMsg, 'ev-player');
+            recordQuestionStat(prov.subject, true); // i71
             onSuccess && onSuccess();
+            checkAchievements(); // i69
           } else {
             sfx('wrong');
             streak = 0; renderXPBar();
             addEvent('&#10007; Rossz válasz! Nem sikerült elfoglalni: <b>' + prov.name + '</b>', 'ev-info');
+            recordQuestionStat(prov.subject, false); // i71
             onCancel && onCancel();
+            checkAchievements(); // i69
           }
-        }, 900);
+        }, 1600); // extended delay to read explanation
       });
     });
   } else {
@@ -428,6 +503,8 @@ function finishModal(){
   clearInterval(_timerInterval);
   const badge = document.getElementById('q-mode-badge');
   badge.className = 'attack hidden';
+  const exp = document.getElementById('q-explanation');
+  if(exp) exp.classList.remove('visible');
 }
 let owned = new Set();
 
@@ -501,8 +578,11 @@ function showGameOver(win){
     ['Összesített XP', xp],
     ['Szint', Math.floor(xp/XP_PER_LEVEL)+1],
     ['Arany maradt', gold],
+    ['Pontosság', _stats.total ? `${Math.round(_stats.correct/_stats.total*100)}%` : '—'],
   ].map(([l,v])=>`<div class="gs-row"><span class="gs-lbl">${l}</span><span class="gs-val">${v}</span></div>`).join('');
   overlay.classList.remove('hidden');
+  if(win && activeCampaign){ _achieveFlags.campaignWin = true; }
+  checkAchievements();
 }
 
 function resetGame(){
@@ -518,8 +598,11 @@ function resetGame(){
   document.getElementById('event-log').innerHTML = '<div class="ev-info">Új játék kezdődött.</div>';
   document.getElementById('go-overlay').classList.add('hidden');
   document.getElementById('btn-end-turn').disabled = false;
-  renderTurnBar(); renderXPBar();
-  if(DATA){ renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard(); }
+  _stats.total=0; _stats.correct=0; _stats.bySubject={}; _stats.conquestsByTurn=[]; _stats.botConquestsByTurn=[];
+  _achieveFlags.defended=false; _achieveFlags.campaignWin=false;
+  unlockedAch.clear();
+  renderTurnBar(); renderXPBar(); renderAchievements(); renderStats();
+  if(DATA){ renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard(); updateMinimap(); }
 }
 
 const DIFFICULTIES = {
@@ -750,6 +833,7 @@ async function loadPack(dir, pack){
   buildLegend(); renderDiffCard(); renderUnrestCard(); renderOwnedCard();
   renderUnrestOverlay3D(); renderOwnershipOverlay3D();
   addCapitals3D();
+  updateMinimap(); // i72
 
   const supports = data.meta?.supportsHeroes;
   document.getElementById('hero-flag').textContent =
@@ -920,7 +1004,7 @@ function toggleOwned(id){
           sfx('conquest');
           addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)`, 'ev-player');
           renderOwnershipOverlay3D(); renderOwnedCard();
-          checkVictory();
+          checkVictory(); checkAchievements(); updateMinimap();
           const selProv = byId[id]; if(selProv) showInfo(selProv);
         },
         ()=>{ // cancel / wrong
@@ -928,14 +1012,13 @@ function toggleOwned(id){
         }
       );
     } else {
-      // No question bank available — capture directly
       gold -= cost;
       owned.add(id);
       renderTurnBar();
       triggerConquest(id, true);
       addEvent(`&#9873; Elfoglalva: <b>${prov?.name??id}</b> (-${cost} arany)`, 'ev-player');
       renderOwnershipOverlay3D(); renderOwnedCard();
-      checkVictory();
+      checkVictory(); checkAchievements(); updateMinimap();
     }
   }
 }
@@ -1332,7 +1415,7 @@ function botTurn(){
     triggerConquest(target.id, false);
     addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
   }
-  checkVictory();
+  checkVictory(); updateMinimap();
 }
 
 function renderBotOverlay(){
@@ -1370,13 +1453,15 @@ function endTurn(){
   botAttackTurn(); // i65: bot may attack player province
   if(gameOver) return;
   turnNumber++;
+  snapshotTurnStats(); // i71
   renderTurnBar();
   addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
+  checkAchievements(); // i69
   document.getElementById('btn-end-turn').disabled = false;
 }
 
 function initTurnSystem(){
-  renderTurnBar(); renderXPBar();
+  renderTurnBar(); renderXPBar(); renderAchievements();
   document.getElementById('btn-end-turn').addEventListener('click', endTurn);
   document.getElementById('go-newgame').addEventListener('click', resetGame);
   document.getElementById('btn-campaign').addEventListener('click', ()=>{
@@ -1541,8 +1626,9 @@ function showDefenseModal(prov, defBonus){
   showQuestionModal(prov,
     ()=>{ // correct — defended!
       currentDifficulty = origDiff;
+      _achieveFlags.defended = true;
       addEvent(`&#128737; Megvédve: <b>${prov.name}</b>!`, 'ev-player');
-      sfx('conquest');
+      sfx('conquest'); checkAchievements(); updateMinimap();
     },
     ()=>{ // wrong — province lost
       currentDifficulty = origDiff;
@@ -1551,7 +1637,7 @@ function showDefenseModal(prov, defBonus){
       renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard();
       addEvent(`&#9876; Elveszett: <b>${prov.name}</b> — Bot elfoglalta!`, 'ev-bot');
       sfx('lose_province');
-      checkVictory();
+      checkVictory(); updateMinimap();
       const selProv = byId[prov.id]; if(selProv) showInfo(selProv);
     }
   );
@@ -1616,6 +1702,152 @@ function startCampaign(camp){
   sfx('conquest');
 }
 
+// ── i69: Achievement system ───────────────────────────────────────────────
+
+function checkAchievements(){
+  for(const a of ACHIEVEMENTS){
+    if(unlockedAch.has(a.id)) continue;
+    try { if(a.check()){ unlockAchievement(a); } } catch(e){}
+  }
+}
+
+function unlockAchievement(a){
+  unlockedAch.add(a.id);
+  const toast = document.getElementById('ach-toast');
+  toast.textContent = a.icon + ' Teljesítmény: ' + a.name + ' — ' + a.desc;
+  toast.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(()=>toast.classList.remove('show'), 3500);
+  sfx('correct');
+  renderAchievements();
+}
+
+function renderAchievements(){
+  const el = document.getElementById('ach-panel');
+  if(!el) return;
+  el.innerHTML = ACHIEVEMENTS.map(a=>{
+    const locked = !unlockedAch.has(a.id);
+    return `<div class="ach-row${locked?' locked':''}">
+      <div class="ach-icon">${a.icon}</div>
+      <div><div class="ach-name">${a.name}</div><div class="ach-desc">${a.desc}</div></div>
+    </div>`;
+  }).join('');
+}
+
+// ── i70: Question explanation ─────────────────────────────────────────────
+// Explanations keyed by question id (from qbank.json)
+const EXPLANATIONS = {
+  // Fallback: show correct answer prominently — the real explanation is per-question
+};
+function showExplanation(q, correct){
+  const el = document.getElementById('q-explanation');
+  if(!el || !q) return;
+  const exp = q.explanation || (correct ? null : `Helyes válasz: <b>${q.correct}</b>`);
+  if(!exp){ el.classList.remove('visible'); return; }
+  el.innerHTML = (correct ? '&#10003; ' : '&#10007; ') + exp;
+  el.style.background = correct ? '#1a2a1a' : '#2a1a1a';
+  el.style.borderColor = correct ? '#3a6a3a' : '#6a3a3a';
+  el.style.color = correct ? '#aaffaa' : '#ffaaaa';
+  el.classList.add('visible');
+}
+
+// ── i71: Stats panel ──────────────────────────────────────────────────────
+const _stats = {
+  total: 0, correct: 0,
+  bySubject: {}, // { subjectKey: { total, correct } }
+  conquestsByTurn: [],
+  botConquestsByTurn: [],
+};
+
+function recordQuestionStat(subjectId, correct){
+  _stats.total++;
+  if(correct) _stats.correct++;
+  const key = subjectId || 'unknown';
+  if(!_stats.bySubject[key]) _stats.bySubject[key] = { total:0, correct:0, name: key };
+  _stats.bySubject[key].total++;
+  if(correct) _stats.bySubject[key].correct++;
+  renderStats();
+}
+
+function snapshotTurnStats(){
+  _stats.conquestsByTurn.push(owned.size);
+  _stats.botConquestsByTurn.push(botOwned.size);
+}
+
+function renderStats(){
+  const card = document.getElementById('stats-card');
+  const body = document.getElementById('stats-body');
+  if(!card || !body) return;
+  if(_stats.total === 0){ card.classList.remove('visible'); return; }
+  card.classList.add('visible');
+  const totalPct = Math.round(_stats.correct / _stats.total * 100);
+  const subjRows = Object.entries(_stats.bySubject)
+    .filter(([,v])=>v.total>0)
+    .sort((a,b)=>b[1].total - a[1].total)
+    .map(([key,v])=>{
+      const pct = Math.round(v.correct / v.total * 100);
+      const subj = DATA?.subjects?.find(s=> {
+        const mapped = {'MAGYAR':'magyar','MATEMATIKA':'matematika','FIZIKA':'fizika',
+          'KEMIA':'kemia','BIOLOGIA':'biologia','TORTENELEM':'tortenelem',
+          'FOLDRAJZ':'foldrajz','INFORMATIKA':'informatika','IDEGEN_NYELV':'idegen'};
+        return mapped[s.id]===key || s.id===key;
+      });
+      const color = subj?.color || '#7ddf7d';
+      return `<div class="stat-subj-row">
+        <div class="stat-label">${subj?.name || key}</div>
+        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+        <div class="stat-pct">${pct}%</div>
+      </div>`;
+    }).join('');
+  body.innerHTML =
+    `<div style="font-size:12px;color:var(--muted);margin-bottom:6px">
+       Összesített helyes: <b style="color:#7ddf7d">${_stats.correct}/${_stats.total}</b> (${totalPct}%)
+     </div>` + subjRows;
+}
+
+// ── i72: Minimap ──────────────────────────────────────────────────────────
+function updateMinimap(){
+  if(!DATA || !DATA.provinces.length) return;
+  const svg = document.getElementById('minimap-svg');
+  if(!svg) return;
+  const W=140, H=90;
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  for(const p of DATA.provinces){
+    const x = p.cx ?? p.center?.[0]; const y = p.cy ?? p.center?.[1];
+    if(x!=null&&y!=null){ minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y); }
+  }
+  if(!isFinite(minX)) return;
+  const rangeX=maxX-minX||1, rangeY=maxY-minY||1;
+  const scale=Math.min(W/rangeX,H/rangeY)*0.88;
+  const offX=(W-rangeX*scale)/2, offY=(H-rangeY*scale)/2;
+  const tx=x=>offX+(x-minX)*scale, ty=y=>offY+(y-minY)*scale;
+  let dots='';
+  for(const p of DATA.provinces){
+    const px=p.cx??p.center?.[0], py=p.cy??p.center?.[1];
+    if(px==null||py==null) continue;
+    const isOwned=owned.has(p.id), isBot=botOwned.has(p.id);
+    const fill=isOwned?'#3a8a3a':isBot?'#c05020':'#2a3040';
+    const stroke=isOwned?'#7ddf7d':isBot?'#ff8040':'#3a414b';
+    dots+=`<circle cx="${tx(px).toFixed(1)}" cy="${ty(py).toFixed(1)}" r="3" fill="${fill}" stroke="${stroke}" stroke-width=".5" data-id="${p.id}"/>`;
+  }
+  svg.innerHTML=dots;
+  svg.querySelectorAll('circle[data-id]').forEach(el=>{
+    el.addEventListener('click',e=>{
+      const prov=byId[e.target.dataset.id];
+      if(prov&&prov.center) flyToProvince(prov.center);
+    });
+  });
+}
+
+function flyToProvince(center){
+  if(!controls || !camera) return;
+  const [cx, cz] = center;
+  const target = new THREE.Vector3(cx, 0, cz);
+  controls.target.copy(target);
+  camera.position.set(cx, camera.position.y, cz + 40);
+  controls.update();
+}
+
 // ── pack loader bootstrap ─────────────────────────────────────────────────
 
 fetch('world/packs.json').then(r=>r.json()).then(idx=>{
@@ -1650,8 +1882,10 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
     <div id="q-prompt"></div>
     <div id="q-timer" class="hidden"></div>
     <div id="q-choices"></div>
+    <div id="q-explanation"></div>
     <button id="q-cancel">&#10005; Mégsem</button>
   </div>
 </div>
+<div id="ach-toast"></div>
 </body>
 </html>
