@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>A Tudás Paradigmája — régió-térkép demó</title>
+<title>A Tudás Paradigmája — régió-térkép demó (3D)</title>
 <style>
   :root{ --bg:#1b1e24; --panel:#262b33; --ink:#e7ebf0; --muted:#9aa4b2; }
   html,body{ margin:0; height:100%; background:var(--bg); color:var(--ink);
@@ -11,11 +11,11 @@
   header{ padding:10px 16px; background:var(--panel); }
   header b{ font-weight:600; } header span{ color:var(--muted); }
   #wrap{ display:flex; gap:16px; padding:16px; flex-wrap:wrap; align-items:flex-start; }
-  #mapbox{ flex:1 1 560px; min-width:320px; background:#11141a; border-radius:8px;
-    padding:8px 8px 28px; perspective:1400px; }
-  #mapbox svg{ width:100%; height:auto; display:block; border-radius:6px;
-    transform:rotateX(16deg); transform-origin:50% 100%;
-    box-shadow:0 26px 34px -14px rgba(0,0,0,.65); }
+  #mapbox{ flex:1 1 560px; min-width:320px; background:#0d1117; border-radius:8px;
+    position:relative; height:600px; overflow:hidden; }
+  #mapbox canvas{ width:100%!important; height:100%!important; display:block; border-radius:8px; }
+  #loading-msg{ position:absolute; inset:0; display:flex; align-items:center;
+    justify-content:center; color:var(--muted); pointer-events:none; }
   .side{ flex:0 0 240px; }
   .card{ background:var(--panel); border-radius:8px; padding:12px 14px; margin-bottom:12px; }
   .card h3{ margin:0 0 8px; font-size:13px; color:var(--muted); font-weight:600;
@@ -24,11 +24,7 @@
     margin-right:8px; vertical-align:-1px; }
   .legend div{ margin:4px 0; cursor:pointer; }
   .legend div:hover{ color:#fff; }
-  .prov{ cursor:pointer; transition:fill .08s, stroke .08s; }
-  .prov:hover{ stroke:#fff; stroke-width:1.1; }
-  .prov.sel{ stroke:#fff; stroke-width:1.6; }
   #info b{ color:#fff; } #info .k{ color:var(--muted); }
-  .cap-star{ fill:#fff; stroke:#333; stroke-width:.4; }
   select{ background:#1b1e24; color:#e7ebf0; border:1px solid #3a414b; border-radius:5px; padding:2px 6px; }
   .diff-row{ display:flex; justify-content:space-between; margin:3px 0; }
   .unrest-row{ display:flex; align-items:center; gap:6px; margin:6px 0; }
@@ -40,11 +36,6 @@
   .unrest-row .pct{ width:38px; text-align:right; color:var(--muted); font-size:12px; }
   .unrest-row.danger .pct{ color:#ff8a5c; font-weight:600; }
   .warn-line{ color:#ff8a5c; font-weight:600; }
-  .unrest-badge{ animation:unrest-pulse 1.4s ease-in-out infinite; }
-  @keyframes unrest-pulse{ 0%,100%{ opacity:.65; } 50%{ opacity:1; } }
-  .owned-border{ fill:none; stroke:#ffd700; stroke-width:2.4; stroke-linejoin:round; pointer-events:none; }
-  .owned-flag-pole{ stroke:#6b5a10; stroke-width:1; pointer-events:none; }
-  .owned-flag-cloth{ fill:#ffd700; stroke:#6b5a10; stroke-width:.4; pointer-events:none; }
   .own-btn{ background:#3a3220; color:#ffd700; border:1px solid #6b5a10; border-radius:5px;
     padding:4px 10px; cursor:pointer; font-size:12px; margin-top:6px; }
   .own-btn:hover{ background:#4a4028; }
@@ -53,14 +44,62 @@
   .owned-line{ color:#ffd700; font-weight:600; }
   .terrain-row{ display:flex; align-items:center; gap:6px; margin:4px 0; }
   .terrain-row svg{ flex:0 0 auto; }
+  /* detail panels */
+  .prov-header{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .prov-color-bar{ width:5px; border-radius:3px; align-self:stretch; flex:0 0 5px; }
+  .prov-name{ font-size:15px; font-weight:700; color:#fff; line-height:1.2; }
+  .prov-name small{ display:block; font-size:11px; font-weight:400; color:var(--muted); }
+  .badge{ display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
+  .badge.player{ background:#1a3a1a; color:#7ddf7d; border:1px solid #3a6b3a; }
+  .badge.bot{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.neutral{ background:#2a2e38; color:var(--muted); border:1px solid #3a414b; }
+  .badge.capital{ background:#2a2010; color:#ffd700; border:1px solid #6b5a10; }
+  .info-row{ display:flex; justify-content:space-between; align-items:baseline;
+    padding:3px 0; border-bottom:1px solid #2e343d; font-size:13px; }
+  .info-row:last-child{ border:none; }
+  .info-row .lbl{ color:var(--muted); }
+  .info-row .val{ font-weight:500; color:#e7ebf0; text-align:right; }
+  /* unrest progress bar */
+  .unrest-bar-wrap{ background:#1e2330; border-radius:4px; height:6px; margin:4px 0; overflow:hidden; }
+  .unrest-bar-fill{ height:100%; border-radius:4px; transition:width .3s; }
+  /* subject card */
+  #subj-card{ display:none; }
+  #subj-card.visible{ display:block; }
+  .subj-header{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .subj-dot{ width:12px; height:12px; border-radius:50%; flex:0 0 12px; }
+  .subj-name{ font-weight:700; color:#fff; }
+  .hero-row{ padding:3px 0; border-bottom:1px solid #2e343d; font-size:12px; }
+  .hero-row:last-child{ border:none; }
+  .hero-row .hname{ font-weight:600; }
+  .hero-row .hmeta{ color:var(--muted); }
+  /* turn system */
+  #turn-bar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  #turn-bar .res{ color:var(--muted); font-size:13px; }
+  #turn-bar .res b{ color:#e7ebf0; }
+  #btn-end-turn{ background:#2a4a2a; color:#7ddf7d; border:1px solid #3a6b3a;
+    border-radius:6px; padding:5px 14px; cursor:pointer; font-size:13px; font-weight:600; }
+  #btn-end-turn:hover{ background:#3a5e3a; }
+  #btn-end-turn:disabled{ opacity:.45; cursor:default; }
+  #event-log{ max-height:120px; overflow-y:auto; font-size:12px; }
+  #event-log div{ padding:2px 0; border-bottom:1px solid #2e343d; }
+  #event-log div:last-child{ border:none; }
+  #event-log .ev-bot{ color:#ff8a5c; }
+  #event-log .ev-player{ color:#7ddf7d; }
+  #event-log .ev-info{ color:var(--muted); }
   .peak-icon{ fill:#aab4bf; stroke:#2c333c; stroke-width:.5; }
   .peak-icon.snow{ fill:#eef2f6; }
+  #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
+  #ctrl-bar button{ background:rgba(26,30,38,.85); color:#9aa4b2; border:1px solid #3a414b;
+    border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; backdrop-filter:blur(4px); }
+  #ctrl-bar button:hover{ color:#fff; border-color:#6a7280; }
+  #cam-hint{ position:absolute; bottom:10px; left:12px; color:var(--muted); font-size:11px;
+    pointer-events:none; opacity:.7; }
 </style>
 </head>
 <body>
 <header>
   <b>A Tudás Paradigmája</b> —
-  <span>régió-alapú stratégiai réteg (a csaták a hex-rétegben zajlanak)</span>
+  <span>régió-alapú stratégiai réteg (3D · ExtrudeGeometry)</span>
   &nbsp;·&nbsp; Térkép:
   <select id="pack-select"></select>
   &nbsp;·&nbsp; Nehézség:
@@ -70,14 +109,38 @@
     <option value="3">3 — 20 mp / kérdés</option>
     <option value="4">4 — 10 mp / kérdés</option>
   </select>
-  <span id="hero-flag" class="k"></span>
+  <span id="hero-flag" style="color:var(--muted)"></span>
 </header>
 <div id="wrap">
-  <div id="mapbox">betöltés…</div>
+  <div id="mapbox">
+    <canvas id="map3d"></canvas>
+    <div id="loading-msg">betöltés…</div>
+    <div id="ctrl-bar">
+      <button id="btn-reset-cam">⌂ Kamera</button>
+    </div>
+    <div id="cam-hint">Forgatás: jobb gomb · Zoom: görgő · Mozgatás: középső gomb</div>
+  </div>
   <div class="side">
+    <div class="card">
+      <h3>Körrendszer</h3>
+      <div id="turn-bar">
+        <span class="res">Kör: <b id="turn-num">1</b></span>
+        <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
+        <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
+        <button id="btn-end-turn">Kör vége ▶</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Eseménynapló</h3>
+      <div id="event-log"><div class="ev-info">A játék elkezdődött.</div></div>
+    </div>
     <div class="card" id="info">
       <h3>Provincia</h3>
       <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
+    </div>
+    <div class="card" id="subj-card">
+      <h3>Alattvaló (tantárgy)</h3>
+      <div id="subj-body"></div>
     </div>
     <div class="card">
       <h3>Nehézség</h3>
@@ -85,9 +148,8 @@
     </div>
     <div class="card">
       <h3>Terület-tulajdon (szimuláció)</h3>
-      <div id="owned-body"><span class="k">Kattints egy provinciára, majd az „Elfoglalom” gombra.
-      A kitöltés színe (tantárgy) nem változik — a tulajdonlást arany szegély +
-      zászló jelzi.</span></div>
+      <div id="owned-body"><span class="k">Kattints egy provinciára, majd az „Elfoglalom" gombra.
+      A szín (tantárgy) marad — a tulajdonlást arany vonal jelzi.</span></div>
     </div>
     <div class="card">
       <h3 id="legend-title">Frakciók</h3>
@@ -98,462 +160,890 @@
       <div id="unrest-body"></div>
     </div>
     <div class="card">
-      <h3>Domborzat (sematikus)</h3>
-      <div class="terrain-row"><svg width="14" height="12" viewBox="0 0 14 12">
-        <polygon class="peak-icon" points="7,1 13,11 1,11"/>
-        <polygon class="peak-icon snow" points="7,1 9.4,5 4.6,5"/>
-      </svg> Hegyvidék</div>
-      <div class="terrain-row"><svg width="14" height="12" viewBox="0 0 14 12">
-        <line x1="1" y1="2" x2="7" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
-        <line x1="6" y1="2" x2="12" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
-      </svg> Dombvidék</div>
-      <div class="k" style="margin-top:4px;">Síkság: nincs jelölés. A domborzat
-      egyelőre nem valós magassági adatból jön — csak vizuális utalás.</div>
+      <h3>Domborzat (3D extrúzió)</h3>
+      <div class="terrain-row">
+        <svg width="14" height="12" viewBox="0 0 14 12">
+          <polygon class="peak-icon" points="7,1 13,11 1,11"/>
+          <polygon class="peak-icon snow" points="7,1 9.4,5 4.6,5"/>
+        </svg> Hegyvidék — 5.5 egység magasság
+      </div>
+      <div class="terrain-row">
+        <svg width="14" height="12" viewBox="0 0 14 12">
+          <line x1="1" y1="2" x2="7" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
+          <line x1="6" y1="2" x2="12" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
+        </svg> Dombvidék — 2.0 egység
+      </div>
+      <div class="k" style="margin-top:4px;">Síkság: 0.3 egység (sematikus, nem valós SRTM/GEBCO adat).</div>
     </div>
     <div class="card">
       <h3>Megjegyzés</h3>
-      <div class="k">A térkép és minden adata saját, generált tartalom (MIT).
-      A provincia-szomszédságok gráfja a <b>map.json</b>-ben van — ez lesz a
-      stratégiai mozgás/terjeszkedés alapja.</div>
+      <div class="k">A térkép saját, generált tartalom (MIT).
+      A csaták a hex-rétegben zajlanak, ez a stratégiai mozgás réteye.</div>
     </div>
   </div>
 </div>
 
-<script>
-const PALETTE = {}; // faction id -> color (from map.json)
-let DATA = null, byId = {};
-let HEROES = {};    // nutsId -> [ {id,name,subject,birthLabel}, ... ]  (Europe only)
-let owned = new Set(); // province ids captured by the player (demo-only state;
-                        // mirrors RegionGraph.owner() in core, not persisted)
+<script type="importmap">
+{
+  "imports": {
+    "three": "/vendor/three/three.module.js",
+    "three/loaders/SVGLoader": "/vendor/three/loaders/SVGLoader.js",
+    "three/controls/OrbitControls": "/vendor/three/controls/OrbitControls.js"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { SVGLoader } from 'three/loaders/SVGLoader';
+import { OrbitControls } from 'three/controls/OrbitControls';
 
-// --- Difficulty (mirrors packages/core/src/game/Difficulty.ts) -----------
-// A standalone, no-build demo can't import the compiled core package directly
-// here, so this small table mirrors the authoritative one in core — same
-// philosophy as PALETTE/hexToPixel mirroring the engine elsewhere on this page.
+// ── game state (mirrors packages/core/ — standalone demo, no ESM import) ──
+
+const PALETTE = {};
+let DATA = null, byId = {};
+let HEROES = {};
+let owned = new Set();
+
+// ── turn system state ─────────────────────────────────────────────────────
+let turnNumber = 1;
+let gold = 0;
+let kk = 0;
+// Bot owns a separate set of provinces
+const botOwned = new Set();
+// Income per province per turn
+const INCOME = { gold: 8, kk: 3 };
+// Bot income multiplier
+const BOT_INCOME = { gold: 6, kk: 2 };
+let botGold = 20, botKK = 10;
+let eventLog = [];
+
 const DIFFICULTIES = {
-  1: { rebellionIntervalTurns:10, choiceCount:2, subjectUnrestCascade:false, answerTimeLimitMs:null },
-  2: { rebellionIntervalTurns:8,  choiceCount:3, subjectUnrestCascade:false, answerTimeLimitMs:null },
-  3: { rebellionIntervalTurns:6,  choiceCount:5, subjectUnrestCascade:true,  answerTimeLimitMs:20000 },
-  4: { rebellionIntervalTurns:3,  choiceCount:7, subjectUnrestCascade:true,  answerTimeLimitMs:10000 },
+  1:{ rebellionIntervalTurns:10, choiceCount:2, subjectUnrestCascade:false, answerTimeLimitMs:null },
+  2:{ rebellionIntervalTurns:8,  choiceCount:3, subjectUnrestCascade:false, answerTimeLimitMs:null },
+  3:{ rebellionIntervalTurns:6,  choiceCount:5, subjectUnrestCascade:true,  answerTimeLimitMs:20000 },
+  4:{ rebellionIntervalTurns:3,  choiceCount:7, subjectUnrestCascade:true,  answerTimeLimitMs:10000 },
 };
 let currentDifficulty = 1;
 
-// --- Subject unrest (mirrors packages/core/src/game/SubjectUnrest.ts) ----
-// Confirmed balance (SUBJECT_UNREST_DEFAULTS, see core): 3 wrong answers are
-// free, the 4th starts raising unrest; at max unrest (10) a subject's units
-// have an 80% per-turn desertion chance. Active only on difficulty 3–4.
-const UNREST_DEFAULTS = { wrongThreshold:3, unrestStep:1, coolStep:1, maxUnrest:10, desertionPerUnrest:0.08 };
-let unrestWrong = {};  // subjectId -> consecutive-wrong counter
-let unrestLevel = {};  // subjectId -> unrest 0..10
+const UNREST = { wrongThreshold:3, unrestStep:1, coolStep:1, maxUnrest:10, desertionPerUnrest:0.08 };
+let unrestWrong = {}, unrestLevel = {};
 
 function cascadeEnabled(){ return DIFFICULTIES[currentDifficulty].subjectUnrestCascade; }
 
-function recordAnswer(subjectId, correct){
+function recordAnswer(sid, correct){
   if(!cascadeEnabled()) return;
   if(correct){
-    unrestLevel[subjectId] = Math.max(0, (unrestLevel[subjectId]||0) - UNREST_DEFAULTS.coolStep);
-    unrestWrong[subjectId] = Math.max(0, (unrestWrong[subjectId]||0) - 1);
+    unrestLevel[sid] = Math.max(0,(unrestLevel[sid]||0)-UNREST.coolStep);
+    unrestWrong[sid] = Math.max(0,(unrestWrong[sid]||0)-1);
   } else {
-    const w = (unrestWrong[subjectId]||0) + 1;
-    unrestWrong[subjectId] = w;
-    if(w > UNREST_DEFAULTS.wrongThreshold){
-      unrestLevel[subjectId] = Math.min(UNREST_DEFAULTS.maxUnrest, (unrestLevel[subjectId]||0) + UNREST_DEFAULTS.unrestStep);
+    const w=(unrestWrong[sid]||0)+1; unrestWrong[sid]=w;
+    if(w>UNREST.wrongThreshold)
+      unrestLevel[sid]=Math.min(UNREST.maxUnrest,(unrestLevel[sid]||0)+UNREST.unrestStep);
+  }
+  renderUnrestCard(); renderUnrestOverlay3D();
+}
+function resetUnrest(sid){ delete unrestWrong[sid]; delete unrestLevel[sid]; renderUnrestCard(); renderUnrestOverlay3D(); }
+function unrestOf(sid){ return unrestLevel[sid]||0; }
+function desertionChance(sid){ return Math.min(1,unrestOf(sid)*UNREST.desertionPerUnrest); }
+
+// ── Three.js renderer setup ───────────────────────────────────────────────
+
+const canvas = document.getElementById('map3d');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x0d1117);
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 2000);
+camera.up.set(0, 0, 1); // Z is "up" in our world (extrusion direction)
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.07;
+controls.minDistance = 8;
+controls.maxDistance = 280;
+controls.maxPolarAngle = Math.PI * 0.48; // max ~86° from Z-up = nearly horizontal
+
+// Lights — permanent, not cleared between packs
+const ambLight = new THREE.AmbientLight(0xffffff, 0.55);
+scene.add(ambLight);
+const sunLight = new THREE.DirectionalLight(0xffffff, 0.8);
+sunLight.position.set(-35, -25, 90);
+scene.add(sunLight);
+const fillLight = new THREE.DirectionalLight(0x3355cc, 0.22);
+fillLight.position.set(50, 40, 30);
+scene.add(fillLight);
+
+// Sea floor — stays for all packs
+const seaMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(600, 600),
+  new THREE.MeshStandardMaterial({ color:0x0d1a2b, roughness:1, metalness:0 })
+);
+seaMesh.position.z = -0.65;
+scene.add(seaMesh);
+scene.fog = new THREE.Fog(0x0d1117, 60, 170);
+
+// Groups for dynamic overlays
+const unrestGroup  = new THREE.Group();
+const ownGroup     = new THREE.Group();
+const markerGroup  = new THREE.Group();
+scene.add(unrestGroup, ownGroup, markerGroup);
+
+// Province state
+let meshById     = new Map(); // id -> Mesh
+let provByMesh   = new Map(); // Mesh -> province
+let origColors   = new Map(); // id -> THREE.Color (unmodified)
+let outlineById  = new Map(); // id -> Line (perimeter at top-face height)
+
+let hoveredId = null, selectedId = null;
+
+// SVG→world coordinate transform (computed per pack)
+let svgCx = 0, svgCy = 0, svgScale = 1;
+
+const SLAB_H = 0.3; // uniform slab height — terrain is visual only (color tint)
+const TERRAIN_TINT = { plain: 0, hill: -0.06, mountain: -0.13 }; // darken mountains/hills
+
+// ── coordinate helpers ────────────────────────────────────────────────────
+
+function toWorld(svgX, svgY){
+  return new THREE.Vector2((svgX-svgCx)*svgScale, -(svgY-svgCy)*svgScale);
+}
+
+// ── color helpers ─────────────────────────────────────────────────────────
+
+function baseHex(p){ return p.color || PALETTE[p.faction] || '#c3ccd4'; }
+
+function applyColor(id){
+  const m = meshById.get(id); if(!m) return;
+  const orig = origColors.get(id); if(!orig) return;
+  const c = orig.clone();
+  if(id === selectedId)      c.lerp(new THREE.Color(0xffffff), 0.38);
+  else if(id === hoveredId)  c.lerp(new THREE.Color(0xffffff), 0.26);
+  m.material.color.copy(c);
+}
+
+function setHover(newId){
+  const old = hoveredId;
+  if(old === newId) return;
+  hoveredId = newId;
+  if(old !== null) applyColor(old);
+  if(newId !== null){ applyColor(newId); const p=byId[newId]; if(p) showInfo(p); }
+}
+
+function setSelect(id){
+  const old = selectedId;
+  selectedId = id;
+  if(old !== null) applyColor(old);
+  if(id  !== null) applyColor(id);
+}
+
+// ── scene clear ───────────────────────────────────────────────────────────
+
+function clearProvinces(){
+  for(const m of meshById.values()){ scene.remove(m); m.geometry.dispose(); m.material.dispose(); }
+  for(const l of outlineById.values()){ scene.remove(l); l.geometry.dispose(); }
+  meshById.clear(); provByMesh.clear(); origColors.clear(); outlineById.clear();
+  unrestGroup.clear(); ownGroup.clear(); markerGroup.clear();
+  hoveredId = null; selectedId = null;
+}
+
+// ── pack loader ───────────────────────────────────────────────────────────
+
+async function loadPack(dir, pack){
+  const msg = document.getElementById('loading-msg');
+  msg.style.display = 'flex'; msg.textContent = 'betöltés…';
+
+  let svgText, data;
+  try {
+    [svgText, data] = await Promise.all([
+      fetch('world/'+dir+'/map.svg').then(r=>{ if(!r.ok) throw 0; return r.text(); }),
+      fetch('world/'+dir+'/map.json').then(r=>{ if(!r.ok) throw 0; return r.json(); }),
+    ]);
+  } catch(_){
+    msg.textContent = '';
+    document.getElementById('info-body').innerHTML =
+      `<span class="k">A '${pack?.name||dir}' csomag még nincs legenerálva.</span>`;
+    document.getElementById('legend').innerHTML='';
+    return;
+  }
+
+  clearProvinces();
+  DATA=data; byId={}; HEROES={}; unrestWrong={}; unrestLevel={}; owned=new Set();
+  for(const k in PALETTE) delete PALETTE[k];
+  data.factions.forEach(f=>PALETTE[f.id]=f.color);
+  data.provinces.forEach(p=>byId[p.id]=p);
+
+  // Parse SVG shapes
+  const loader = new SVGLoader();
+  const parsed = loader.parse(svgText);
+
+  // Compute SVG bounds from province paths
+  let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;
+  for(const sp of parsed.paths){
+    if(!sp.userData.node?.id?.startsWith('prov_')) continue;
+    for(const sub of sp.subPaths)
+      for(const pt of sub.getPoints(6)){
+        if(pt.x<x0) x0=pt.x; if(pt.x>x1) x1=pt.x;
+        if(pt.y<y0) y0=pt.y; if(pt.y>y1) y1=pt.y;
+      }
+  }
+  const W=x1-x0||1, H=y1-y0||1;
+  svgScale = 88/Math.max(W,H);
+  svgCx=(x0+x1)/2; svgCy=(y0+y1)/2;
+
+  // Shared transform matrix: SVG coords → world XY (flip Y, scale, center)
+  const M = new THREE.Matrix4().set(
+     svgScale, 0,         0, -svgCx*svgScale,
+     0,       -svgScale,  0,  svgCy*svgScale,
+     0,        0,         1,  0,
+     0,        0,         0,  1
+  );
+
+  const borderMat = new THREE.LineBasicMaterial({ color:0x14191f, linewidth:1 });
+
+  for(const sp of parsed.paths){
+    const node = sp.userData.node;
+    if(!node?.id?.startsWith('prov_')) continue;
+    const id = parseInt(node.id.slice(5));
+    const prov = byId[id]; if(!prov) continue;
+
+    const shapes = SVGLoader.createShapes(sp);
+    if(!shapes.length) continue;
+
+    const geom = new THREE.ExtrudeGeometry(shapes, { depth:SLAB_H, bevelEnabled:false, curveSegments:4 });
+    geom.applyMatrix4(M);
+
+    const color = new THREE.Color(baseHex(prov));
+    const tint = TERRAIN_TINT[prov.terrain ?? 'plain'] ?? 0;
+    if(tint < 0) color.offsetHSL(0, 0, tint);
+    origColors.set(id, color.clone());
+
+    const mat = new THREE.MeshStandardMaterial({ color:color.clone(), roughness:0.78, metalness:0 });
+    const mesh = new THREE.Mesh(geom, mat);
+    mesh.userData.provinceId = id;
+    scene.add(mesh);
+    meshById.set(id, mesh);
+    provByMesh.set(mesh, prov);
+
+    // Perimeter outline on the top face (z = h + tiny offset)
+    const pts = shapes[0].getPoints(5).map(p2=>{
+      const w = toWorld(p2.x, p2.y);
+      return new THREE.Vector3(w.x, w.y, SLAB_H+0.06);
+    });
+    if(pts.length){ pts.push(pts[0].clone()); }
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
+    const line = new THREE.Line(lineGeo, borderMat);
+    scene.add(line);
+    outlineById.set(id, line);
+  }
+
+  // Camera overview
+  resetCamera();
+
+  // UI
+  buildLegend(); renderDiffCard(); renderUnrestCard(); renderOwnedCard();
+  renderUnrestOverlay3D(); renderOwnershipOverlay3D();
+  addCapitals3D();
+
+  const supports = data.meta?.supportsHeroes;
+  document.getElementById('hero-flag').textContent =
+    supports ? '· hősök: IGEN (valós szülőhelyek)' : '· hősök: nincs (fantáziavilág)';
+  document.getElementById('info-body').innerHTML =
+    '<span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span>'+
+    (data.meta?.attribution ? '<br><br><span class="k">Forrás: '+data.meta.attribution+'</span>' : '');
+
+  msg.style.display = 'none';
+
+  if(supports){
+    fetch('world/'+dir+'/heroes.json').then(r=>r.ok?r.json():null).then(h=>{
+      if(!h?.heroes) return;
+      for(const hero of h.heroes)(HEROES[hero.region]||=[]).push(hero);
+      addHeroMarkers3D();
+    }).catch(()=>{});
+  }
+}
+
+function resetCamera(){
+  camera.position.set(0, -80, 28);
+  camera.lookAt(0, 8, 3);
+  controls.target.set(0, 8, 3);
+  controls.update();
+}
+
+// ── 3D markers ────────────────────────────────────────────────────────────
+
+// Build a pin: thin needle (CylinderGeometry) + head sphere, merged into a Group
+function makePin(headColor, headR, needleH){
+  const group = new THREE.Group();
+  // needle: thin tapered cylinder, base at z=0, tip at z=needleH
+  const needleGeo = new THREE.CylinderGeometry(0.04, 0.12, needleH, 6);
+  needleGeo.rotateX(Math.PI/2); // align along Z axis
+  needleGeo.translate(0, 0, needleH/2);
+  const needleMat = new THREE.MeshStandardMaterial({ color:0xcccccc, roughness:0.4, metalness:0.6 });
+  group.add(new THREE.Mesh(needleGeo, needleMat));
+  // head sphere
+  const headGeo = new THREE.SphereGeometry(headR, 8, 8);
+  headGeo.translate(0, 0, needleH);
+  const headMat = new THREE.MeshStandardMaterial({ color:headColor, roughness:0.3, metalness:0.2 });
+  group.add(new THREE.Mesh(headGeo, headMat));
+  group.children.forEach(c=>c.userData.isMarker=true);
+  group.userData.isMarker = true;
+  return group;
+}
+
+function addCapitals3D(){
+  if(!DATA) return;
+  for(const p of DATA.provinces.filter(x=>x.capital)){
+    const w=toWorld(p.cx,p.cy);
+    const pin = makePin(0xff2222, 0.55, 2.4);
+    pin.position.set(w.x, w.y, SLAB_H);
+    pin.userData.isMarker=true;
+    markerGroup.add(pin);
+  }
+}
+
+function addHeroMarkers3D(){
+  if(!DATA) return;
+  for(const p of DATA.provinces){
+    const list=p.nutsId&&HEROES[p.nutsId]; if(!list?.length) continue;
+    const w=toWorld(p.cx,p.cy);
+    const r=Math.min(0.5,0.28+list.length*0.07);
+    const pin = makePin(0xffd65a, r, 1.6);
+    pin.position.set(w.x, w.y, SLAB_H);
+    pin.userData.isMarker=true;
+    markerGroup.add(pin);
+  }
+}
+
+// ── conquest animations ───────────────────────────────────────────────────
+
+const anims = []; // active animation entries
+
+function triggerConquest(id, isPlayer){
+  const prov = byId[id]; if(!prov || !DATA) return;
+  const col = isPlayer ? 0xffd700 : 0xff5500;
+
+  // 1. Province mesh color flash
+  anims.push({ type:'flash', t0:performance.now(), dur:800, id, col });
+
+  // 2. Expanding ring from province center
+  const w = toWorld(prov.cx, prov.cy);
+  const ringGeo = new THREE.RingGeometry(0.2, 0.7, 40);
+  const ringMat = new THREE.MeshBasicMaterial({
+    color:col, transparent:true, opacity:0.85, side:THREE.DoubleSide, depthTest:false
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.position.set(w.x, w.y, SLAB_H + 0.25);
+  scene.add(ring);
+  anims.push({ type:'ring', t0:performance.now(), dur:900, mesh:ring });
+
+  // 3. Conquest pin drops from above, bounces, then fades out
+  const pin = makePin(col, 0.5, 2.2);
+  pin.position.set(w.x, w.y, SLAB_H + 14); // starts high above
+  pin.userData.isConquestPin = true;
+  scene.add(pin);
+  anims.push({ type:'pin', t0:performance.now(), dur:1100, fadeDur:600, group:pin, baseZ:SLAB_H });
+}
+
+// ── 3D unrest overlay (pulsing red mesh clones) ───────────────────────────
+
+function renderUnrestOverlay3D(){
+  unrestGroup.clear();
+  if(!DATA?.subjects||!cascadeEnabled()) return;
+  for(const s of DATA.subjects){
+    if(unrestOf(s.id)<=0) continue;
+    for(const p of DATA.provinces.filter(x=>x.subject===s.id)){
+      const base=meshById.get(p.id); if(!base) continue;
+      const over=new THREE.Mesh(
+        base.geometry.clone(),
+        new THREE.MeshBasicMaterial({ color:0xff3010, transparent:true, opacity:0.22,
+          depthTest:true, side:THREE.FrontSide })
+      );
+      over.position.z=0.08;
+      over.userData.unrestSubject=s.id;
+      unrestGroup.add(over);
     }
   }
-  renderUnrestCard(); renderUnrestOverlay();
 }
-function resetUnrest(subjectId){
-  delete unrestWrong[subjectId]; delete unrestLevel[subjectId];
-  renderUnrestCard(); renderUnrestOverlay();
-}
-function unrestOf(subjectId){ return unrestLevel[subjectId]||0; }
-function desertionChance(subjectId){ return Math.min(1, unrestOf(subjectId)*UNREST_DEFAULTS.desertionPerUnrest); }
 
-// --- Difficulty card: current level's rules in plain language -------------
+// ── 3D ownership overlay (gold outline lines) ─────────────────────────────
+
+function renderOwnershipOverlay3D(){
+  ownGroup.clear();
+  if(!DATA) return;
+  for(const id of owned){
+    const line=outlineById.get(id); if(!line) continue;
+    const geo=line.geometry.clone();
+    const pos=geo.attributes.position;
+    for(let i=0;i<pos.count;i++) pos.setZ(i,pos.getZ(i)+0.18);
+    pos.needsUpdate=true;
+    ownGroup.add(new THREE.Line(geo,new THREE.LineBasicMaterial({color:0xffd700})));
+  }
+}
+
+function renderOwnedCard(){
+  const box=document.getElementById('owned-body');
+  if(!owned.size){
+    box.innerHTML='<span class="k">Kattints egy provinciára, majd az „Elfoglalom" gombra. Arany vonal jelöli a tulajdonlást.</span>';
+    return;
+  }
+  const names=[...owned].map(id=>byId[id]?.name??id);
+  box.innerHTML=`<div class="owned-line">${owned.size} elfoglalt terület</div><div class="k">${names.join(', ')}</div>`;
+}
+
+function toggleOwned(id){
+  if(owned.has(id)){
+    owned.delete(id);
+    addEvent(`&#9744; Felszabadítva: <b>${byId[id]?.name??id}</b>`, 'ev-info');
+  } else {
+    const cost = 20;
+    if(gold < cost){
+      addEvent(`&#9888; Nincs elég arany (kell: ${cost}, van: ${gold})`, 'ev-info');
+      return;
+    }
+    gold -= cost;
+    owned.add(id);
+    renderTurnBar();
+    triggerConquest(id, true);
+    addEvent(`&#9873; Elfoglalva: <b>${byId[id]?.name??id}</b> (-${cost} arany)`, 'ev-player');
+  }
+  renderOwnershipOverlay3D(); renderOwnedCard();
+}
+
+// ── info panel ────────────────────────────────────────────────────────────
+
+function ownerBadge(id){
+  if(owned.has(id))    return '<span class="badge player">&#9873; Játékos</span>';
+  if(botOwned.has(id)) return '<span class="badge bot">&#9876; Bot</span>';
+  return '<span class="badge neutral">Semleges</span>';
+}
+
+function terrainIcon(t){
+  if(t==='mountain') return '&#9650; Hegyvidék';
+  if(t==='hill')     return '&#11835; Dombvidék';
+  return '&#9644; Síkság';
+}
+
+function showInfo(p){
+  const f = DATA.factions.find(x=>x.id===p.faction)||{color:'#c3ccd4',name:p.faction};
+  const subj = p.subject && DATA.subjects?.find(s=>s.id===p.subject);
+  const accentColor = subj?.color || f.color || '#c3ccd4';
+  const heroes = (p.nutsId && HEROES[p.nutsId]) || [];
+  const isOwned = owned.has(p.id);
+  const isBot   = botOwned.has(p.id);
+  const unrestVal = subj && cascadeEnabled() ? unrestOf(subj.id) : 0;
+  const unrestPct = unrestVal / 10 * 100;
+  const unrestColor = unrestVal >= 7 ? '#ff4422' : unrestVal >= 4 ? '#ff8a5c' : '#ffd65a';
+
+  // Province header
+  const header =
+    `<div class="prov-header">
+      <div class="prov-color-bar" style="background:${accentColor}"></div>
+      <div>
+        <div class="prov-name">
+          ${p.name}
+          ${p.capital ? '<span class="badge capital" style="margin-left:6px">&#9733; Főváros</span>' : ''}
+        </div>
+        <small>${subj ? subj.name : (f.name||'')}</small>
+      </div>
+    </div>`;
+
+  // Info rows
+  const rows = [
+    ['Tulajdon', ownerBadge(p.id)],
+    ['Frakció', `<span style="color:${f.color}">&#9632;</span> ${f.name}`],
+    ['Domborzat', terrainIcon(p.terrain)],
+    ['Szomszédok', p.adj.length + ' tartomány'],
+    ...(p.nutsId ? [['Azonosító', `<span style="font-size:11px">${p.nutsId}</span>`]] : []),
+    ['KK-hozam', `+${INCOME.kk} / kör`],
+    ['Arany-hozam', `+${INCOME.gold} / kör`],
+  ].map(([l,v])=>`<div class="info-row"><span class="lbl">${l}</span><span class="val">${v}</span></div>`).join('');
+
+  // Unrest bar (only when relevant)
+  const unrestBar = (subj && cascadeEnabled()) ?
+    `<div style="margin-top:8px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:2px">
+        <span>Nyugtalanság</span><span style="color:${unrestColor}">${unrestVal}/10</span>
+      </div>
+      <div class="unrest-bar-wrap">
+        <div class="unrest-bar-fill" style="width:${unrestPct}%;background:${unrestColor}"></div>
+      </div>
+      ${unrestVal>0?`<div style="font-size:11px;color:${unrestColor};margin-top:2px">~${Math.round(desertionChance(subj.id)*100)}% dezertálási esély/kör</div>`:''}
+    </div>` : '';
+
+  // Heroes
+  const heroBlock = heroes.length
+    ? `<div style="margin-top:10px;font-size:12px;color:var(--muted);margin-bottom:4px">Toborozható hősök (${heroes.length})</div>`+
+      heroes.map(h=>`<div class="hero-row"><span class="hname">&#9733; ${h.name}</span> <span class="hmeta">— ${h.subject} · ${h.birthLabel}</span></div>`).join('')
+    : (DATA.meta?.supportsHeroes ? `<div style="margin-top:8px;font-size:12px;color:var(--muted)">Nincs toborozható hős.</div>` : '');
+
+  // Action button
+  const actionBtn =
+    `<div style="margin-top:10px">
+      <button class="own-btn${isOwned?' release':''}" id="own-toggle-btn" ${isBot?'disabled title="Bot tulajdona"':''}>
+        ${isOwned ? '&#9744; Felszabadítom' : isBot ? '&#9876; Bot területe' : '&#9873; Elfoglalom (20 &#9733;)'}
+      </button>
+    </div>`;
+
+  document.getElementById('info-body').innerHTML = header + rows + unrestBar + heroBlock + actionBtn;
+  const btn = document.getElementById('own-toggle-btn');
+  if(btn && !isBot) btn.addEventListener('click', ()=>{ toggleOwned(p.id); showInfo(p); });
+
+  // Show subject card
+  if(subj) showSubject(subj);
+  else { const sc=document.getElementById('subj-card'); sc.classList.remove('visible'); }
+}
+
+function showSubject(subj){
+  if(!DATA) return;
+  const provs = DATA.provinces.filter(p=>p.subject===subj.id);
+  const playerCount = provs.filter(p=>owned.has(p.id)).length;
+  const botCount    = provs.filter(p=>botOwned.has(p.id)).length;
+  const totalKK     = playerCount * INCOME.kk;
+  const u = cascadeEnabled() ? unrestOf(subj.id) : 0;
+  const uColor = u>=7?'#ff4422':u>=4?'#ff8a5c':'#ffd65a';
+
+  const rows = [
+    ['Tartományok', provs.length + ' db'],
+    ['Játékos kezén', playerCount + ' db'],
+    ['Bot kezén', botCount + ' db'],
+    ['Semleges', (provs.length-playerCount-botCount) + ' db'],
+    ['KK-termelés', `+${totalKK} / kör`],
+    ...(cascadeEnabled() ? [['Nyugtalanság', `<span style="color:${uColor}">${u}/10</span>`]] : []),
+  ].map(([l,v])=>`<div class="info-row"><span class="lbl">${l}</span><span class="val">${v}</span></div>`).join('');
+
+  const uBar = cascadeEnabled()
+    ? `<div class="unrest-bar-wrap" style="margin-top:6px">
+        <div class="unrest-bar-fill" style="width:${u/10*100}%;background:${uColor}"></div>
+      </div>` : '';
+
+  document.getElementById('subj-body').innerHTML =
+    `<div class="subj-header">
+      <div class="subj-dot" style="background:${subj.color}"></div>
+      <span class="subj-name">${subj.name}</span>
+    </div>` + rows + uBar;
+
+  document.getElementById('subj-card').classList.add('visible');
+}
+
+// ── legend ────────────────────────────────────────────────────────────────
+
+function buildLegend(){
+  const leg=document.getElementById('legend');
+  const h3=document.getElementById('legend-title');
+  if(DATA.subjects?.length){
+    if(h3) h3.textContent='Tantárgyak (szín = tananyag)';
+    leg.innerHTML=DATA.subjects.map(s=>{
+      const n=DATA.provinces.filter(p=>p.subject===s.id).length;
+      return `<div data-k="${s.id}"><i style="background:${s.color}"></i>${s.name} <span class="k">(${n})</span></div>`;
+    }).join('');
+    wireLegend(leg,p=>p.subject); return;
+  }
+  if(h3) h3.textContent='Frakciók';
+  leg.innerHTML=DATA.factions.map(f=>{
+    const n=DATA.provinces.filter(p=>p.faction===f.id).length;
+    return `<div data-k="${f.id}"><i style="background:${f.color}"></i>${f.name} <span class="k">(${n})</span></div>`;
+  }).join('');
+  wireLegend(leg,p=>p.faction);
+}
+
+function wireLegend(leg,key){
+  leg.querySelectorAll('div[data-k]').forEach(row=>{
+    row.addEventListener('mouseenter',()=>{
+      for(const p of DATA.provinces.filter(x=>key(x)===row.dataset.k)){
+        const m=meshById.get(p.id); if(!m) continue;
+        m.material.color.copy(origColors.get(p.id).clone().lerp(new THREE.Color(0xffffff),0.35));
+      }
+    });
+    row.addEventListener('mouseleave',()=>{
+      for(const p of DATA.provinces){ const id=p.id;
+        if(id===hoveredId||id===selectedId) continue;
+        applyColor(id);
+      }
+    });
+  });
+}
+
+// ── difficulty + unrest cards ─────────────────────────────────────────────
+
 function renderDiffCard(){
-  const d = DIFFICULTIES[currentDifficulty];
-  const time = d.answerTimeLimitMs===null ? "korlátlan (akár otthagyhatod a települést)" : (d.answerTimeLimitMs/1000)+" mp / kérdés";
-  document.getElementById("diff-body").innerHTML =
+  const d=DIFFICULTIES[currentDifficulty];
+  const time=d.answerTimeLimitMs===null?'korlátlan':(d.answerTimeLimitMs/1000)+' mp / kérdés';
+  document.getElementById('diff-body').innerHTML=
     `<div class="diff-row"><span class="k">Válaszidő:</span> <b>${time}</b></div>`+
-    `<div class="diff-row"><span class="k">Lázadás legfeljebb:</span> <b>${d.rebellionIntervalTurns} körönként</b></div>`+
-    `<div class="diff-row"><span class="k">Feleletválasztós opciók:</span> <b>${d.choiceCount}</b></div>`+
-    `<div class="diff-row"><span class="k">Tantárgy-nyugtalanság:</span> <b>${d.subjectUnrestCascade?"aktív":"nincs hatással"}</b></div>`;
+    `<div class="diff-row"><span class="k">Lázadás:</span> <b>${d.rebellionIntervalTurns} körönként</b></div>`+
+    `<div class="diff-row"><span class="k">Opciók:</span> <b>${d.choiceCount}</b></div>`+
+    `<div class="diff-row"><span class="k">Nyugtalanság:</span> <b>${d.subjectUnrestCascade?'aktív':'nincs'}</b></div>`;
 }
 
-// --- Subject-unrest simulation card: per-subject wrong/correct buttons ----
-// Only meaningful on a subject map (Europe pack); the fantasy pack has no
-// per-province subject, so the simulator explains that instead of a list.
 function renderUnrestCard(){
-  const box=document.getElementById("unrest-body");
-  if(!DATA || !DATA.subjects || !DATA.subjects.length){
-    box.innerHTML = '<span class="k">Ez a térkép nem tananyag-térkép (a régióknak nincs tantárgya) — a szimuláció csak az Európa-csomagon elérhető.</span>';
-    return;
-  }
-  if(!cascadeEnabled()){
-    box.innerHTML = '<span class="k">Az 1–2. nehézségi szinten a tantárgy-nyugtalanság nincs hatással. Válts 3. vagy 4. szintre a kipróbáláshoz.</span>';
-    return;
-  }
-  box.innerHTML = DATA.subjects.map(s=>{
-    const u=unrestOf(s.id), pct=Math.round(desertionChance(s.id)*100);
+  const box=document.getElementById('unrest-body');
+  if(!DATA?.subjects?.length){ box.innerHTML='<span class="k">Ez a csomag nem tantárgy-térkép.</span>'; return; }
+  if(!cascadeEnabled()){ box.innerHTML='<span class="k">Az 1–2. szinten a nyugtalanság nem hat. Válts 3–4. szintre.</span>'; return; }
+  box.innerHTML=DATA.subjects.map(s=>{
+    const u=unrestOf(s.id),pct=Math.round(desertionChance(s.id)*100);
     return `<div class="unrest-row${u>0?' danger':''}" data-s="${s.id}">`+
       `<i style="background:${s.color}"></i><span class="name">${s.name}</span>`+
       `<button data-act="correct" title="Helyes válasz">✓</button>`+
       `<button data-act="wrong" title="Rossz válasz">✗</button>`+
       `<button data-act="reset" title="Nullázás">↺</button>`+
-      `<span class="pct">${u}/10 · ${pct}%</span>`+
-    `</div>`;
-  }).join("");
-  box.querySelectorAll(".unrest-row").forEach(row=>{
-    const id = row.dataset.s;
-    row.querySelector('[data-act="correct"]').addEventListener("click", ()=>recordAnswer(id, true));
-    row.querySelector('[data-act="wrong"]').addEventListener("click", ()=>recordAnswer(id, false));
-    row.querySelector('[data-act="reset"]').addEventListener("click", ()=>resetUnrest(id));
+      `<span class="pct">${u}/10 · ${pct}%</span></div>`;
+  }).join('');
+  box.querySelectorAll('.unrest-row').forEach(row=>{
+    const id=row.dataset.s;
+    row.querySelector('[data-act="correct"]').addEventListener('click',()=>recordAnswer(id,true));
+    row.querySelector('[data-act="wrong"]').addEventListener('click',()=>recordAnswer(id,false));
+    row.querySelector('[data-act="reset"]').addEventListener('click',()=>resetUnrest(id));
   });
 }
 
-// --- Map overlay: hazard stripes + a pulsing warning badge on every region
-// whose subject is currently unrestful (cascade active + unrest > 0). ------
-function ensureHazardPattern(svg){
-  if(svg.querySelector("#hazard-stripes")) return;
-  const ns="http://www.w3.org/2000/svg";
-  const defs=document.createElementNS(ns,"defs");
-  defs.innerHTML =
-    '<pattern id="hazard-stripes" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'+
-    '<rect width="7" height="7" fill="none"/><line x1="0" y1="0" x2="0" y2="7" stroke="#ff5a36" stroke-width="3.5"/>'+
-    '</pattern>';
-  svg.insertBefore(defs, svg.firstChild);
+// ── resize ────────────────────────────────────────────────────────────────
+
+function onResize(){
+  const box=document.getElementById('mapbox');
+  const w=box.clientWidth, h=box.clientHeight;
+  renderer.setSize(w,h,false);
+  camera.aspect=w/h;
+  camera.updateProjectionMatrix();
 }
+new ResizeObserver(onResize).observe(document.getElementById('mapbox'));
+onResize();
 
-function renderUnrestOverlay(){
-  if(!DATA) return;
-  const svg = document.querySelector("#mapbox svg"); if(!svg) return;
-  const old = svg.querySelector("#unrest-overlay"); if(old) old.remove();
-  if(!DATA.subjects || !DATA.subjects.length || !cascadeEnabled()) return;
-  const unrestful = DATA.subjects.filter(s=>unrestOf(s.id)>0);
-  if(!unrestful.length) return;
-  ensureHazardPattern(svg);
-  const ns="http://www.w3.org/2000/svg";
-  const g=document.createElementNS(ns,"g"); g.id="unrest-overlay"; g.style.pointerEvents="none";
-  for(const s of unrestful){
-    const chance = desertionChance(s.id);
-    const opacity = 0.22 + chance*0.55;
-    for(const p of DATA.provinces.filter(x=>x.subject===s.id)){
-      const srcPath = document.getElementById("prov_"+p.id); if(!srcPath) continue;
-      const overlay=document.createElementNS(ns,"path");
-      overlay.setAttribute("d", srcPath.getAttribute("d"));
-      overlay.setAttribute("fill", "url(#hazard-stripes)");
-      overlay.setAttribute("opacity", opacity.toFixed(2));
-      g.appendChild(overlay);
-      const badge=document.createElementNS(ns,"g");
-      badge.setAttribute("class","unrest-badge");
-      badge.innerHTML =
-        `<circle cx="${p.cx}" cy="${p.cy}" r="4.2" fill="#ff5a36" stroke="#5a1c10" stroke-width="0.5"/>`+
-        `<text x="${p.cx}" y="${p.cy+2.4}" text-anchor="middle" font-size="5.2" fill="#fff" font-weight="700">!</text>`;
-      g.appendChild(badge);
-    }
-  }
-  svg.appendChild(g);
-}
+// ── interaction ───────────────────────────────────────────────────────────
 
-// Ownership overlay: fill colour stays the province's subject colour — only a
-// gold border + a small flag mark that it's captured by the player.
-function renderOwnershipOverlay(){
-  if(!DATA) return;
-  const svg = document.querySelector("#mapbox svg"); if(!svg) return;
-  const old = svg.querySelector("#owned-overlay"); if(old) old.remove();
-  if(!owned.size) return;
-  const ns="http://www.w3.org/2000/svg";
-  const g=document.createElementNS(ns,"g"); g.id="owned-overlay"; g.style.pointerEvents="none";
-  for(const id of owned){
-    const p = byId[id]; const srcPath = document.getElementById("prov_"+id);
-    if(!p || !srcPath) continue;
-    const border=document.createElementNS(ns,"path");
-    border.setAttribute("d", srcPath.getAttribute("d"));
-    border.setAttribute("class","owned-border");
-    g.appendChild(border);
-    const flag=document.createElementNS(ns,"g");
-    const x=p.cx, y=p.cy;
-    flag.innerHTML =
-      `<line class="owned-flag-pole" x1="${x}" y1="${y-7}" x2="${x}" y2="${y+2}"/>`+
-      `<polygon class="owned-flag-cloth" points="${x},${y-7} ${x+6},${y-5} ${x},${y-3}"/>`;
-    g.appendChild(flag);
-  }
-  svg.appendChild(g);
-}
+const mouse2 = new THREE.Vector2(-9999,-9999);
+const raycaster = new THREE.Raycaster();
 
-function renderOwnedCard(){
-  const box=document.getElementById("owned-body");
-  if(!owned.size){
-    box.innerHTML =
-      '<span class="k">Kattints egy provinciára, majd az „Elfoglalom” gombra. '+
-      'A kitöltés színe (tantárgy) nem változik — a tulajdonlást arany szegély + zászló jelzi.</span>';
-    return;
-  }
-  const names = [...owned].map(id=>byId[id] ? byId[id].name : id);
-  box.innerHTML =
-    `<div class="owned-line">${owned.size} elfoglalt terület</div>`+
-    `<div class="k">${names.join(", ")}</div>`;
-}
-
-// Terrain is a schematic hint (see add-terrain.mjs), not real elevation data:
-// hill regions get a light diagonal hatch, mountain regions get a darker
-// hatch plus small peak markers. Static per pack load (unlike the unrest/
-// ownership overlays), so it's rendered once in loadPack().
-function ensureTerrainPatterns(svg){
-  if(svg.querySelector("#hill-hatch")) return;
-  const ns="http://www.w3.org/2000/svg";
-  const defs = svg.querySelector("defs") || (()=>{ const d=document.createElementNS(ns,"defs"); svg.insertBefore(d, svg.firstChild); return d; })();
-  const hill=document.createElementNS(ns,"pattern");
-  hill.setAttribute("id","hill-hatch"); hill.setAttribute("width","6"); hill.setAttribute("height","6");
-  hill.setAttribute("patternUnits","userSpaceOnUse"); hill.setAttribute("patternTransform","rotate(45)");
-  hill.innerHTML = '<line x1="0" y1="0" x2="0" y2="6" stroke="#cfd6dd" stroke-width="1.1"/>';
-  defs.appendChild(hill);
-  const mtn=document.createElementNS(ns,"pattern");
-  mtn.setAttribute("id","mountain-hatch"); mtn.setAttribute("width","6"); mtn.setAttribute("height","6");
-  mtn.setAttribute("patternUnits","userSpaceOnUse"); mtn.setAttribute("patternTransform","rotate(45)");
-  mtn.innerHTML = '<line x1="0" y1="0" x2="0" y2="6" stroke="#3a4049" stroke-width="2.4"/>';
-  defs.appendChild(mtn);
-}
-
-function renderTerrainOverlay(svg){
-  if(!DATA) return;
-  ensureTerrainPatterns(svg);
-  const ns="http://www.w3.org/2000/svg";
-  const g=document.createElementNS(ns,"g"); g.id="terrain-overlay"; g.style.pointerEvents="none";
-  for(const p of DATA.provinces){
-    if(!p.terrain || p.terrain==="plain") continue;
-    const srcPath = document.getElementById("prov_"+p.id); if(!srcPath) continue;
-    const overlay=document.createElementNS(ns,"path");
-    overlay.setAttribute("d", srcPath.getAttribute("d"));
-    overlay.setAttribute("fill", p.terrain==="mountain" ? "url(#mountain-hatch)" : "url(#hill-hatch)");
-    overlay.setAttribute("opacity", p.terrain==="mountain" ? "0.38" : "0.22");
-    g.appendChild(overlay);
-    if(p.terrain==="mountain"){
-      const peak=document.createElementNS(ns,"g");
-      const x=p.cx, y=p.cy;
-      peak.innerHTML =
-        `<polygon class="peak-icon" points="${x},${y-6} ${x+6.5},${y+5.5} ${x-6.5},${y+5.5}"/>`+
-        `<polygon class="peak-icon snow" points="${x},${y-6} ${x+2.4},${y-1.4} ${x-2.4},${y-1.4}"/>`;
-      g.appendChild(peak);
-    }
-  }
-  // insert right above the base province paths, below the unrest/ownership
-  // overlays so warnings and the ownership border still read on top.
-  svg.appendChild(g);
-}
-
-function lighten(hex, f){
-  const n=parseInt(hex.slice(1),16);
-  const r=Math.min(255,((n>>16)&255)+(255-((n>>16)&255))*f)|0;
-  const g=Math.min(255,((n>>8)&255)+(255-((n>>8)&255))*f)|0;
-  const b=Math.min(255,(n&255)+(255-(n&255))*f)|0;
-  return `rgb(${r},${g},${b})`;
-}
-
-// A province's base colour: its own patchwork colour if the pack provides one,
-// otherwise its faction's colour.
-function baseColor(p){ return p.color || PALETTE[p.faction] || "#c3ccd4"; }
-
-function paint(){
-  for(const p of DATA.provinces){
-    const el=document.getElementById("prov_"+p.id); if(!el) continue;
-    el.style.fill = baseColor(p);
-  }
-}
-
-function showInfo(p){
-  const f = DATA.factions.find(x=>x.id===p.faction) || {color:"#c3ccd4", name:p.faction};
-  const facLabel = f.subject ? `${f.name} <span class="k">(${f.subject})</span>` : f.name;
-  const ident = p.nutsId
-    ? `<div class="k">Azonosító:</div> ${p.nutsId}${p.level==="country"?' <span class="k">(ország)</span>':' <span class="k">(NUTS 1)</span>'}<br>`
-    : "";
-  const heroes = (p.nutsId && HEROES[p.nutsId]) || [];
-  const heroHtml = heroes.length
-    ? `<br><br><div class="k">Toborozható hősök (${heroes.length}):</div>` +
-      heroes.map(h=>`<div>&#9733; <b>${h.name}</b> <span class="k">— ${h.subject} · ${h.birthLabel}</span></div>`).join("")
-    : (DATA.meta && DATA.meta.supportsHeroes ? '<br><br><span class="k">Nincs itt toborozható hős.</span>' : '');
-  const subj = p.subject && DATA.subjects && DATA.subjects.find(s=>s.id===p.subject);
-  const subjHtml = subj
-    ? `<div class="k">Tantárgy:</div> <span style="color:${subj.color}">&#9632;</span> <b>${subj.name}</b><br>`
-    : "";
-  const unrestHtml = (subj && cascadeEnabled() && unrestOf(subj.id)>0)
-    ? `<div class="warn-line">&#9888; Nyugtalanság: ${unrestOf(subj.id)}/10 — ~${Math.round(desertionChance(subj.id)*100)}% dezertálási esély/kör</div>`
-    : "";
-  const terrainLabel = p.terrain==="mountain" ? "&#9650; Hegyvidék" : p.terrain==="hill" ? "Dombvidék" : "Síkság";
-  const terrainHtml = `<div class="k">Domborzat:</div> ${terrainLabel} <span class="k">(sematikus)</span><br>`;
-  const isOwned = owned.has(p.id);
-  const ownedHtml =
-    `<div class="${isOwned?'owned-line':'k'}">${isOwned?'&#9873; A játékos tulajdonában':'Nincs elfoglalva'}</div>`+
-    `<button class="own-btn ${isOwned?'release':''}" id="own-toggle-btn">${isOwned?'Felszabadítom':'Elfoglalom'}</button>`;
-  document.getElementById("info-body").innerHTML =
-    `<div><b>${p.name}</b>${p.capital?' &#9733;':''}</div>`+
-    ident+
-    subjHtml+
-    `<div class="k">Frakció:</div> <span style="color:${f.color}">&#9632;</span> ${facLabel}<br>`+
-    terrainHtml+
-    `<div class="k">Szomszédos provinciák:</div> ${p.adj.length}`+
-    (p.capital?'<br><span class="k">Ez a frakció fővárosa (tudásközpont).</span>':'')+
-    unrestHtml+
-    ownedHtml+
-    heroHtml;
-  const btn = document.getElementById("own-toggle-btn");
-  if(btn) btn.addEventListener("click", ()=>{ toggleOwned(p.id); showInfo(p); });
-}
-
-function toggleOwned(id){
-  if(owned.has(id)) owned.delete(id); else owned.add(id);
-  renderOwnershipOverlay(); renderOwnedCard();
-}
-
-let selEl=null;
-function wire(){
-  for(const p of DATA.provinces){
-    const el=document.getElementById("prov_"+p.id); if(!el) continue;
-    const base = () => baseColor(p);
-    el.addEventListener("mouseenter", ()=>{ el.style.fill=lighten(base(),0.28); showInfo(p); });
-    el.addEventListener("mouseleave", ()=>{ el.style.fill=base(); });
-    el.addEventListener("click", ()=>{
-      if(selEl) selEl.classList.remove("sel");
-      el.classList.add("sel"); selEl=el; showInfo(p);
-    });
-  }
-}
-
-function buildLegend(){
-  const leg=document.getElementById("legend");
-  const h3 = document.getElementById("legend-title");
-  // Subject map: the colour encodes the subject, so the legend lists the 9
-  // disciplines. Falls back to factions for packs without subjects.
-  if (DATA.subjects && DATA.subjects.length) {
-    if (h3) h3.textContent = "Tantárgyak (szín = tananyag)";
-    const key = (p) => p.subject, list = DATA.subjects;
-    leg.innerHTML = list.map(s=>{
-      const n = DATA.provinces.filter(p=>key(p)===s.id).length;
-      return `<div data-k="${s.id}"><i style="background:${s.color}"></i>${s.name} <span class="k">(${n})</span></div>`;
-    }).join("");
-    wireLegend(leg, key);
-    return;
-  }
-  if (h3) h3.textContent = "Frakciók";
-  leg.innerHTML = DATA.factions.map(f=>{
-    const n = DATA.provinces.filter(p=>p.faction===f.id).length;
-    const sub = f.subject ? `— ${f.subject} ` : "";
-    return `<div data-k="${f.id}"><i style="background:${f.color}"></i>${f.name}
-      <span class="k">${sub}(${n})</span></div>`;
-  }).join("");
-  wireLegend(leg, (p)=>p.faction);
-}
-
-// Hovering a legend row flashes every region that matches it.
-function wireLegend(leg, key){
-  leg.querySelectorAll("div[data-k]").forEach(row=>{
-    row.addEventListener("mouseenter", ()=>{
-      DATA.provinces.filter(p=>key(p)===row.dataset.k).forEach(p=>{
-        const el=document.getElementById("prov_"+p.id); if(el) el.style.fill=lighten(baseColor(p),0.35);
-      });
-    });
-    row.addEventListener("mouseleave", paint);
-  });
-}
-
-// Capital markers (small stars) on top of the SVG.
-function addCapitals(svg){
-  const ns="http://www.w3.org/2000/svg";
-  const g=document.createElementNS(ns,"g");
-  for(const p of DATA.provinces.filter(x=>x.capital)){
-    const star=document.createElementNS(ns,"circle");
-    star.setAttribute("cx",p.cx); star.setAttribute("cy",p.cy); star.setAttribute("r","3.2");
-    star.setAttribute("class","cap-star"); star.style.pointerEvents="none";
-    g.appendChild(star);
-  }
-  svg.appendChild(g);
-}
-
-// Hero recruitment markers: a small gold dot on each region with heroes, sized
-// by how many can be recruited there. Loaded from world/<dir>/heroes.json.
-function addHeroMarkers(svg){
-  const ns="http://www.w3.org/2000/svg";
-  const g=document.createElementNS(ns,"g");
-  for(const p of DATA.provinces){
-    const list = p.nutsId && HEROES[p.nutsId];
-    if(!list || !list.length) continue;
-    const dot=document.createElementNS(ns,"circle");
-    dot.setAttribute("cx",p.cx); dot.setAttribute("cy",p.cy);
-    dot.setAttribute("r", Math.min(6, 2.4 + list.length*0.7).toFixed(1));
-    dot.setAttribute("fill","#ffd65a"); dot.setAttribute("stroke","#5a4a10"); dot.setAttribute("stroke-width","0.5");
-    dot.style.pointerEvents="none";
-    g.appendChild(dot);
-  }
-  svg.appendChild(g);
-}
-
-function loadPack(dir, pack){
-  const box=document.getElementById("mapbox"); box.textContent="betöltés…";
-  Promise.all([
-    fetch("world/"+dir+"/map.svg").then(r=>{ if(!r.ok) throw 0; return r.text(); }),
-    fetch("world/"+dir+"/map.json").then(r=>{ if(!r.ok) throw 0; return r.json(); }),
-  ]).then(([svgText, data])=>{
-    DATA=data; for(const k in PALETTE) delete PALETTE[k]; byId={}; HEROES={};
-    unrestWrong={}; unrestLevel={}; owned=new Set(); // fresh start on every pack switch
-    data.factions.forEach(f=>PALETTE[f.id]=f.color);
-    data.provinces.forEach(p=>byId[p.id]=p);
-    const doc=new DOMParser().parseFromString(svgText,"image/svg+xml");
-    const svg=doc.documentElement;
-    box.innerHTML=""; box.appendChild(svg);
-    paint(); wire(); buildLegend(); addCapitals(svg);
-    renderTerrainOverlay(svg);
-    renderUnrestCard(); renderUnrestOverlay();
-    renderOwnedCard(); renderOwnershipOverlay();
-    const supports = (data.meta && data.meta.supportsHeroes);
-    document.getElementById("hero-flag").textContent =
-      supports ? "· hősök/felfedezők: IGEN (valós szülőhelyek)" : "· hősök/felfedezők: nincs (fantáziavilág)";
-    document.getElementById("info-body").innerHTML =
-      '<span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span>' +
-      (data.meta && data.meta.attribution ? '<br><br><span class="k">Forrás: '+data.meta.attribution+'</span>' : '');
-    // Heroes: load and group by region, then drop gold markers on the map.
-    if(supports){
-      fetch("world/"+dir+"/heroes.json").then(r=>r.ok?r.json():null).then(h=>{
-        if(!h||!h.heroes) return;
-        for(const hero of h.heroes){ (HEROES[hero.region] ||= []).push(hero); }
-        addHeroMarkers(svg);
-        const total=h.heroes.length, regs=Object.keys(HEROES).length;
-        const hu=(HEROES["HU1"]||[]).length;
-        document.getElementById("info-body").innerHTML +=
-          `<br><br><span class="k">${total} tudós-hős ${regs} régióban (&#9733; = toborzóhely). `+
-          `Ebből ${hu} magyar hős Magyarországon (HU1), a valós szülőhelytől függetlenül.</span>`;
-      }).catch(()=>{});
-    }
-  }).catch(()=>{
-    box.innerHTML = '<div style="padding:40px;color:#9aa4b2">Ez a térkép-csomag ('+
-      (pack?pack.name:dir)+') még nincs legenerálva.<br><br>'+
-      (dir==="europe"
-        ? 'Töltsd le lokálisan a NUTS 1 GeoJSON-t, majd:<br><code>node art/worldgen/nuts1-to-pack.mjs &lt;nuts1.geojson&gt; web/world/europe</code>'
-        : 'Generáld: <code>node art/worldgen/gen-world.mjs web/world/'+dir+'</code>')+
-      '</div>';
-    document.getElementById("legend").innerHTML="";
-    document.getElementById("hero-flag").textContent=
-      (pack && pack.supportsHeroes) ? "· hősök/felfedezők: IGEN (valós szülőhelyek)" : "";
-    document.getElementById("info-body").innerHTML=
-      '<span class="k">A csomag legenerálása után itt jelennek meg a provincia-adatok.</span>';
-  });
-}
-
-document.getElementById("diff-select").addEventListener("change", (e)=>{
-  currentDifficulty = Number(e.target.value);
-  renderDiffCard(); renderUnrestCard(); renderUnrestOverlay();
+canvas.addEventListener('mousemove', e=>{
+  const r=canvas.getBoundingClientRect();
+  mouse2.x=((e.clientX-r.left)/r.width)*2-1;
+  mouse2.y=-((e.clientY-r.top)/r.height)*2+1;
 });
-renderDiffCard(); renderUnrestCard();
 
-fetch("world/packs.json").then(r=>r.json()).then(idx=>{
-  const sel=document.getElementById("pack-select");
-  sel.innerHTML = idx.packs.map(p=>`<option value="${p.id}">${p.name}</option>`).join("");
-  const byPackId = Object.fromEntries(idx.packs.map(p=>[p.id,p]));
-  sel.value = idx.default || idx.packs[0].id;
-  sel.addEventListener("change", ()=>{ const p=byPackId[sel.value]; loadPack(p.dir, p); });
-  const first=byPackId[sel.value]; loadPack(first.dir, first);
-}).catch(()=>{ // no packs.json (opened via file://) -> try the fantasy pack directly
-  loadPack("fantasy", {name:"Fantáziavilág"});
+canvas.addEventListener('mouseleave', ()=>{ mouse2.set(-9999,-9999); setHover(null); });
+
+let mouseDownPos = null;
+canvas.addEventListener('mousedown', e=>{ mouseDownPos={x:e.clientX,y:e.clientY}; });
+canvas.addEventListener('mouseup', e=>{
+  if(!mouseDownPos) return;
+  const dx=e.clientX-mouseDownPos.x, dy=e.clientY-mouseDownPos.y;
+  mouseDownPos=null;
+  if(Math.hypot(dx,dy)>4) return; // drag, not click
+  raycaster.setFromCamera(mouse2,camera);
+  const hits=raycaster.intersectObjects([...meshById.values()]);
+  if(hits.length){
+    const id=hits[0].object.userData.provinceId;
+    setSelect(id);
+    const p=byId[id]; if(p) showInfo(p);
+  }
 });
+
+// ── animate ───────────────────────────────────────────────────────────────
+
+function animate(){
+  requestAnimationFrame(animate);
+  const t=performance.now()*0.001;
+
+  // Unrest pulse
+  for(const child of unrestGroup.children){
+    child.material.opacity = 0.14 + 0.22*(0.5+0.5*Math.sin(t*2.3));
+  }
+
+  // Hover from raycaster (every frame, cheap for ~120 meshes)
+  if(mouse2.x > -9000){
+    raycaster.setFromCamera(mouse2,camera);
+    const hits=raycaster.intersectObjects([...meshById.values()]);
+    setHover(hits.length ? hits[0].object.userData.provinceId : null);
+  }
+
+  // Conquest animations
+  const now = performance.now();
+  for(let i = anims.length - 1; i >= 0; i--){
+    const a = anims[i];
+    const p = Math.min(1, (now - a.t0) / a.dur);
+
+    if(a.type === 'flash'){
+      const mesh = meshById.get(a.id);
+      if(mesh){
+        const orig = origColors.get(a.id);
+        if(orig){
+          // envelope: ramp up to 0.3, hold, ramp down
+          const env = p < 0.25 ? p/0.25 : 1 - (p-0.25)/0.75;
+          mesh.material.color.copy(orig.clone().lerp(new THREE.Color(a.col), env * 0.9));
+        }
+      }
+      if(p >= 1){ applyColor(a.id); anims.splice(i,1); }
+    }
+
+    else if(a.type === 'ring'){
+      const scale = 1 + p * 14;
+      a.mesh.scale.set(scale, scale, 1);
+      a.mesh.material.opacity = 0.75 * (1 - p);
+      if(p >= 1){
+        scene.remove(a.mesh);
+        a.mesh.geometry.dispose(); a.mesh.material.dispose();
+        anims.splice(i,1);
+      }
+    }
+
+    else if(a.type === 'pin'){
+      const totalDur = a.dur + a.fadeDur;
+      const fullP = Math.min(1, (now - a.t0) / totalDur);
+      const fallP = Math.min(1, p); // 0→1 over dur
+      // Fall: cubic ease-in drop
+      const drop = 1 - Math.pow(1 - Math.min(fallP/0.65, 1), 3);
+      // Bounce: damped sine after landing
+      const bounce = fallP > 0.65
+        ? Math.abs(Math.sin((fallP - 0.65)/0.35 * Math.PI * 2)) * (1 - (fallP-0.65)/0.35) * 1.8
+        : 0;
+      a.group.position.z = a.baseZ + 14 * (1 - drop) + bounce;
+      // Fade out after fall is done
+      if(fullP > a.dur / totalDur){
+        const fadeP = (fullP - a.dur/totalDur) / (a.fadeDur/totalDur);
+        const op = 1 - fadeP;
+        a.group.children.forEach(c=>{ if(c.material) c.material.opacity = op; c.material && (c.material.transparent = true); });
+      }
+      if(fullP >= 1){
+        scene.remove(a.group);
+        anims.splice(i,1);
+      }
+    }
+  }
+
+  controls.update();
+  renderer.render(scene,camera);
+}
+animate();
+
+// ── turn system ───────────────────────────────────────────────────────────
+
+function addEvent(text, cls='ev-info'){
+  eventLog.unshift({ text, cls });
+  if(eventLog.length > 30) eventLog.pop();
+  renderEventLog();
+}
+
+function renderEventLog(){
+  const el = document.getElementById('event-log');
+  el.innerHTML = eventLog.map(e=>`<div class="${e.cls}">${e.text}</div>`).join('');
+}
+
+function renderTurnBar(){
+  document.getElementById('turn-num').textContent = turnNumber;
+  document.getElementById('res-gold').textContent = gold;
+  document.getElementById('res-kk').textContent = kk;
+}
+
+// Utility score U(G) for a province — simplified from the spec
+function utilityScore(prov){
+  if(!DATA) return 0;
+  // V: value of the target
+  const isCapital = prov.capital ? 300 : 0;
+  const adjBonus = (prov.adj?.length ?? 0) * 10; // more connections = more strategic
+  const V = 100 + isCapital + adjBonus;
+  // K: knowledge synergy — bot prefers math/history provinces
+  const subj = DATA.subjects?.find(s=>s.id===prov.subject);
+  const K = subj ? 1.4 : 1.0;
+  // T: threat — penalise provinces adjacent to many player-owned (contested)
+  const playerAdjCount = (prov.adj??[]).filter(id=>owned.has(id)).length;
+  const T = playerAdjCount * 20;
+  // Distance cost: rough estimate — provinces adjacent to bot territory cost less
+  const botAdjCount = (prov.adj??[]).filter(id=>botOwned.has(id)).length;
+  const distCost = botOwned.size === 0 ? 1 : Math.max(1, 3 - botAdjCount);
+  return (V * K - T) / distCost;
+}
+
+function botTurn(){
+  if(!DATA) return;
+  // Collect income for bot
+  botGold += botOwned.size * BOT_INCOME.gold + BOT_INCOME.gold;
+  botKK   += botOwned.size * BOT_INCOME.kk   + BOT_INCOME.kk;
+
+  // Find best unclaimed province (not owned by player or bot)
+  const candidates = DATA.provinces.filter(p =>
+    !owned.has(p.id) && !botOwned.has(p.id)
+  );
+  if(!candidates.length) return;
+
+  // Sort by utility score descending
+  candidates.sort((a,b) => utilityScore(b) - utilityScore(a));
+  const cost = 20; // gold cost per conquest
+  if(botGold < cost) return; // bot can't afford
+
+  const target = candidates[0];
+  botOwned.add(target.id);
+  botGold -= cost;
+
+  // Visual: orange outline + conquest animation
+  renderBotOverlay();
+  triggerConquest(target.id, false);
+  addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
+}
+
+function renderBotOverlay(){
+  // Re-use ownGroup concept but in a separate group — bot gets orange outlines
+  // We'll tint bot-owned meshes slightly and add a red-orange border
+  if(!DATA) return;
+  // Clear existing bot visuals from scene (we tag them)
+  scene.children.filter(c=>c.userData.isBotOverlay).forEach(c=>scene.remove(c));
+  for(const id of botOwned){
+    const line = outlineById.get(id); if(!line) continue;
+    const geo = line.geometry.clone();
+    const pos = geo.attributes.position;
+    for(let i=0;i<pos.count;i++) pos.setZ(i, pos.getZ(i)+0.14);
+    pos.needsUpdate = true;
+    const botLine = new THREE.Line(geo, new THREE.LineBasicMaterial({ color:0xff6600 }));
+    botLine.userData.isBotOverlay = true;
+    scene.add(botLine);
+  }
+}
+
+function playerIncome(){
+  const prev = { gold, kk };
+  gold += owned.size * INCOME.gold + INCOME.gold;
+  kk   += owned.size * INCOME.kk   + INCOME.kk;
+  addEvent(`&#9733; Bevétel: +${gold-prev.gold} arany, +${kk-prev.kk} KK`, 'ev-player');
+}
+
+function endTurn(){
+  document.getElementById('btn-end-turn').disabled = true;
+  // 1. Player income
+  playerIncome();
+  // 2. Bot acts
+  botTurn();
+  // 3. Next turn
+  turnNumber++;
+  renderTurnBar();
+  addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
+  document.getElementById('btn-end-turn').disabled = false;
+}
+
+function initTurnSystem(){
+  renderTurnBar();
+  document.getElementById('btn-end-turn').addEventListener('click', endTurn);
+}
+
+// ── controls wiring ───────────────────────────────────────────────────────
+
+document.getElementById('diff-select').addEventListener('change',e=>{
+  currentDifficulty=Number(e.target.value);
+  renderDiffCard(); renderUnrestCard(); renderUnrestOverlay3D();
+});
+document.getElementById('btn-reset-cam').addEventListener('click', resetCamera);
+
+renderDiffCard(); renderUnrestCard(); initTurnSystem();
+
+// ── pack loader bootstrap ─────────────────────────────────────────────────
+
+fetch('world/packs.json').then(r=>r.json()).then(idx=>{
+  const sel=document.getElementById('pack-select');
+  sel.innerHTML=idx.packs.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  const byPack=Object.fromEntries(idx.packs.map(p=>[p.id,p]));
+  sel.value=idx.default||idx.packs[0].id;
+  sel.addEventListener('change',()=>{ const p=byPack[sel.value]; loadPack(p.dir,p); });
+  const first=byPack[sel.value]; loadPack(first.dir,first);
+}).catch(()=>{ loadPack('fantasy',{name:'Fantáziavilág'}); });
 </script>
 </body>
 </html>
