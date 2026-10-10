@@ -6,6 +6,7 @@
 // reconstructed against the same scenario.
 
 import type { Subject } from "../economy/KKLedger.js";
+import type { Difficulty } from "./Difficulty.js";
 import type { HexCoord } from "../hex/Hex.js";
 import type { UnitInit } from "../units/Unit.js";
 import type { TechNode } from "../units/TechTree.js";
@@ -103,4 +104,7 @@ export interface ScenarioDef {
   readonly initialSupply?: number;
   /** Optional strategic (region-graph) campaign layer. */
   readonly strategic?: StrategicDef;
+  /** Difficulty level (1–4). Default 1. Governs rebellion interval, MC option
+   *  count, and the level 3–4 subject-unrest cascade. */
+  readonly difficulty?: Difficulty;
 }
