@@ -31,7 +31,7 @@ export { buildChoices } from "./education/MultipleChoice.js";
 export type { Choice, ChoiceSet } from "./education/MultipleChoice.js";
 export { Difficulty, DIFFICULTIES, difficultyParams } from "./game/Difficulty.js";
 export type { DifficultyParams } from "./game/Difficulty.js";
-export { SubjectUnrest } from "./game/SubjectUnrest.js";
+export { SubjectUnrest, SUBJECT_UNREST_DEFAULTS } from "./game/SubjectUnrest.js";
 export type { SubjectUnrestConfig, SubjectUnrestSnapshot } from "./game/SubjectUnrest.js";
 
 export { BonusSystem, BonusOp, STATS, validateBonus } from "./units/BonusSystem.js";
