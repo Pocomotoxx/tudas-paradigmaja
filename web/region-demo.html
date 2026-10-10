@@ -484,6 +484,36 @@ function addHeroMarkers3D(){
   }
 }
 
+// ── conquest animations ───────────────────────────────────────────────────
+
+const anims = []; // active animation entries
+
+function triggerConquest(id, isPlayer){
+  const prov = byId[id]; if(!prov || !DATA) return;
+  const col = isPlayer ? 0xffd700 : 0xff5500;
+
+  // 1. Province mesh color flash
+  anims.push({ type:'flash', t0:performance.now(), dur:800, id, col });
+
+  // 2. Expanding ring from province center
+  const w = toWorld(prov.cx, prov.cy);
+  const ringGeo = new THREE.RingGeometry(0.2, 0.7, 40);
+  const ringMat = new THREE.MeshBasicMaterial({
+    color:col, transparent:true, opacity:0.85, side:THREE.DoubleSide, depthTest:false
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.position.set(w.x, w.y, SLAB_H + 0.25);
+  scene.add(ring);
+  anims.push({ type:'ring', t0:performance.now(), dur:900, mesh:ring });
+
+  // 3. Conquest pin drops from above, bounces, then fades out
+  const pin = makePin(col, 0.5, 2.2);
+  pin.position.set(w.x, w.y, SLAB_H + 14); // starts high above
+  pin.userData.isConquestPin = true;
+  scene.add(pin);
+  anims.push({ type:'pin', t0:performance.now(), dur:1100, fadeDur:600, group:pin, baseZ:SLAB_H });
+}
+
 // ── 3D unrest overlay (pulsing red mesh clones) ───────────────────────────
 
 function renderUnrestOverlay3D(){
@@ -543,6 +573,7 @@ function toggleOwned(id){
     gold -= cost;
     owned.add(id);
     renderTurnBar();
+    triggerConquest(id, true);
     addEvent(`&#9873; Elfoglalva: <b>${byId[id]?.name??id}</b> (-${cost} arany)`, 'ev-player');
   }
   renderOwnershipOverlay3D(); renderOwnedCard();
@@ -710,6 +741,60 @@ function animate(){
     setHover(hits.length ? hits[0].object.userData.provinceId : null);
   }
 
+  // Conquest animations
+  const now = performance.now();
+  for(let i = anims.length - 1; i >= 0; i--){
+    const a = anims[i];
+    const p = Math.min(1, (now - a.t0) / a.dur);
+
+    if(a.type === 'flash'){
+      const mesh = meshById.get(a.id);
+      if(mesh){
+        const orig = origColors.get(a.id);
+        if(orig){
+          // envelope: ramp up to 0.3, hold, ramp down
+          const env = p < 0.25 ? p/0.25 : 1 - (p-0.25)/0.75;
+          mesh.material.color.copy(orig.clone().lerp(new THREE.Color(a.col), env * 0.9));
+        }
+      }
+      if(p >= 1){ applyColor(a.id); anims.splice(i,1); }
+    }
+
+    else if(a.type === 'ring'){
+      const scale = 1 + p * 14;
+      a.mesh.scale.set(scale, scale, 1);
+      a.mesh.material.opacity = 0.75 * (1 - p);
+      if(p >= 1){
+        scene.remove(a.mesh);
+        a.mesh.geometry.dispose(); a.mesh.material.dispose();
+        anims.splice(i,1);
+      }
+    }
+
+    else if(a.type === 'pin'){
+      const totalDur = a.dur + a.fadeDur;
+      const fullP = Math.min(1, (now - a.t0) / totalDur);
+      const fallP = Math.min(1, p); // 0→1 over dur
+      // Fall: cubic ease-in drop
+      const drop = 1 - Math.pow(1 - Math.min(fallP/0.65, 1), 3);
+      // Bounce: damped sine after landing
+      const bounce = fallP > 0.65
+        ? Math.abs(Math.sin((fallP - 0.65)/0.35 * Math.PI * 2)) * (1 - (fallP-0.65)/0.35) * 1.8
+        : 0;
+      a.group.position.z = a.baseZ + 14 * (1 - drop) + bounce;
+      // Fade out after fall is done
+      if(fullP > a.dur / totalDur){
+        const fadeP = (fullP - a.dur/totalDur) / (a.fadeDur/totalDur);
+        const op = 1 - fadeP;
+        a.group.children.forEach(c=>{ if(c.material) c.material.opacity = op; c.material && (c.material.transparent = true); });
+      }
+      if(fullP >= 1){
+        scene.remove(a.group);
+        anims.splice(i,1);
+      }
+    }
+  }
+
   controls.update();
   renderer.render(scene,camera);
 }
@@ -774,8 +859,9 @@ function botTurn(){
   botOwned.add(target.id);
   botGold -= cost;
 
-  // Visual: orange outline for bot territory
+  // Visual: orange outline + conquest animation
   renderBotOverlay();
+  triggerConquest(target.id, false);
   addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
 }
 
