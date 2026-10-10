@@ -13,6 +13,7 @@ export type { EuropeScenario } from "./europe.js";
 export { scientistsPack, scientistBirthLabels, scientistHeroRegions, scientistHeroRoster } from "./scientistsPack.js";
 export { buildRegionGraph, regionIdOf } from "./regionWorld.js";
 export type { MapPack, PackProvince } from "./regionWorld.js";
+export { coreQuestionBank, questionsFor } from "./questionBank.js";
 export {
   defaultLayout,
   hexToPixel,
