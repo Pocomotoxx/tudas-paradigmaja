@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A Tudás Paradigmája</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg:      #0d1117;
+  --panel:   #161b24;
+  --border:  #2a3040;
+  --ink:     #e7ebf0;
+  --muted:   #7a8899;
+  --gold:    #d4a843;
+  --gold-lt: #f0c86a;
+  --green:   #4caf7d;
+  --blue:    #5b9bd5;
+  --red:     #c0392b;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f1ec; --panel: #fff; --border: #ddd6c8;
+    --ink: #1a1a1a; --muted: #6b6050;
+    --gold: #b8860b; --gold-lt: #d4a843;
+    --green: #2d7a4f; --blue: #2563aa; --red: #b0281e;
+    color-scheme: light;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#0d1117; --panel:#161b24; --border:#2a3040;
+  --ink:#e7ebf0; --muted:#7a8899; --gold:#d4a843; --gold-lt:#f0c86a;
+  --green:#4caf7d; --blue:#5b9bd5; --red:#c0392b;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body {
+  margin: 0; height: 100%;
+  background: var(--bg); color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── Background: animated star-field / grid ── */
+#bg-canvas {
+  position: fixed; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* ── Layout ── */
+#page {
+  position: relative; z-index: 1;
+  min-height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center;
+  padding: 0 16px 40px;
+}
+
+/* ── Hero ── */
+#hero {
+  width: 100%; max-width: 780px;
+  text-align: center;
+  padding: 64px 0 36px;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(28px, 6vw, 58px);
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1.08;
+  margin: 0 0 6px;
+  text-shadow: 0 2px 24px rgba(212,168,67,.18);
+}
+.hero-title span { color: var(--gold); }
+.hero-sub {
+  font-size: clamp(13px, 2vw, 17px);
+  color: var(--muted);
+  margin: 14px 0 0;
+  line-height: 1.6;
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+/* ── Separator ── */
+.divider {
+  width: 120px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 28px auto;
+}
+
+/* ── Settings card ── */
+#settings-card {
+  width: 100%; max-width: 640px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 32px 24px;
+  box-shadow: 0 8px 48px rgba(0,0,0,.35);
+}
+
+.card-section { margin-bottom: 24px; }
+.card-section:last-child { margin-bottom: 0; }
+
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* ── Grade band pills ── */
+.pill-group {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.pill {
+  flex: 1 1 0; min-width: 80px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .15s, background .15s, transform .1s;
+  user-select: none;
+}
+.pill:hover { border-color: var(--gold); background: color-mix(in srgb, var(--bg), var(--gold) 5%); }
+.pill.active {
+  border-color: var(--gold);
+  background: color-mix(in srgb, var(--panel), var(--gold) 12%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, transparent, var(--gold) 20%);
+}
+.pill.active:hover { transform: none; }
+.pill-top { font-size: 18px; margin-bottom: 2px; }
+.pill-label { font-size: 13px; font-weight: 700; color: var(--ink); }
+.pill-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+/* ── Subject chips ── */
+.chip-group {
+  display: flex; gap: 7px; flex-wrap: wrap;
+}
+.chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer;
+  transition: border-color .12s, background .12s;
+  user-select: none;
+}
+.chip:hover { border-color: var(--gold); }
+.chip.active {
+  background: color-mix(in srgb, var(--panel), var(--gold) 14%);
+  border-color: var(--gold);
+  color: var(--gold-lt);
+  font-weight: 600;
+}
+.chip-actions {
+  display: flex; gap: 8px; margin-top: 8px;
+}
+.chip-actions button {
+  background: none; border: none;
+  color: var(--muted); font-size: 11px;
+  cursor: pointer; padding: 0;
+  text-decoration: underline;
+}
+.chip-actions button:hover { color: var(--ink); }
+
+/* ── Difficulty ── */
+.diff-group {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.diff-btn {
+  flex: 1 1 0; min-width: 64px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 6px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px; font-weight: 600;
+  color: var(--muted);
+  transition: border-color .12s, color .12s, background .12s;
+}
+.diff-btn:hover { border-color: var(--blue); color: var(--ink); }
+.diff-btn.active { border-color: var(--blue); color: var(--blue);
+  background: color-mix(in srgb, var(--panel), var(--blue) 10%); }
+.diff-btn .diff-icon { font-size: 16px; display: block; margin-bottom: 3px; }
+
+/* ── Start button ── */
+#btn-start {
+  display: block; width: 100%;
+  margin-top: 28px;
+  padding: 16px;
+  background: linear-gradient(135deg, #b8860b 0%, #d4a843 50%, #f0c86a 100%);
+  color: #1a0f00;
+  border: none; border-radius: 12px;
+  font-family: 'Cinzel', serif;
+  font-size: 17px; font-weight: 700;
+  letter-spacing: .06em;
+  cursor: pointer;
+  box-shadow: 0 4px 24px color-mix(in srgb, transparent, var(--gold) 40%);
+  transition: transform .12s, box-shadow .12s, filter .12s;
+  position: relative; overflow: hidden;
+}
+#btn-start::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.2) 60%, transparent 70%);
+  transform: translateX(-100%) skewX(-15deg);
+  transition: transform .5s;
+}
+#btn-start:hover { transform: translateY(-2px);
+  box-shadow: 0 8px 32px color-mix(in srgb, transparent, var(--gold) 55%); }
+#btn-start:hover::after { transform: translateX(200%) skewX(-15deg); }
+#btn-start:active { transform: translateY(0); }
+
+/* ── Feature list ── */
+#features {
+  width: 100%; max-width: 640px;
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.feat-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  transition: border-color .15s;
+}
+.feat-card:hover { border-color: color-mix(in srgb, var(--border), var(--gold) 40%); }
+.feat-icon { font-size: 22px; margin-bottom: 6px; }
+.feat-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.feat-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* ── Footer ── */
+footer {
+  margin-top: 40px;
+  font-size: 11px; color: var(--muted);
+  text-align: center;
+  line-height: 1.8;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  #settings-card { padding: 20px 16px; }
+  .hero-title { font-size: 30px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div id="page">
+  <div id="hero">
+    <div class="hero-eyebrow">Stratégiai oktatási játék · NAT 2020</div>
+    <h1 class="hero-title">A <span>Tudás</span><br>Paradigmája</h1>
+    <p class="hero-sub">
+      Hódítsd meg Európa térképét tudással — válaszolj kérdésekre,
+      foglalj el tartományokat, és győzd le az ellenfelet.
+    </p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div id="settings-card">
+    <!-- Grade band -->
+    <div class="card-section">
+      <div class="section-label">Évfolyam</div>
+      <div class="pill-group" id="grade-pills">
+        <div class="pill" data-grade="1-4">
+          <div class="pill-top">🌱</div>
+          <div class="pill-label">1–4. osztály</div>
+          <div class="pill-sub">Általános iskola</div>
+        </div>
+        <div class="pill active" data-grade="5-8">
+          <div class="pill-top">📚</div>
+          <div class="pill-label">5–8. osztály</div>
+          <div class="pill-sub">Felső tagozat</div>
+        </div>
+        <div class="pill" data-grade="9-12">
+          <div class="pill-top">🎓</div>
+          <div class="pill-label">9–12. osztály</div>
+          <div class="pill-sub">Középiskola</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subjects -->
+    <div class="card-section">
+      <div class="section-label">Tantárgyak</div>
+      <div class="chip-group" id="subj-chips"></div>
+      <div class="chip-actions">
+        <button id="btn-all">Mind</button>
+        <button id="btn-none">Egyik sem</button>
+      </div>
+    </div>
+
+    <!-- Difficulty -->
+    <div class="card-section">
+      <div class="section-label">Nehézség</div>
+      <div class="diff-group" id="diff-btns">
+        <button class="diff-btn active" data-diff="1">
+          <span class="diff-icon">😌</span>Könnyű
+        </button>
+        <button class="diff-btn" data-diff="2">
+          <span class="diff-icon">⚔️</span>Normál
+        </button>
+        <button class="diff-btn" data-diff="3">
+          <span class="diff-icon">🔥</span>Nehéz<br><small style="font-size:10px;opacity:.7">20 mp</small>
+        </button>
+        <button class="diff-btn" data-diff="4">
+          <span class="diff-icon">💀</span>Mester<br><small style="font-size:10px;opacity:.7">10 mp</small>
+        </button>
+      </div>
+    </div>
+
+    <button id="btn-start">⚔ &nbsp; Játék indítása</button>
+  </div>
+
+  <!-- Feature highlights -->
+  <div id="features">
+    <div class="feat-card">
+      <div class="feat-icon">🗺️</div>
+      <div class="feat-title">3D Európa térkép</div>
+      <div class="feat-desc">116 tartomány, extrudált terep, Three.js megjelenítés</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-title">Bot ellenfelek</div>
+      <div class="feat-desc">Persona-alapú AI — agresszív, gazdasági és tudós stratégiák</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📖</div>
+      <div class="feat-title">NAT 2020 tananyag</div>
+      <div class="feat-desc">585 kérdés, 13 tantárgy, 3 évfolyamsáv a kerettanterv alapján</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🏆</div>
+      <div class="feat-title">XP & Hadjárat</div>
+      <div class="feat-desc">Szintlépés, streak bónuszok, többpályás hadjárat mód</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📋</div>
+      <div class="feat-title">Tanári mód</div>
+      <div class="feat-desc">Válasznapló CSV-ként exportálható osztálytermi használatra</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌐</div>
+      <div class="feat-title">Mini Wikipédia</div>
+      <div class="feat-desc">Kerettanterv-alapú tudásbázis minden tantárgyhoz</div>
+    </div>
+  </div>
+
+  <footer>
+    A Tudás Paradigmája · NAT 2020 · MIT licenc
+  </footer>
+</div>
+
+<script>
+// ── Subjects ──────────────────────────────────────────────────────────────
+const SUBJECTS = [
+  { key: 'magyar',            label: 'Magyar',          icon: '📝' },
+  { key: 'matematika',        label: 'Matematika',      icon: '🔢' },
+  { key: 'tortenelem',        label: 'Történelem',      icon: '🏛️' },
+  { key: 'foldrajz',          label: 'Földrajz',        icon: '🌍' },
+  { key: 'biologia',          label: 'Biológia',        icon: '🧬' },
+  { key: 'fizika',            label: 'Fizika',          icon: '⚛️' },
+  { key: 'kemia',             label: 'Kémia',           icon: '🧪' },
+  { key: 'digitalis_kultura', label: 'Digitális',       icon: '💻' },
+  { key: 'idegen_nyelv',      label: 'Idegen nyelv',    icon: '🌐' },
+  { key: 'termeszettudomany', label: 'Természettudomány',icon:'🔭' },
+  { key: 'allampolgari',      label: 'Állampolgári',    icon: '⚖️' },
+  { key: 'etika',             label: 'Etika',           icon: '🤝' },
+  { key: 'hon_nepismeret',    label: 'Hon- és nép',     icon: '🏰' },
+];
+
+let state = {
+  grade: '5-8',
+  subjects: new Set(SUBJECTS.map(s => s.key)),
+  diff: 1,
+};
+
+// ── Render chips ─────────────────────────────────────────────────────────
+function renderChips() {
+  const wrap = document.getElementById('subj-chips');
+  wrap.innerHTML = '';
+  for (const s of SUBJECTS) {
+    const el = document.createElement('div');
+    el.className = 'chip' + (state.subjects.has(s.key) ? ' active' : '');
+    el.textContent = s.icon + ' ' + s.label;
+    el.addEventListener('click', () => {
+      if (state.subjects.has(s.key)) state.subjects.delete(s.key);
+      else state.subjects.add(s.key);
+      renderChips();
+    });
+    wrap.appendChild(el);
+  }
+}
+
+// ── Grade pills ───────────────────────────────────────────────────────────
+document.getElementById('grade-pills').addEventListener('click', e => {
+  const pill = e.target.closest('.pill');
+  if (!pill) return;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  state.grade = pill.dataset.grade;
+});
+
+// ── All / None ────────────────────────────────────────────────────────────
+document.getElementById('btn-all').addEventListener('click', () => {
+  state.subjects = new Set(SUBJECTS.map(s => s.key));
+  renderChips();
+});
+document.getElementById('btn-none').addEventListener('click', () => {
+  state.subjects = new Set();
+  renderChips();
+});
+
+// ── Difficulty ────────────────────────────────────────────────────────────
+document.getElementById('diff-btns').addEventListener('click', e => {
+  const btn = e.target.closest('.diff-btn');
+  if (!btn) return;
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.diff = parseInt(btn.dataset.diff);
+});
+
+// ── Start ─────────────────────────────────────────────────────────────────
+document.getElementById('btn-start').addEventListener('click', () => {
+  if (state.subjects.size === 0) {
+    alert('Válassz legalább egy tantárgyat!');
+    return;
+  }
+  // Persist settings for the game page
+  try {
+    localStorage.setItem('tudas_gradeBand', state.grade);
+    localStorage.setItem('tudas_subjects', JSON.stringify([...state.subjects]));
+    localStorage.setItem('tudas_diff', String(state.diff));
+    localStorage.setItem('tudas_settingsDone', '1');
+  } catch(e) {}
+  window.location.href = 'region-demo.html?diff=' + state.diff;
+});
+
+// ── Background canvas animation ───────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initParticles() {
+    particles = [];
+    const n = Math.floor((W * H) / 8000);
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.2,
+        a: Math.random(),
+        va: (Math.random() - .5) * .003,
+        vx: (Math.random() - .5) * .08,
+        vy: (Math.random() - .5) * .08,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // subtle grid
+    ctx.strokeStyle = 'rgba(212,168,67,.04)';
+    ctx.lineWidth = 1;
+    const grid = 80;
+    for (let x = 0; x < W; x += grid) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += grid) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // particles
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy; p.a += p.va;
+      if (p.a < 0) p.a = 0, p.va *= -1;
+      if (p.a > 1) p.a = 1, p.va *= -1;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(212,168,67,${p.a * .5})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  initParticles();
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+  draw();
+})();
+
+// ── Init ──────────────────────────────────────────────────────────────────
+renderChips();
+
+// Restore saved grade/diff if any
+try {
+  const sg = localStorage.getItem('tudas_gradeBand');
+  if (sg) {
+    state.grade = sg;
+    document.querySelectorAll('.pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.grade === sg);
+    });
+  }
+  const sd = localStorage.getItem('tudas_diff');
+  if (sd) {
+    state.diff = parseInt(sd);
+    document.querySelectorAll('.diff-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.diff === sd);
+    });
+  }
+  const ss = localStorage.getItem('tudas_subjects');
+  if (ss) {
+    state.subjects = new Set(JSON.parse(ss));
+    renderChips();
+  }
+} catch(e) {}
+</script>
+</body>
+</html>
