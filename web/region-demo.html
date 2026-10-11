@@ -1016,19 +1016,26 @@ function toggleOwned(id){
     }
     // Ask question before capturing
     if(prov && prov.subject && QBANK.length){
+      // i78: hero attack bonus → easier question (reduce difficulty by 1)
+      const atkBonus = heroAttackBonus();
+      const origDiff = currentDifficulty;
+      if(atkBonus > 0) currentDifficulty = Math.max(1, currentDifficulty - Math.round(atkBonus * 3));
       showQuestionModal(prov,
         ()=>{ // success
+          currentDifficulty = origDiff;
           gold -= cost;
           owned.add(id);
           renderTurnBar();
           triggerConquest(id, true);
           sfx('conquest');
-          addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)`, 'ev-player');
+          const atkMsg = atkBonus > 0 ? ` <span style="color:#c9a84c;font-size:11px">(hős segített!)</span>` : '';
+          addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)${atkMsg}`, 'ev-player');
           renderOwnershipOverlay3D(); renderOwnedCard();
           checkVictory();
           const selProv = byId[id]; if(selProv) showInfo(selProv);
         },
         ()=>{ // cancel / wrong
+          currentDifficulty = origDiff;
           const selProv = byId[id]; if(selProv) showInfo(selProv);
         }
       );
@@ -1111,7 +1118,11 @@ function showInfo(p){
     ? `<div style="margin-top:10px;font-size:12px;color:var(--muted);margin-bottom:4px">Toborozható hősök (${heroes.length})</div>`+
       heroes.map(h=>{
         const years = (h.birth||h.death) ? `<span class="hyears">(${h.birth||'?'}–${h.death||'?'})</span>` : '';
-        const ability = h.ability ? `<div class="hability">⚡ <span class="aname">${h.ability.name}</span> — ${h.ability.desc}</div>` : '';
+        const eff = h.ability?.effect;
+        const effBadge = eff && isOwned
+          ? `<span style="margin-left:4px;font-size:10px;background:#1e3a20;color:#7dcc88;border-radius:3px;padding:1px 5px">✓ AKTÍV</span>`
+          : '';
+        const ability = h.ability ? `<div class="hability">⚡ <span class="aname">${h.ability.name}</span>${effBadge} — ${h.ability.desc}${eff&&isOwned?` <i style="color:#7dcc88">[${eff.desc}]</i>`:''}</div>` : '';
         return `<div class="hero-row"><span class="hname">&#9733; ${h.name}</span>${years} <span class="hmeta">— ${h.subject} · ${h.birthLabel}</span>${ability}</div>`;
       }).join('')
     : (DATA.meta?.supportsHeroes ? `<div style="margin-top:8px;font-size:12px;color:var(--muted)">Nincs toborozható hős.</div>` : '');
@@ -1464,9 +1475,17 @@ function renderBotOverlay(){
 
 function playerIncome(){
   const prev = { gold, kk };
-  gold += owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
-  kk   += owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
-  addEvent(`&#9733; Bevétel: +${gold-prev.gold} arany, +${kk-prev.kk} KK`, 'ev-player');
+  const gMult = heroGoldBonus();
+  const kMult = heroKKBonus();
+  const baseGold = owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
+  const baseKK   = owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
+  gold += Math.round(baseGold * gMult);
+  kk   += Math.round(baseKK   * kMult);
+  const gBonus = gold - prev.gold, kBonus = kk - prev.kk;
+  const heroMsg = (gMult > 1 || kMult > 1)
+    ? ` <span style="color:#c9a84c;font-size:11px">(hős bónusz: ×${gMult.toFixed(2)} arany, ×${kMult.toFixed(2)} KK)</span>`
+    : '';
+  addEvent(`&#9733; Bevétel: +${gBonus} arany, +${kBonus} KK${heroMsg}`, 'ev-player');
 }
 
 function endTurn(){
@@ -1474,6 +1493,21 @@ function endTurn(){
   sfx('turn');
   document.getElementById('btn-end-turn').disabled = true;
   playerIncome();
+  applyHeroSideEffects(); // i78: Madách +1 unrest stb.
+  // i78: hero unrest reduction per subject
+  if(cascadeEnabled()){
+    const subjects = [...new Set(DATA.provinces.map(p=>p.subject).filter(Boolean))];
+    for(const sid of subjects){
+      const red = heroUnrestReduction(sid);
+      if(red > 0){
+        const prev = unrestLevel[sid]||0;
+        unrestLevel[sid] = Math.max(0, prev - red);
+        if(prev > 0 && (unrestLevel[sid]||0) < prev)
+          addEvent(`⚡ Hős csökkentette a lázadást (${sid}): ${prev} → ${unrestLevel[sid]||0}`, 'ev-player');
+      }
+    }
+    renderUnrestCard(); renderUnrestOverlay3D();
+  }
   botTurn();
   if(gameOver) return;
   botAttackTurn(); // i65: bot may attack player province
@@ -1586,7 +1620,93 @@ function buildingKKBonus(){
 function provDefBonus(id){
   let bonus = 0;
   for(const k of provBuildings(id)) bonus += BUILDINGS[k].defBonus;
+  bonus += heroDefBonus(id);
   return bonus;
+}
+
+// ── i78: Hero ability effects ─────────────────────────────────────────────
+// Returns flat array of {effect, hero} for owned regions with heroes
+function activeHeroEffects(){
+  const out = [];
+  for(const id of owned){
+    const prov = byId[id]; if(!prov?.nutsId) continue;
+    const heroes = HEROES[prov.nutsId]||[];
+    for(const h of heroes){
+      if(h.ability?.effect) out.push({eff: h.ability.effect, hero: h, provId: id});
+    }
+  }
+  return out;
+}
+
+function heroGoldBonus(){
+  let mult = 1;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='gold_bonus'||eff.type==='gold_kk_bonus') mult += eff.value;
+  }
+  return mult;
+}
+
+function heroKKBonus(){
+  let mult = 1;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='kk_bonus'||eff.type==='gold_kk_bonus') mult += eff.value;
+  }
+  return mult;
+}
+
+// Returns total unrest reduction points per turn (global + regional)
+function heroUnrestReduction(subjectId){
+  let total = 0;
+  for(const {eff, provId} of activeHeroEffects()){
+    if(eff.type!=='unrest_reduce') continue;
+    if(eff.scope==='global') total += eff.value;
+    else {
+      // regional: apply if the province's subject matches
+      const prov = byId[provId];
+      if(prov?.subject === subjectId) total += eff.value;
+    }
+  }
+  return total;
+}
+
+// Attack bonus: how much easier conquering gets (0..1 additive on success chance)
+function heroAttackBonus(){
+  let bonus = 0;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='attack_bonus') bonus += eff.value;
+  }
+  return bonus;
+}
+
+// Defense bonus from heroes in a given region
+function heroDefBonus(regionId){
+  let bonus = 0;
+  const prov = byId[regionId]; if(!prov?.nutsId) return 0;
+  const heroes = HEROES[prov.nutsId]||[];
+  for(const h of heroes){
+    const eff = h.ability?.effect;
+    if(eff?.type==='defense_bonus') bonus += eff.value;
+  }
+  return bonus;
+}
+
+// Madách side-effect: +1 unrest in his region
+function applyHeroSideEffects(){
+  for(const {eff, hero, provId} of activeHeroEffects()){
+    if(hero.id==='madach'){
+      const prov = byId[provId];
+      if(prov?.subject){
+        unrestLevel[prov.subject] = Math.min(10, (unrestLevel[prov.subject]||0)+1);
+      }
+    }
+  }
+}
+
+// Summarise active hero bonuses for display
+function heroEffectSummary(){
+  const effs = activeHeroEffects();
+  if(!effs.length) return '';
+  return effs.map(({eff,hero})=>`⚡ <b>${hero.name}</b>: ${eff.desc}`).join('<br>');
 }
 
 function buildAt(provId, bldKey){

@@ -379,7 +379,16 @@
    "birthLabel": "Csezmicze (Horvát)",
    "birth": 1434,
    "death": 1472,
-   "ability": { "name": "Humanista ének", "desc": "Kulturális épületek +1 szint, tudományos fejlődés +10%" }
+   "ability": {
+    "name": "Humanista ének",
+    "desc": "Kulturális épületek +1 szint, tudományos fejlődés +10%",
+    "effect": {
+     "type": "kk_bonus",
+     "value": 0.1,
+     "scope": "region",
+     "desc": "+10% KK bevétel a régióban"
+    }
+   }
   },
   {
    "id": "balassi",
@@ -389,7 +398,16 @@
    "birthLabel": "Zólyom (Felvidék)",
    "birth": 1554,
    "death": 1594,
-   "ability": { "name": "Katonaének", "desc": "Harcoló egységek védelme +20%, morál +15%" }
+   "ability": {
+    "name": "Katonaének",
+    "desc": "Harcoló egységek védelme +20%, morál +15%",
+    "effect": {
+     "type": "defense_bonus",
+     "value": 0.2,
+     "scope": "region",
+     "desc": "+20% védelmi erő"
+    }
+   }
   },
   {
    "id": "zrinyi",
@@ -399,7 +417,16 @@
    "birthLabel": "Ozalj (Horvát)",
    "birth": 1620,
    "death": 1664,
-   "ability": { "name": "Szigeti veszedelem", "desc": "Ostromlott erőd kétszer annyi ideig kitart, védelmi egységek +25%" }
+   "ability": {
+    "name": "Szigeti veszedelem",
+    "desc": "Ostromlott erőd kétszer annyi ideig kitart, védelmi egységek +25%",
+    "effect": {
+     "type": "defense_bonus",
+     "value": 0.25,
+     "scope": "region",
+     "desc": "+25% védelmi erő ostrom alatt"
+    }
+   }
   },
   {
    "id": "mikes",
@@ -409,7 +436,16 @@
    "birthLabel": "Zágon (Erdély)",
    "birth": 1690,
    "death": 1761,
-   "ability": { "name": "Törökországi levelek", "desc": "Diplomáciai hatás: szövetségesek lojalitása +20%" }
+   "ability": {
+    "name": "Törökországi levelek",
+    "desc": "Diplomáciai hatás: szövetségesek lojalitása +20%",
+    "effect": {
+     "type": "unrest_reduce",
+     "value": 2,
+     "scope": "region",
+     "desc": "Lázadás -2/kör"
+    }
+   }
   },
   {
    "id": "kazinczy",
@@ -419,7 +455,16 @@
    "birthLabel": "Érsemjén (Partium)",
    "birth": 1759,
    "death": 1831,
-   "ability": { "name": "Nyelvújítás", "desc": "Tudományos fejlődés +15% az egész birodalomban" }
+   "ability": {
+    "name": "Nyelvújítás",
+    "desc": "Tudományos fejlődés +15% az egész birodalomban",
+    "effect": {
+     "type": "kk_bonus",
+     "value": 0.15,
+     "scope": "global",
+     "desc": "+15% KK az egész birodalomban"
+    }
+   }
   },
   {
    "id": "csokonai",
@@ -429,7 +474,16 @@
    "birthLabel": "Debrecen (Magyar)",
    "birth": 1773,
    "death": 1805,
-   "ability": { "name": "Lilla-dalok", "desc": "Szomszédos régiók elégedettsége +10, dezertálás esélye csökken" }
+   "ability": {
+    "name": "Lilla-dalok",
+    "desc": "Szomszédos régiók elégedettsége +10, dezertálás esélye csökken",
+    "effect": {
+     "type": "unrest_reduce",
+     "value": 1,
+     "scope": "region",
+     "desc": "Lázadás -1/kör, szomszédoknál is"
+    }
+   }
   },
   {
    "id": "berzsenyi",
@@ -439,7 +493,16 @@
    "birthLabel": "Hétény (Felvidék)",
    "birth": 1776,
    "death": 1836,
-   "ability": { "name": "Magyarokhoz", "desc": "Magyar régiók morálja +25%, egységek nem dezertálnak" }
+   "ability": {
+    "name": "Magyarokhoz",
+    "desc": "Magyar régiók morálja +25%, egységek nem dezertálnak",
+    "effect": {
+     "type": "unrest_reduce",
+     "value": 3,
+     "scope": "region",
+     "desc": "Lázadás -3/kör"
+    }
+   }
   },
   {
    "id": "kolcsey",
@@ -449,7 +512,16 @@
    "birthLabel": "Sződemeter (Partium)",
    "birth": 1790,
    "death": 1838,
-   "ability": { "name": "Himnusz", "desc": "Nemzeti egység: lázadás esélye -50% az egész birodalomban" }
+   "ability": {
+    "name": "Himnusz",
+    "desc": "Nemzeti egység: lázadás esélye -50% az egész birodalomban",
+    "effect": {
+     "type": "unrest_reduce",
+     "value": 2,
+     "scope": "global",
+     "desc": "Lázadás -2/kör globálisan"
+    }
+   }
   },
   {
    "id": "vorosmarty",
@@ -459,7 +531,16 @@
    "birthLabel": "Pusztanyék (Magyar)",
    "birth": 1800,
    "death": 1855,
-   "ability": { "name": "Szózat", "desc": "Védelmi háborúban minden egység ereje +15%, harc végéig" }
+   "ability": {
+    "name": "Szózat",
+    "desc": "Védelmi háborúban minden egység ereje +15%, harc végéig",
+    "effect": {
+     "type": "defense_bonus",
+     "value": 0.15,
+     "scope": "region",
+     "desc": "+15% védelmi erő"
+    }
+   }
   },
   {
    "id": "petofi",
@@ -469,7 +550,16 @@
    "birthLabel": "Kiskőrös (Magyar)",
    "birth": 1823,
    "death": 1849,
-   "ability": { "name": "Talpra Magyar!", "desc": "Csatakiáltás: egység sebessége és támadása +30% egy körre (AoE)" }
+   "ability": {
+    "name": "Talpra Magyar!",
+    "desc": "Csatakiáltás: egység sebessége és támadása +30% egy körre (AoE)",
+    "effect": {
+     "type": "attack_bonus",
+     "value": 0.3,
+     "scope": "region",
+     "desc": "+30% meghódítási siker esély"
+    }
+   }
   },
   {
    "id": "arany",
@@ -479,7 +569,16 @@
    "birthLabel": "Nagyszalonta (Partium)",
    "birth": 1817,
    "death": 1882,
-   "ability": { "name": "Toldi", "desc": "A hős párbajban legyőzheti az ellenséges hőst, HP +40%" }
+   "ability": {
+    "name": "Toldi",
+    "desc": "A hős párbajban legyőzheti az ellenséges hőst, HP +40%",
+    "effect": {
+     "type": "attack_bonus",
+     "value": 0.2,
+     "scope": "region",
+     "desc": "+20% harcerő, párbaj-előny"
+    }
+   }
   },
   {
    "id": "madach",
@@ -489,7 +588,16 @@
    "birthLabel": "Alsósztregova (Felvidék)",
    "birth": 1823,
    "death": 1864,
-   "ability": { "name": "Az ember tragédiája", "desc": "Tudományos kutatás +20%, de morál -5 (az igazság terhe)" }
+   "ability": {
+    "name": "Az ember tragédiája",
+    "desc": "Tudományos kutatás +20%, de morál -5 (az igazság terhe)",
+    "effect": {
+     "type": "kk_bonus",
+     "value": 0.2,
+     "scope": "region",
+     "desc": "+20% KK, de unrest +1"
+    }
+   }
   },
   {
    "id": "jokai",
@@ -499,7 +607,16 @@
    "birthLabel": "Komárom (Magyar)",
    "birth": 1825,
    "death": 1904,
-   "ability": { "name": "Arany ember", "desc": "Kereskedelem: a régió bevétele +25%, szomszédok is +10%" }
+   "ability": {
+    "name": "Arany ember",
+    "desc": "Kereskedelem: a régió bevétele +25%, szomszédok is +10%",
+    "effect": {
+     "type": "gold_bonus",
+     "value": 0.25,
+     "scope": "region",
+     "desc": "+25% arany bevétel"
+    }
+   }
   },
   {
    "id": "mikszath",
@@ -509,7 +626,16 @@
    "birthLabel": "Szklabonya (Felvidék)",
    "birth": 1847,
    "death": 1910,
-   "ability": { "name": "Különös házasság", "desc": "Politikai manőver: egy semleges régió harchadjárat nélkül szerezhető meg" }
+   "ability": {
+    "name": "Különös házasság",
+    "desc": "Politikai manőver: egy semleges régió harchadjárat nélkül szerezhető meg",
+    "effect": {
+     "type": "gold_bonus",
+     "value": 0.2,
+     "scope": "region",
+     "desc": "+20% arany bevétel"
+    }
+   }
   },
   {
    "id": "ady",
@@ -519,7 +645,16 @@
    "birthLabel": "Érmindszent → Párizs (Modernista)",
    "birth": 1877,
    "death": 1919,
-   "ability": { "name": "Vér és arany", "desc": "Gazdaság +20% és kultúra +20% — a Nyugat szelleme hat vissza" }
+   "ability": {
+    "name": "Vér és arany",
+    "desc": "Gazdaság +20% és kultúra +20% — a Nyugat szelleme hat vissza",
+    "effect": {
+     "type": "gold_kk_bonus",
+     "value": 0.2,
+     "scope": "region",
+     "desc": "+20% arany és KK"
+    }
+   }
   },
   {
    "id": "babits",
@@ -529,7 +664,16 @@
    "birthLabel": "Szekszárd (Magyar)",
    "birth": 1883,
    "death": 1941,
-   "ability": { "name": "Jónás könyve", "desc": "Sebesült egységek gyógyulása 2× gyorsabb, katonai veszteség -15%" }
+   "ability": {
+    "name": "Jónás könyve",
+    "desc": "Sebesült egységek gyógyulása 2× gyorsabb, katonai veszteség -15%",
+    "effect": {
+     "type": "unrest_reduce",
+     "value": 2,
+     "scope": "region",
+     "desc": "Lázadás -2/kör, veszteség -15%"
+    }
+   }
   },
   {
    "id": "kosztolanyi",
@@ -539,7 +683,16 @@
    "birthLabel": "Szabadka (Vajdaság)",
    "birth": 1885,
    "death": 1936,
-   "ability": { "name": "Édes Anna", "desc": "Kémszolgálat aktív: ellenséges hadmozgások előre jelezve" }
+   "ability": {
+    "name": "Édes Anna",
+    "desc": "Kémszolgálat aktív: ellenséges hadmozgások előre jelezve",
+    "effect": {
+     "type": "defense_bonus",
+     "value": 0.15,
+     "scope": "region",
+     "desc": "+15% védelmi erő (kémszolgálat)"
+    }
+   }
   },
   {
    "id": "moricz",
@@ -549,7 +702,16 @@
    "birthLabel": "Tiszacsécse (Magyar)",
    "birth": 1879,
    "death": 1942,
-   "ability": { "name": "Légy jó mindhalálig", "desc": "Paraszti régiók termelése +30%, népi egységek toborzása ingyenes" }
+   "ability": {
+    "name": "Légy jó mindhalálig",
+    "desc": "Paraszti régiók termelése +30%, népi egységek toborzása ingyenes",
+    "effect": {
+     "type": "gold_bonus",
+     "value": 0.3,
+     "scope": "region",
+     "desc": "+30% arany bevétel"
+    }
+   }
   },
   {
    "id": "jozsef_attila",
@@ -559,7 +721,16 @@
    "birthLabel": "Budapest (Magyar)",
    "birth": 1905,
    "death": 1937,
-   "ability": { "name": "Óda", "desc": "Ipari városok termelése +20%, munkásegységek morálja +25%" }
+   "ability": {
+    "name": "Óda",
+    "desc": "Ipari városok termelése +20%, munkásegységek morálja +25%",
+    "effect": {
+     "type": "gold_bonus",
+     "value": 0.2,
+     "scope": "region",
+     "desc": "+20% arany (ipari bonus)"
+    }
+   }
   },
   {
    "id": "radnoti",
@@ -569,7 +740,16 @@
    "birthLabel": "Budapest (Magyar)",
    "birth": 1909,
    "death": 1944,
-   "ability": { "name": "Erőltetett menet", "desc": "Sereg napi menetteljesítménye +50%, lehetetlen körülmények közt is halad" }
+   "ability": {
+    "name": "Erőltetett menet",
+    "desc": "Sereg napi menetteljesítménye +50%, lehetetlen körülmények közt is halad",
+    "effect": {
+     "type": "attack_bonus",
+     "value": 0.15,
+     "scope": "global",
+     "desc": "+15% meghódítási siker globálisan"
+    }
+   }
   }
  ]
 }
