@@ -115,6 +115,91 @@
   #event-log .ev-info{ color:var(--muted); }
   .peak-icon{ fill:#aab4bf; stroke:#2c333c; stroke-width:.5; }
   .peak-icon.snow{ fill:#eef2f6; }
+
+  /* ── Mentés / betöltés ───────────────────────────────────────────────── */
+  #save-card .save-row{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
+  #save-card button{ flex:1; min-width:70px; padding:5px 8px; border-radius:6px; cursor:pointer;
+    font-size:12px; font-weight:600; border:1px solid #3a4555; background:#1e2530; color:#c8d0db; }
+  #save-card button:hover{ background:#2a3345; }
+  #save-card #btn-save-now{ background:#1e3a2a; color:#7ddf7d; border-color:#2e6040; }
+  #save-card #btn-save-now:hover{ background:#2a4a38; }
+  #save-card #save-status{ font-size:11px; color:var(--muted); min-height:14px; }
+  #save-card #save-slots{ display:flex; flex-direction:column; gap:4px; margin-top:4px; }
+  #save-card .slot-row{ display:flex; align-items:center; gap:6px; font-size:12px;
+    padding:3px 0; border-bottom:1px solid #2a3040; }
+  #save-card .slot-row:last-child{ border:none; }
+  #save-card .slot-label{ flex:1; color:#b0bac8; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #save-card .slot-label .slot-meta{ font-size:10px; color:var(--muted); display:block; }
+  #save-card .slot-load{ background:#1a2a40; border-color:#2a4060; color:#6aacee; }
+  #save-card .slot-del{ background:#3a1a1a; border-color:#602020; color:#ee6a6a; min-width:28px; flex:none; }
+
+  /* ── Reszponzív layout ───────────────────────────────────────────────── */
+  /* Tablet: 641–1024px */
+  @media (max-width: 1024px) {
+    .side{ flex: 0 0 200px; }
+    #mapbox{ height: 480px; }
+    header{ padding: 8px 12px; font-size: 13px; }
+    #turn-bar{ gap: 6px; }
+    .card{ padding: 10px 12px; }
+  }
+
+  /* Mobile: ≤640px */
+  @media (max-width: 640px) {
+    html, body{ height: auto; }
+    header{ display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+            padding: 8px 12px; font-size: 12px; }
+    header > *{ flex-shrink: 0; }
+    #hero-flag{ display: none; }
+
+    #wrap{ flex-direction: column; padding: 8px; gap: 8px; }
+    #mapbox{ flex: none; width: 100%; height: 55vw; min-height: 220px; max-height: 380px;
+             border-radius: 6px; }
+    #mapbox canvas{ border-radius: 6px; }
+    #cam-hint{ font-size: 10px; }
+    #ctrl-bar button{ font-size: 11px; padding: 3px 7px; }
+
+    .side{ flex: none; width: 100%; display: grid;
+           grid-template-columns: 1fr 1fr; gap: 8px; }
+    .side .card{ margin-bottom: 0; }
+    /* Eseménynapló, Provincia, Ellenfelek, Körrendszer — teljes szélességű */
+    #turn-card, #event-card, #info-card, #bots-card{ grid-column: 1 / -1; }
+    #subj-card{ grid-column: 1 / -1; }
+
+    .card{ padding: 9px 11px; }
+    .card h3{ font-size: 11px; margin-bottom: 6px; }
+    #event-log{ max-height: 80px; }
+    #turn-bar{ gap: 5px; flex-wrap: wrap; font-size: 12px; }
+    #turn-bar .res{ font-size: 12px; }
+    #btn-end-turn{ padding: 4px 10px; font-size: 12px; }
+
+    /* Kvíz modal — mobil */
+    #q-box{ padding: 18px 16px; max-width: 95vw; }
+    #q-choices button{ font-size: 13px; padding: 10px 12px; }
+
+    /* Wiki modal — mobil */
+    #wiki-box{ max-width: 100vw; width: 100%; max-height: 92vh; border-radius: 0; }
+    #wiki-header{ padding: 12px 16px 10px; }
+    #wiki-body{ flex-direction: column; }
+    #wiki-nav{ width: 100%; max-height: 140px; overflow-y: auto;
+               border-right: none; border-bottom: 1px solid #2e343d;
+               display: flex; flex-wrap: wrap; gap: 4px; padding: 8px; }
+    #wiki-nav li{ display: inline-block; }
+    #wiki-content{ padding: 12px 14px; }
+
+    /* Kampány modal */
+    #camp-box{ padding: 18px 14px; max-width: 96vw; }
+
+    /* Diplomácia modal */
+    #diplo-box{ padding: 18px 16px; max-width: 95vw; }
+  }
+
+  /* Nagyon kis képernyő: ≤380px */
+  @media (max-width: 380px) {
+    .side{ grid-template-columns: 1fr; }
+    #mapbox{ height: 52vw; }
+    header b{ font-size: 11px; }
+  }
+
   /* Question modal */
   #q-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:200;
     display:flex; align-items:center; justify-content:center; }
@@ -331,7 +416,7 @@
     <div id="cam-hint">Forgatás: jobb gomb · Zoom: görgő · Mozgatás: középső gomb</div>
   </div>
   <div class="side">
-    <div class="card">
+    <div class="card" id="turn-card">
       <h3>Körrendszer</h3>
       <div id="turn-bar">
         <span class="res">Kör: <b id="turn-num">1</b></span>
@@ -345,11 +430,11 @@
         <span id="xp-streak"></span>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="event-card">
       <h3>Eseménynapló</h3>
       <div id="event-log"><div class="ev-info">A játék elkezdődött.</div></div>
     </div>
-    <div class="card" id="info">
+    <div class="card" id="info-card">
       <h3>Provincia</h3>
       <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
     </div>
@@ -364,6 +449,17 @@
     <div class="card" id="bots-card">
       <h3>Ellenfelek</h3>
       <div id="bots-body"></div>
+    </div>
+    <div class="card" id="save-card">
+      <h3>Mentés / Betöltés</h3>
+      <div class="save-row">
+        <button id="btn-save-now">💾 Mentés</button>
+        <button id="btn-export-json">⬇ Export JSON</button>
+        <button id="btn-import-json">⬆ Import JSON</button>
+      </div>
+      <div id="save-status"></div>
+      <div id="save-slots"></div>
+      <input type="file" id="import-file-input" accept=".json" style="display:none">
     </div>
     <div class="card">
       <h3>Terület-tulajdon (szimuláció)</h3>
@@ -430,7 +526,31 @@ const SUBJ_MAP = {
   INFORMATIKA:'informatika', IDEGEN_NYELV:'idegen'
 };
 
-fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=d; }).catch(()=>{});
+/**
+ * Normalise a qbank payload to a plain question array regardless of schema version.
+ * v1 envelope: { schema_version:1, questions:[...] }
+ * legacy (no envelope): plain array
+ */
+function normaliseQbank(raw){
+  if(Array.isArray(raw)) return raw;            // legacy flat array
+  if(raw && Array.isArray(raw.questions)) return raw.questions; // v1+
+  console.warn('qbank.json: unrecognised format', raw?.schema_version);
+  return [];
+}
+
+/**
+ * Normalise a wiki payload to a plain subject map regardless of schema version.
+ * v1 envelope: { schema_version:1, subjects:{...} }
+ * legacy (no envelope): plain subject map
+ */
+function normaliseWiki(raw){
+  if(raw && typeof raw.subjects === 'object') return raw.subjects; // v1+
+  if(raw && typeof raw === 'object' && !Array.isArray(raw)) return raw; // legacy map
+  console.warn('wiki.json: unrecognised format', raw?.schema_version);
+  return {};
+}
+
+fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=normaliseQbank(d); }).catch(()=>{});
 
 function pickQuestion(subjectId){
   const key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
@@ -781,6 +901,9 @@ controls.dampingFactor = 0.07;
 controls.minDistance = 8;
 controls.maxDistance = 280;
 controls.maxPolarAngle = Math.PI * 0.48; // max ~86° from Z-up = nearly horizontal
+// Mobile touch: 1-finger pan, 2-finger pinch-zoom + pan
+controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_PAN };
+controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
 
 // Lights — permanent, not cleared between packs
 const ambLight = new THREE.AmbientLight(0xffffff, 0.55);
@@ -1012,14 +1135,102 @@ function makePin(headColor, headR, needleH){
   return group;
 }
 
+// ── Castle marker (főváros jelölő) ────────────────────────────────────────
+function makeCastle(){
+  const g = new THREE.Group();
+  const mark = c=>{ c.userData.isMarker=true; return c; };
+
+  const stoneMat  = new THREE.MeshStandardMaterial({color:0xd4c89a,roughness:0.75,metalness:0.05});
+  const darkMat   = new THREE.MeshStandardMaterial({color:0x8a7a50,roughness:0.9,metalness:0.0});
+  const roofMat   = new THREE.MeshStandardMaterial({color:0xb83030,roughness:0.5,metalness:0.1});
+  const goldMat   = new THREE.MeshStandardMaterial({color:0xffd700,roughness:0.3,metalness:0.6,emissive:0xffa500,emissiveIntensity:0.25});
+
+  // ── Alap (courtyard fal) — lapos gyűrű ─────────────────────────
+  const wallGeo = new THREE.CylinderGeometry(1.25,1.35,0.25,16,1,true);
+  wallGeo.rotateX(Math.PI/2);
+  wallGeo.translate(0,0,0.125);
+  g.add(mark(new THREE.Mesh(wallGeo, stoneMat)));
+
+  // Udvar alja
+  const yardGeo = new THREE.CylinderGeometry(1.25,1.25,0.12,16);
+  yardGeo.rotateX(Math.PI/2);
+  g.add(mark(new THREE.Mesh(yardGeo, darkMat)));
+
+  // ── 4 saroktorony ─────────────────────────────────────────────
+  const towerPositions = [[0.8,0.8],[-0.8,0.8],[0.8,-0.8],[-0.8,-0.8]];
+  for(const [tx,ty] of towerPositions){
+    // toronytest
+    const bodyGeo = new THREE.CylinderGeometry(0.28,0.32,1.4,8);
+    bodyGeo.rotateX(Math.PI/2);
+    const body = new THREE.Mesh(bodyGeo, stoneMat);
+    body.position.set(tx,ty,0.7);
+    mark(body); g.add(body);
+
+    // pártázat (merlon) — lapos korona a torony tetején
+    for(let m=0;m<6;m++){
+      const a=m/6*Math.PI*2;
+      const mGeo = new THREE.BoxGeometry(0.12,0.12,0.22);
+      const mM = new THREE.Mesh(mGeo, stoneMat);
+      mM.position.set(tx+Math.cos(a)*0.22, ty+Math.sin(a)*0.22, 1.5);
+      mark(mM); g.add(mM);
+    }
+
+    // kúptető
+    const coneGeo = new THREE.ConeGeometry(0.32,0.6,8);
+    coneGeo.rotateX(Math.PI/2);
+    const cone = new THREE.Mesh(coneGeo, roofMat);
+    cone.position.set(tx,ty,1.7);
+    mark(cone); g.add(cone);
+  }
+
+  // ── Középső főtorony (keep / donjon) ──────────────────────────
+  const keepGeo = new THREE.BoxGeometry(0.72,0.72,2.0);
+  keepGeo.translate(0,0,1.0);
+  g.add(mark(new THREE.Mesh(keepGeo, stoneMat)));
+
+  // Főtorony pártázat (4 sarok)
+  for(const [kx,ky] of [[0.3,0.3],[-0.3,0.3],[0.3,-0.3],[-0.3,-0.3]]){
+    const mGeo = new THREE.BoxGeometry(0.16,0.16,0.28);
+    const mM = new THREE.Mesh(mGeo, stoneMat);
+    mM.position.set(kx,ky,2.14);
+    mark(mM); g.add(mM);
+  }
+
+  // Főtorony tető
+  const keepRoofGeo = new THREE.ConeGeometry(0.52,0.85,4);
+  keepRoofGeo.rotateX(Math.PI/2);
+  keepRoofGeo.rotateZ(Math.PI/4);
+  const keepRoof = new THREE.Mesh(keepRoofGeo, roofMat);
+  keepRoof.position.set(0,0,2.43);
+  mark(keepRoof); g.add(keepRoof);
+
+  // ── Arany zászló a tetőn ──────────────────────────────────────
+  const poleGeo = new THREE.CylinderGeometry(0.03,0.03,0.7,4);
+  poleGeo.rotateX(Math.PI/2);
+  const pole = new THREE.Mesh(poleGeo, goldMat);
+  pole.position.set(0,0,3.22);
+  mark(pole); g.add(pole);
+
+  const flagGeo = new THREE.PlaneGeometry(0.35,0.22);
+  flagGeo.translate(0.18,0,0);
+  const flagMat = new THREE.MeshStandardMaterial({color:0xff3030,side:THREE.DoubleSide,roughness:0.6});
+  const flag = new THREE.Mesh(flagGeo, flagMat);
+  flag.position.set(0,0,3.47);
+  mark(flag); g.add(flag);
+
+  g.userData.isMarker=true;
+  return g;
+}
+
 function addCapitals3D(){
   if(!DATA) return;
   for(const p of DATA.provinces.filter(x=>x.capital)){
     const w=toWorld(p.cx,p.cy);
-    const pin = makePin(0xff2222, 0.55, 2.4);
-    pin.position.set(w.x, w.y, SLAB_H);
-    pin.userData.isMarker=true;
-    markerGroup.add(pin);
+    const castle = makeCastle();
+    castle.position.set(w.x, w.y, SLAB_H);
+    const s=0.55; castle.scale.set(s,s,s);
+    castle.userData.isMarker=true;
+    markerGroup.add(castle);
   }
 }
 
@@ -1402,6 +1613,44 @@ canvas.addEventListener('mouseup', e=>{
     const p=byId[id]; if(p) showInfo(p);
   }
 });
+
+// ── Touch support (mobile/tablet) ─────────────────────────────────────────
+let _touchStart = null;
+canvas.addEventListener('touchstart', e=>{
+  // Record single-finger start for tap detection; OrbitControls handles the rest.
+  _touchStart = e.touches.length===1
+    ? {x:e.touches[0].clientX, y:e.touches[0].clientY}
+    : null;
+  e.preventDefault();
+},{passive:false});
+
+canvas.addEventListener('touchend', e=>{
+  if(_touchStart && e.changedTouches.length===1){
+    const t=e.changedTouches[0];
+    const dx=t.clientX-_touchStart.x, dy=t.clientY-_touchStart.y;
+    if(Math.hypot(dx,dy)<8){
+      // Tap → treat as click
+      const rect=canvas.getBoundingClientRect();
+      mouse2.set(
+        ((t.clientX-rect.left)/rect.width)*2-1,
+        -((t.clientY-rect.top)/rect.height)*2+1);
+      raycaster.setFromCamera(mouse2,camera);
+      const hits=raycaster.intersectObjects([...meshById.values()]);
+      if(hits.length){
+        const id=hits[0].object.userData.provinceId;
+        setSelect(id);
+        const p=byId[id]; if(p) showInfo(p);
+      }
+    }
+  }
+  _touchStart=null;
+},{passive:false});
+
+canvas.addEventListener('touchmove', e=>{
+  // OrbitControls handles pan (1 finger) and pinch-zoom (2 finger).
+  // We only call preventDefault to stop the page from scrolling/zooming.
+  e.preventDefault();
+},{passive:false});
 
 // ── animate ───────────────────────────────────────────────────────────────
 
@@ -2121,7 +2370,7 @@ let _wikiCurrentSubject = null;
 let _wikiCurrentQuestion = null; // { subject, prompt } set when opened from q-modal
 
 fetch('wiki.json').then(r=>r.json()).then(d=>{
-  WIKI_DATA = d;
+  WIKI_DATA = normaliseWiki(d);
   buildWikiNav();
 }).catch(()=>{});
 
@@ -2358,7 +2607,7 @@ function openWiki(subjectKey, scrollHeading){
   if(!WIKI_DATA){
     // wiki.json still loading — show spinner then retry
     document.getElementById('wiki-subject-view').innerHTML = '<p style="color:#556;padding:20px">Betöltés…</p>';
-    fetch('wiki.json').then(r=>r.json()).then(d=>{ WIKI_DATA=d; buildWikiNav(); openWiki(subjectKey,scrollHeading); });
+    fetch('wiki.json').then(r=>r.json()).then(d=>{ WIKI_DATA=normaliseWiki(d); buildWikiNav(); openWiki(subjectKey,scrollHeading); });
     return;
   }
   buildWikiNav();
@@ -2486,6 +2735,213 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('btn-wiki').addEventListener('click',()=>openWiki());
   document.getElementById('wiki-search').addEventListener('input', e=>wikiSearch(e.target.value));
 });
+
+// ── Mentés / Betöltés rendszer ────────────────────────────────────────────
+const SAVE_KEY_PREFIX = 'tudas_save_';
+const SAVE_MAX = 5;
+const SAVE_CURRENT_VERSION = 2;
+
+/**
+ * Migrate an older save payload forward to SAVE_CURRENT_VERSION.
+ * Each branch upgrades by exactly one version so the chain is additive.
+ * Returns the migrated object (mutates in place and returns it).
+ */
+function migrateSave(s){
+  // v1: no bots array, no unrest fields — add defaults
+  if(s.v === 1){
+    s.bots      = s.bots      ?? [];
+    s.unrestWrong = s.unrestWrong ?? {};
+    s.unrestLevel = s.unrestLevel ?? {};
+    s.xp        = s.xp        ?? 0;
+    s.streak    = s.streak    ?? 0;
+    s.v = 2;
+  }
+  // future: add more branches here as v increments
+  return s;
+}
+
+function buildSavePayload(){
+  return {
+    v: SAVE_CURRENT_VERSION,
+    ts: Date.now(),
+    packId: (()=>{
+      const sel = document.getElementById('pack-select');
+      return sel ? sel.value : 'fantasy';
+    })(),
+    turn: turnNumber,
+    gold, kk, xp, streak,
+    owned: [...owned],
+    bots: BOTS.map(b=>({
+      id: b.id, personaKey: b.personaKey,
+      gold: b.gold, kk: b.kk,
+      owned: [...b.owned],
+      paceTurns: b.paceTurns,
+    })),
+    unrestWrong: Object.fromEntries(Object.entries(unrestWrong)),
+    unrestLevel: Object.fromEntries(Object.entries(unrestLevel)),
+  };
+}
+
+function applySavePayload(s){
+  if(!s || typeof s.v !== 'number') throw new Error('Érvénytelen mentési formátum (hiányzó v)');
+  if(s.v < SAVE_CURRENT_VERSION) s = migrateSave(s);
+  if(s.v > SAVE_CURRENT_VERSION) throw new Error(`Újabb játékverzió mentése (v${s.v}) — frissítsd a játékot`);
+  turnNumber = s.turn ?? 1;
+  gold = s.gold ?? 0;
+  kk = s.kk ?? 0;
+  xp = s.xp ?? 0;
+  streak = s.streak ?? 0;
+  owned.clear();
+  (s.owned || []).forEach(id => owned.add(id));
+  // restore bots
+  if(s.bots && BOTS.length){
+    for(const sb of s.bots){
+      const b = BOTS.find(x=>x.id===sb.id);
+      if(!b) continue;
+      b.gold = sb.gold; b.kk = sb.kk; b.paceTurns = sb.paceTurns ?? 0;
+      b.owned.clear(); (sb.owned||[]).forEach(id=>b.owned.add(id));
+    }
+    syncBotOwned();
+  }
+  unrestWrong = Object.assign({}, s.unrestWrong || {});
+  unrestLevel = Object.assign({}, s.unrestLevel || {});
+  // refresh UI
+  renderOwnershipOverlay3D();
+  renderUnrestOverlay3D();
+  renderTurnBar();
+  renderBotsCard();
+  renderOwnedCard();
+}
+
+function listSaves(){
+  const saves = [];
+  for(let i=0;i<SAVE_MAX;i++){
+    const raw = localStorage.getItem(SAVE_KEY_PREFIX+i);
+    if(!raw) continue;
+    try{ saves.push({slot:i, data:JSON.parse(raw)}); } catch(e){}
+  }
+  return saves.sort((a,b)=>b.data.ts-a.data.ts);
+}
+
+function nextFreeSlot(){
+  for(let i=0;i<SAVE_MAX;i++){
+    if(!localStorage.getItem(SAVE_KEY_PREFIX+i)) return i;
+  }
+  // overwrite oldest
+  const saves = listSaves();
+  return saves[saves.length-1].slot;
+}
+
+function setSaveStatus(msg, err=false){
+  const el = document.getElementById('save-status');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.color = err ? '#ee6a6a' : '#7ddf7d';
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>{ el.textContent=''; }, 3500);
+}
+
+function renderSaveSlots(){
+  const container = document.getElementById('save-slots');
+  if(!container) return;
+  const saves = listSaves();
+  if(!saves.length){ container.innerHTML='<span style="color:var(--muted);font-size:11px">Nincs mentett állás</span>'; return; }
+  container.innerHTML = saves.map(({slot,data})=>{
+    const d = new Date(data.ts);
+    const timeStr = d.toLocaleDateString('hu-HU')+' '+d.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'});
+    const packLabel = data.packId || '?';
+    return `<div class="slot-row">
+      <span class="slot-label">${packLabel} · Kör ${data.turn} · ★${data.gold}Au
+        <span class="slot-meta">${timeStr}</span>
+      </span>
+      <button class="slot-load" data-slot="${slot}">Betölt</button>
+      <button class="slot-del" data-slot="${slot}">✕</button>
+    </div>`;
+  }).join('');
+  container.querySelectorAll('.slot-load').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const raw = localStorage.getItem(SAVE_KEY_PREFIX+btn.dataset.slot);
+      if(!raw) return setSaveStatus('Slot üresen!', true);
+      try{
+        const s = JSON.parse(raw);
+        // if different pack, need to load pack first then restore
+        const sel = document.getElementById('pack-select');
+        const currentPack = sel ? sel.value : null;
+        if(sel && s.packId && s.packId !== currentPack){
+          sel.value = s.packId;
+          sel.dispatchEvent(new Event('change'));
+          // wait for pack load then apply
+          const _pending = s;
+          const _check = setInterval(()=>{
+            if(DATA){ clearInterval(_check); applySavePayload(_pending); setSaveStatus('Betöltve!'); renderSaveSlots(); }
+          }, 150);
+        } else {
+          applySavePayload(s); setSaveStatus('Betöltve!'); renderSaveSlots();
+        }
+      } catch(e){ setSaveStatus('Hiba a betöltésnél: '+e.message, true); }
+    });
+  });
+  container.querySelectorAll('.slot-del').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      localStorage.removeItem(SAVE_KEY_PREFIX+btn.dataset.slot);
+      setSaveStatus('Törölve.'); renderSaveSlots();
+    });
+  });
+}
+
+function saveNow(){
+  if(!DATA){ setSaveStatus('Nincs betöltött térkép!', true); return; }
+  const slot = nextFreeSlot();
+  localStorage.setItem(SAVE_KEY_PREFIX+slot, JSON.stringify(buildSavePayload()));
+  setSaveStatus('Mentve! (slot '+slot+')'); renderSaveSlots();
+}
+
+function exportJson(){
+  if(!DATA){ setSaveStatus('Nincs betöltött térkép!', true); return; }
+  const blob = new Blob([JSON.stringify(buildSavePayload(),null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tudas_mentes_'+Date.now()+'.json';
+  a.click(); URL.revokeObjectURL(a.href);
+  setSaveStatus('JSON exportálva.');
+}
+
+function importJson(file){
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      const s = JSON.parse(e.target.result);
+      if(!s || s.v !== 2) throw new Error('Hibás formátum (v≠2)');
+      const slot = nextFreeSlot();
+      localStorage.setItem(SAVE_KEY_PREFIX+slot, JSON.stringify(s));
+      // apply immediately if pack matches, otherwise switch pack first
+      const sel = document.getElementById('pack-select');
+      if(sel && s.packId && sel.value !== s.packId){
+        sel.value = s.packId;
+        sel.dispatchEvent(new Event('change'));
+        const _check = setInterval(()=>{
+          if(DATA){ clearInterval(_check); applySavePayload(s); setSaveStatus('Importálva és betöltve!'); renderSaveSlots(); }
+        }, 150);
+      } else {
+        applySavePayload(s); setSaveStatus('Importálva és betöltve!'); renderSaveSlots();
+      }
+    } catch(err){ setSaveStatus('Import hiba: '+err.message, true); }
+  };
+  reader.readAsText(file);
+}
+
+document.getElementById('btn-save-now').addEventListener('click', saveNow);
+document.getElementById('btn-export-json').addEventListener('click', exportJson);
+document.getElementById('btn-import-json').addEventListener('click',()=>{
+  document.getElementById('import-file-input').click();
+});
+document.getElementById('import-file-input').addEventListener('change', e=>{
+  if(e.target.files[0]) importJson(e.target.files[0]);
+  e.target.value='';
+});
+
+// Render slot list on page load and expose for external refresh
+renderSaveSlots();
 </script>
 <!-- i79: Diplomacy modal -->
 <div id="diplo-overlay" class="hidden">

@@ -7,3 +7,5 @@ coverage/
 # Python bytecode cache (Blender bpy scripts)
 __pycache__/
 *.pyc
+test-results
+playwright-report
