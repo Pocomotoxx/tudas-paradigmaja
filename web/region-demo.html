@@ -387,6 +387,46 @@
   #ctrl-bar button:hover{ color:#fff; border-color:#6a7280; }
   #cam-hint{ position:absolute; bottom:10px; left:12px; color:var(--muted); font-size:11px;
     pointer-events:none; opacity:.7; }
+
+  /* ── Tutorial tooltip system ─────────────────────────────────────── */
+  [data-tip]{ position:relative; }
+  [data-tip]::after{
+    content: attr(data-tip);
+    position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%);
+    background:#1e2736; color:#e0e8f0; border:1px solid #3a4a5c;
+    border-radius:6px; padding:6px 10px; font-size:11px; line-height:1.4;
+    white-space:pre-wrap; max-width:220px; width:max-content;
+    pointer-events:none; opacity:0; transition:opacity .15s;
+    z-index:9999; text-align:center; box-shadow:0 4px 16px #0005;
+  }
+  [data-tip]:hover::after, [data-tip].tip-open::after{ opacity:1; }
+
+  /* ── Tutorial wizard overlay ─────────────────────────────────────── */
+  #tutorial-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:10000;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #tutorial-box{
+    background:#1a2232; border:1px solid #3a5070; border-radius:12px;
+    padding:24px 28px; max-width:400px; width:90%; color:#e0e8f0;
+    box-shadow:0 8px 40px #000a; position:relative;
+  }
+  #tutorial-box h2{ margin:0 0 8px; font-size:18px; color:#7ec8e3; }
+  #tutorial-box p{ margin:0 0 16px; font-size:14px; line-height:1.6; color:#b8c8d8; }
+  #tutorial-step{ font-size:11px; color:#6a7a8a; margin-bottom:10px; }
+  #tutorial-btns{ display:flex; gap:8px; justify-content:flex-end; }
+  #tutorial-btns button{
+    padding:7px 16px; border-radius:6px; border:none; cursor:pointer; font-size:13px;
+  }
+  #btn-tut-next{ background:#2a6060; color:#7ee8e8; }
+  #btn-tut-next:hover{ background:#3a8080; }
+  #btn-tut-skip{ background:#2a2e38; color:#7a8898; }
+  #btn-tut-skip:hover{ background:#3a404e; }
+  #tutorial-spotlight{
+    position:fixed; pointer-events:none; border:3px solid #7ec8e3;
+    border-radius:8px; box-shadow:0 0 0 9999px rgba(0,0,0,.55);
+    transition: all .25s; z-index:9999;
+  }
 </style>
 </head>
 <body>
@@ -422,7 +462,7 @@
         <span class="res">Kör: <b id="turn-num">1</b></span>
         <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
         <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
-        <button id="btn-end-turn">Kör vége ▶</button>
+        <button id="btn-end-turn" data-tip="Kör vége: bevétel, botok lépése, majd a te köröd jön">Kör vége ▶</button>
       </div>
       <div id="xp-bar">
         <b id="xp-label">XP: 0</b>
@@ -453,9 +493,12 @@
     <div class="card" id="save-card">
       <h3>Mentés / Betöltés</h3>
       <div class="save-row">
-        <button id="btn-save-now">💾 Mentés</button>
-        <button id="btn-export-json">⬇ Export JSON</button>
-        <button id="btn-import-json">⬆ Import JSON</button>
+        <button id="btn-save-now" data-tip="Játékállás mentése az aktuális slotba">💾 Mentés</button>
+        <button id="btn-export-json" data-tip="Teljes mentés letöltése JSON fájlként">⬇ Export JSON</button>
+        <button id="btn-import-json" data-tip="Korábban exportált JSON mentés betöltése">⬆ Import JSON</button>
+      </div>
+      <div class="save-row">
+        <button id="btn-export-csv" title="Válasznapló letöltése CSV-ként (osztálytermi mód)">📋 Válasznapló CSV</button>
       </div>
       <div id="save-status"></div>
       <div id="save-slots"></div>
@@ -566,7 +609,8 @@ function provinceChoiceCount(prov){
   const base = DIFFICULTIES[currentDifficulty].choiceCount;
   const b = prov.b ?? 0; // IRT difficulty, typically -3..+3
   const delta = b > 1 ? 2 : b > 0 ? 1 : b < -1 ? -1 : 0;
-  return Math.min(7, Math.max(2, base + delta));
+  const boost = heroSpeedBoost(); // speed_boost heroes reduce choices (easier)
+  return Math.min(7, Math.max(2, base + delta - boost));
 }
 
 function provinceTimeLimit(prov){
@@ -630,6 +674,8 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
     choicesEl.querySelectorAll('.q-choice').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const correct = btn.textContent === q.correct;
+        // Log answer for classroom mode
+        answerLog.push({ts: Date.now(), subjectId: prov.subject, prompt: q.prompt, correct, turn: turnNumber});
         // Disable all buttons
         choicesEl.querySelectorAll('.q-choice').forEach(b=>{
           b.disabled = true;
@@ -645,7 +691,18 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
             const earned = XP_PER_CORRECT + (streak > 1 ? XP_STREAK_BONUS * (streak - 1) : 0);
             addXP(earned);
             const streakMsg = streak > 1 ? ` 🔥 Sorozat ×${streak} (+${earned} XP)` : ` (+${earned} XP)`;
-            addEvent('&#10003; Helyes válasz!' + streakMsg, 'ev-player');
+            // Activate subject income bonus for next turn
+            const subjKey = SUBJ_MAP[prov.subject] || prov.subject?.toLowerCase();
+            let bonusMsg = '';
+            if(subjKey && SUBJECT_BONUS[subjKey]){
+              subjectBonusActive[subjKey] = turnNumber + 1;
+              const bd = SUBJECT_BONUS[subjKey];
+              const parts = [];
+              if(bd.gold) parts.push(`×${bd.gold} ⭐`);
+              if(bd.kk)   parts.push(`×${bd.kk} 📖`);
+              bonusMsg = ` <span style="color:#7dccc8;font-size:11px">[+tantárgy bónusz: ${parts.join(' ')}]</span>`;
+            }
+            addEvent('&#10003; Helyes válasz!' + streakMsg + bonusMsg, 'ev-player');
             onSuccess && onSuccess();
           } else {
             sfx('wrong');
@@ -692,6 +749,26 @@ let kk = 0;
 const INCOME = { gold: 8, kk: 3 };
 // Bot income multiplier
 const BOT_INCOME = { gold: 6, kk: 2 };
+
+// Per-subject income bonus: correct answer in subject → that province yields bonus next turn
+// subject id (lowercase) → { gold?: multiplier, kk?: multiplier }
+const SUBJECT_BONUS = {
+  matematika:   { gold: 1.4 },          // Matematika → arany-termelékenység
+  magyar:       { kk: 1.4 },            // Magyar irodalom → KK-növekedés
+  tortenelem:   { gold: 1.2, kk: 1.2 }, // Történelem → mindkettő
+  fizika:       { gold: 1.3 },          // Fizika → ipari bónusz
+  biologia:     { kk: 1.3 },            // Biológia → KK (tudás)
+  kemia:        { gold: 1.2 },          // Kémia → arany
+  foldrajz:     { gold: 1.15, kk: 1.15 },
+  informatika:  { gold: 1.3 },
+  idegen:       { kk: 1.35 },           // Idegen nyelv → diplomáciai KK
+};
+// Active subject bonuses: subject id → expiry turn (lasts 1 turn after earning)
+let subjectBonusActive = {}; // { [subjectId]: expiryTurn }
+// Hero duration tracking: hero.id → remaining turns (for duration-limited effects)
+let heroEffectDuration = {}; // { [heroId]: turnsRemaining }
+// Classroom mode answer log
+let answerLog = []; // [{ts, subjectId, prompt, correct, turn}]
 
 // ── i79: Multi-bot system ─────────────────────────────────────────────────
 // Persona definitions: scoring weights, quiz success rate, diplomacy style
@@ -1996,21 +2073,47 @@ function playerIncome(){
   const prev = { gold, kk };
   const gMult = heroGoldBonus();
   const kMult = heroKKBonus();
-  const baseGold = owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
-  const baseKK   = owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
+  let baseGold = owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
+  let baseKK   = owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
+
+  // Subject bonuses: owned provinces in an active-bonus subject earn extra
+  const subjBonusMsgs = [];
+  for(const [sid, expiry] of Object.entries(subjectBonusActive)){
+    if(expiry < turnNumber){ delete subjectBonusActive[sid]; continue; }
+    const bonusDef = SUBJECT_BONUS[sid]; if(!bonusDef) continue;
+    const provCount = DATA ? DATA.provinces.filter(p=>p.subject===sid && owned.has(p.id)).length : 0;
+    if(provCount === 0) continue;
+    const gExtra = bonusDef.gold ? Math.round(provCount * INCOME.gold * (bonusDef.gold - 1)) : 0;
+    const kExtra = bonusDef.kk   ? Math.round(provCount * INCOME.kk   * (bonusDef.kk   - 1)) : 0;
+    baseGold += gExtra; baseKK += kExtra;
+    const subjLabel = DATA?.subjects?.find(s=>s.id===sid)?.name || sid;
+    if(gExtra || kExtra) subjBonusMsgs.push(`${subjLabel}: +${gExtra}⭐ +${kExtra}📖`);
+  }
+
   gold += Math.round(baseGold * gMult);
   kk   += Math.round(baseKK   * kMult);
   const gBonus = gold - prev.gold, kBonus = kk - prev.kk;
   const heroMsg = (gMult > 1 || kMult > 1)
-    ? ` <span style="color:#c9a84c;font-size:11px">(hős bónusz: ×${gMult.toFixed(2)} arany, ×${kMult.toFixed(2)} KK)</span>`
+    ? ` <span style="color:#c9a84c;font-size:11px">(hős: ×${gMult.toFixed(2)}⭐ ×${kMult.toFixed(2)}📖)</span>`
     : '';
-  addEvent(`&#9733; Bevétel: +${gBonus} arany, +${kBonus} KK${heroMsg}`, 'ev-player');
+  const subjMsg = subjBonusMsgs.length
+    ? ` <span style="color:#7dccc8;font-size:11px">[tantárgy bónusz: ${subjBonusMsgs.join(', ')}]</span>`
+    : '';
+  addEvent(`&#9733; Bevétel: +${gBonus} arany, +${kBonus} KK${heroMsg}${subjMsg}`, 'ev-player');
 }
 
 function endTurn(){
   if(gameOver) return;
   sfx('turn');
   document.getElementById('btn-end-turn').disabled = true;
+  // Expire subject bonuses that were active last turn
+  for(const sid of Object.keys(subjectBonusActive)){
+    if(subjectBonusActive[sid] < turnNumber) delete subjectBonusActive[sid];
+  }
+  // Decrement duration-limited hero effects
+  for(const hId of Object.keys(heroEffectDuration)){
+    if(heroEffectDuration[hId] > 0) heroEffectDuration[hId]--;
+  }
   playerIncome();
   applyHeroSideEffects(); // i78: Madách +1 unrest stb.
   // i78: hero unrest reduction per subject
@@ -2152,7 +2255,18 @@ function activeHeroEffects(){
     const prov = byId[id]; if(!prov?.nutsId) continue;
     const heroes = HEROES[prov.nutsId]||[];
     for(const h of heroes){
-      if(h.ability?.effect) out.push({eff: h.ability.effect, hero: h, provId: id});
+      const eff = h.ability?.effect; if(!eff) continue;
+      // duration-limited effects: skip if expired
+      if(eff.duration !== undefined){
+        const rem = heroEffectDuration[h.id];
+        if(rem === undefined){
+          // Initialize on first access
+          heroEffectDuration[h.id] = eff.duration;
+        } else if(rem <= 0){
+          continue; // expired
+        }
+      }
+      out.push({eff, hero: h, provId: id});
     }
   }
   return out;
@@ -2198,6 +2312,15 @@ function heroAttackBonus(){
   return bonus;
 }
 
+// Speed boost: reduces number of answer choices (easier quiz)
+function heroSpeedBoost(){
+  let reduction = 0;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='speed_boost') reduction += eff.value ?? 1;
+  }
+  return reduction;
+}
+
 // Defense bonus from heroes in a given region
 function heroDefBonus(regionId){
   let bonus = 0;
@@ -2226,7 +2349,11 @@ function applyHeroSideEffects(){
 function heroEffectSummary(){
   const effs = activeHeroEffects();
   if(!effs.length) return '';
-  return effs.map(({eff,hero})=>`⚡ <b>${hero.name}</b>: ${eff.desc}`).join('<br>');
+  return effs.map(({eff,hero})=>{
+    const durRem = eff.duration !== undefined ? heroEffectDuration[hero.id] ?? eff.duration : null;
+    const durStr = durRem !== null ? ` <span style="color:#aaa;font-size:10px">(${durRem} kör)</span>` : '';
+    return `⚡ <b>${hero.name}</b>: ${eff.desc}${durStr}`;
+  }).join('<br>');
 }
 
 function buildAt(provId, bldKey){
@@ -2807,6 +2934,9 @@ function buildSavePayload(){
     unrestWrong: Object.fromEntries(Object.entries(unrestWrong)),
     unrestLevel: Object.fromEntries(Object.entries(unrestLevel)),
     botDifficulty,
+    subjectBonusActive: Object.fromEntries(Object.entries(subjectBonusActive)),
+    heroEffectDuration: Object.fromEntries(Object.entries(heroEffectDuration)),
+    answerLog,
   };
 }
 
@@ -2834,6 +2964,9 @@ function applySavePayload(s){
   unrestWrong = Object.assign({}, s.unrestWrong || {});
   unrestLevel = Object.assign({}, s.unrestLevel || {});
   if(s.botDifficulty && BOT_DIFFICULTY[s.botDifficulty]) botDifficulty = s.botDifficulty;
+  subjectBonusActive = Object.assign({}, s.subjectBonusActive || {});
+  heroEffectDuration = Object.assign({}, s.heroEffectDuration || {});
+  answerLog = Array.isArray(s.answerLog) ? s.answerLog : [];
   // refresh UI
   renderOwnershipOverlay3D();
   renderUnrestOverlay3D();
@@ -2961,6 +3094,27 @@ function importJson(file){
 
 document.getElementById('btn-save-now').addEventListener('click', saveNow);
 document.getElementById('btn-export-json').addEventListener('click', exportJson);
+document.getElementById('btn-export-csv').addEventListener('click', ()=>{
+  if(!answerLog.length){
+    const st = document.getElementById('save-status');
+    st.textContent = 'Nincs még válasz a naplóban.';
+    setTimeout(()=>{ st.textContent=''; }, 2500);
+    return;
+  }
+  const header = 'Időbélyeg;Tantárgy;Kérdés;Helyes;Kör';
+  const rows = answerLog.map(r=>[
+    new Date(r.ts).toISOString(),
+    r.subjectId || '',
+    '"' + (r.prompt||'').replace(/"/g,'""') + '"',
+    r.correct ? 'igen' : 'nem',
+    r.turn,
+  ].join(';'));
+  const csv = [header, ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'valasznaplo.csv';
+  a.click();
+});
 document.getElementById('btn-import-json').addEventListener('click',()=>{
   document.getElementById('import-file-input').click();
 });
@@ -3032,5 +3186,97 @@ renderSaveSlots();
     </div>
   </div>
 </div>
+
+<!-- Tutorial wizard overlay -->
+<div id="tutorial-overlay" class="hidden">
+  <div id="tutorial-spotlight"></div>
+  <div id="tutorial-box">
+    <div id="tutorial-step"></div>
+    <h2 id="tutorial-title"></h2>
+    <p id="tutorial-text"></p>
+    <div id="tutorial-btns">
+      <button id="btn-tut-skip">Kihagyom</button>
+      <button id="btn-tut-next">Tovább →</button>
+    </div>
+  </div>
+</div>
+<script>
+// ── Tutorial / Onboarding wizard ─────────────────────────────────────────────
+const TUTORIAL_KEY = 'tudas_tutorialDone';
+const TUTORIAL_STEPS = [
+  { title: 'Üdvözöllek a Tudás Paradigmájában!',
+    text: 'Ez egy stratégiai játék, ahol kvízkérdések helyes megválaszolásával foglalhatsz el tartományokat, gyűjthetsz aranyat és tudáspontot (KK).',
+    target: null },
+  { title: 'Pályacsomag kiválasztása',
+    text: 'Először válassz egy kvíz-pályacsomagot. Minden csomag más tantárgyakat és kérdéseket tartalmaz.',
+    target: '#pack-select' },
+  { title: 'Tartomány elfoglalása',
+    text: 'Kattints egy tartományra a térképen, majd az „Elfoglalom" gombra. Helyes kvíz-válasszal megszerezed a területet és bevételt fogsz kapni minden körben.',
+    target: null },
+  { title: 'Kör vége gomb',
+    text: 'Ha befejeztél egy körben, nyomd meg a „Kör vége" gombot. Ekkor megkapod a tartományaid bevételét, és az ellenfél-botok is lépnek.',
+    target: '#btn-end-turn' },
+  { title: 'Mentés és statisztikák',
+    text: 'A bal oldalsávban mentheted a játékot és exportálhatod a válasznaplót CSV-ként (osztálytermi mód). Jó játékot!',
+    target: '#save-card' },
+];
+
+let tutStep = 0;
+
+function startTutorial(){
+  tutStep = 0;
+  showTutStep();
+  document.getElementById('tutorial-overlay').classList.remove('hidden');
+}
+
+function showTutStep(){
+  const step = TUTORIAL_STEPS[tutStep];
+  if(!step){ endTutorial(); return; }
+  const stepEl = document.getElementById('tutorial-step');
+  stepEl.textContent = `${tutStep+1} / ${TUTORIAL_STEPS.length}`;
+  document.getElementById('tutorial-title').textContent = step.title;
+  document.getElementById('tutorial-text').textContent = step.text;
+  const nextBtn = document.getElementById('btn-tut-next');
+  nextBtn.textContent = tutStep === TUTORIAL_STEPS.length - 1 ? 'Kezdés ✓' : 'Tovább →';
+  // Spotlight target element
+  const spot = document.getElementById('tutorial-spotlight');
+  if(step.target){
+    const el = document.querySelector(step.target);
+    if(el){
+      const r = el.getBoundingClientRect();
+      spot.style.cssText = `left:${r.left-6}px;top:${r.top-6}px;width:${r.width+12}px;height:${r.height+12}px;display:block`;
+    } else {
+      spot.style.display = 'none';
+    }
+  } else {
+    spot.style.display = 'none';
+  }
+}
+
+function endTutorial(){
+  document.getElementById('tutorial-overlay').classList.add('hidden');
+  document.getElementById('tutorial-spotlight').style.display = 'none';
+  try{ localStorage.setItem(TUTORIAL_KEY, '1'); } catch(e){}
+}
+
+document.getElementById('btn-tut-next').addEventListener('click', ()=>{
+  tutStep++;
+  if(tutStep >= TUTORIAL_STEPS.length){ endTutorial(); return; }
+  showTutStep();
+});
+document.getElementById('btn-tut-skip').addEventListener('click', endTutorial);
+
+// Start tutorial on first ever visit
+try{
+  if(!localStorage.getItem(TUTORIAL_KEY)) startTutorial();
+} catch(e){}
+
+// Mobile: tap [data-tip] element to toggle tooltip
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-tip]');
+  document.querySelectorAll('[data-tip].tip-open').forEach(t=>{ if(t!==el) t.classList.remove('tip-open'); });
+  if(el) el.classList.toggle('tip-open');
+}, true);
+</script>
 </body>
 </html>
