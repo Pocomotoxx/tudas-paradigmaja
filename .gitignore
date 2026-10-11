@@ -11,3 +11,5 @@ __pycache__/
 # Playwright test artifacts
 web/test-results/
 web/playwright-report/
+test-results/
+playwright-report/

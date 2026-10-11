@@ -1,7 +1,33 @@
 {
   "packs": [
-    { "id": "fantasy", "name": "Fantáziavilág (kitalált kontinens)", "kind": "fantasy", "dir": "fantasy", "supportsHeroes": false },
-    { "id": "europe",  "name": "Európa — NUTS 1 nagyrégiók (valós)",   "kind": "europe",  "dir": "europe",  "supportsHeroes": true }
+    {
+      "id": "fantasy",
+      "name": "Fantáziavilág (kitalált kontinens)",
+      "kind": "fantasy",
+      "dir": "fantasy",
+      "supportsHeroes": false
+    },
+    {
+      "id": "europe",
+      "name": "Európa — NUTS 1 nagyrégiók (valós)",
+      "kind": "europe",
+      "dir": "europe",
+      "supportsHeroes": true
+    },
+    {
+      "id": "hungary",
+      "name": "Modern Magyarország — 19 megye + Budapest",
+      "kind": "hungary",
+      "dir": "hungary",
+      "supportsHeroes": false
+    },
+    {
+      "id": "hungary-hist",
+      "name": "Történelmi Magyarország — vármegyék (Trianon előtt)",
+      "kind": "hungary-hist",
+      "dir": "hungary-hist",
+      "supportsHeroes": false
+    }
   ],
   "default": "fantasy"
 }

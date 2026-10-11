@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A Tudás Paradigmája — régió-térkép demó (3D)</title>
+<style>
+  :root{ --bg:#1b1e24; --panel:#262b33; --ink:#e7ebf0; --muted:#9aa4b2; }
+  html,body{ margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font:14px/1.5 system-ui, sans-serif; }
+  header{ padding:10px 16px; background:var(--panel); }
+  header b{ font-weight:600; } header span{ color:var(--muted); }
+  #wrap{ display:flex; gap:16px; padding:16px; flex-wrap:wrap; align-items:flex-start; }
+  #mapbox{ flex:1 1 560px; min-width:320px; background:#0d1117; border-radius:8px;
+    position:relative; height:600px; overflow:hidden; }
+  #mapbox canvas{ width:100%!important; height:100%!important; display:block; border-radius:8px; }
+  #loading-msg{ position:absolute; inset:0; display:flex; align-items:center;
+    justify-content:center; color:var(--muted); pointer-events:none; }
+  .side{ flex:0 0 240px; }
+  .card{ background:var(--panel); border-radius:8px; padding:12px 14px; margin-bottom:12px; }
+  .card h3{ margin:0 0 8px; font-size:13px; color:var(--muted); font-weight:600;
+    text-transform:uppercase; letter-spacing:.04em; }
+  .legend i{ display:inline-block; width:12px; height:12px; border-radius:3px;
+    margin-right:8px; vertical-align:-1px; }
+  .legend div{ margin:4px 0; cursor:pointer; }
+  .legend div:hover{ color:#fff; }
+  #info b{ color:#fff; } #info .k{ color:var(--muted); }
+  select{ background:#1b1e24; color:#e7ebf0; border:1px solid #3a414b; border-radius:5px; padding:2px 6px; }
+  .diff-row{ display:flex; justify-content:space-between; margin:3px 0; }
+  .unrest-row{ display:flex; align-items:center; gap:6px; margin:6px 0; }
+  .unrest-row i{ display:inline-block; width:10px; height:10px; border-radius:2px; flex:0 0 auto; }
+  .unrest-row .name{ flex:1 1 auto; }
+  .unrest-row button{ background:#333a44; color:#e7ebf0; border:1px solid #454d58;
+    border-radius:4px; width:22px; height:22px; cursor:pointer; font-size:12px; line-height:1; }
+  .unrest-row button:hover{ background:#454d58; }
+  .unrest-row .pct{ width:38px; text-align:right; color:var(--muted); font-size:12px; }
+  .unrest-row.danger .pct{ color:#ff8a5c; font-weight:600; }
+  .warn-line{ color:#ff8a5c; font-weight:600; }
+  .own-btn{ background:#3a3220; color:#ffd700; border:1px solid #6b5a10; border-radius:5px;
+    padding:4px 10px; cursor:pointer; font-size:12px; margin-top:6px; }
+  .own-btn:hover{ background:#4a4028; }
+  .own-btn.release{ background:#333a44; color:#e7ebf0; border-color:#454d58; }
+  .own-btn.release:hover{ background:#454d58; }
+  .owned-line{ color:#ffd700; font-weight:600; }
+  .terrain-row{ display:flex; align-items:center; gap:6px; margin:4px 0; }
+  .terrain-row svg{ flex:0 0 auto; }
+  .prov-header{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .prov-color-bar{ width:5px; border-radius:3px; align-self:stretch; flex:0 0 5px; }
+  .prov-name{ font-size:15px; font-weight:700; color:#fff; line-height:1.2; }
+  .prov-name small{ display:block; font-size:11px; font-weight:400; color:var(--muted); }
+  .badge{ display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
+  .badge.player{ background:#1a3a1a; color:#7ddf7d; border:1px solid #3a6b3a; }
+  .badge.bot{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.bot1{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.bot2{ background:#0a1a3a; color:#44aaff; border:1px solid #1a4a8a; }
+  .badge.bot3{ background:#1a0a2a; color:#cc77ff; border:1px solid #5a2a8a; }
+  #diplo-overlay{ position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:300; }
+  #diplo-box{ background:#161b24;border:1px solid #3a414b;border-radius:10px;padding:28px 32px;max-width:400px;width:90%; }
+  #diplo-box h2{ font-size:20px;font-weight:800;color:#e7ebf0;margin-bottom:6px; }
+  #diplo-box .diplo-sub{ color:var(--muted);font-size:13px;margin-bottom:20px; }
+  #diplo-box .diplo-offer{ background:#1e2330;border-radius:6px;padding:14px 16px;margin-bottom:20px;font-size:14px;color:#c0c8d8;line-height:1.6; }
+  .diplo-btns{ display:flex;gap:10px;justify-content:flex-end; }
+  .diplo-btns button{ padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:none; }
+  #diplo-accept{ background:#1e5c1e;color:#7ddf7d; }
+  #diplo-accept:hover{ background:#2a7a2a; }
+  #diplo-decline{ background:#3a1a00;color:#ff9944; }
+  #diplo-decline:hover{ background:#5a2a00; }
+  .persona-badge{ display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px; }
+  .persona-badge.agresszív{ background:#5a1a00;color:#ffaa44; }
+  .persona-badge.gazdasági{ background:#0a3a1a;color:#44dd88; }
+  .persona-badge.tudós{ background:#1a0a3a;color:#bb77ff; }
+  #bots-card .bot-row{ display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2e343d;font-size:12px; }
+  #bots-card .bot-row:last-child{ border:none; }
+  .badge.neutral{ background:#2a2e38; color:var(--muted); border:1px solid #3a414b; }
+  .badge.capital{ background:#2a2010; color:#ffd700; border:1px solid #6b5a10; }
+  .info-row{ display:flex; justify-content:space-between; align-items:baseline;
+    padding:3px 0; border-bottom:1px solid #2e343d; font-size:13px; }
+  .info-row:last-child{ border:none; }
+  .info-row .lbl{ color:var(--muted); }
+  .info-row .val{ font-weight:500; color:#e7ebf0; text-align:right; }
+  .unrest-bar-wrap{ background:#1e2330; border-radius:4px; height:6px; margin:4px 0; overflow:hidden; }
+  .unrest-bar-fill{ height:100%; border-radius:4px; transition:width .3s; }
+  #subj-card{ display:none; }
+  #subj-card.visible{ display:block; }
+  .subj-header{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .subj-dot{ width:12px; height:12px; border-radius:50%; flex:0 0 12px; }
+  .subj-name{ font-weight:700; color:#fff; }
+  .hero-row{ padding:5px 0; border-bottom:1px solid #2e343d; font-size:12px; }
+  .hero-row:last-child{ border:none; }
+  .hero-row .hname{ font-weight:600; }
+  .hero-row .hmeta{ color:var(--muted); }
+  .hero-row .hyears{ color:#8a9ab5; font-size:11px; margin-left:4px; }
+  .hero-row .hability{ margin-top:2px; font-size:11px; color:#c9a84c; }
+  .hero-row .hability .aname{ font-weight:600; }
+  #turn-bar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  #turn-bar .res{ color:var(--muted); font-size:13px; }
+  #turn-bar .res b{ color:#e7ebf0; }
+  #btn-end-turn{ background:#2a4a2a; color:#7ddf7d; border:1px solid #3a6b3a;
+    border-radius:6px; padding:5px 14px; cursor:pointer; font-size:13px; font-weight:600; }
+  #btn-end-turn:hover{ background:#3a5e3a; }
+  #btn-end-turn:disabled{ opacity:.45; cursor:default; }
+  #event-log{ max-height:120px; overflow-y:auto; font-size:12px; }
+  #event-log div{ padding:2px 0; border-bottom:1px solid #2e343d; }
+  #event-log div:last-child{ border:none; }
+  #event-log .ev-bot{ color:#ff8a5c; }
+  #event-log .ev-player{ color:#7ddf7d; }
+  #event-log .ev-info{ color:var(--muted); }
+  .peak-icon{ fill:#aab4bf; stroke:#2c333c; stroke-width:.5; }
+  .peak-icon.snow{ fill:#eef2f6; }
+  #q-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:200;
+    display:flex; align-items:center; justify-content:center; }
+  #q-overlay.hidden{ display:none; }
+  #q-box{ background:#1e2330; border:1px solid #3a414b; border-radius:12px;
+    padding:28px 32px; max-width:520px; width:90%; box-shadow:0 24px 64px rgba(0,0,0,.6); }
+  #q-subject{ font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--muted); margin-bottom:6px; }
+  #q-prompt{ font-size:16px; font-weight:600; color:#e7ebf0; margin-bottom:20px; line-height:1.4; }
+  #q-choices{ display:flex; flex-direction:column; gap:8px; }
+  .q-choice{ background:#262b33; border:1px solid #3a414b; border-radius:7px;
+    padding:9px 14px; cursor:pointer; font-size:14px; color:#c8cdd6;
+    text-align:left; transition:background .12s, border-color .12s; }
+  .q-choice:hover{ background:#2e3545; border-color:#556; color:#fff; }
+  .q-choice.correct{ background:#1a4a1a; border-color:#3a8a3a; color:#aaffaa; }
+  .q-choice.wrong{ background:#4a1a1a; border-color:#8a3a3a; color:#ffaaaa; }
+  .q-choice:disabled{ cursor:default; }
+  #q-timer{ font-size:12px; color:var(--muted); margin-bottom:14px; }
+  #q-timer b{ color:#ffd700; }
+  #q-cancel{ background:none; border:none; color:var(--muted); font-size:12px;
+    cursor:pointer; margin-top:14px; padding:0; }
+  #q-cancel:hover{ color:#e7ebf0; }
+  #go-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:300;
+    display:flex; align-items:center; justify-content:center; }
+  #go-overlay.hidden{ display:none; }
+  #go-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:36px 40px; max-width:440px; width:90%; text-align:center;
+    box-shadow:0 32px 80px rgba(0,0,0,.7); }
+  #go-title{ font-size:28px; font-weight:800; margin-bottom:8px; }
+  #go-title.win{ color:#7ddf7d; }
+  #go-title.lose{ color:#ff6b6b; }
+  #go-sub{ color:var(--muted); font-size:14px; margin-bottom:20px; }
+  #go-stats{ background:#262b33; border-radius:8px; padding:12px 16px;
+    font-size:13px; text-align:left; margin-bottom:20px; display:flex; flex-direction:column; gap:6px; }
+  #go-stats .gs-row{ display:flex; justify-content:space-between; }
+  #go-stats .gs-lbl{ color:var(--muted); }
+  #go-stats .gs-val{ font-weight:600; color:#e7ebf0; }
+  #go-newgame{ background:#2a4a2a; color:#7ddf7d; border:1px solid #3a6b3a;
+    border-radius:8px; padding:10px 28px; cursor:pointer; font-size:15px; font-weight:700; }
+  #go-newgame:hover{ background:#3a5e3a; }
+  #xp-bar{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); margin-top:4px; }
+  #xp-bar b{ color:#ffd700; }
+  #xp-fill-wrap{ flex:1; background:#262b33; border-radius:4px; height:5px; overflow:hidden; }
+  #xp-fill{ height:100%; background:#ffd700; border-radius:4px; transition:width .4s; }
+  #q-mode-badge{ font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    padding:2px 8px; border-radius:4px; margin-bottom:8px; display:inline-block; }
+  #q-mode-badge.attack{ background:#1a4a1a; color:#7ddf7d; }
+  #q-mode-badge.defend{ background:#4a2a0a; color:#ffa060; border:1px solid #8a5030; }
+  .bld-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .bld-btn{ background:#262b33; border:1px solid #3a414b; border-radius:6px;
+    padding:6px 10px; cursor:pointer; font-size:12px; color:#c8cdd6; text-align:center; }
+  .bld-btn:hover{ background:#2e3545; color:#fff; }
+  .bld-btn.owned{ background:#1a3040; border-color:#2a6080; color:#80ccff; cursor:default; }
+  .bld-btn.cant-afford{ opacity:.45; cursor:not-allowed; }
+  #wiki-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:450;
+    display:flex; align-items:center; justify-content:center; }
+  #wiki-overlay.hidden{ display:none; }
+  #wiki-box{ background:#1a1e2a; border:1px solid #3a414b; border-radius:16px;
+    padding:0; max-width:780px; width:95%; max-height:88vh; display:flex; flex-direction:column; overflow:hidden; }
+  #wiki-header{ display:flex; align-items:center; gap:12px; padding:18px 24px 14px;
+    border-bottom:1px solid #2a3040; flex-shrink:0; }
+  #wiki-header h2{ flex:1; font-size:20px; font-weight:800; color:#e7ebf0; margin:0; }
+  #wiki-search{ background:#262b33; border:1px solid #3a414b; color:#e7ebf0;
+    border-radius:8px; padding:7px 12px; font-size:13px; width:200px; }
+  #wiki-search::placeholder{ color:#556; }
+  #wiki-close{ background:none; border:none; color:#889; font-size:22px; cursor:pointer;
+    padding:4px 8px; border-radius:6px; }
+  #wiki-close:hover{ background:#2a3040; color:#e7ebf0; }
+  #wiki-body{ display:flex; flex:1; overflow:hidden; }
+  #wiki-nav{ width:160px; flex-shrink:0; border-right:1px solid #2a3040;
+    overflow-y:auto; padding:8px 0; }
+  .wiki-nav-item{ display:flex; align-items:center; gap:8px; padding:9px 14px;
+    cursor:pointer; font-size:13px; color:#a0a8b8; transition:background .12s,color .12s; }
+  .wiki-nav-item:hover{ background:#222840; color:#c8d0e0; }
+  .wiki-nav-item.active{ background:#1e3060; color:#7daaff; font-weight:600; }
+  .wiki-nav-icon{ font-size:16px; }
+  #wiki-content{ flex:1; overflow-y:auto; padding:20px 28px; }
+  .wiki-subj-title{ font-size:17px; font-weight:800; color:#e7ebf0; margin:0 0 6px; }
+  .wiki-summary{ color:#8a93a8; font-size:13px; margin-bottom:18px; line-height:1.6; }
+  .wiki-article{ margin-bottom:20px; padding:14px 16px; background:#1e2330;
+    border:1px solid #2a3040; border-radius:10px; }
+  .wiki-article h4{ font-size:14px; font-weight:700; color:#a8c4ff; margin:0 0 7px; }
+  .wiki-article p{ font-size:13px; color:#b8c0d0; margin:0; line-height:1.7; }
+  .wiki-article p strong{ color:#e7ebf0; }
+  #wiki-no-results{ color:#556; font-size:14px; padding:20px 0; text-align:center; display:none; }
+  #wiki-search-results{ display:none; }
+  .wiki-result-item{ padding:12px 14px; background:#1e2330; border:1px solid #2a3040;
+    border-radius:8px; margin-bottom:10px; cursor:pointer; }
+  .wiki-result-item:hover{ border-color:#3a5080; }
+  .wiki-result-subj{ font-size:11px; color:#6a8aaa; margin-bottom:3px; }
+  .wiki-result-heading{ font-size:13px; font-weight:700; color:#a8c4ff; }
+  .wiki-result-snippet{ font-size:12px; color:#8a93a8; margin-top:3px; line-height:1.5; }
+  #wiki-btn{ background:#1e3060; border:1px solid #3a5080; color:#7daaff;
+    border-radius:7px; padding:5px 12px; font-size:12px; cursor:pointer; margin-top:8px; }
+  #wiki-btn:hover{ background:#253870; }
+  .phrase-section{ margin-top:22px; }
+  .phrase-section-header{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .phrase-section-header h4{ font-size:13px; font-weight:700; color:#a8c4ff; margin:0; flex:1; }
+  .phrase-edit-toggle{ background:#1e2330; border:1px solid #2a3040; color:#8a93a8;
+    border-radius:6px; padding:3px 10px; font-size:11px; cursor:pointer; }
+  .phrase-edit-toggle:hover{ border-color:#3a5080; color:#c8d0e0; }
+  .phrase-edit-toggle.active{ background:#1e3a20; border-color:#3a6040; color:#7dcc88; }
+  .phrase-lang-tabs{ display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+  .phrase-lang-tab{ background:#1e2330; border:1px solid #2a3040; color:#8a93a8;
+    border-radius:6px; padding:4px 12px; font-size:12px; cursor:pointer; }
+  .phrase-lang-tab:hover{ border-color:#3a5080; color:#c8d0e0; }
+  .phrase-lang-tab.active{ background:#1e3060; border-color:#3a5080; color:#7daaff; font-weight:600; }
+  .phrase-card{ background:#1e2330; border:1px solid #2a3040; border-radius:12px;
+    padding:22px 20px; text-align:center; cursor:pointer; min-height:100px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:border-color .15s; }
+  .phrase-card:hover{ border-color:#3a5080; }
+  .phrase-card .phrase-src{ font-size:20px; font-weight:700; color:#e7ebf0; }
+  .phrase-card .phrase-tgt{ font-size:16px; color:#7daaff; margin-top:8px; display:none; }
+  .phrase-card .phrase-hint{ font-size:11px; color:#556; margin-top:10px; }
+  .phrase-card.flipped .phrase-tgt{ display:block; }
+  .phrase-card.flipped .phrase-hint{ display:none; }
+  .phrase-nav{ display:flex; align-items:center; justify-content:center; gap:14px; margin-top:10px; }
+  .phrase-nav button{ background:#1e2330; border:1px solid #2a3040; color:#a0a8b8;
+    border-radius:6px; padding:5px 14px; font-size:13px; cursor:pointer; }
+  .phrase-nav button:hover{ border-color:#3a5080; color:#e7ebf0; }
+  .phrase-counter{ font-size:12px; color:#556; min-width:60px; text-align:center; }
+  .phrase-editor{ margin-top:14px; background:#161a24; border:1px solid #2a3040;
+    border-radius:10px; padding:14px; display:none; }
+  .phrase-editor.open{ display:block; }
+  .phrase-editor-title{ font-size:12px; font-weight:700; color:#7dcc88; margin:0 0 10px; }
+  .phrase-add-form{ display:grid; grid-template-columns:1fr 1fr auto; gap:6px; margin-bottom:12px; align-items:end; }
+  .phrase-add-form select, .phrase-add-form input{
+    background:#1e2330; border:1px solid #2a3040; color:#e7ebf0;
+    border-radius:6px; padding:6px 10px; font-size:12px; }
+  .phrase-add-form select:focus, .phrase-add-form input:focus{ outline:none; border-color:#3a5080; }
+  .phrase-add-btn{ background:#1e3a20; border:1px solid #3a6040; color:#7dcc88;
+    border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; white-space:nowrap; }
+  .phrase-add-btn:hover{ background:#253e28; }
+  .phrase-list{ max-height:200px; overflow-y:auto; }
+  .phrase-list-item{ display:flex; align-items:center; gap:8px; padding:5px 0;
+    border-bottom:1px solid #1e2330; font-size:12px; }
+  .phrase-list-item:last-child{ border:none; }
+  .phrase-list-src{ font-weight:600; color:#e7ebf0; flex:1; }
+  .phrase-list-tgt{ color:#7daaff; flex:1; }
+  .phrase-list-tag{ font-size:10px; color:#3a6040; background:#1e2a1e; border-radius:4px;
+    padding:1px 5px; }
+  .phrase-del-btn{ background:none; border:none; color:#664; font-size:14px; cursor:pointer;
+    padding:0 4px; }
+  .phrase-del-btn:hover{ color:#cc5555; }
+  #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
+    display:flex; align-items:center; justify-content:center; }
+  #camp-overlay.hidden{ display:none; }
+  #camp-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:32px 36px; max-width:560px; width:92%; }
+  #camp-box h2{ font-size:22px; font-weight:800; color:#e7ebf0; margin-bottom:6px; }
+  #camp-box .camp-sub{ color:var(--muted); font-size:13px; margin-bottom:20px; }
+  .camp-list{ display:flex; flex-direction:column; gap:10px; }
+  .camp-item{ background:#262b33; border:1px solid #3a414b; border-radius:10px;
+    padding:14px 18px; cursor:pointer; transition:border-color .15s; }
+  .camp-item:hover{ border-color:#7ddf7d; }
+  .camp-item.locked{ opacity:.4; cursor:not-allowed; }
+  .camp-item.locked:hover{ border-color:#3a414b; }
+  .camp-item .ci-title{ font-weight:700; font-size:15px; color:#e7ebf0; margin-bottom:4px; }
+  .camp-item .ci-desc{ font-size:12px; color:var(--muted); }
+  .camp-item .ci-badge{ font-size:11px; font-weight:700; float:right; padding:2px 7px;
+    border-radius:4px; margin-left:8px; }
+  .ci-badge.easy{ background:#1a4a1a; color:#7ddf7d; }
+  .ci-badge.medium{ background:#3a3010; color:#ffd060; }
+  .ci-badge.hard{ background:#4a1010; color:#ff8080; }
+  #camp-close{ background:none; border:none; color:var(--muted); cursor:pointer;
+    font-size:13px; margin-top:18px; }
+  #camp-close:hover{ color:#e7ebf0; }
+  #btn-campaign{ background:#2a3a4a; color:#80ccff; border:1px solid #2a5a7a;
+    border-radius:6px; padding:5px 12px; cursor:pointer; font-size:13px; }
+  #btn-campaign:hover{ background:#3a4a5a; }
+  #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
+  #ctrl-bar button{ background:rgba(26,30,38,.85); color:#9aa4b2; border:1px solid #3a414b;
+    border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; backdrop-filter:blur(4px); }
+  #ctrl-bar button:hover{ color:#fff; border-color:#6a7280; }
+  #cam-hint{ position:absolute; bottom:10px; left:12px; color:var(--muted); font-size:11px;
+    pointer-events:none; opacity:.7; }
+</style>
+</head>
+<body>
+<header>
+  <b>A Tudás Paradigmája</b> —
+  <span>régió-alapú stratégiai réteg (3D · ExtrudeGeometry)</span>
+  &nbsp;·&nbsp; Térkép:
+  <select id="pack-select"></select>
+  &nbsp;·&nbsp; Nehézség:
+  <select id="diff-select">
+    <option value="1">1 — korlátlan idő</option>
+    <option value="2">2 — korlátlan idő</option>
+    <option value="3">3 — 20 mp / kérdés</option>
+    <option value="4">4 — 10 mp / kérdés</option>
+  </select>
+  <span id="hero-flag" style="color:var(--muted)"></span>
+  &nbsp;·&nbsp; <button id="btn-campaign">&#9654; Hadjárat</button>
+  &nbsp;·&nbsp; <button id="btn-wiki" style="background:#1e3060;color:#7daaff;border:1px solid #3a5080;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:13px;">&#128218; Wiki</button>
+</header>
+<div id="wrap">
+  <div id="mapbox">
+    <canvas id="map3d"></canvas>
+    <div id="loading-msg">betöltés…</div>
+    <div id="ctrl-bar">
+      <button id="btn-reset-cam">⌂ Kamera</button>
+    </div>
+    <div id="cam-hint">Forgatás: jobb gomb · Zoom: görgő · Mozgatás: középső gomb</div>
+  </div>
+  <div class="side">
+    <div class="card">
+      <h3>Körrendszer</h3>
+      <div id="turn-bar">
+        <span class="res">Kör: <b id="turn-num">1</b></span>
+        <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
+        <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
+        <button id="btn-end-turn">Kör vége ▶</button>
+      </div>
+      <div id="xp-bar">
+        <b id="xp-label">XP: 0</b>
+        <div id="xp-fill-wrap"><div id="xp-fill" style="width:0%"></div></div>
+        <span id="xp-streak"></span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Eseménynapló</h3>
+      <div id="event-log"><div class="ev-info">A játék elkezdődött.</div></div>
+    </div>
+    <div class="card" id="info">
+      <h3>Provincia</h3>
+      <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
+    </div>
+    <div class="card" id="subj-card">
+      <h3>Alattvaló (tantárgy)</h3>
+      <div id="subj-body"></div>
+    </div>
+    <div class="card">
+      <h3>Nehézség</h3>
+      <div id="diff-body"></div>
+    </div>
+    <div class="card" id="bots-card">
+      <h3>Ellenfelek</h3>
+      <div id="bots-body"></div>
+    </div>
+    <div class="card">
+      <h3>Terület-tulajdon (szimuláció)</h3>
+      <div id="owned-body"><span class="k">Kattints egy provinciára, majd az „Elfoglalom" gombra.
+      A szín (tantárgy) marad — a tulajdonlást arany vonal jelzi.</span></div>
+    </div>
+    <div class="card">
+      <h3 id="legend-title">Frakciók</h3>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="card">
+      <h3>Tantárgy-nyugtalanság (szimuláció)</h3>
+      <div id="unrest-body"></div>
+    </div>
+    <div class="card">
+      <h3>Domborzat (3D extrúzió)</h3>
+      <div class="terrain-row">
+        <svg width="14" height="12" viewBox="0 0 14 12">
+          <polygon class="peak-icon" points="7,1 13,11 1,11"/>
+          <polygon class="peak-icon snow" points="7,1 9.4,5 4.6,5"/>
+        </svg> Hegyvidék — 5.5 egység magasság
+      </div>
+      <div class="terrain-row">
+        <svg width="14" height="12" viewBox="0 0 14 12">
+          <line x1="1" y1="2" x2="7" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
+          <line x1="6" y1="2" x2="12" y2="9" stroke="#8a93a0" stroke-width="1.6"/>
+        </svg> Dombvidék — 2.0 egység
+      </div>
+      <div class="k" style="margin-top:4px;">Síkság: 0.3 egység (sematikus, nem valós SRTM/GEBCO adat).</div>
+    </div>
+    <div class="card">
+      <h3>Megjegyzés</h3>
+      <div class="k">A térkép saját, generált tartalom (MIT).
+      A csaták a hex-rétegben zajlanak, ez a stratégiai mozgás réteye.</div>
+    </div>
+  </div>
+</div>
+
+<!-- i79: Diplomacy modal -->
+<div id="diplo-overlay" class="hidden">
+  <div id="diplo-box">
+    <h2 id="diplo-title">&#9876; Diplomáciai ajánlat</h2>
+    <div class="diplo-sub" id="diplo-bot-name"></div>
+    <div class="diplo-offer" id="diplo-offer-text"></div>
+    <div class="diplo-btns">
+      <button id="diplo-decline">Elutasítom</button>
+      <button id="diplo-accept">Elfogadom</button>
+    </div>
+  </div>
+</div>
+<div id="go-overlay" class="hidden">
+  <div id="go-box">
+    <div id="go-title"></div>
+    <div id="go-sub"></div>
+    <div id="go-stats"></div>
+    <button id="go-newgame">&#8635; Új játék</button>
+  </div>
+</div>
+<!-- i73: Wiki overlay -->
+<div id="wiki-overlay" class="hidden">
+  <div id="wiki-box">
+    <div id="wiki-header">
+      <h2>&#128218; Tudásbázis</h2>
+      <input id="wiki-search" type="text" placeholder="Keresés…" autocomplete="off">
+      <button id="wiki-close">&#10005;</button>
+    </div>
+    <div id="wiki-body">
+      <div id="wiki-nav"></div>
+      <div id="wiki-content">
+        <div id="wiki-search-results"></div>
+        <div id="wiki-no-results">Nincs találat.</div>
+        <div id="wiki-subject-view"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="camp-overlay" class="hidden">
+  <div id="camp-box">
+    <h2>&#9654; Hadjárat mód</h2>
+    <div class="camp-sub">Válassz pályát — minden hadjárat egyedi feltételekkel indul</div>
+    <div class="camp-list" id="camp-list"></div>
+    <button id="camp-close">&#10005; Mégsem</button>
+  </div>
+</div>
+<div id="q-overlay" class="hidden">
+  <div id="q-box">
+    <div id="q-mode-badge" class="attack hidden"></div>
+    <div id="q-subject"></div>
+    <div id="q-prompt"></div>
+    <div id="q-timer" class="hidden"></div>
+    <div id="q-choices"></div>
+    <div id="q-explanation"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+      <button id="q-cancel">&#10005; Mégsem</button>
+      <button id="wiki-btn" style="display:none;">&#128218; Wiki</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

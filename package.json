@@ -11,7 +11,11 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "npm --prefix web run test:e2e",
+    "test:all": "npm test && npm run test:e2e",
     "build": "tsc --build",
+    "build:web": "npm --prefix web run build",
+    "build:all": "npm run build && npm run build:web",
     "typecheck": "tsc --build --dry"
   },
   "devDependencies": {
