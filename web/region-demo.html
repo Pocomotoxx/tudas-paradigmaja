@@ -849,6 +849,9 @@ controls.dampingFactor = 0.07;
 controls.minDistance = 8;
 controls.maxDistance = 280;
 controls.maxPolarAngle = Math.PI * 0.48; // max ~86° from Z-up = nearly horizontal
+// Mobile touch: 1-finger pan, 2-finger pinch-zoom + pan
+controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_PAN };
+controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
 
 // Lights — permanent, not cleared between packs
 const ambLight = new THREE.AmbientLight(0xffffff, 0.55);
@@ -1560,17 +1563,12 @@ canvas.addEventListener('mouseup', e=>{
 });
 
 // ── Touch support (mobile/tablet) ─────────────────────────────────────────
-let _touchStart = null, _pinchDist0 = null;
+let _touchStart = null;
 canvas.addEventListener('touchstart', e=>{
-  if(e.touches.length===1){
-    _touchStart={x:e.touches[0].clientX, y:e.touches[0].clientY};
-    _pinchDist0=null;
-  } else if(e.touches.length===2){
-    _pinchDist0=Math.hypot(
-      e.touches[0].clientX-e.touches[1].clientX,
-      e.touches[0].clientY-e.touches[1].clientY);
-    _touchStart=null;
-  }
+  // Record single-finger start for tap detection; OrbitControls handles the rest.
+  _touchStart = e.touches.length===1
+    ? {x:e.touches[0].clientX, y:e.touches[0].clientY}
+    : null;
   e.preventDefault();
 },{passive:false});
 
@@ -1593,18 +1591,12 @@ canvas.addEventListener('touchend', e=>{
       }
     }
   }
-  _touchStart=null; _pinchDist0=null;
+  _touchStart=null;
 },{passive:false});
 
 canvas.addEventListener('touchmove', e=>{
-  if(e.touches.length===2 && _pinchDist0!==null){
-    const d=Math.hypot(
-      e.touches[0].clientX-e.touches[1].clientX,
-      e.touches[0].clientY-e.touches[1].clientY);
-    const delta=(_pinchDist0-d)*0.05;
-    camera.position.z=Math.max(5,Math.min(120,camera.position.z+delta));
-    _pinchDist0=d;
-  }
+  // OrbitControls handles pan (1 finger) and pinch-zoom (2 finger).
+  // We only call preventDefault to stop the page from scrolling/zooming.
   e.preventDefault();
 },{passive:false});
 
