@@ -52,6 +52,30 @@
   .badge{ display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
   .badge.player{ background:#1a3a1a; color:#7ddf7d; border:1px solid #3a6b3a; }
   .badge.bot{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.bot1{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.bot2{ background:#0a1a3a; color:#44aaff; border:1px solid #1a4a8a; }
+  .badge.bot3{ background:#1a0a2a; color:#cc77ff; border:1px solid #5a2a8a; }
+  /* i79: diplomacy modal */
+  #diplo-overlay{ position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:300; }
+  #diplo-overlay.hidden{ display:none; }
+  #diplo-box{ background:#161b24;border:1px solid #3a414b;border-radius:10px;padding:28px 32px;max-width:400px;width:90%; }
+  #diplo-box h2{ font-size:20px;font-weight:800;color:#e7ebf0;margin-bottom:6px; }
+  #diplo-box .diplo-sub{ color:var(--muted);font-size:13px;margin-bottom:20px; }
+  #diplo-box .diplo-offer{ background:#1e2330;border-radius:6px;padding:14px 16px;margin-bottom:20px;font-size:14px;color:#c0c8d8;line-height:1.6; }
+  .diplo-btns{ display:flex;gap:10px;justify-content:flex-end; }
+  .diplo-btns button{ padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:none; }
+  #diplo-accept{ background:#1e5c1e;color:#7ddf7d; }
+  #diplo-accept:hover{ background:#2a7a2a; }
+  #diplo-decline{ background:#3a1a00;color:#ff9944; }
+  #diplo-decline:hover{ background:#5a2a00; }
+  /* i79: bot persona badge */
+  .persona-badge{ display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px; }
+  .persona-badge.agresszív{ background:#5a1a00;color:#ffaa44; }
+  .persona-badge.gazdasági{ background:#0a3a1a;color:#44dd88; }
+  .persona-badge.tudós{ background:#1a0a3a;color:#bb77ff; }
+  /* i79: bot status card */
+  #bots-card .bot-row{ display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2e343d;font-size:12px; }
+  #bots-card .bot-row:last-child{ border:none; }
   .badge.neutral{ background:#2a2e38; color:var(--muted); border:1px solid #3a414b; }
   .badge.capital{ background:#2a2010; color:#ffd700; border:1px solid #6b5a10; }
   .info-row{ display:flex; justify-content:space-between; align-items:baseline;
@@ -68,10 +92,13 @@
   .subj-header{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
   .subj-dot{ width:12px; height:12px; border-radius:50%; flex:0 0 12px; }
   .subj-name{ font-weight:700; color:#fff; }
-  .hero-row{ padding:3px 0; border-bottom:1px solid #2e343d; font-size:12px; }
+  .hero-row{ padding:5px 0; border-bottom:1px solid #2e343d; font-size:12px; }
   .hero-row:last-child{ border:none; }
   .hero-row .hname{ font-weight:600; }
   .hero-row .hmeta{ color:var(--muted); }
+  .hero-row .hyears{ color:#8a9ab5; font-size:11px; margin-left:4px; }
+  .hero-row .hability{ margin-top:2px; font-size:11px; color:#c9a84c; }
+  .hero-row .hability .aname{ font-weight:600; }
   /* turn system */
   #turn-bar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   #turn-bar .res{ color:var(--muted); font-size:13px; }
@@ -88,6 +115,91 @@
   #event-log .ev-info{ color:var(--muted); }
   .peak-icon{ fill:#aab4bf; stroke:#2c333c; stroke-width:.5; }
   .peak-icon.snow{ fill:#eef2f6; }
+
+  /* ── Mentés / betöltés ───────────────────────────────────────────────── */
+  #save-card .save-row{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px; }
+  #save-card button{ flex:1; min-width:70px; padding:5px 8px; border-radius:6px; cursor:pointer;
+    font-size:12px; font-weight:600; border:1px solid #3a4555; background:#1e2530; color:#c8d0db; }
+  #save-card button:hover{ background:#2a3345; }
+  #save-card #btn-save-now{ background:#1e3a2a; color:#7ddf7d; border-color:#2e6040; }
+  #save-card #btn-save-now:hover{ background:#2a4a38; }
+  #save-card #save-status{ font-size:11px; color:var(--muted); min-height:14px; }
+  #save-card #save-slots{ display:flex; flex-direction:column; gap:4px; margin-top:4px; }
+  #save-card .slot-row{ display:flex; align-items:center; gap:6px; font-size:12px;
+    padding:3px 0; border-bottom:1px solid #2a3040; }
+  #save-card .slot-row:last-child{ border:none; }
+  #save-card .slot-label{ flex:1; color:#b0bac8; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #save-card .slot-label .slot-meta{ font-size:10px; color:var(--muted); display:block; }
+  #save-card .slot-load{ background:#1a2a40; border-color:#2a4060; color:#6aacee; }
+  #save-card .slot-del{ background:#3a1a1a; border-color:#602020; color:#ee6a6a; min-width:28px; flex:none; }
+
+  /* ── Reszponzív layout ───────────────────────────────────────────────── */
+  /* Tablet: 641–1024px */
+  @media (max-width: 1024px) {
+    .side{ flex: 0 0 200px; }
+    #mapbox{ height: 480px; }
+    header{ padding: 8px 12px; font-size: 13px; }
+    #turn-bar{ gap: 6px; }
+    .card{ padding: 10px 12px; }
+  }
+
+  /* Mobile: ≤640px */
+  @media (max-width: 640px) {
+    html, body{ height: auto; }
+    header{ display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+            padding: 8px 12px; font-size: 12px; }
+    header > *{ flex-shrink: 0; }
+    #hero-flag{ display: none; }
+
+    #wrap{ flex-direction: column; padding: 8px; gap: 8px; }
+    #mapbox{ flex: none; width: 100%; height: 55vw; min-height: 220px; max-height: 380px;
+             border-radius: 6px; }
+    #mapbox canvas{ border-radius: 6px; }
+    #cam-hint{ font-size: 10px; }
+    #ctrl-bar button{ font-size: 11px; padding: 3px 7px; }
+
+    .side{ flex: none; width: 100%; display: grid;
+           grid-template-columns: 1fr 1fr; gap: 8px; }
+    .side .card{ margin-bottom: 0; }
+    /* Eseménynapló, Provincia, Ellenfelek, Körrendszer — teljes szélességű */
+    #turn-card, #event-card, #info-card, #bots-card{ grid-column: 1 / -1; }
+    #subj-card{ grid-column: 1 / -1; }
+
+    .card{ padding: 9px 11px; }
+    .card h3{ font-size: 11px; margin-bottom: 6px; }
+    #event-log{ max-height: 80px; }
+    #turn-bar{ gap: 5px; flex-wrap: wrap; font-size: 12px; }
+    #turn-bar .res{ font-size: 12px; }
+    #btn-end-turn{ padding: 4px 10px; font-size: 12px; }
+
+    /* Kvíz modal — mobil */
+    #q-box{ padding: 18px 16px; max-width: 95vw; }
+    #q-choices button{ font-size: 13px; padding: 10px 12px; }
+
+    /* Wiki modal — mobil */
+    #wiki-box{ max-width: 100vw; width: 100%; max-height: 92vh; border-radius: 0; }
+    #wiki-header{ padding: 12px 16px 10px; }
+    #wiki-body{ flex-direction: column; }
+    #wiki-nav{ width: 100%; max-height: 140px; overflow-y: auto;
+               border-right: none; border-bottom: 1px solid #2e343d;
+               display: flex; flex-wrap: wrap; gap: 4px; padding: 8px; }
+    #wiki-nav li{ display: inline-block; }
+    #wiki-content{ padding: 12px 14px; }
+
+    /* Kampány modal */
+    #camp-box{ padding: 18px 14px; max-width: 96vw; }
+
+    /* Diplomácia modal */
+    #diplo-box{ padding: 18px 16px; max-width: 95vw; }
+  }
+
+  /* Nagyon kis képernyő: ≤380px */
+  @media (max-width: 380px) {
+    .side{ grid-template-columns: 1fr; }
+    #mapbox{ height: 52vw; }
+    header b{ font-size: 11px; }
+  }
+
   /* Question modal */
   #q-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:200;
     display:flex; align-items:center; justify-content:center; }
@@ -134,12 +246,219 @@
   #xp-bar b{ color:#ffd700; }
   #xp-fill-wrap{ flex:1; background:#262b33; border-radius:4px; height:5px; overflow:hidden; }
   #xp-fill{ height:100%; background:#ffd700; border-radius:4px; transition:width .4s; }
+  /* i65: defense mode indicator */
+  #q-mode-badge{ font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    padding:2px 8px; border-radius:4px; margin-bottom:8px; display:inline-block; }
+  #q-mode-badge.attack{ background:#1a4a1a; color:#7ddf7d; }
+  #q-mode-badge.defend{ background:#4a2a0a; color:#ffa060; border:1px solid #8a5030; }
+  /* i66: buildings */
+  .bld-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .bld-btn{ background:#262b33; border:1px solid #3a414b; border-radius:6px;
+    padding:6px 10px; cursor:pointer; font-size:12px; color:#c8cdd6; text-align:center; }
+  .bld-btn:hover{ background:#2e3545; color:#fff; }
+  .bld-btn.owned{ background:#1a3040; border-color:#2a6080; color:#80ccff; cursor:default; }
+  .bld-btn.cant-afford{ opacity:.45; cursor:not-allowed; }
+  .bld-icons{ font-size:13px; margin-top:2px; }
+  /* i73: wiki */
+  #wiki-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:450;
+    display:flex; align-items:center; justify-content:center; }
+  #wiki-overlay.hidden{ display:none; }
+  #wiki-box{ background:#1a1e2a; border:1px solid #3a414b; border-radius:16px;
+    padding:0; max-width:780px; width:95%; max-height:88vh; display:flex; flex-direction:column; overflow:hidden; }
+  #wiki-header{ display:flex; align-items:center; gap:12px; padding:18px 24px 14px;
+    border-bottom:1px solid #2a3040; flex-shrink:0; }
+  #wiki-header h2{ flex:1; font-size:20px; font-weight:800; color:#e7ebf0; margin:0; }
+  #wiki-search{ background:#262b33; border:1px solid #3a414b; color:#e7ebf0;
+    border-radius:8px; padding:7px 12px; font-size:13px; width:200px; }
+  #wiki-search::placeholder{ color:#556; }
+  #wiki-close{ background:none; border:none; color:#889; font-size:22px; cursor:pointer;
+    padding:4px 8px; border-radius:6px; }
+  #wiki-close:hover{ background:#2a3040; color:#e7ebf0; }
+  #wiki-body{ display:flex; flex:1; overflow:hidden; }
+  #wiki-nav{ width:160px; flex-shrink:0; border-right:1px solid #2a3040;
+    overflow-y:auto; padding:8px 0; }
+  .wiki-nav-item{ display:flex; align-items:center; gap:8px; padding:9px 14px;
+    cursor:pointer; font-size:13px; color:#a0a8b8; transition:background .12s,color .12s; }
+  .wiki-nav-item:hover{ background:#222840; color:#c8d0e0; }
+  .wiki-nav-item.active{ background:#1e3060; color:#7daaff; font-weight:600; }
+  .wiki-nav-icon{ font-size:16px; }
+  #wiki-content{ flex:1; overflow-y:auto; padding:20px 28px; }
+  .wiki-subj-title{ font-size:17px; font-weight:800; color:#e7ebf0; margin:0 0 6px; }
+  .wiki-summary{ color:#8a93a8; font-size:13px; margin-bottom:18px; line-height:1.6; }
+  .wiki-article{ margin-bottom:20px; padding:14px 16px; background:#1e2330;
+    border:1px solid #2a3040; border-radius:10px; }
+  .wiki-article h4{ font-size:14px; font-weight:700; color:#a8c4ff; margin:0 0 7px; }
+  .wiki-article p{ font-size:13px; color:#b8c0d0; margin:0; line-height:1.7; }
+  .wiki-article p strong{ color:#e7ebf0; }
+  #wiki-no-results{ color:#556; font-size:14px; padding:20px 0; text-align:center; display:none; }
+  #wiki-search-results{ display:none; }
+  .wiki-result-item{ padding:12px 14px; background:#1e2330; border:1px solid #2a3040;
+    border-radius:8px; margin-bottom:10px; cursor:pointer; }
+  .wiki-result-item:hover{ border-color:#3a5080; }
+  .wiki-result-subj{ font-size:11px; color:#6a8aaa; margin-bottom:3px; }
+  .wiki-result-heading{ font-size:13px; font-weight:700; color:#a8c4ff; }
+  .wiki-result-snippet{ font-size:12px; color:#8a93a8; margin-top:3px; line-height:1.5; }
+  /* wiki button in question modal */
+  #wiki-btn{ background:#1e3060; border:1px solid #3a5080; color:#7daaff;
+    border-radius:7px; padding:5px 12px; font-size:12px; cursor:pointer; margin-top:8px; }
+  #wiki-btn:hover{ background:#253870; }
+  /* phrase flashcard widget */
+  .phrase-section{ margin-top:22px; }
+  .phrase-section-header{ display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .phrase-section-header h4{ font-size:13px; font-weight:700; color:#a8c4ff; margin:0; flex:1; }
+  .phrase-edit-toggle{ background:#1e2330; border:1px solid #2a3040; color:#8a93a8;
+    border-radius:6px; padding:3px 10px; font-size:11px; cursor:pointer; }
+  .phrase-edit-toggle:hover{ border-color:#3a5080; color:#c8d0e0; }
+  .phrase-edit-toggle.active{ background:#1e3a20; border-color:#3a6040; color:#7dcc88; }
+  .phrase-lang-tabs{ display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+  .phrase-lang-tab{ background:#1e2330; border:1px solid #2a3040; color:#8a93a8;
+    border-radius:6px; padding:4px 12px; font-size:12px; cursor:pointer; }
+  .phrase-lang-tab:hover{ border-color:#3a5080; color:#c8d0e0; }
+  .phrase-lang-tab.active{ background:#1e3060; border-color:#3a5080; color:#7daaff; font-weight:600; }
+  .phrase-card{ background:#1e2330; border:1px solid #2a3040; border-radius:12px;
+    padding:22px 20px; text-align:center; cursor:pointer; min-height:100px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:border-color .15s; }
+  .phrase-card:hover{ border-color:#3a5080; }
+  .phrase-card .phrase-src{ font-size:20px; font-weight:700; color:#e7ebf0; }
+  .phrase-card .phrase-tgt{ font-size:16px; color:#7daaff; margin-top:8px; display:none; }
+  .phrase-card .phrase-hint{ font-size:11px; color:#556; margin-top:10px; }
+  .phrase-card.flipped .phrase-tgt{ display:block; }
+  .phrase-card.flipped .phrase-hint{ display:none; }
+  .phrase-nav{ display:flex; align-items:center; justify-content:center; gap:14px; margin-top:10px; }
+  .phrase-nav button{ background:#1e2330; border:1px solid #2a3040; color:#a0a8b8;
+    border-radius:6px; padding:5px 14px; font-size:13px; cursor:pointer; }
+  .phrase-nav button:hover{ border-color:#3a5080; color:#e7ebf0; }
+  .phrase-counter{ font-size:12px; color:#556; min-width:60px; text-align:center; }
+  /* editor panel */
+  .phrase-editor{ margin-top:14px; background:#161a24; border:1px solid #2a3040;
+    border-radius:10px; padding:14px; display:none; }
+  .phrase-editor.open{ display:block; }
+  .phrase-editor-title{ font-size:12px; font-weight:700; color:#7dcc88; margin:0 0 10px; }
+  .phrase-add-form{ display:grid; grid-template-columns:1fr 1fr auto; gap:6px; margin-bottom:12px; align-items:end; }
+  .phrase-add-form select, .phrase-add-form input{
+    background:#1e2330; border:1px solid #2a3040; color:#e7ebf0;
+    border-radius:6px; padding:6px 10px; font-size:12px; }
+  .phrase-add-form select:focus, .phrase-add-form input:focus{ outline:none; border-color:#3a5080; }
+  .phrase-add-btn{ background:#1e3a20; border:1px solid #3a6040; color:#7dcc88;
+    border-radius:6px; padding:6px 12px; font-size:12px; cursor:pointer; white-space:nowrap; }
+  .phrase-add-btn:hover{ background:#253e28; }
+  .phrase-list{ max-height:200px; overflow-y:auto; }
+  .phrase-list-item{ display:flex; align-items:center; gap:8px; padding:5px 0;
+    border-bottom:1px solid #1e2330; font-size:12px; }
+  .phrase-list-item:last-child{ border:none; }
+  .phrase-list-src{ font-weight:600; color:#e7ebf0; flex:1; }
+  .phrase-list-tgt{ color:#7daaff; flex:1; }
+  .phrase-list-tag{ font-size:10px; color:#3a6040; background:#1e2a1e; border-radius:4px;
+    padding:1px 5px; }
+  .phrase-del-btn{ background:none; border:none; color:#664; font-size:14px; cursor:pointer;
+    padding:0 4px; }
+  .phrase-del-btn:hover{ color:#cc5555; }
+  /* Subject & grade settings overlay */
+  #subj-settings-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:450;
+    display:flex; align-items:center; justify-content:center; }
+  #subj-settings-overlay.hidden{ display:none; }
+  #subj-settings-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:28px 32px; max-width:560px; width:94%; max-height:90vh; overflow-y:auto; }
+  #subj-settings-box h2{ font-size:20px; font-weight:800; color:#e7ebf0; margin:0 0 4px; }
+  #subj-settings-box .ss-sub{ color:var(--muted); font-size:12px; margin-bottom:20px; }
+  .ss-section{ margin-bottom:18px; }
+  .ss-section h4{ font-size:12px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.07em; color:#7daaff; margin:0 0 8px; }
+  .grade-btns{ display:flex; gap:8px; }
+  .grade-btn{ flex:1; padding:8px 0; border:1px solid #3a414b; border-radius:8px;
+    background:#262b33; color:#a0aab5; cursor:pointer; font-size:13px; font-weight:600;
+    transition:background .15s, border-color .15s, color .15s; }
+  .grade-btn.active{ background:#1a4a2e; border-color:#7ddf7d; color:#7ddf7d; }
+  .subj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .subj-check{ display:flex; align-items:center; gap:6px; padding:5px 8px;
+    border:1px solid #3a414b; border-radius:7px; background:#262b33; cursor:pointer;
+    font-size:12px; color:#c8d0db; transition:border-color .15s; }
+  .subj-check:hover{ border-color:#7daaff; }
+  .subj-check input[type=checkbox]{ accent-color:#7ddf7d; width:14px; height:14px; }
+  .ss-footer{ display:flex; gap:10px; margin-top:18px; }
+  .ss-footer button{ flex:1; padding:9px 0; border-radius:8px; font-size:14px;
+    font-weight:700; cursor:pointer; border:none; transition:background .15s; }
+  #ss-confirm{ background:#1a5a2e; color:#7ddf7d; }
+  #ss-confirm:hover{ background:#1d6a35; }
+  #ss-cancel{ background:#2a2f38; color:#a0aab5; }
+  #ss-cancel:hover{ background:#3a414b; }
+  #btn-subj-settings{ background:#1e3060; color:#7daaff; border:1px solid #3a5080;
+    border-radius:6px; padding:4px 12px; cursor:pointer; font-size:13px; }
+
+  /* i67: campaign */
+  #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
+    display:flex; align-items:center; justify-content:center; }
+  #camp-overlay.hidden{ display:none; }
+  #camp-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:32px 36px; max-width:560px; width:92%; }
+  #camp-box h2{ font-size:22px; font-weight:800; color:#e7ebf0; margin-bottom:6px; }
+  #camp-box .camp-sub{ color:var(--muted); font-size:13px; margin-bottom:20px; }
+  .camp-list{ display:flex; flex-direction:column; gap:10px; }
+  .camp-item{ background:#262b33; border:1px solid #3a414b; border-radius:10px;
+    padding:14px 18px; cursor:pointer; transition:border-color .15s; }
+  .camp-item:hover{ border-color:#7ddf7d; }
+  .camp-item.locked{ opacity:.4; cursor:not-allowed; }
+  .camp-item.locked:hover{ border-color:#3a414b; }
+  .camp-item .ci-title{ font-weight:700; font-size:15px; color:#e7ebf0; margin-bottom:4px; }
+  .camp-item .ci-desc{ font-size:12px; color:var(--muted); }
+  .camp-item .ci-badge{ font-size:11px; font-weight:700; float:right; padding:2px 7px;
+    border-radius:4px; margin-left:8px; }
+  .ci-badge.easy{ background:#1a4a1a; color:#7ddf7d; }
+  .ci-badge.medium{ background:#3a3010; color:#ffd060; }
+  .ci-badge.hard{ background:#4a1010; color:#ff8080; }
+  #camp-close{ background:none; border:none; color:var(--muted); cursor:pointer;
+    font-size:13px; margin-top:18px; }
+  #camp-close:hover{ color:#e7ebf0; }
+  #btn-campaign{ background:#2a3a4a; color:#80ccff; border:1px solid #2a5a7a;
+    border-radius:6px; padding:5px 12px; cursor:pointer; font-size:13px; }
+  #btn-campaign:hover{ background:#3a4a5a; }
   #ctrl-bar{ position:absolute; bottom:10px; right:10px; display:flex; gap:6px; }
   #ctrl-bar button{ background:rgba(26,30,38,.85); color:#9aa4b2; border:1px solid #3a414b;
     border-radius:5px; padding:4px 10px; cursor:pointer; font-size:12px; backdrop-filter:blur(4px); }
   #ctrl-bar button:hover{ color:#fff; border-color:#6a7280; }
   #cam-hint{ position:absolute; bottom:10px; left:12px; color:var(--muted); font-size:11px;
     pointer-events:none; opacity:.7; }
+
+  /* ── Tutorial tooltip system ─────────────────────────────────────── */
+  [data-tip]{ position:relative; }
+  [data-tip]::after{
+    content: attr(data-tip);
+    position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%);
+    background:#1e2736; color:#e0e8f0; border:1px solid #3a4a5c;
+    border-radius:6px; padding:6px 10px; font-size:11px; line-height:1.4;
+    white-space:pre-wrap; max-width:220px; width:max-content;
+    pointer-events:none; opacity:0; transition:opacity .15s;
+    z-index:9999; text-align:center; box-shadow:0 4px 16px #0005;
+  }
+  [data-tip]:hover::after, [data-tip].tip-open::after{ opacity:1; }
+
+  /* ── Tutorial wizard overlay ─────────────────────────────────────── */
+  #tutorial-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:10000;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #tutorial-box{
+    background:#1a2232; border:1px solid #3a5070; border-radius:12px;
+    padding:24px 28px; max-width:400px; width:90%; color:#e0e8f0;
+    box-shadow:0 8px 40px #000a; position:relative;
+  }
+  #tutorial-box h2{ margin:0 0 8px; font-size:18px; color:#7ec8e3; }
+  #tutorial-box p{ margin:0 0 16px; font-size:14px; line-height:1.6; color:#b8c8d8; }
+  #tutorial-step{ font-size:11px; color:#6a7a8a; margin-bottom:10px; }
+  #tutorial-btns{ display:flex; gap:8px; justify-content:flex-end; }
+  #tutorial-btns button{
+    padding:7px 16px; border-radius:6px; border:none; cursor:pointer; font-size:13px;
+  }
+  #btn-tut-next{ background:#2a6060; color:#7ee8e8; }
+  #btn-tut-next:hover{ background:#3a8080; }
+  #btn-tut-skip{ background:#2a2e38; color:#7a8898; }
+  #btn-tut-skip:hover{ background:#3a404e; }
+  #tutorial-spotlight{
+    position:fixed; pointer-events:none; border:3px solid #7ec8e3;
+    border-radius:8px; box-shadow:0 0 0 9999px rgba(0,0,0,.55);
+    transition: all .25s; z-index:9999;
+  }
 </style>
 </head>
 <body>
@@ -156,7 +475,34 @@
     <option value="4">4 — 10 mp / kérdés</option>
   </select>
   <span id="hero-flag" style="color:var(--muted)"></span>
+  &nbsp;·&nbsp; <button id="btn-campaign">&#9654; Hadjárat</button>
+  &nbsp;·&nbsp; <button id="btn-subj-settings">&#9881; Tantárgyak &amp; szint</button>
+  &nbsp;·&nbsp; <button id="btn-wiki" style="background:#1e3060;color:#7daaff;border:1px solid #3a5080;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:13px;">&#128218; Wiki</button>
 </header>
+
+<!-- Subject & grade settings overlay -->
+<div id="subj-settings-overlay" class="hidden">
+  <div id="subj-settings-box">
+    <h2>&#9881; Tantárgyak &amp; Évfolyamszint</h2>
+    <p class="ss-sub">Válaszd ki, melyik tantárgyak szerepeljenek a kvízkérdésekben, és melyik évfolyamszintnek megfelelők legyenek a kérdések.</p>
+    <div class="ss-section">
+      <h4>Évfolyamszint</h4>
+      <div class="grade-btns">
+        <button class="grade-btn" data-grade="1-4">1–4. évfolyam<br><small>Általános iskola, alsó</small></button>
+        <button class="grade-btn" data-grade="5-8">5–8. évfolyam<br><small>Általános iskola, felső</small></button>
+        <button class="grade-btn" data-grade="9-12">9–12. évfolyam<br><small>Középiskola</small></button>
+      </div>
+    </div>
+    <div class="ss-section">
+      <h4>Aktív tantárgyak</h4>
+      <div class="subj-grid" id="ss-subj-grid"><!-- filled by JS --></div>
+    </div>
+    <div class="ss-footer">
+      <button id="ss-cancel">Mégse</button>
+      <button id="ss-confirm">&#10003; Alkalmaz</button>
+    </div>
+  </div>
+</div>
 <div id="wrap">
   <div id="mapbox">
     <canvas id="map3d"></canvas>
@@ -167,13 +513,14 @@
     <div id="cam-hint">Forgatás: jobb gomb · Zoom: görgő · Mozgatás: középső gomb</div>
   </div>
   <div class="side">
-    <div class="card">
+    <div class="card" id="turn-card">
       <h3>Körrendszer</h3>
       <div id="turn-bar">
         <span class="res">Kör: <b id="turn-num">1</b></span>
         <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
         <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
-        <button id="btn-end-turn">Kör vége ▶</button>
+        <button id="btn-end-turn" data-tip="Kör vége: bevétel, botok lépése, majd a te köröd jön">Kör vége ▶</button>
+        <button id="btn-sound" data-tip="Hang be/ki" style="min-width:34px;padding:4px 7px" title="Hang">🔊</button>
       </div>
       <div id="xp-bar">
         <b id="xp-label">XP: 0</b>
@@ -181,11 +528,11 @@
         <span id="xp-streak"></span>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="event-card">
       <h3>Eseménynapló</h3>
       <div id="event-log"><div class="ev-info">A játék elkezdődött.</div></div>
     </div>
-    <div class="card" id="info">
+    <div class="card" id="info-card">
       <h3>Provincia</h3>
       <div id="info-body"><span class="k">Vigyél az egeret egy provincia fölé, vagy kattints rá.</span></div>
     </div>
@@ -196,6 +543,28 @@
     <div class="card">
       <h3>Nehézség</h3>
       <div id="diff-body"></div>
+    </div>
+    <div class="card" id="bots-card">
+      <h3>Ellenfelek</h3>
+      <div id="bots-body"></div>
+    </div>
+    <div class="card" id="save-card">
+      <h3>Mentés / Betöltés</h3>
+      <div class="save-row">
+        <button id="btn-save-now" data-tip="Játékállás mentése az aktuális slotba">💾 Mentés</button>
+        <button id="btn-export-json" data-tip="Teljes mentés letöltése JSON fájlként">⬇ Export JSON</button>
+        <button id="btn-import-json" data-tip="Korábban exportált JSON mentés betöltése">⬆ Import JSON</button>
+      </div>
+      <div class="save-row">
+        <button id="btn-export-csv" title="Válasznapló letöltése CSV-ként (osztálytermi mód)">📋 Válasznapló CSV</button>
+      </div>
+      <div id="save-status"></div>
+      <div id="save-slots"></div>
+      <input type="file" id="import-file-input" accept=".json" style="display:none">
+    </div>
+    <div class="card" id="teacher-card">
+      <h3>📊 Tanár-nézet</h3>
+      <div id="teacher-body"><span class="k">Még nincs kvíz-adat.</span></div>
     </div>
     <div class="card">
       <h3>Terület-tulajdon (szimuláció)</h3>
@@ -259,16 +628,68 @@ let QBANK = []; // loaded from qbank.json
 const SUBJ_MAP = {
   MAGYAR:'magyar', MATEMATIKA:'matematika', FIZIKA:'fizika', KEMIA:'kemia',
   BIOLOGIA:'biologia', TORTENELEM:'tortenelem', FOLDRAJZ:'foldrajz',
-  INFORMATIKA:'informatika', IDEGEN_NYELV:'idegen'
+  DIGITALIS_KULTURA:'digitalis_kultura', IDEGEN_NYELV:'idegen_nyelv',
+  TERMESZETTUDOMANY:'termeszettudomany', ALLAMPOLGARI:'allampolgari',
+  ETIKA:'etika', HON_NEPISMERET:'hon_nepismeret',
+};
+// Reverse map: lowercase key → display name (Hungarian)
+const SUBJ_NAMES = {
+  magyar:'Magyar nyelv és irodalom', matematika:'Matematika',
+  fizika:'Fizika', kemia:'Kémia', biologia:'Biológia',
+  tortenelem:'Történelem', foldrajz:'Földrajz',
+  digitalis_kultura:'Digitális kultúra', idegen_nyelv:'Idegen nyelv',
+  termeszettudomany:'Természettudomány', allampolgari:'Állampolgári ismeretek',
+  etika:'Etika', hon_nepismeret:'Hon- és népismeretek',
+};
+// All subject lowercase keys
+const ALL_SUBJECTS = Object.values(SUBJ_MAP);
+
+// Game settings: grade band and active subjects
+let gameSettings = {
+  gradeBand: '5-8',  // '1-4' | '5-8' | '9-12'
+  activeSubjects: new Set(ALL_SUBJECTS),
 };
 
-fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=d; }).catch(()=>{});
+/**
+ * Normalise a qbank payload to a plain question array regardless of schema version.
+ * v1 envelope: { schema_version:1, questions:[...] }
+ * legacy (no envelope): plain array
+ */
+function normaliseQbank(raw){
+  if(Array.isArray(raw)) return raw;            // legacy flat array
+  if(raw && Array.isArray(raw.questions)) return raw.questions; // v1+
+  console.warn('qbank.json: unrecognised format', raw?.schema_version);
+  return [];
+}
+
+/**
+ * Normalise a wiki payload to a plain subject map regardless of schema version.
+ * v1 envelope: { schema_version:1, subjects:{...} }
+ * legacy (no envelope): plain subject map
+ */
+function normaliseWiki(raw){
+  if(raw && typeof raw.subjects === 'object') return raw.subjects; // v1+
+  if(raw && typeof raw === 'object' && !Array.isArray(raw)) return raw; // legacy map
+  console.warn('wiki.json: unrecognised format', raw?.schema_version);
+  return {};
+}
+
+fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=normaliseQbank(d); }).catch(()=>{});
 
 function pickQuestion(subjectId){
-  const key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
-  const pool = QBANK.filter(q=>q.subject===key);
-  if(!pool.length) return null;
-  return pool[Math.floor(Math.random()*pool.length)];
+  let key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
+  // If subject is not active, pick from a random active subject
+  if(!gameSettings.activeSubjects.has(key)){
+    const active = [...gameSettings.activeSubjects];
+    if(!active.length) return null;
+    key = active[Math.floor(Math.random()*active.length)];
+  }
+  const gb = gameSettings.gradeBand;
+  const pool = QBANK.filter(q=>q.subject===key && q.grade===gb);
+  if(pool.length) return pool[Math.floor(Math.random()*pool.length)];
+  // Fallback: any grade for this subject
+  const fallback = QBANK.filter(q=>q.subject===key);
+  return fallback.length ? fallback[Math.floor(Math.random()*fallback.length)] : null;
 }
 
 let _timerInterval = null;
@@ -278,7 +699,8 @@ function provinceChoiceCount(prov){
   const base = DIFFICULTIES[currentDifficulty].choiceCount;
   const b = prov.b ?? 0; // IRT difficulty, typically -3..+3
   const delta = b > 1 ? 2 : b > 0 ? 1 : b < -1 ? -1 : 0;
-  return Math.min(7, Math.max(2, base + delta));
+  const boost = heroSpeedBoost(); // speed_boost heroes reduce choices (easier)
+  return Math.min(7, Math.max(2, base + delta - boost));
 }
 
 function provinceTimeLimit(prov){
@@ -290,12 +712,19 @@ function provinceTimeLimit(prov){
   return base;
 }
 
-function showQuestionModal(prov, onSuccess, onCancel){
+function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
   const q = pickQuestion(prov.subject);
   const subj = DATA.subjects?.find(s=>s.id===prov.subject);
   const overlay = document.getElementById('q-overlay');
   const choiceCount = provinceChoiceCount(prov);
   const timeLimitMs = provinceTimeLimit(prov);
+  // Set mode badge (defend sets it before calling)
+  const badge = document.getElementById('q-mode-badge');
+  if(mode === 'attack'){
+    badge.className = 'attack';
+    badge.textContent = '⚔ Támadás';
+    badge.classList.remove('hidden');
+  }
 
   // Build shuffled choices: correct + N-1 distractors
   const distractors = (q ? [...q.distractors] : []).sort(()=>Math.random()-.5).slice(0, choiceCount-1);
@@ -305,6 +734,8 @@ function showQuestionModal(prov, onSuccess, onCancel){
     subj ? subj.name + ' — Tudáskapu' : 'Tudáskapu';
   document.getElementById('q-prompt').textContent =
     q ? q.prompt : 'Nincs elérhető kérdés ehhez a tartományhoz.';
+  // i73: show wiki button for this question
+  if(typeof setWikiBtn === 'function') setWikiBtn(prov.subject, q?.prompt);
 
   const timerEl = document.getElementById('q-timer');
   if(timeLimitMs && q){
@@ -333,6 +764,9 @@ function showQuestionModal(prov, onSuccess, onCancel){
     choicesEl.querySelectorAll('.q-choice').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const correct = btn.textContent === q.correct;
+        // Log answer for classroom mode
+        answerLog.push({ts: Date.now(), subjectId: prov.subject, prompt: q.prompt, correct, turn: turnNumber});
+        renderTeacherCard();
         // Disable all buttons
         choicesEl.querySelectorAll('.q-choice').forEach(b=>{
           b.disabled = true;
@@ -343,13 +777,26 @@ function showQuestionModal(prov, onSuccess, onCancel){
         setTimeout(()=>{
           finishModal(correct, prov);
           if(correct){
+            sfx('correct');
             streak++;
             const earned = XP_PER_CORRECT + (streak > 1 ? XP_STREAK_BONUS * (streak - 1) : 0);
             addXP(earned);
             const streakMsg = streak > 1 ? ` 🔥 Sorozat ×${streak} (+${earned} XP)` : ` (+${earned} XP)`;
-            addEvent('&#10003; Helyes válasz!' + streakMsg, 'ev-player');
+            // Activate subject income bonus for next turn
+            const subjKey = SUBJ_MAP[prov.subject] || prov.subject?.toLowerCase();
+            let bonusMsg = '';
+            if(subjKey && SUBJECT_BONUS[subjKey]){
+              subjectBonusActive[subjKey] = turnNumber + 1;
+              const bd = SUBJECT_BONUS[subjKey];
+              const parts = [];
+              if(bd.gold) parts.push(`×${bd.gold} ⭐`);
+              if(bd.kk)   parts.push(`×${bd.kk} 📖`);
+              bonusMsg = ` <span style="color:#7dccc8;font-size:11px">[+tantárgy bónusz: ${parts.join(' ')}]</span>`;
+            }
+            addEvent('&#10003; Helyes válasz!' + streakMsg + bonusMsg, 'ev-player');
             onSuccess && onSuccess();
           } else {
+            sfx('wrong');
             streak = 0; renderXPBar();
             addEvent('&#10007; Rossz válasz! Nem sikerült elfoglalni: <b>' + prov.name + '</b>', 'ev-info');
             onCancel && onCancel();
@@ -376,6 +823,12 @@ function showQuestionModal(prov, onSuccess, onCancel){
 function finishModal(){
   document.getElementById('q-overlay').classList.add('hidden');
   clearInterval(_timerInterval);
+  const badge = document.getElementById('q-mode-badge');
+  badge.className = 'attack hidden';
+  const wb = document.getElementById('wiki-btn');
+  if(wb) wb.style.display = 'none';
+  const qe = document.getElementById('q-explanation');
+  if(qe) { qe.textContent=''; qe.className=''; }
 }
 let owned = new Set();
 
@@ -383,13 +836,119 @@ let owned = new Set();
 let turnNumber = 1;
 let gold = 0;
 let kk = 0;
-// Bot owns a separate set of provinces
-const botOwned = new Set();
 // Income per province per turn
 const INCOME = { gold: 8, kk: 3 };
 // Bot income multiplier
 const BOT_INCOME = { gold: 6, kk: 2 };
-let botGold = 20, botKK = 10;
+
+// Per-subject income bonus: correct answer in subject → that province yields bonus next turn
+// subject id (lowercase) → { gold?: multiplier, kk?: multiplier }
+const SUBJECT_BONUS = {
+  matematika:          { gold: 1.4 },           // Matematika → arany
+  magyar:              { kk: 1.4 },             // Magyar → KK
+  tortenelem:          { gold: 1.2, kk: 1.2 },  // Történelem → mindkettő
+  fizika:              { gold: 1.3 },            // Fizika → ipari bónusz
+  biologia:            { kk: 1.3 },             // Biológia → KK
+  kemia:               { gold: 1.2 },            // Kémia → arany
+  foldrajz:            { gold: 1.15, kk: 1.15 },
+  digitalis_kultura:   { gold: 1.3 },            // Digitális kultúra → arany
+  idegen_nyelv:        { kk: 1.35 },            // Idegen nyelv → diplomáciai KK
+  termeszettudomany:   { gold: 1.2, kk: 1.1 },  // Természettudomány → vegyes
+  allampolgari:        { kk: 1.25 },            // Állampolgári → KK
+  etika:               { kk: 1.2 },             // Etika → KK
+  hon_nepismeret:      { kk: 1.15 },            // Hon- és népismeretek → KK
+};
+// Active subject bonuses: subject id → expiry turn (lasts 1 turn after earning)
+let subjectBonusActive = {}; // { [subjectId]: expiryTurn }
+// Hero duration tracking: hero.id → remaining turns (for duration-limited effects)
+let heroEffectDuration = {}; // { [heroId]: turnsRemaining }
+// Classroom mode answer log
+let answerLog = []; // [{ts, subjectId, prompt, correct, turn}]
+
+// ── i79: Multi-bot system ─────────────────────────────────────────────────
+// Persona definitions: scoring weights, quiz success rate, diplomacy style
+const BOT_PERSONAS = {
+  agresszív: {
+    name: 'Agresszív',
+    icon: '⚔️',
+    color: 0xff4400,
+    cssClass: 'bot1',
+    scoreWeights: { capital:500, adj:12, blockBonus:80, subjectMult:1.0 },
+    quizSuccessBase: 0.55,  // lower — takes risks
+    attackChanceMult: 1.5,
+    incomeMultGold: 0.9, incomeMultKK: 0.8,
+    diploStyle: 'peace', // peace offer when losing
+    maxConquestPerTurn: 3,
+  },
+  gazdasági: {
+    name: 'Gazdasági',
+    icon: '💰',
+    color: 0x00cc55,
+    cssClass: 'bot2',
+    scoreWeights: { capital:300, adj:20, blockBonus:20, subjectMult:1.8 },
+    quizSuccessBase: 0.70,  // careful, picks easy targets
+    attackChanceMult: 0.6,
+    incomeMultGold: 1.4, incomeMultKK: 1.2,
+    diploStyle: 'trade',  // territory trade
+    maxConquestPerTurn: 2,
+  },
+  tudós: {
+    name: 'Tudós',
+    icon: '📚',
+    color: 0x9944ff,
+    cssClass: 'bot3',
+    scoreWeights: { capital:200, adj:8, blockBonus:30, subjectMult:2.5 },
+    quizSuccessBase: 0.85,  // high — prefers known subjects
+    attackChanceMult: 0.4,
+    incomeMultGold: 1.0, incomeMultKK: 1.6,
+    diploStyle: 'alliance', // non-aggression pact
+    maxConquestPerTurn: 1,
+  },
+};
+
+// Bot difficulty: scales quiz success and aggressiveness independently of quiz difficulty
+const BOT_DIFFICULTY = {
+  easy:   { quizBonus: 0.25, aggrMult: 0.45, incomeMult: 0.7,  label: 'Könnyű', desc: 'Gyengébb ellenfelek — több hibát vétenek, lassabban terjeszkednek' },
+  normal: { quizBonus: 0,    aggrMult: 1.0,  incomeMult: 1.0,  label: 'Normál', desc: 'Kiegyensúlyozott kihívás' },
+  hard:   { quizBonus: -0.2, aggrMult: 1.6,  incomeMult: 1.35, label: 'Nehéz',  desc: 'Agresszív ellenfelek — ritkán hibáznak, gyorsabban gazdagodnak' },
+};
+let botDifficulty = 'normal';
+
+// Active bots: up to 3, initialized on map load
+let BOTS = [];
+
+function initBots(count = 1){
+  BOTS = [];
+  const personaKeys = Object.keys(BOT_PERSONAS);
+  const colors = ['bot1','bot2','bot3'];
+  for(let i=0;i<Math.min(count,3);i++){
+    const personaKey = personaKeys[i % personaKeys.length];
+    const persona = BOT_PERSONAS[personaKey];
+    BOTS.push({
+      id: i,
+      personaKey,
+      persona,
+      owned: new Set(),
+      gold: 20 + i * 5,
+      kk: 10,
+      diploActive: false,    // diplomacy offer pending
+      paceTurns: 0,          // turns remaining in non-aggression pact
+      badgeCss: colors[i],
+    });
+  }
+}
+
+// Legacy alias — first bot's owned set for backwards-compat with existing code
+// (ownerBadge, showInfo, renderBotOverlay, etc. all use botOwned)
+// We keep botOwned as a UNION of all bot owned sets for the overlay renderer
+const botOwned = new Set();
+function syncBotOwned(){
+  botOwned.clear();
+  for(const bot of BOTS) for(const id of bot.owned) botOwned.add(id);
+}
+function botOwnerOf(id){ return BOTS.find(b=>b.owned.has(id)); }
+
+let botGold = 20, botKK = 10; // legacy single-bot, kept for backward compat
 let eventLog = [];
 
 // ── XP / streak system (i64) ──────────────────────────────────────────────
@@ -423,13 +982,16 @@ function checkVictory(){
   const total = DATA.provinces.length;
   if(!total) return;
   const playerRatio = owned.size / total;
-  const botRatio    = botOwned.size / total;
   if(playerRatio >= WIN_THRESHOLD){ showGameOver(true); return; }
-  if(botRatio    >= WIN_THRESHOLD){ showGameOver(false); }
+  // i79: any single bot reaching threshold triggers defeat
+  for(const bot of BOTS){
+    if(bot.owned.size / total >= WIN_THRESHOLD){ showGameOver(false, bot); return; }
+  }
 }
 
-function showGameOver(win){
+function showGameOver(win, losingBot){
   gameOver = true;
+  sfx(win ? 'win' : 'lose');
   document.getElementById('btn-end-turn').disabled = true;
   const total = DATA.provinces.length;
   const overlay = document.getElementById('go-overlay');
@@ -440,11 +1002,12 @@ function showGameOver(win){
   title.className   = win ? 'win' : 'lose';
   sub.textContent   = win
     ? `Elfoglaltad a térkép ${Math.round(WIN_THRESHOLD*100)}%-át — A Tudás Győzött!`
-    : `A bot elérte a ${Math.round(WIN_THRESHOLD*100)}%-os határt — Vereség!`;
+    : `${losingBot?.persona.icon||'⚔️'} ${losingBot?.persona.name||'Ellenfél'} elérte a ${Math.round(WIN_THRESHOLD*100)}%-os határt — Vereség!`;
+  const botRows = BOTS.map(b=>[`${b.persona.icon} ${b.persona.name}`, `${b.owned.size} tartomány`]);
   stats.innerHTML = [
     ['Körök száma', turnNumber],
     ['Elfoglalt tartományok', `${owned.size} / ${total}`],
-    ['Bot tartományai', `${botOwned.size} / ${total}`],
+    ...botRows,
     ['Összesített XP', xp],
     ['Szint', Math.floor(xp/XP_PER_LEVEL)+1],
     ['Arany maradt', gold],
@@ -458,7 +1021,11 @@ function resetGame(){
   gold = 0; kk = 0;
   botGold = 20; botKK = 10;
   xp = 0; streak = 0;
-  owned.clear(); botOwned.clear();
+  owned.clear();
+  for(const bot of BOTS){ bot.owned.clear(); bot.gold=20; bot.kk=10; bot.diploActive=false; bot.paceTurns=0; }
+  syncBotOwned();
+  for(const k in buildings) delete buildings[k];
+  activeCampaign = null;
   eventLog = [];
   document.getElementById('event-log').innerHTML = '<div class="ev-info">Új játék kezdődött.</div>';
   document.getElementById('go-overlay').classList.add('hidden');
@@ -514,6 +1081,9 @@ controls.dampingFactor = 0.07;
 controls.minDistance = 8;
 controls.maxDistance = 280;
 controls.maxPolarAngle = Math.PI * 0.48; // max ~86° from Z-up = nearly horizontal
+// Mobile touch: 1-finger pan, 2-finger pinch-zoom + pan
+controls.touches = { ONE: THREE.TOUCH.PAN, TWO: THREE.TOUCH.DOLLY_PAN };
+controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
 
 // Lights — permanent, not cleared between packs
 const ambLight = new THREE.AmbientLight(0xffffff, 0.55);
@@ -694,6 +1264,9 @@ async function loadPack(dir, pack){
   // UI
   buildLegend(); renderDiffCard(); renderUnrestCard(); renderOwnedCard();
   renderUnrestOverlay3D(); renderOwnershipOverlay3D();
+  // i79: init default 1-bot game on map load
+  if(BOTS.length === 0) initBots(1);
+  renderBotsCard();
   addCapitals3D();
 
   const supports = data.meta?.supportsHeroes;
@@ -742,14 +1315,102 @@ function makePin(headColor, headR, needleH){
   return group;
 }
 
+// ── Castle marker (főváros jelölő) ────────────────────────────────────────
+function makeCastle(){
+  const g = new THREE.Group();
+  const mark = c=>{ c.userData.isMarker=true; return c; };
+
+  const stoneMat  = new THREE.MeshStandardMaterial({color:0xd4c89a,roughness:0.75,metalness:0.05});
+  const darkMat   = new THREE.MeshStandardMaterial({color:0x8a7a50,roughness:0.9,metalness:0.0});
+  const roofMat   = new THREE.MeshStandardMaterial({color:0xb83030,roughness:0.5,metalness:0.1});
+  const goldMat   = new THREE.MeshStandardMaterial({color:0xffd700,roughness:0.3,metalness:0.6,emissive:0xffa500,emissiveIntensity:0.25});
+
+  // ── Alap (courtyard fal) — lapos gyűrű ─────────────────────────
+  const wallGeo = new THREE.CylinderGeometry(1.25,1.35,0.25,16,1,true);
+  wallGeo.rotateX(Math.PI/2);
+  wallGeo.translate(0,0,0.125);
+  g.add(mark(new THREE.Mesh(wallGeo, stoneMat)));
+
+  // Udvar alja
+  const yardGeo = new THREE.CylinderGeometry(1.25,1.25,0.12,16);
+  yardGeo.rotateX(Math.PI/2);
+  g.add(mark(new THREE.Mesh(yardGeo, darkMat)));
+
+  // ── 4 saroktorony ─────────────────────────────────────────────
+  const towerPositions = [[0.8,0.8],[-0.8,0.8],[0.8,-0.8],[-0.8,-0.8]];
+  for(const [tx,ty] of towerPositions){
+    // toronytest
+    const bodyGeo = new THREE.CylinderGeometry(0.28,0.32,1.4,8);
+    bodyGeo.rotateX(Math.PI/2);
+    const body = new THREE.Mesh(bodyGeo, stoneMat);
+    body.position.set(tx,ty,0.7);
+    mark(body); g.add(body);
+
+    // pártázat (merlon) — lapos korona a torony tetején
+    for(let m=0;m<6;m++){
+      const a=m/6*Math.PI*2;
+      const mGeo = new THREE.BoxGeometry(0.12,0.12,0.22);
+      const mM = new THREE.Mesh(mGeo, stoneMat);
+      mM.position.set(tx+Math.cos(a)*0.22, ty+Math.sin(a)*0.22, 1.5);
+      mark(mM); g.add(mM);
+    }
+
+    // kúptető
+    const coneGeo = new THREE.ConeGeometry(0.32,0.6,8);
+    coneGeo.rotateX(Math.PI/2);
+    const cone = new THREE.Mesh(coneGeo, roofMat);
+    cone.position.set(tx,ty,1.7);
+    mark(cone); g.add(cone);
+  }
+
+  // ── Középső főtorony (keep / donjon) ──────────────────────────
+  const keepGeo = new THREE.BoxGeometry(0.72,0.72,2.0);
+  keepGeo.translate(0,0,1.0);
+  g.add(mark(new THREE.Mesh(keepGeo, stoneMat)));
+
+  // Főtorony pártázat (4 sarok)
+  for(const [kx,ky] of [[0.3,0.3],[-0.3,0.3],[0.3,-0.3],[-0.3,-0.3]]){
+    const mGeo = new THREE.BoxGeometry(0.16,0.16,0.28);
+    const mM = new THREE.Mesh(mGeo, stoneMat);
+    mM.position.set(kx,ky,2.14);
+    mark(mM); g.add(mM);
+  }
+
+  // Főtorony tető
+  const keepRoofGeo = new THREE.ConeGeometry(0.52,0.85,4);
+  keepRoofGeo.rotateX(Math.PI/2);
+  keepRoofGeo.rotateZ(Math.PI/4);
+  const keepRoof = new THREE.Mesh(keepRoofGeo, roofMat);
+  keepRoof.position.set(0,0,2.43);
+  mark(keepRoof); g.add(keepRoof);
+
+  // ── Arany zászló a tetőn ──────────────────────────────────────
+  const poleGeo = new THREE.CylinderGeometry(0.03,0.03,0.7,4);
+  poleGeo.rotateX(Math.PI/2);
+  const pole = new THREE.Mesh(poleGeo, goldMat);
+  pole.position.set(0,0,3.22);
+  mark(pole); g.add(pole);
+
+  const flagGeo = new THREE.PlaneGeometry(0.35,0.22);
+  flagGeo.translate(0.18,0,0);
+  const flagMat = new THREE.MeshStandardMaterial({color:0xff3030,side:THREE.DoubleSide,roughness:0.6});
+  const flag = new THREE.Mesh(flagGeo, flagMat);
+  flag.position.set(0,0,3.47);
+  mark(flag); g.add(flag);
+
+  g.userData.isMarker=true;
+  return g;
+}
+
 function addCapitals3D(){
   if(!DATA) return;
   for(const p of DATA.provinces.filter(x=>x.capital)){
     const w=toWorld(p.cx,p.cy);
-    const pin = makePin(0xff2222, 0.55, 2.4);
-    pin.position.set(w.x, w.y, SLAB_H);
-    pin.userData.isMarker=true;
-    markerGroup.add(pin);
+    const castle = makeCastle();
+    castle.position.set(w.x, w.y, SLAB_H);
+    const s=0.55; castle.scale.set(s,s,s);
+    castle.userData.isMarker=true;
+    markerGroup.add(castle);
   }
 }
 
@@ -856,18 +1517,26 @@ function toggleOwned(id){
     }
     // Ask question before capturing
     if(prov && prov.subject && QBANK.length){
+      // i78: hero attack bonus → easier question (reduce difficulty by 1)
+      const atkBonus = heroAttackBonus();
+      const origDiff = currentDifficulty;
+      if(atkBonus > 0) currentDifficulty = Math.max(1, currentDifficulty - Math.round(atkBonus * 3));
       showQuestionModal(prov,
         ()=>{ // success
+          currentDifficulty = origDiff;
           gold -= cost;
           owned.add(id);
           renderTurnBar();
           triggerConquest(id, true);
-          addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)`, 'ev-player');
+          sfx('conquest');
+          const atkMsg = atkBonus > 0 ? ` <span style="color:#c9a84c;font-size:11px">(hős segített!)</span>` : '';
+          addEvent(`&#9873; Elfoglalva: <b>${prov.name}</b> (-${cost} arany)${atkMsg}`, 'ev-player');
           renderOwnershipOverlay3D(); renderOwnedCard();
           checkVictory();
           const selProv = byId[id]; if(selProv) showInfo(selProv);
         },
         ()=>{ // cancel / wrong
+          currentDifficulty = origDiff;
           const selProv = byId[id]; if(selProv) showInfo(selProv);
         }
       );
@@ -887,8 +1556,9 @@ function toggleOwned(id){
 // ── info panel ────────────────────────────────────────────────────────────
 
 function ownerBadge(id){
-  if(owned.has(id))    return '<span class="badge player">&#9873; Játékos</span>';
-  if(botOwned.has(id)) return '<span class="badge bot">&#9876; Bot</span>';
+  if(owned.has(id)) return '<span class="badge player">&#9873; Játékos</span>';
+  const bot = botOwnerOf(id);
+  if(bot) return `<span class="badge ${bot.badgeCss}">${bot.persona.icon} ${bot.persona.name}</span>`;
   return '<span class="badge neutral">Semleges</span>';
 }
 
@@ -948,7 +1618,15 @@ function showInfo(p){
   // Heroes
   const heroBlock = heroes.length
     ? `<div style="margin-top:10px;font-size:12px;color:var(--muted);margin-bottom:4px">Toborozható hősök (${heroes.length})</div>`+
-      heroes.map(h=>`<div class="hero-row"><span class="hname">&#9733; ${h.name}</span> <span class="hmeta">— ${h.subject} · ${h.birthLabel}</span></div>`).join('')
+      heroes.map(h=>{
+        const years = (h.birth||h.death) ? `<span class="hyears">(${h.birth||'?'}–${h.death||'?'})</span>` : '';
+        const eff = h.ability?.effect;
+        const effBadge = eff && isOwned
+          ? `<span style="margin-left:4px;font-size:10px;background:#1e3a20;color:#7dcc88;border-radius:3px;padding:1px 5px">✓ AKTÍV</span>`
+          : '';
+        const ability = h.ability ? `<div class="hability">⚡ <span class="aname">${h.ability.name}</span>${effBadge} — ${h.ability.desc}${eff&&isOwned?` <i style="color:#7dcc88">[${eff.desc}]</i>`:''}</div>` : '';
+        return `<div class="hero-row"><span class="hname">&#9733; ${h.name}</span>${years} <span class="hmeta">— ${h.subject} · ${h.birthLabel}</span>${ability}</div>`;
+      }).join('')
     : (DATA.meta?.supportsHeroes ? `<div style="margin-top:8px;font-size:12px;color:var(--muted)">Nincs toborozható hős.</div>` : '');
 
   // Action button
@@ -959,9 +1637,13 @@ function showInfo(p){
       </button>
     </div>`;
 
-  document.getElementById('info-body').innerHTML = header + rows + unrestBar + heroBlock + actionBtn;
+  const bldBlock = buildingsHTML(p.id);
+  document.getElementById('info-body').innerHTML = header + rows + unrestBar + heroBlock + bldBlock + actionBtn;
   const btn = document.getElementById('own-toggle-btn');
   if(btn && !isBot) btn.addEventListener('click', ()=>{ toggleOwned(p.id); showInfo(p); });
+  document.querySelectorAll('.bld-btn:not([disabled])').forEach(b=>{
+    b.addEventListener('click', ()=>buildAt(b.dataset.prov, b.dataset.bld));
+  });
 
   // Show subject card
   if(subj) showSubject(subj);
@@ -972,7 +1654,7 @@ function showSubject(subj){
   if(!DATA) return;
   const provs = DATA.provinces.filter(p=>p.subject===subj.id);
   const playerCount = provs.filter(p=>owned.has(p.id)).length;
-  const botCount    = provs.filter(p=>botOwned.has(p.id)).length;
+  const botCount    = provs.filter(p=>botOwned.has(p.id)).length; // botOwned = union
   const totalKK     = playerCount * INCOME.kk;
   const u = cascadeEnabled() ? unrestOf(subj.id) : 0;
   const uColor = u>=7?'#ff4422':u>=4?'#ff8a5c':'#ffd65a';
@@ -1112,6 +1794,44 @@ canvas.addEventListener('mouseup', e=>{
   }
 });
 
+// ── Touch support (mobile/tablet) ─────────────────────────────────────────
+let _touchStart = null;
+canvas.addEventListener('touchstart', e=>{
+  // Record single-finger start for tap detection; OrbitControls handles the rest.
+  _touchStart = e.touches.length===1
+    ? {x:e.touches[0].clientX, y:e.touches[0].clientY}
+    : null;
+  e.preventDefault();
+},{passive:false});
+
+canvas.addEventListener('touchend', e=>{
+  if(_touchStart && e.changedTouches.length===1){
+    const t=e.changedTouches[0];
+    const dx=t.clientX-_touchStart.x, dy=t.clientY-_touchStart.y;
+    if(Math.hypot(dx,dy)<8){
+      // Tap → treat as click
+      const rect=canvas.getBoundingClientRect();
+      mouse2.set(
+        ((t.clientX-rect.left)/rect.width)*2-1,
+        -((t.clientY-rect.top)/rect.height)*2+1);
+      raycaster.setFromCamera(mouse2,camera);
+      const hits=raycaster.intersectObjects([...meshById.values()]);
+      if(hits.length){
+        const id=hits[0].object.userData.provinceId;
+        setSelect(id);
+        const p=byId[id]; if(p) showInfo(p);
+      }
+    }
+  }
+  _touchStart=null;
+},{passive:false});
+
+canvas.addEventListener('touchmove', e=>{
+  // OrbitControls handles pan (1 finger) and pinch-zoom (2 finger).
+  // We only call preventDefault to stop the page from scrolling/zooming.
+  e.preventDefault();
+},{passive:false});
+
 // ── animate ───────────────────────────────────────────────────────────────
 
 function animate(){
@@ -1208,80 +1928,106 @@ function renderTurnBar(){
   document.getElementById('res-kk').textContent = kk;
 }
 
-// Utility score U(G) for a province — simplified from the spec
-function utilityScore(prov){
+// ── i79: Persona-based bot scoring ───────────────────────────────────────
+function botScoreFor(bot, prov){
   if(!DATA) return 0;
-  // V: value of the target
-  const isCapital = prov.capital ? 300 : 0;
-  const adjBonus = (prov.adj?.length ?? 0) * 10; // more connections = more strategic
-  const V = 100 + isCapital + adjBonus;
-  // K: knowledge synergy — bot prefers math/history provinces
-  const subj = DATA.subjects?.find(s=>s.id===prov.subject);
-  const K = subj ? 1.4 : 1.0;
-  // T: threat — penalise provinces adjacent to many player-owned (contested)
-  const playerAdjCount = (prov.adj??[]).filter(id=>owned.has(id)).length;
-  const T = playerAdjCount * 20;
-  // Distance cost: rough estimate — provinces adjacent to bot territory cost less
-  const botAdjCount = (prov.adj??[]).filter(id=>botOwned.has(id)).length;
-  const distCost = botOwned.size === 0 ? 1 : Math.max(1, 3 - botAdjCount);
-  return (V * K - T) / distCost;
-}
-
-// i63: improved bot score — adjacency + player-blocking priority
-function botScore(prov){
-  if(!DATA) return 0;
-  const isCapital = prov.capital ? 400 : 0;
+  const w = bot.persona.scoreWeights;
+  const isCapital = prov.capital ? w.capital : 0;
   const adjCount  = prov.adj?.length ?? 0;
   const subj = DATA.subjects?.find(s=>s.id===prov.subject);
-  const K = subj ? 1.5 : 1.0;
-  // Prefer provinces adjacent to bot territory (expansion continuity)
-  const botAdj  = (prov.adj??[]).filter(id=>botOwned.has(id)).length;
-  // Reward blocking player: bonus if adjacent to player province
+  const K = subj ? w.subjectMult : 1.0;
+  const botAdj    = (prov.adj??[]).filter(id=>bot.owned.has(id)).length;
   const playerAdj = (prov.adj??[]).filter(id=>owned.has(id)).length;
-  const blockBonus = playerAdj * 50;
-  const base = (100 + isCapital + adjCount * 8) * K;
-  // Distance cost: isolated provinces cost more (no adjacency)
-  const distCost = botOwned.size === 0 ? 1 : Math.max(1, 4 - botAdj * 2);
+  const blockBonus = playerAdj * w.blockBonus;
+  const base = (100 + isCapital + adjCount * w.adj) * K;
+  const distCost  = bot.owned.size === 0 ? 1 : Math.max(1, 4 - botAdj * 2);
   return (base + blockBonus) / distCost;
 }
 
-function botTurn(){
-  if(!DATA || gameOver) return;
-  // Collect income for bot
-  botGold += botOwned.size * BOT_INCOME.gold + BOT_INCOME.gold;
-  botKK   += botOwned.size * BOT_INCOME.kk   + BOT_INCOME.kk;
+// i79: Bot quiz — siker-valószínűség persona + nehézség alapján
+function botQuizSuccess(bot){
+  const diffPenalty = [0, 0, 0.05, 0.12, 0.22][currentDifficulty] || 0;
+  const bd = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const chance = Math.max(0.10, bot.persona.quizSuccessBase - diffPenalty + bd.quizBonus);
+  return Math.random() < chance;
+}
 
-  // Find best unclaimed province (not owned by player or bot)
-  const candidates = DATA.provinces.filter(p =>
-    !owned.has(p.id) && !botOwned.has(p.id)
-  );
+// i79: Single bot's expansion turn
+function runBotTurn(bot){
+  if(gameOver) return;
+  // Income
+  const bdInc = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const gMult = bot.persona.incomeMultGold * bdInc.incomeMult;
+  const kMult = bot.persona.incomeMultKK   * bdInc.incomeMult;
+  bot.gold += Math.round((bot.owned.size * BOT_INCOME.gold + BOT_INCOME.gold) * gMult);
+  bot.kk   += Math.round((bot.owned.size * BOT_INCOME.kk   + BOT_INCOME.kk)   * kMult);
+
+  const candidates = DATA.provinces.filter(p => !owned.has(p.id) && !botOwned.has(p.id));
   if(!candidates.length) return;
+  candidates.sort((a,b) => botScoreFor(bot,b) - botScoreFor(bot,a));
 
-  candidates.sort((a,b) => botScore(b) - botScore(a));
   const cost = 20;
-  if(botGold < cost) return;
-
-  // Bot can afford up to 2 conquests per turn if gold allows
   let conquered = 0;
+  const bd = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const maxConq = Math.max(1, Math.round(bot.persona.maxConquestPerTurn * bd.aggrMult));
+
   for(const target of candidates){
-    if(botGold < cost || conquered >= 2) break;
-    botOwned.add(target.id);
-    botGold -= cost;
+    if(bot.gold < cost || conquered >= maxConq) break;
+    // i79: quiz gate — bot must "answer" a question
+    if(!botQuizSuccess(bot)){
+      addEvent(`${bot.persona.icon} ${bot.persona.name} megpróbálta foglalni <b>${target.name}</b> — de elbukott a kvízen!`, 'ev-bot');
+      break; // failed attempt stops this bot's expansion this turn
+    }
+    bot.owned.add(target.id);
+    bot.gold -= cost;
     conquered++;
+    syncBotOwned();
     renderBotOverlay();
     triggerConquest(target.id, false);
-    addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
+    // i79: persona-specific conquest messages
+    const msgs = {
+      agresszív: [`⚔️ <b>${bot.persona.name}</b> lerohanta: <b>${target.name}</b>!`,
+                  `⚔️ Vasökölpolitika: <b>${target.name}</b> elesett!`],
+      gazdasági: [`💰 <b>${bot.persona.name}</b> megvásárolta: <b>${target.name}</b>`,
+                  `💰 Befektetés: <b>${target.name}</b> az övé!`],
+      tudós:     [`📚 <b>${bot.persona.name}</b> kutatja: <b>${target.name}</b>`,
+                  `📚 Tudományos terjeszkedés: <b>${target.name}</b>`],
+    };
+    const pool = msgs[bot.personaKey] || [`${bot.persona.icon} ${bot.persona.name} elfoglalta: <b>${target.name}</b>`];
+    addEvent(pool[Math.floor(Math.random()*pool.length)], 'ev-bot');
   }
   checkVictory();
 }
 
+function botTurn(){
+  if(!DATA || gameOver) return;
+  // Legacy single-bot compat: if no BOTS initialized, init 1
+  if(BOTS.length === 0) initBots(1);
+  for(const bot of BOTS){ runBotTurn(bot); if(gameOver) return; }
+  // i79: random diplomacy trigger
+  tryDiplomacyOffer();
+  renderBotsCard();
+}
+
 function renderBotOverlay(){
-  // Re-use ownGroup concept but in a separate group — bot gets orange outlines
-  // We'll tint bot-owned meshes slightly and add a red-orange border
   if(!DATA) return;
-  // Clear existing bot visuals from scene (we tag them)
   scene.children.filter(c=>c.userData.isBotOverlay).forEach(c=>scene.remove(c));
+  // i79: each bot gets its own persona color outline
+  for(const bot of BOTS){
+    for(const id of bot.owned){
+      const line = outlineById.get(id); if(!line) continue;
+      const geo = line.geometry.clone();
+      const pos = geo.attributes.position;
+      for(let i=0;i<pos.count;i++) pos.setZ(i, pos.getZ(i)+0.14);
+      pos.needsUpdate = true;
+      const botLine = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: bot.persona.color }));
+      botLine.userData.isBotOverlay = true;
+      scene.add(botLine);
+    }
+  }
+  // fallback: also cover any legacy botOwned entries
   for(const id of botOwned){
+    if(BOTS.some(b=>b.owned.has(id))) continue;
     const line = outlineById.get(id); if(!line) continue;
     const geo = line.geometry.clone();
     const pos = geo.attributes.position;
@@ -1293,29 +2039,282 @@ function renderBotOverlay(){
   }
 }
 
+// i79: bot status card
+function renderBotsCard(){
+  const el = document.getElementById('bots-body');
+  if(!el) return;
+  const bd = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const diffHtml = `<div style="margin-bottom:8px">
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <label style="font-size:11px;color:var(--muted)">Ellenfelek szintje:</label>
+      <select id="bot-diff-select" style="font-size:12px;padding:2px 6px;border-radius:5px;background:#1b1e24;color:#e7ebf0;border:1px solid #3a414b">
+        ${Object.entries(BOT_DIFFICULTY).map(([k,v])=>`<option value="${k}"${botDifficulty===k?' selected':''}>${v.label}</option>`).join('')}
+      </select>
+    </div>
+    <div style="font-size:10px;color:var(--muted);margin-top:3px">${bd.desc}</div>
+  </div>`;
+  const total = DATA?.provinces?.length || 1;
+  const botsHtml = BOTS.length === 0 ? '<span class="k">Nincs ellenfél.</span>' :
+    BOTS.map(bot=>{
+      const pct = Math.round(bot.owned.size/total*100);
+      const pactText = bot.paceTurns>0 ? ` <span style="color:#7dcc88;font-size:10px">🤝 paktum (${bot.paceTurns} kör)</span>` : '';
+      return `<div class="bot-row">
+        <span>${bot.persona.icon} <b>${bot.persona.name}</b>
+          <span class="persona-badge ${bot.personaKey}">${bot.personaKey}</span>${pactText}</span>
+        <span style="color:#aaa">${bot.owned.size} (${pct}%) · ⭐${bot.gold}</span>
+      </div>`;
+    }).join('');
+  el.innerHTML = diffHtml + botsHtml;
+  document.getElementById('bot-diff-select')?.addEventListener('change', e=>{
+    botDifficulty = e.target.value;
+    renderBotsCard();
+  });
+}
+
+// ── i79: Diplomacy system ─────────────────────────────────────────────────
+let _diploCallback = null;
+
+function tryDiplomacyOffer(){
+  if(!DATA || gameOver || owned.size===0) return;
+  for(const bot of BOTS){
+    if(bot.diploActive || bot.paceTurns > 0) continue;
+    // Decrement active pacts
+    if(bot.paceTurns > 0){ bot.paceTurns--; continue; }
+    // Trigger chance: 15% per bot per turn, weighted by how badly bot is losing
+    const total = DATA.provinces.length;
+    const botRatio = bot.owned.size / total;
+    const playerRatio = owned.size / total;
+    const losingPenalty = playerRatio > botRatio ? (playerRatio - botRatio) * 1.5 : 0;
+    const chance = 0.10 + losingPenalty;
+    if(Math.random() > chance) continue;
+    showDiplomacyModal(bot);
+    return; // one offer per turn
+  }
+}
+
+function showDiplomacyModal(bot){
+  bot.diploActive = true;
+  const style = bot.persona.diploStyle;
+  let title, offer, acceptFn, declineFn;
+
+  if(style === 'peace'){
+    title = `${bot.persona.icon} Békeajánlat`;
+    offer = `<b>${bot.persona.name}</b> fegyverszünetet ajánl: <b>3 körre</b> nem támad a tartományaidra, cserébe te sem foglalsz el tőle területet ebben az időszakban.<br><br>Elfogadod a fegyverszünetet?`;
+    acceptFn = ()=>{
+      bot.paceTurns = 3;
+      addEvent(`🤝 Fegyverszünet kötve ${bot.persona.name}-val (3 kör)`, 'ev-info');
+      renderBotsCard();
+    };
+    declineFn = ()=>{ addEvent(`${bot.persona.icon} ${bot.persona.name} elutasítva — a harc folytatódik!`, 'ev-bot'); };
+
+  } else if(style === 'trade'){
+    // Offer: bot gives gold, player gives a neutral province
+    title = `${bot.persona.icon} Kereskedelmi ajánlat`;
+    const reward = 30 + bot.owned.size * 3;
+    offer = `<b>${bot.persona.name}</b> kereskedelmi egyezményt ajánl: <b>+${reward} aranyat</b> fizet neked minden körben, cserébe 2 körre nem terjeszked az ő tartományai szomszédságában.<br><br>Elfogadod?`;
+    acceptFn = ()=>{
+      bot.paceTurns = 2;
+      gold += reward;
+      renderTurnBar();
+      addEvent(`💰 Kereskedelmi egyezmény: +${reward} arany, 2 kör mozgásszünet`, 'ev-player');
+      renderBotsCard();
+    };
+    declineFn = ()=>{ addEvent(`${bot.persona.icon} ${bot.persona.name} kereskedelmi ajánlatát elutasítottad`, 'ev-bot'); };
+
+  } else { // alliance
+    title = `${bot.persona.icon} Szövetségi ajánlat`;
+    const kkReward = 15;
+    offer = `<b>${bot.persona.name}</b> tudományos szövetséget ajánl: <b>+${kkReward} KK</b> kap mindkét fél, és 2 körre szünetel a konfliktus.<br><br>Elfogadod a szövetséget?`;
+    acceptFn = ()=>{
+      bot.paceTurns = 2;
+      kk += kkReward;
+      bot.kk += kkReward;
+      renderTurnBar();
+      addEvent(`📚 Tudományos szövetség kötve: +${kkReward} KK mindkét félnek`, 'ev-player');
+      renderBotsCard();
+    };
+    declineFn = ()=>{ addEvent(`${bot.persona.icon} ${bot.persona.name} szövetségi ajánlatát elutasítottad`, 'ev-bot'); };
+  }
+
+  document.getElementById('diplo-title').textContent = title;
+  document.getElementById('diplo-bot-name').textContent = `${bot.persona.name} · ${bot.personaKey} ellenfél`;
+  document.getElementById('diplo-offer-text').innerHTML = offer;
+  document.getElementById('diplo-overlay').classList.remove('hidden');
+
+  const acceptBtn = document.getElementById('diplo-accept');
+  const declineBtn = document.getElementById('diplo-decline');
+  const close = (accepted)=>{
+    document.getElementById('diplo-overlay').classList.add('hidden');
+    bot.diploActive = false;
+    if(accepted) acceptFn(); else declineFn();
+  };
+  acceptBtn.onclick  = ()=>close(true);
+  declineBtn.onclick = ()=>close(false);
+}
+
+// i79: Decrement pact timers each turn
+function tickBotPacts(){
+  for(const bot of BOTS){
+    if(bot.paceTurns > 0){
+      bot.paceTurns--;
+      if(bot.paceTurns === 0)
+        addEvent(`${bot.persona.icon} A paktum lejárt — ${bot.persona.name} szabadon cselekedhet`, 'ev-bot');
+    }
+  }
+  renderBotsCard();
+}
+
 function playerIncome(){
   const prev = { gold, kk };
-  gold += owned.size * INCOME.gold + INCOME.gold;
-  kk   += owned.size * INCOME.kk   + INCOME.kk;
-  addEvent(`&#9733; Bevétel: +${gold-prev.gold} arany, +${kk-prev.kk} KK`, 'ev-player');
+  const gMult = heroGoldBonus();
+  const kMult = heroKKBonus();
+  let baseGold = owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
+  let baseKK   = owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
+
+  // Subject bonuses: owned provinces in an active-bonus subject earn extra
+  const subjBonusMsgs = [];
+  for(const [sid, expiry] of Object.entries(subjectBonusActive)){
+    if(expiry < turnNumber){ delete subjectBonusActive[sid]; continue; }
+    const bonusDef = SUBJECT_BONUS[sid]; if(!bonusDef) continue;
+    const provCount = DATA ? DATA.provinces.filter(p=>p.subject===sid && owned.has(p.id)).length : 0;
+    if(provCount === 0) continue;
+    const gExtra = bonusDef.gold ? Math.round(provCount * INCOME.gold * (bonusDef.gold - 1)) : 0;
+    const kExtra = bonusDef.kk   ? Math.round(provCount * INCOME.kk   * (bonusDef.kk   - 1)) : 0;
+    baseGold += gExtra; baseKK += kExtra;
+    const subjLabel = DATA?.subjects?.find(s=>s.id===sid)?.name || sid;
+    if(gExtra || kExtra) subjBonusMsgs.push(`${subjLabel}: +${gExtra}⭐ +${kExtra}📖`);
+  }
+
+  gold += Math.round(baseGold * gMult);
+  kk   += Math.round(baseKK   * kMult);
+  const gBonus = gold - prev.gold, kBonus = kk - prev.kk;
+  const heroMsg = (gMult > 1 || kMult > 1)
+    ? ` <span style="color:#c9a84c;font-size:11px">(hős: ×${gMult.toFixed(2)}⭐ ×${kMult.toFixed(2)}📖)</span>`
+    : '';
+  const subjMsg = subjBonusMsgs.length
+    ? ` <span style="color:#7dccc8;font-size:11px">[tantárgy bónusz: ${subjBonusMsgs.join(', ')}]</span>`
+    : '';
+  addEvent(`&#9733; Bevétel: +${gBonus} arany, +${kBonus} KK${heroMsg}${subjMsg}`, 'ev-player');
 }
 
 function endTurn(){
   if(gameOver) return;
+  sfx('turn');
   document.getElementById('btn-end-turn').disabled = true;
+  // Expire subject bonuses that were active last turn
+  for(const sid of Object.keys(subjectBonusActive)){
+    if(subjectBonusActive[sid] < turnNumber) delete subjectBonusActive[sid];
+  }
+  // Decrement duration-limited hero effects
+  for(const hId of Object.keys(heroEffectDuration)){
+    if(heroEffectDuration[hId] > 0) heroEffectDuration[hId]--;
+  }
   playerIncome();
+  applyHeroSideEffects(); // i78: Madách +1 unrest stb.
+  // i78: hero unrest reduction per subject
+  if(cascadeEnabled()){
+    const subjects = [...new Set(DATA.provinces.map(p=>p.subject).filter(Boolean))];
+    for(const sid of subjects){
+      const red = heroUnrestReduction(sid);
+      if(red > 0){
+        const prev = unrestLevel[sid]||0;
+        unrestLevel[sid] = Math.max(0, prev - red);
+        if(prev > 0 && (unrestLevel[sid]||0) < prev)
+          addEvent(`⚡ Hős csökkentette a lázadást (${sid}): ${prev} → ${unrestLevel[sid]||0}`, 'ev-player');
+      }
+    }
+    renderUnrestCard(); renderUnrestOverlay3D();
+  }
+  tickBotPacts(); // i79: decrement pact timers
   botTurn();
-  if(gameOver) return; // bot may have triggered game over
+  if(gameOver) return;
+  botAttackTurn(); // i65: bot may attack player province
+  if(gameOver) return;
   turnNumber++;
   renderTurnBar();
   addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
   document.getElementById('btn-end-turn').disabled = false;
+  // Autosave every 5 turns
+  if(turnNumber % 5 === 1 && turnNumber > 1) autoSave();
 }
+
+// ── Teacher dashboard ─────────────────────────────────────────────────────────
+function renderTeacherCard(){
+  const el = document.getElementById('teacher-body');
+  if(!el) return;
+  if(!answerLog.length){ el.innerHTML='<span class="k">Még nincs kvíz-adat.</span>'; return; }
+  const stats = {};
+  for(const r of answerLog){
+    const sid = r.subjectId || 'ismeretlen';
+    if(!stats[sid]) stats[sid] = {correct:0, total:0};
+    stats[sid].total++;
+    if(r.correct) stats[sid].correct++;
+  }
+  const totalQ = answerLog.length;
+  const totalC = answerLog.filter(r=>r.correct).length;
+  const overallPct = Math.round(totalC/totalQ*100);
+  let html = `<div style="font-size:12px;margin-bottom:8px">
+    <b>Összesített:</b> ${totalC}/${totalQ} helyes (${overallPct}%) — ${turnNumber}. kör — XP: ${xp}
+  </div>
+  <table style="width:100%;font-size:11px;border-collapse:collapse">
+  <tr style="color:var(--muted);border-bottom:1px solid #2a3345">
+    <th style="text-align:left;padding:2px 4px">Tantárgy</th>
+    <th style="text-align:right;padding:2px 4px">✓</th>
+    <th style="text-align:right;padding:2px 4px">Összes</th>
+    <th style="text-align:right;padding:2px 4px">%</th>
+  </tr>`;
+  for(const [sid, st] of Object.entries(stats).sort((a,b)=>b[1].total-a[1].total)){
+    const pct = Math.round(st.correct/st.total*100);
+    const subjName = DATA?.subjects?.find(s=>s.id===sid)?.name || sid;
+    const barColor = pct>=70?'#4db86a':pct>=40?'#c9a840':'#cc4444';
+    html += `<tr style="border-bottom:1px solid #1e2738">
+      <td style="padding:3px 4px">${subjName}</td>
+      <td style="text-align:right;padding:3px 4px;color:#7de8a0">${st.correct}</td>
+      <td style="text-align:right;padding:3px 4px">${st.total}</td>
+      <td style="padding:3px 4px;min-width:64px">
+        <span style="display:inline-block;width:${pct}%;max-width:60%;height:4px;background:${barColor};border-radius:2px;vertical-align:middle;margin-right:3px"></span>${pct}%
+      </td>
+    </tr>`;
+  }
+  html += `</table><div style="margin-top:8px">
+    <button id="btn-export-stats" style="font-size:11px;padding:4px 8px;cursor:pointer;border-radius:5px;
+      background:#1e3040;border:1px solid #3a5060;color:#6aacee">📥 Statisztika CSV</button>
+  </div>`;
+  el.innerHTML = html;
+  document.getElementById('btn-export-stats')?.addEventListener('click', ()=>{
+    const summaryHeader = `# Tanár-statisztika\n# Generálva: ${new Date().toISOString()}\n# Kör: ${turnNumber}  XP: ${xp}\n`;
+    const header = 'Időbélyeg;Tantárgy;Kérdés;Helyes;Kör';
+    const rows = answerLog.map(r=>[
+      new Date(r.ts).toISOString(), r.subjectId||'',
+      '"'+(r.prompt||'').replace(/"/g,'""')+'"',
+      r.correct?'igen':'nem', r.turn
+    ].join(';'));
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(summaryHeader+header+'\n'+rows.join('\n'));
+    a.download = 'tanar_statisztika_'+Date.now()+'.csv';
+    a.click();
+  });
+}
+window.renderTeacherCard = renderTeacherCard;
+
+// Sound toggle button
+document.getElementById('btn-sound')?.addEventListener('click', ()=>{
+  _sfxEnabled = !_sfxEnabled;
+  document.getElementById('btn-sound').textContent = _sfxEnabled ? '🔊' : '🔇';
+  if(!_sfxEnabled) stopBgm(); else ensureBgm();
+});
 
 function initTurnSystem(){
   renderTurnBar(); renderXPBar();
   document.getElementById('btn-end-turn').addEventListener('click', endTurn);
   document.getElementById('go-newgame').addEventListener('click', resetGame);
+  document.getElementById('btn-campaign').addEventListener('click', ()=>{
+    renderCampaignList();
+    document.getElementById('camp-overlay').classList.remove('hidden');
+  });
+  document.getElementById('camp-close').addEventListener('click', ()=>{
+    document.getElementById('camp-overlay').classList.add('hidden');
+  });
 }
 
 // ── controls wiring ───────────────────────────────────────────────────────
@@ -1328,6 +2327,393 @@ document.getElementById('btn-reset-cam').addEventListener('click', resetCamera);
 
 renderDiffCard(); renderUnrestCard(); initTurnSystem();
 
+// ── Audio system: MP3 files (sfx/ folder) with Web Audio synth fallback ──────
+let _audioCtx = null;
+function getAudioCtx(){
+  if(!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return _audioCtx;
+}
+function playTone(freq, type, duration, gainVal=0.18, delay=0){
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+    gain.gain.setValueAtTime(gainVal, ctx.currentTime + delay);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+    osc.start(ctx.currentTime + delay);
+    osc.stop(ctx.currentTime + delay + duration + 0.05);
+  } catch(e){}
+}
+
+// MP3 cache: pre-load audio files from sfx/ if they exist
+const _sfxCache = {};
+const SFX_FILES = ['correct','wrong','conquest','lose_province','turn','win','lose','build'];
+let _sfxEnabled = true; // can be toggled by user
+let _bgmAudio = null;
+
+function loadSfxFiles(){
+  SFX_FILES.forEach(name=>{
+    const a = new Audio();
+    a.src = 'sfx/' + name + '.mp3';
+    a.preload = 'auto';
+    // Mark as loaded only if file actually exists (no 404)
+    a.addEventListener('canplaythrough', ()=>{ _sfxCache[name] = a; }, {once:true});
+  });
+}
+// Attempt to load; silently ignore if sfx/ doesn't exist yet
+try { loadSfxFiles(); } catch(e){}
+
+function startBgm(){
+  if(_bgmAudio) return;
+  const a = new Audio('sfx/bgm.mp3');
+  a.loop = true; a.volume = 0.35;
+  a.play().then(()=>{ _bgmAudio = a; }).catch(()=>{});
+}
+function stopBgm(){ if(_bgmAudio){ _bgmAudio.pause(); _bgmAudio = null; } }
+let _bgmStarted = false;
+function ensureBgm(){
+  if(!_bgmStarted){ _bgmStarted = true; startBgm(); }
+}
+
+function sfx(name){
+  if(!_sfxEnabled) return;
+  ensureBgm();
+  // Try MP3 file first
+  const cached = _sfxCache[name];
+  if(cached){
+    try{
+      const clone = cached.cloneNode();
+      clone.volume = 0.7;
+      clone.play().catch(()=>{});
+      return;
+    } catch(e){}
+  }
+  // Fallback: Web Audio synthesizer
+  switch(name){
+    case 'correct':
+      playTone(523, 'sine', 0.12, 0.15);
+      playTone(659, 'sine', 0.12, 0.15, 0.12);
+      playTone(784, 'sine', 0.18, 0.15, 0.24);
+      break;
+    case 'wrong':
+      playTone(220, 'sawtooth', 0.18, 0.12);
+      playTone(180, 'sawtooth', 0.22, 0.10, 0.15);
+      break;
+    case 'conquest':
+      playTone(440, 'square', 0.08, 0.10);
+      playTone(554, 'square', 0.08, 0.10, 0.09);
+      playTone(659, 'sine', 0.14, 0.12, 0.18);
+      break;
+    case 'lose_province':
+      playTone(330, 'sawtooth', 0.14, 0.12);
+      playTone(262, 'sawtooth', 0.18, 0.10, 0.15);
+      break;
+    case 'turn':
+      playTone(392, 'sine', 0.1, 0.08);
+      break;
+    case 'win':
+      [523,659,784,1047].forEach((f,i)=>playTone(f,'sine',0.25,0.18,i*0.13));
+      break;
+    case 'lose':
+      [330,294,262,220].forEach((f,i)=>playTone(f,'sawtooth',0.25,0.12,i*0.15));
+      break;
+    case 'build':
+      playTone(440, 'sine', 0.08, 0.10);
+      playTone(550, 'sine', 0.12, 0.12, 0.09);
+      break;
+  }
+}
+
+// ── i66: Buildings system ─────────────────────────────────────────────────
+const BUILDINGS = {
+  fort:    { name:'Erőd',    icon:'&#127963;', cost:30, desc:'+2 véd. bónusz', goldBonus:0, kkBonus:0, defBonus:2 },
+  library: { name:'Könyvtár',icon:'&#128218;', cost:25, desc:'+2 KK/kör',      goldBonus:0, kkBonus:2, defBonus:0 },
+  mine:    { name:'Aranyér', icon:'&#9935;',   cost:25, desc:'+3 arany/kör',   goldBonus:3, kkBonus:0, defBonus:0 },
+};
+const buildings = {}; // { [provId]: Set of building keys }
+
+function provBuildings(id){ return buildings[id] || (buildings[id] = new Set()); }
+
+function buildingGoldBonus(){
+  let total = 0;
+  for(const id of owned){ for(const k of provBuildings(id)) total += BUILDINGS[k].goldBonus; }
+  return total;
+}
+function buildingKKBonus(){
+  let total = 0;
+  for(const id of owned){ for(const k of provBuildings(id)) total += BUILDINGS[k].kkBonus; }
+  return total;
+}
+function provDefBonus(id){
+  let bonus = 0;
+  for(const k of provBuildings(id)) bonus += BUILDINGS[k].defBonus;
+  bonus += heroDefBonus(id);
+  return bonus;
+}
+
+// ── i78: Hero ability effects ─────────────────────────────────────────────
+// Returns flat array of {effect, hero} for owned regions with heroes
+function activeHeroEffects(){
+  const out = [];
+  for(const id of owned){
+    const prov = byId[id]; if(!prov?.nutsId) continue;
+    const heroes = HEROES[prov.nutsId]||[];
+    for(const h of heroes){
+      const eff = h.ability?.effect; if(!eff) continue;
+      // duration-limited effects: skip if expired
+      if(eff.duration !== undefined){
+        const rem = heroEffectDuration[h.id];
+        if(rem === undefined){
+          // Initialize on first access
+          heroEffectDuration[h.id] = eff.duration;
+        } else if(rem <= 0){
+          continue; // expired
+        }
+      }
+      out.push({eff, hero: h, provId: id});
+    }
+  }
+  return out;
+}
+
+function heroGoldBonus(){
+  let mult = 1;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='gold_bonus'||eff.type==='gold_kk_bonus') mult += eff.value;
+  }
+  return mult;
+}
+
+function heroKKBonus(){
+  let mult = 1;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='kk_bonus'||eff.type==='gold_kk_bonus') mult += eff.value;
+  }
+  return mult;
+}
+
+// Returns total unrest reduction points per turn (global + regional)
+function heroUnrestReduction(subjectId){
+  let total = 0;
+  for(const {eff, provId} of activeHeroEffects()){
+    if(eff.type!=='unrest_reduce') continue;
+    if(eff.scope==='global') total += eff.value;
+    else {
+      // regional: apply if the province's subject matches
+      const prov = byId[provId];
+      if(prov?.subject === subjectId) total += eff.value;
+    }
+  }
+  return total;
+}
+
+// Attack bonus: how much easier conquering gets (0..1 additive on success chance)
+function heroAttackBonus(){
+  let bonus = 0;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='attack_bonus') bonus += eff.value;
+  }
+  return bonus;
+}
+
+// Speed boost: reduces number of answer choices (easier quiz)
+function heroSpeedBoost(){
+  let reduction = 0;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='speed_boost') reduction += eff.value ?? 1;
+  }
+  return reduction;
+}
+
+// Defense bonus from heroes in a given region
+function heroDefBonus(regionId){
+  let bonus = 0;
+  const prov = byId[regionId]; if(!prov?.nutsId) return 0;
+  const heroes = HEROES[prov.nutsId]||[];
+  for(const h of heroes){
+    const eff = h.ability?.effect;
+    if(eff?.type==='defense_bonus') bonus += eff.value;
+  }
+  return bonus;
+}
+
+// Madách side-effect: +1 unrest in his region
+function applyHeroSideEffects(){
+  for(const {eff, hero, provId} of activeHeroEffects()){
+    if(hero.id==='madach'){
+      const prov = byId[provId];
+      if(prov?.subject){
+        unrestLevel[prov.subject] = Math.min(10, (unrestLevel[prov.subject]||0)+1);
+      }
+    }
+  }
+}
+
+// Summarise active hero bonuses for display
+function heroEffectSummary(){
+  const effs = activeHeroEffects();
+  if(!effs.length) return '';
+  return effs.map(({eff,hero})=>{
+    const durRem = eff.duration !== undefined ? heroEffectDuration[hero.id] ?? eff.duration : null;
+    const durStr = durRem !== null ? ` <span style="color:#aaa;font-size:10px">(${durRem} kör)</span>` : '';
+    return `⚡ <b>${hero.name}</b>: ${eff.desc}${durStr}`;
+  }).join('<br>');
+}
+
+function buildAt(provId, bldKey){
+  const bld = BUILDINGS[bldKey];
+  if(!bld || !owned.has(provId)) return;
+  if(gold < bld.cost){ addEvent(`&#9888; Nincs elég arany az épülethez (kell: ${bld.cost})`, 'ev-info'); return; }
+  if(provBuildings(provId).has(bldKey)){ return; }
+  gold -= bld.cost;
+  provBuildings(provId).add(bldKey);
+  renderTurnBar();
+  sfx('build');
+  addEvent(`${bld.icon} ${bld.name} felépítve: <b>${byId[provId]?.name}</b> (-${bld.cost} arany)`, 'ev-player');
+  const prov = byId[provId]; if(prov) showInfo(prov);
+}
+
+function buildingsHTML(provId){
+  if(!owned.has(provId)) return '';
+  const built = provBuildings(provId);
+  const btns = Object.entries(BUILDINGS).map(([k,b])=>{
+    const has = built.has(k);
+    const canAfford = gold >= b.cost;
+    const cls = has ? 'owned' : (!canAfford ? 'cant-afford' : '');
+    return `<button class="bld-btn ${cls}" data-bld="${k}" data-prov="${provId}" ${has?'disabled title="Már megépítve"':(!canAfford?'disabled title="Nincs elég arany"':'')}>
+      <div>${b.icon} ${b.name}</div>
+      <div style="font-size:10px;color:var(--muted)">${has?'&#10003; Kész':b.desc+' · '+b.cost+' &#9733;'}</div>
+    </button>`;
+  }).join('');
+  return `<div style="margin-top:10px;font-size:12px;font-weight:600;color:var(--muted)">Épületek</div>
+    <div class="bld-row">${btns}</div>`;
+}
+
+// ── i65: Defense mechanism ────────────────────────────────────────────────
+function botAttackTurn(){
+  if(!DATA || gameOver) return;
+  if(BOTS.length === 0) return;
+  // i79: each bot independently decides to attack; respects pacts
+  for(const bot of BOTS){
+    if(gameOver) return;
+    if(bot.paceTurns > 0) continue; // pact active — no attack
+    if(bot.owned.size === 0) continue; // no territory yet
+    const baseChance = [0, 0.20, 0.30, 0.45, 0.60][currentDifficulty] || 0.30;
+    const attackChance = Math.min(0.85, baseChance * bot.persona.attackChanceMult);
+    if(Math.random() > attackChance) continue;
+    const playerProvs = DATA.provinces.filter(p => owned.has(p.id));
+    if(!playerProvs.length) continue;
+    // Prefer provinces adjacent to this bot's territory
+    const adjacent = playerProvs.filter(p => (p.adj??[]).some(id=>bot.owned.has(id)));
+    const target = adjacent.length ? adjacent[Math.floor(Math.random()*adjacent.length)]
+                                   : playerProvs[Math.floor(Math.random()*playerProvs.length)];
+    const defBonus = provDefBonus(target.id);
+    addEvent(`${bot.persona.icon} <b>${bot.persona.name}</b> támadja: <b>${target.name}</b>!`, 'ev-bot');
+    sfx('lose_province');
+    showDefenseModal(target, defBonus, bot);
+    return; // one attack per endTurn total
+  }
+}
+
+function showDefenseModal(prov, defBonus, attackingBot){
+  // attackingBot: bot object or null (legacy)
+  const bot = attackingBot || BOTS[0];
+  const badge = document.getElementById('q-mode-badge');
+  badge.className = 'defend';
+  badge.textContent = '🛡️ Védekezés';
+  badge.classList.remove('hidden');
+  const defDiff = Math.min(4, currentDifficulty + (defBonus > 0 ? -1 : 1));
+  const origDiff = currentDifficulty;
+  currentDifficulty = Math.max(1, defDiff);
+  showQuestionModal(prov,
+    ()=>{ // correct — defended!
+      currentDifficulty = origDiff;
+      addEvent(`🛡️ Megvédve: <b>${prov.name}</b>! (${bot?.persona.icon||'⚔️'} ${bot?.persona.name||'Bot'} visszaverve)`, 'ev-player');
+      sfx('conquest');
+    },
+    ()=>{ // wrong — province lost to attacking bot
+      currentDifficulty = origDiff;
+      owned.delete(prov.id);
+      if(bot){ bot.owned.add(prov.id); syncBotOwned(); }
+      else botOwned.add(prov.id);
+      renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard(); renderBotsCard();
+      addEvent(`${bot?.persona.icon||'⚔️'} Elveszett: <b>${prov.name}</b> — <b>${bot?.persona.name||'Bot'}</b> elfoglalta!`, 'ev-bot');
+      sfx('lose_province');
+      checkVictory();
+      const selProv = byId[prov.id]; if(selProv) showInfo(selProv);
+    }
+  );
+}
+
+// ── i67: Campaign mode ────────────────────────────────────────────────────
+const CAMPAIGNS = [
+  { id:'c1', name:'Első lépések', difficulty:'easy',
+    desc:'Könnyű pálya — 1 ellenfél (Gazdasági), végtelen idő. Tökéletes a kezdőknek.',
+    startGold:40, startKK:20, winThreshold:0.50,
+    botCount:1, botStartProvinces:1, diffOverride:1, unlocked:true },
+  { id:'c2', name:'Közép-Európa', difficulty:'medium',
+    desc:'Közepes — 2 ellenfél (Agresszív + Tudós), 3-3 kezdőtartomány, 40% kell.',
+    startGold:30, startKK:15, winThreshold:0.40,
+    botCount:2, botStartProvinces:3, diffOverride:2, unlocked:true },
+  { id:'c3', name:'Nagy Hadjárat', difficulty:'hard',
+    desc:'Nehéz — 2 ellenfél, szoros kérdések, 10 mp, 55% kell.',
+    startGold:20, startKK:10, winThreshold:0.55,
+    botCount:2, botStartProvinces:5, diffOverride:4, unlocked:true },
+  { id:'c4', name:'Mesterek Bajnoksága', difficulty:'hard',
+    desc:'Elit — 3 ellenfél különböző személyiséggel, 65% arány, minden tartomány számít.',
+    startGold:15, startKK:8, winThreshold:0.65,
+    botCount:3, botStartProvinces:4, diffOverride:4, unlocked:true },
+];
+
+let activeCampaign = null;
+
+function renderCampaignList(){
+  const list = document.getElementById('camp-list');
+  list.innerHTML = CAMPAIGNS.map(c=>`
+    <div class="camp-item${c.unlocked?'':' locked'}" data-camp="${c.id}">
+      <span class="ci-badge ${c.difficulty}">${c.difficulty==='easy'?'Könnyű':c.difficulty==='medium'?'Közepes':'Nehéz'}</span>
+      <div class="ci-title">${c.name}</div>
+      <div class="ci-desc">${c.desc}</div>
+    </div>`).join('');
+  list.querySelectorAll('.camp-item:not(.locked)').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const camp = CAMPAIGNS.find(c=>c.id===el.dataset.camp);
+      if(camp) startCampaign(camp);
+    });
+  });
+}
+
+function startCampaign(camp){
+  activeCampaign = camp;
+  document.getElementById('camp-overlay').classList.add('hidden');
+  resetGame();
+  // i79: init bots for this campaign
+  initBots(camp.botCount || 1);
+  gold = camp.startGold;
+  kk = camp.startKK;
+  currentDifficulty = camp.diffOverride;
+  document.getElementById('diff-select').value = camp.diffOverride;
+  if(DATA){
+    // Distribute starting provinces evenly across bots
+    let neutral = DATA.provinces.filter(p=>!owned.has(p.id)&&!botOwned.has(p.id));
+    neutral.sort(()=>Math.random()-.5);
+    let idx = 0;
+    for(const bot of BOTS){
+      for(let i=0;i<camp.botStartProvinces && idx<neutral.length;i++,idx++){
+        bot.owned.add(neutral[idx].id);
+      }
+    }
+    syncBotOwned();
+    renderBotOverlay(); renderBotsCard(); renderTurnBar();
+  }
+  const botNames = BOTS.map(b=>`${b.persona.icon} ${b.persona.name}`).join(', ');
+  addEvent(`▶ Hadjárat indult: <b>${camp.name}</b> — Ellenfelek: ${botNames}`, 'ev-info');
+  sfx('conquest');
+}
+
 // ── pack loader bootstrap ─────────────────────────────────────────────────
 
 fetch('world/packs.json').then(r=>r.json()).then(idx=>{
@@ -1338,7 +2724,713 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
   sel.addEventListener('change',()=>{ const p=byPack[sel.value]; loadPack(p.dir,p); });
   const first=byPack[sel.value]; loadPack(first.dir,first);
 }).catch(()=>{ loadPack('fantasy',{name:'Fantáziavilág'}); });
+
+// ── i73: Mini Wikipedia ────────────────────────────────────────────────────
+let WIKI_DATA = null;
+let _wikiCurrentSubject = null;
+let _wikiCurrentQuestion = null; // { subject, prompt } set when opened from q-modal
+
+fetch('wiki.json').then(r=>r.json()).then(d=>{
+  WIKI_DATA = normaliseWiki(d);
+  buildWikiNav();
+}).catch(()=>{});
+
+function buildWikiNav(){
+  if(!WIKI_DATA) return;
+  const nav = document.getElementById('wiki-nav');
+  if(!nav) return;
+  nav.innerHTML = Object.entries(WIKI_DATA).map(([k,v])=>
+    `<div class="wiki-nav-item" data-subj="${k}">
+       <span class="wiki-nav-icon">${v.icon}</span>
+       <span>${v.title}</span>
+     </div>`
+  ).join('');
+  nav.querySelectorAll('.wiki-nav-item').forEach(el=>{
+    el.addEventListener('click',()=>showWikiSubject(el.dataset.subj));
+  });
+}
+
+function showWikiSubject(subjectKey){
+  if(!WIKI_DATA) return;
+  const data = WIKI_DATA[subjectKey];
+  if(!data) return;
+  _wikiCurrentSubject = subjectKey;
+  // nav highlight
+  document.querySelectorAll('.wiki-nav-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.subj === subjectKey);
+  });
+  // clear search
+  document.getElementById('wiki-search').value = '';
+  document.getElementById('wiki-search-results').style.display = 'none';
+  document.getElementById('wiki-no-results').style.display = 'none';
+  document.getElementById('wiki-subject-view').style.display = '';
+  // render subject
+  const view = document.getElementById('wiki-subject-view');
+  view.innerHTML = `
+    <p class="wiki-subj-title">${data.icon} ${data.title}</p>
+    <p class="wiki-summary">${data.summary}</p>
+    ${data.articles.map(a=>`
+      <div class="wiki-article">
+        <h4>${a.heading}</h4>
+        <p>${markdownBold(a.body)}</p>
+      </div>`).join('')}
+    ${data.phrases ? buildPhraseWidget(data.phrases) : ''}
+  `;
+  if(data.phrases) initPhraseWidget(view, data.phrases);
+}
+
+const PHRASE_STORAGE_KEY = 'tudas_custom_phrases_v1';
+
+function loadCustomPhrases(){
+  try{ return JSON.parse(localStorage.getItem(PHRASE_STORAGE_KEY)||'[]'); }catch(e){ return []; }
+}
+function saveCustomPhrases(arr){
+  try{ localStorage.setItem(PHRASE_STORAGE_KEY, JSON.stringify(arr)); }catch(e){}
+}
+
+function buildPhraseWidget(basePhrases){
+  const custom = loadCustomPhrases();
+  const all = [...basePhrases, ...custom];
+  const langs = [...new Set(all.map(p=>p.lang))];
+  return `<div class="phrase-section">
+    <div class="phrase-section-header">
+      <h4>🃏 Kifejezéstár — kattints a kártyára a fordításhoz</h4>
+      <button class="phrase-edit-toggle" id="phrase-edit-toggle">✏️ Szerkesztés</button>
+    </div>
+    <div class="phrase-lang-tabs" id="phrase-lang-tabs">
+      ${langs.map((l,i)=>`<button class="phrase-lang-tab${i===0?' active':''}" data-lang="${l}">${l}</button>`).join('')}
+    </div>
+    <div class="phrase-card" id="phrase-card">
+      <div class="phrase-src" id="phrase-src"></div>
+      <div class="phrase-tgt" id="phrase-tgt"></div>
+      <div class="phrase-hint">Kattints a fordításhoz ▼</div>
+    </div>
+    <div class="phrase-nav">
+      <button id="phrase-prev">◀</button>
+      <span class="phrase-counter" id="phrase-counter"></span>
+      <button id="phrase-next">▶</button>
+    </div>
+    <div class="phrase-editor" id="phrase-editor">
+      <div class="phrase-editor-title">✏️ Saját kifejezések kezelése</div>
+      <div class="phrase-add-form">
+        <select id="phrase-new-lang">
+          ${langs.map(l=>`<option value="${l}">${l}</option>`).join('')}
+          <option value="__new__">+ Új nyelv…</option>
+        </select>
+        <input id="phrase-new-src" placeholder="Idegen kifejezés" />
+        <input id="phrase-new-tgt" placeholder="Magyar fordítás" />
+        <button class="phrase-add-btn" id="phrase-add-btn">＋ Hozzáad</button>
+      </div>
+      <div id="phrase-new-lang-row" style="display:none;margin-bottom:8px">
+        <input id="phrase-new-lang-name" placeholder="Új nyelv neve" style="background:#1e2330;border:1px solid #2a3040;color:#e7ebf0;border-radius:6px;padding:6px 10px;font-size:12px;width:200px" />
+      </div>
+      <div class="phrase-list" id="phrase-custom-list"></div>
+    </div>
+  </div>`;
+}
+
+function initPhraseWidget(container, basePhrases){
+  let custom = loadCustomPhrases();
+  let activeLang = null;
+  let idx = 0;
+  let editOpen = false;
+
+  function allPhrases(){ return [...basePhrases, ...custom]; }
+  function allLangs(){ return [...new Set(allPhrases().map(p=>p.lang))]; }
+  function filtered(){ return allPhrases().filter(p=>p.lang===activeLang); }
+
+  function initLang(){
+    activeLang = allLangs()[0] || null;
+  }
+  initLang();
+
+  function rebuildLangTabs(){
+    const langs = allLangs();
+    const tabs = container.querySelector('#phrase-lang-tabs');
+    tabs.innerHTML = langs.map(l=>`<button class="phrase-lang-tab${l===activeLang?' active':''}" data-lang="${l}">${l}</button>`).join('');
+    tabs.querySelectorAll('.phrase-lang-tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tabs.querySelectorAll('.phrase-lang-tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        activeLang = btn.dataset.lang;
+        idx = 0;
+        render();
+      });
+    });
+    // update new-lang select
+    const sel = container.querySelector('#phrase-new-lang');
+    if(sel){
+      const cur = sel.value;
+      sel.innerHTML = langs.map(l=>`<option value="${l}">${l}</option>`).join('')+'<option value="__new__">+ Új nyelv…</option>';
+      if(langs.includes(cur)) sel.value = cur;
+    }
+  }
+
+  function renderCustomList(){
+    const list = container.querySelector('#phrase-custom-list');
+    if(!list) return;
+    if(!custom.length){ list.innerHTML = '<div style="color:#556;font-size:12px;padding:6px 0">Még nincs saját kifejezés.</div>'; return; }
+    list.innerHTML = custom.map((p,i)=>`
+      <div class="phrase-list-item">
+        <span class="phrase-list-src">${p.source}</span>
+        <span class="phrase-list-tgt">${p.target}</span>
+        <span class="phrase-list-tag">${p.lang}</span>
+        <button class="phrase-del-btn" data-i="${i}" title="Törlés">✕</button>
+      </div>`).join('');
+    list.querySelectorAll('.phrase-del-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        custom.splice(Number(btn.dataset.i), 1);
+        saveCustomPhrases(custom);
+        if(idx >= filtered().length) idx = Math.max(0, filtered().length-1);
+        rebuildLangTabs();
+        renderCustomList();
+        render();
+      });
+    });
+  }
+
+  function render(){
+    const list = filtered();
+    if(!list.length){
+      container.querySelector('#phrase-src').textContent = '—';
+      container.querySelector('#phrase-tgt').textContent = '';
+      container.querySelector('#phrase-counter').textContent = '0 / 0';
+      container.querySelector('#phrase-card').classList.remove('flipped');
+      return;
+    }
+    if(idx >= list.length) idx = 0;
+    const p = list[idx];
+    container.querySelector('#phrase-src').textContent = p.source;
+    container.querySelector('#phrase-tgt').textContent = p.target;
+    container.querySelector('#phrase-counter').textContent = `${idx+1} / ${list.length}`;
+    container.querySelector('#phrase-card').classList.remove('flipped');
+  }
+
+  container.querySelector('#phrase-card').addEventListener('click', ()=>{
+    container.querySelector('#phrase-card').classList.toggle('flipped');
+  });
+  container.querySelector('#phrase-prev').addEventListener('click', ()=>{
+    const list = filtered(); idx = (idx-1+list.length)%list.length; render();
+  });
+  container.querySelector('#phrase-next').addEventListener('click', ()=>{
+    const list = filtered(); idx = (idx+1)%list.length; render();
+  });
+
+  // edit toggle
+  container.querySelector('#phrase-edit-toggle').addEventListener('click', ()=>{
+    editOpen = !editOpen;
+    const ed = container.querySelector('#phrase-editor');
+    ed.classList.toggle('open', editOpen);
+    container.querySelector('#phrase-edit-toggle').classList.toggle('active', editOpen);
+    if(editOpen) renderCustomList();
+  });
+
+  // new lang show/hide
+  container.querySelector('#phrase-new-lang').addEventListener('change', e=>{
+    const row = container.querySelector('#phrase-new-lang-row');
+    row.style.display = e.target.value==='__new__' ? '' : 'none';
+  });
+
+  // add button
+  container.querySelector('#phrase-add-btn').addEventListener('click', ()=>{
+    const sel = container.querySelector('#phrase-new-lang');
+    let lang = sel.value;
+    if(lang==='__new__'){
+      lang = container.querySelector('#phrase-new-lang-name').value.trim();
+      if(!lang) return;
+      container.querySelector('#phrase-new-lang-name').value='';
+      container.querySelector('#phrase-new-lang-row').style.display='none';
+    }
+    const src = container.querySelector('#phrase-new-src').value.trim();
+    const tgt = container.querySelector('#phrase-new-tgt').value.trim();
+    if(!src || !tgt) return;
+    custom.push({lang, source:src, target:tgt});
+    saveCustomPhrases(custom);
+    container.querySelector('#phrase-new-src').value='';
+    container.querySelector('#phrase-new-tgt').value='';
+    if(!allLangs().includes(activeLang)) activeLang = lang;
+    rebuildLangTabs();
+    renderCustomList();
+    idx = filtered().length-1;
+    render();
+  });
+
+  rebuildLangTabs();
+  render();
+}
+
+function markdownBold(text){
+  return text.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+}
+
+function openWiki(subjectKey, scrollHeading){
+  document.getElementById('wiki-overlay').classList.remove('hidden');
+  if(!WIKI_DATA){
+    // wiki.json still loading — show spinner then retry
+    document.getElementById('wiki-subject-view').innerHTML = '<p style="color:#556;padding:20px">Betöltés…</p>';
+    fetch('wiki.json').then(r=>r.json()).then(d=>{ WIKI_DATA=normaliseWiki(d); buildWikiNav(); openWiki(subjectKey,scrollHeading); });
+    return;
+  }
+  buildWikiNav();
+  if(subjectKey && WIKI_DATA && WIKI_DATA[subjectKey]){
+    showWikiSubject(subjectKey);
+    if(scrollHeading){
+      // wait for render then scroll to relevant article
+      setTimeout(()=>{
+        const articles = document.querySelectorAll('.wiki-article h4');
+        for(const el of articles){
+          if(el.textContent.includes(scrollHeading)){
+            el.closest('.wiki-article').scrollIntoView({behavior:'smooth',block:'start'});
+            el.closest('.wiki-article').style.outline='1px solid #4a7aff';
+            setTimeout(()=>{ el.closest('.wiki-article').style.outline=''; }, 2000);
+            break;
+          }
+        }
+      }, 80);
+    }
+  } else if(WIKI_DATA){
+    showWikiSubject(Object.keys(WIKI_DATA)[0]);
+  }
+}
+
+function wikiSearch(query){
+  if(!WIKI_DATA || !query.trim()){
+    document.getElementById('wiki-search-results').style.display = 'none';
+    document.getElementById('wiki-no-results').style.display = 'none';
+    document.getElementById('wiki-subject-view').style.display = '';
+    return;
+  }
+  const q = query.toLowerCase();
+  const results = [];
+  for(const [sk, sv] of Object.entries(WIKI_DATA)){
+    if(sv.summary.toLowerCase().includes(q) || sv.title.toLowerCase().includes(q)){
+      results.push({ subj:sk, icon:sv.icon, heading:sv.title, snippet:sv.summary.slice(0,120)+'…' });
+    }
+    for(const a of sv.articles){
+      const bodyLow = a.body.toLowerCase();
+      const headLow = a.heading.toLowerCase();
+      const kwMatch = (a.keywords||[]).some(kw=>kw.toLowerCase().includes(q)||q.includes(kw.toLowerCase()));
+      if(headLow.includes(q) || bodyLow.includes(q) || kwMatch){
+        const idx = bodyLow.indexOf(q);
+        const snippet = idx>=0 ? '…'+a.body.slice(Math.max(0,idx-30), idx+80).replace(/\*\*/g,'')+'…' : a.body.slice(0,100)+'…';
+        results.push({ subj:sk, icon:sv.icon, heading:a.heading, snippet });
+      }
+    }
+  }
+  document.getElementById('wiki-subject-view').style.display = 'none';
+  const resDiv = document.getElementById('wiki-search-results');
+  const noRes = document.getElementById('wiki-no-results');
+  if(!results.length){
+    resDiv.style.display = 'none';
+    noRes.style.display = '';
+    return;
+  }
+  noRes.style.display = 'none';
+  resDiv.style.display = '';
+  resDiv.innerHTML = `<p style="font-size:12px;color:#556;margin:0 0 12px">Találatok: ${results.length}</p>` +
+    results.map((r,i)=>`
+      <div class="wiki-result-item" data-subj="${r.subj}" data-heading="${r.heading}">
+        <div class="wiki-result-subj">${r.icon} ${WIKI_DATA[r.subj].title}</div>
+        <div class="wiki-result-heading">${r.heading}</div>
+        <div class="wiki-result-snippet">${r.snippet}</div>
+      </div>`).join('');
+  resDiv.querySelectorAll('.wiki-result-item').forEach(el=>{
+    el.addEventListener('click',()=>{
+      document.getElementById('wiki-search').value = '';
+      showWikiSubject(el.dataset.subj);
+      setTimeout(()=>{
+        const articles = document.querySelectorAll('.wiki-article h4');
+        for(const a of articles){
+          if(a.textContent === el.dataset.heading){
+            a.closest('.wiki-article').scrollIntoView({behavior:'smooth',block:'start'});
+            a.closest('.wiki-article').style.outline='1px solid #4a7aff';
+            setTimeout(()=>{ a.closest('.wiki-article').style.outline=''; },2000);
+            break;
+          }
+        }
+      },80);
+    });
+  });
+}
+
+// Find best wiki article for a question prompt
+function findWikiForQuestion(subjectId, prompt){
+  if(!WIKI_DATA || !subjectId) return null;
+  const sv = WIKI_DATA[subjectId];
+  if(!sv) return null;
+  const pLow = prompt.toLowerCase();
+  let best = null, bestScore = 0;
+  for(const a of sv.articles){
+    let score = 0;
+    for(const kw of (a.keywords||[])){
+      if(pLow.includes(kw.toLowerCase())) score += 2;
+    }
+    if(a.body.toLowerCase().split(' ').some(w=>w.length>4&&pLow.includes(w))) score++;
+    if(score > bestScore){ bestScore=score; best=a; }
+  }
+  return best;
+}
+
+// Wire up wiki button in question modal
+function setWikiBtn(subjectId, prompt){
+  const btn = document.getElementById('wiki-btn');
+  if(!btn) return;
+  if(!WIKI_DATA || !subjectId){ btn.style.display='none'; return; }
+  const wikiKey = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
+  if(!WIKI_DATA[wikiKey]){ btn.style.display='none'; return; }
+  btn.style.display='';
+  btn.onclick = ()=>{
+    const art = findWikiForQuestion(wikiKey, prompt||'');
+    openWiki(wikiKey, art?.heading);
+  };
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('wiki-close').addEventListener('click',()=>{
+    document.getElementById('wiki-overlay').classList.add('hidden');
+  });
+  document.getElementById('wiki-overlay').addEventListener('click', e=>{
+    if(e.target === document.getElementById('wiki-overlay'))
+      document.getElementById('wiki-overlay').classList.add('hidden');
+  });
+  document.getElementById('btn-wiki').addEventListener('click',()=>openWiki());
+  document.getElementById('wiki-search').addEventListener('input', e=>wikiSearch(e.target.value));
+
+  // ── Subject & grade settings ──────────────────────────────────────────────
+  function openSubjSettings(){
+    const overlay = document.getElementById('subj-settings-overlay');
+    const grid = document.getElementById('ss-subj-grid');
+    // Render grade buttons
+    document.querySelectorAll('.grade-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.grade === gameSettings.gradeBand);
+    });
+    // Render subject checkboxes
+    grid.innerHTML = ALL_SUBJECTS.map(key=>`
+      <label class="subj-check">
+        <input type="checkbox" data-subj="${key}" ${gameSettings.activeSubjects.has(key)?'checked':''}>
+        ${SUBJ_NAMES[key]||key}
+      </label>`).join('');
+    overlay.classList.remove('hidden');
+  }
+
+  document.getElementById('btn-subj-settings').addEventListener('click', openSubjSettings);
+
+  document.querySelectorAll('.grade-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.getElementById('ss-confirm').addEventListener('click', ()=>{
+    const activeGrade = document.querySelector('.grade-btn.active')?.dataset.grade || '5-8';
+    gameSettings.gradeBand = activeGrade;
+    gameSettings.activeSubjects = new Set(
+      [...document.querySelectorAll('#ss-subj-grid input[type=checkbox]:checked')]
+        .map(el=>el.dataset.subj)
+    );
+    // Ensure at least one subject is active
+    if(gameSettings.activeSubjects.size === 0)
+      gameSettings.activeSubjects = new Set(ALL_SUBJECTS);
+    document.getElementById('subj-settings-overlay').classList.add('hidden');
+    const gradeName = {'1-4':'1–4. évfolyam','5-8':'5–8. évfolyam','9-12':'9–12. évfolyam'}[gameSettings.gradeBand]||gameSettings.gradeBand;
+    addEvent(`⚙ Beállítás: <b>${gradeName}</b> · ${gameSettings.activeSubjects.size} aktív tantárgy`, 'ev-info');
+  });
+
+  document.getElementById('ss-cancel').addEventListener('click', ()=>{
+    document.getElementById('subj-settings-overlay').classList.add('hidden');
+  });
+
+  // Auto-open settings on first run (before tutorial, after page load)
+  if(!localStorage.getItem('tudas_settingsDone')){
+    setTimeout(()=>{
+      openSubjSettings();
+      localStorage.setItem('tudas_settingsDone','1');
+    }, 800);
+  }
+});
+
+// ── Mentés / Betöltés rendszer ────────────────────────────────────────────
+const SAVE_KEY_PREFIX = 'tudas_save_';
+const SAVE_MAX = 5;
+const SAVE_CURRENT_VERSION = 2;
+
+/**
+ * Migrate an older save payload forward to SAVE_CURRENT_VERSION.
+ * Each branch upgrades by exactly one version so the chain is additive.
+ * Returns the migrated object (mutates in place and returns it).
+ */
+function migrateSave(s){
+  // v1: no bots array, no unrest fields — add defaults
+  if(s.v === 1){
+    s.bots      = s.bots      ?? [];
+    s.unrestWrong = s.unrestWrong ?? {};
+    s.unrestLevel = s.unrestLevel ?? {};
+    s.xp        = s.xp        ?? 0;
+    s.streak    = s.streak    ?? 0;
+    s.v = 2;
+  }
+  // future: add more branches here as v increments
+  return s;
+}
+
+function buildSavePayload(){
+  return {
+    v: SAVE_CURRENT_VERSION,
+    ts: Date.now(),
+    packId: (()=>{
+      const sel = document.getElementById('pack-select');
+      return sel ? sel.value : 'fantasy';
+    })(),
+    turn: turnNumber,
+    gold, kk, xp, streak,
+    owned: [...owned],
+    bots: BOTS.map(b=>({
+      id: b.id, personaKey: b.personaKey,
+      gold: b.gold, kk: b.kk,
+      owned: [...b.owned],
+      paceTurns: b.paceTurns,
+    })),
+    unrestWrong: Object.fromEntries(Object.entries(unrestWrong)),
+    unrestLevel: Object.fromEntries(Object.entries(unrestLevel)),
+    botDifficulty,
+    subjectBonusActive: Object.fromEntries(Object.entries(subjectBonusActive)),
+    heroEffectDuration: Object.fromEntries(Object.entries(heroEffectDuration)),
+    answerLog,
+  };
+}
+
+function applySavePayload(s){
+  if(!s || typeof s.v !== 'number') throw new Error('Érvénytelen mentési formátum (hiányzó v)');
+  if(s.v < SAVE_CURRENT_VERSION) s = migrateSave(s);
+  if(s.v > SAVE_CURRENT_VERSION) throw new Error(`Újabb játékverzió mentése (v${s.v}) — frissítsd a játékot`);
+  turnNumber = s.turn ?? 1;
+  gold = s.gold ?? 0;
+  kk = s.kk ?? 0;
+  xp = s.xp ?? 0;
+  streak = s.streak ?? 0;
+  owned.clear();
+  (s.owned || []).forEach(id => owned.add(id));
+  // restore bots
+  if(s.bots && BOTS.length){
+    for(const sb of s.bots){
+      const b = BOTS.find(x=>x.id===sb.id);
+      if(!b) continue;
+      b.gold = sb.gold; b.kk = sb.kk; b.paceTurns = sb.paceTurns ?? 0;
+      b.owned.clear(); (sb.owned||[]).forEach(id=>b.owned.add(id));
+    }
+    syncBotOwned();
+  }
+  unrestWrong = Object.assign({}, s.unrestWrong || {});
+  unrestLevel = Object.assign({}, s.unrestLevel || {});
+  if(s.botDifficulty && BOT_DIFFICULTY[s.botDifficulty]) botDifficulty = s.botDifficulty;
+  subjectBonusActive = Object.assign({}, s.subjectBonusActive || {});
+  heroEffectDuration = Object.assign({}, s.heroEffectDuration || {});
+  answerLog = Array.isArray(s.answerLog) ? s.answerLog : [];
+  // refresh UI
+  renderOwnershipOverlay3D();
+  renderUnrestOverlay3D();
+  renderTurnBar();
+  renderBotsCard();
+  renderOwnedCard();
+}
+
+function listSaves(){
+  const saves = [];
+  for(let i=0;i<SAVE_MAX;i++){
+    const raw = localStorage.getItem(SAVE_KEY_PREFIX+i);
+    if(!raw) continue;
+    try{ saves.push({slot:i, data:JSON.parse(raw)}); } catch(e){}
+  }
+  return saves.sort((a,b)=>b.data.ts-a.data.ts);
+}
+
+function nextFreeSlot(){
+  for(let i=0;i<SAVE_MAX;i++){
+    if(!localStorage.getItem(SAVE_KEY_PREFIX+i)) return i;
+  }
+  // overwrite oldest
+  const saves = listSaves();
+  return saves[saves.length-1].slot;
+}
+
+function setSaveStatus(msg, err=false){
+  const el = document.getElementById('save-status');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.color = err ? '#ee6a6a' : '#7ddf7d';
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>{ el.textContent=''; }, 3500);
+}
+
+function renderSaveSlots(){
+  const container = document.getElementById('save-slots');
+  if(!container) return;
+  const saves = listSaves();
+  if(!saves.length){ container.innerHTML='<span style="color:var(--muted);font-size:11px">Nincs mentett állás</span>'; return; }
+  container.innerHTML = saves.map(({slot,data})=>{
+    const d = new Date(data.ts);
+    const timeStr = d.toLocaleDateString('hu-HU')+' '+d.toLocaleTimeString('hu-HU',{hour:'2-digit',minute:'2-digit'});
+    const packLabel = data.packId || '?';
+    return `<div class="slot-row">
+      <span class="slot-label">${packLabel} · Kör ${data.turn} · ★${data.gold}Au
+        <span class="slot-meta">${timeStr}</span>
+      </span>
+      <button class="slot-load" data-slot="${slot}">Betölt</button>
+      <button class="slot-del" data-slot="${slot}">✕</button>
+    </div>`;
+  }).join('');
+  container.querySelectorAll('.slot-load').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const raw = localStorage.getItem(SAVE_KEY_PREFIX+btn.dataset.slot);
+      if(!raw) return setSaveStatus('Slot üresen!', true);
+      try{
+        const s = JSON.parse(raw);
+        // if different pack, need to load pack first then restore
+        const sel = document.getElementById('pack-select');
+        const currentPack = sel ? sel.value : null;
+        if(sel && s.packId && s.packId !== currentPack){
+          sel.value = s.packId;
+          sel.dispatchEvent(new Event('change'));
+          // wait for pack load then apply
+          const _pending = s;
+          const _check = setInterval(()=>{
+            if(DATA){ clearInterval(_check); applySavePayload(_pending); setSaveStatus('Betöltve!'); renderSaveSlots(); }
+          }, 150);
+        } else {
+          applySavePayload(s); setSaveStatus('Betöltve!'); renderSaveSlots();
+        }
+      } catch(e){ setSaveStatus('Hiba a betöltésnél: '+e.message, true); }
+    });
+  });
+  container.querySelectorAll('.slot-del').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      localStorage.removeItem(SAVE_KEY_PREFIX+btn.dataset.slot);
+      setSaveStatus('Törölve.'); renderSaveSlots();
+    });
+  });
+}
+
+function saveNow(){
+  if(!DATA){ setSaveStatus('Nincs betöltött térkép!', true); return; }
+  const slot = nextFreeSlot();
+  localStorage.setItem(SAVE_KEY_PREFIX+slot, JSON.stringify(buildSavePayload()));
+  setSaveStatus('Mentve! (slot '+slot+')'); renderSaveSlots();
+}
+
+function autoSave(){
+  if(!DATA) return;
+  try{
+    localStorage.setItem('tudas_autosave', JSON.stringify(buildSavePayload()));
+    setSaveStatus('Automatikus mentés (' + turnNumber + '. kör)');
+    setTimeout(()=>{ const el=document.getElementById('save-status'); if(el) el.textContent=''; }, 2000);
+  } catch(e){}
+}
+
+function exportJson(){
+  if(!DATA){ setSaveStatus('Nincs betöltött térkép!', true); return; }
+  const blob = new Blob([JSON.stringify(buildSavePayload(),null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tudas_mentes_'+Date.now()+'.json';
+  a.click(); URL.revokeObjectURL(a.href);
+  setSaveStatus('JSON exportálva.');
+}
+
+function importJson(file){
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      const s = JSON.parse(e.target.result);
+      if(!s || s.v !== 2) throw new Error('Hibás formátum (v≠2)');
+      const slot = nextFreeSlot();
+      localStorage.setItem(SAVE_KEY_PREFIX+slot, JSON.stringify(s));
+      // apply immediately if pack matches, otherwise switch pack first
+      const sel = document.getElementById('pack-select');
+      if(sel && s.packId && sel.value !== s.packId){
+        sel.value = s.packId;
+        sel.dispatchEvent(new Event('change'));
+        const _check = setInterval(()=>{
+          if(DATA){ clearInterval(_check); applySavePayload(s); setSaveStatus('Importálva és betöltve!'); renderSaveSlots(); }
+        }, 150);
+      } else {
+        applySavePayload(s); setSaveStatus('Importálva és betöltve!'); renderSaveSlots();
+      }
+    } catch(err){ setSaveStatus('Import hiba: '+err.message, true); }
+  };
+  reader.readAsText(file);
+}
+
+document.getElementById('btn-save-now').addEventListener('click', saveNow);
+document.getElementById('btn-export-json').addEventListener('click', exportJson);
+document.getElementById('btn-export-csv').addEventListener('click', ()=>{
+  if(!answerLog.length){
+    const st = document.getElementById('save-status');
+    st.textContent = 'Nincs még válasz a naplóban.';
+    setTimeout(()=>{ st.textContent=''; }, 2500);
+    return;
+  }
+  const header = 'Időbélyeg;Tantárgy;Kérdés;Helyes;Kör';
+  const rows = answerLog.map(r=>[
+    new Date(r.ts).toISOString(),
+    r.subjectId || '',
+    '"' + (r.prompt||'').replace(/"/g,'""') + '"',
+    r.correct ? 'igen' : 'nem',
+    r.turn,
+  ].join(';'));
+  const csv = [header, ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'valasznaplo.csv';
+  a.click();
+});
+document.getElementById('btn-import-json').addEventListener('click',()=>{
+  document.getElementById('import-file-input').click();
+});
+document.getElementById('import-file-input').addEventListener('change', e=>{
+  if(e.target.files[0]) importJson(e.target.files[0]);
+  e.target.value='';
+});
+
+
+// ── Autosave slot in save card ────────────────────────────────────────────────
+function renderAutoSaveSlot(){
+  const container = document.getElementById('save-slots');
+  if(!container) return;
+  try{
+    const raw = localStorage.getItem('tudas_autosave');
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    const dt = new Date(s.ts);
+    const label = `Auto: ${dt.toLocaleDateString('hu')} ${dt.toLocaleTimeString('hu',{hour:'2-digit',minute:'2-digit'})} — ${s.turn}. kör`;
+    const row = document.createElement('div');
+    row.className = 'slot-row';
+    row.innerHTML = `<span class="slot-label">${label}</span>
+      <button class="slot-load" id="btn-load-autosave">Betölt</button>`;
+    container.prepend(row);
+    document.getElementById('btn-load-autosave').addEventListener('click', ()=>{
+      try{ applySavePayload(JSON.parse(localStorage.getItem('tudas_autosave'))); setSaveStatus('Auto-mentés betöltve!'); }
+      catch(e){ setSaveStatus('Hiba: '+e.message, true); }
+    });
+  } catch(e){}
+}
+
+// Render slot list on page load and expose for external refresh
+renderSaveSlots();
+renderAutoSaveSlot();
 </script>
+<!-- i79: Diplomacy modal -->
+<div id="diplo-overlay" class="hidden">
+  <div id="diplo-box">
+    <h2 id="diplo-title">&#9876; Diplomáciai ajánlat</h2>
+    <div class="diplo-sub" id="diplo-bot-name"></div>
+    <div class="diplo-offer" id="diplo-offer-text"></div>
+    <div class="diplo-btns">
+      <button id="diplo-decline">Elutasítom</button>
+      <button id="diplo-accept">Elfogadom</button>
+    </div>
+  </div>
+</div>
 <div id="go-overlay" class="hidden">
   <div id="go-box">
     <div id="go-title"></div>
@@ -1347,14 +3439,137 @@ fetch('world/packs.json').then(r=>r.json()).then(idx=>{
     <button id="go-newgame">&#8635; Új játék</button>
   </div>
 </div>
+<!-- i73: Wiki overlay -->
+<div id="wiki-overlay" class="hidden">
+  <div id="wiki-box">
+    <div id="wiki-header">
+      <h2>&#128218; Tudásbázis</h2>
+      <input id="wiki-search" type="text" placeholder="Keresés…" autocomplete="off">
+      <button id="wiki-close">&#10005;</button>
+    </div>
+    <div id="wiki-body">
+      <div id="wiki-nav"></div>
+      <div id="wiki-content">
+        <div id="wiki-search-results"></div>
+        <div id="wiki-no-results">Nincs találat.</div>
+        <div id="wiki-subject-view"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="camp-overlay" class="hidden">
+  <div id="camp-box">
+    <h2>&#9654; Hadjárat mód</h2>
+    <div class="camp-sub">Válassz pályát — minden hadjárat egyedi feltételekkel indul</div>
+    <div class="camp-list" id="camp-list"></div>
+    <button id="camp-close">&#10005; Mégsem</button>
+  </div>
+</div>
 <div id="q-overlay" class="hidden">
   <div id="q-box">
+    <div id="q-mode-badge" class="attack hidden"></div>
     <div id="q-subject"></div>
     <div id="q-prompt"></div>
     <div id="q-timer" class="hidden"></div>
     <div id="q-choices"></div>
-    <button id="q-cancel">&#10005; Mégsem</button>
+    <div id="q-explanation"></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:4px;">
+      <button id="q-cancel">&#10005; Mégsem</button>
+      <button id="wiki-btn" style="display:none;">&#128218; Wiki</button>
+    </div>
   </div>
 </div>
+
+<!-- Tutorial wizard overlay -->
+<div id="tutorial-overlay" class="hidden">
+  <div id="tutorial-spotlight"></div>
+  <div id="tutorial-box">
+    <div id="tutorial-step"></div>
+    <h2 id="tutorial-title"></h2>
+    <p id="tutorial-text"></p>
+    <div id="tutorial-btns">
+      <button id="btn-tut-skip">Kihagyom</button>
+      <button id="btn-tut-next">Tovább →</button>
+    </div>
+  </div>
+</div>
+<script>
+// ── Tutorial / Onboarding wizard ─────────────────────────────────────────────
+const TUTORIAL_KEY = 'tudas_tutorialDone';
+const TUTORIAL_STEPS = [
+  { title: 'Üdvözöllek a Tudás Paradigmájában!',
+    text: 'Ez egy stratégiai játék, ahol kvízkérdések helyes megválaszolásával foglalhatsz el tartományokat, gyűjthetsz aranyat és tudáspontot (KK).',
+    target: null },
+  { title: 'Pályacsomag kiválasztása',
+    text: 'Először válassz egy kvíz-pályacsomagot. Minden csomag más tantárgyakat és kérdéseket tartalmaz.',
+    target: '#pack-select' },
+  { title: 'Tartomány elfoglalása',
+    text: 'Kattints egy tartományra a térképen, majd az „Elfoglalom" gombra. Helyes kvíz-válasszal megszerezed a területet és bevételt fogsz kapni minden körben.',
+    target: null },
+  { title: 'Kör vége gomb',
+    text: 'Ha befejeztél egy körben, nyomd meg a „Kör vége" gombot. Ekkor megkapod a tartományaid bevételét, és az ellenfél-botok is lépnek.',
+    target: '#btn-end-turn' },
+  { title: 'Mentés és statisztikák',
+    text: 'A bal oldalsávban mentheted a játékot és exportálhatod a válasznaplót CSV-ként (osztálytermi mód). Jó játékot!',
+    target: '#save-card' },
+];
+
+let tutStep = 0;
+
+function startTutorial(){
+  tutStep = 0;
+  showTutStep();
+  document.getElementById('tutorial-overlay').classList.remove('hidden');
+}
+
+function showTutStep(){
+  const step = TUTORIAL_STEPS[tutStep];
+  if(!step){ endTutorial(); return; }
+  const stepEl = document.getElementById('tutorial-step');
+  stepEl.textContent = `${tutStep+1} / ${TUTORIAL_STEPS.length}`;
+  document.getElementById('tutorial-title').textContent = step.title;
+  document.getElementById('tutorial-text').textContent = step.text;
+  const nextBtn = document.getElementById('btn-tut-next');
+  nextBtn.textContent = tutStep === TUTORIAL_STEPS.length - 1 ? 'Kezdés ✓' : 'Tovább →';
+  // Spotlight target element
+  const spot = document.getElementById('tutorial-spotlight');
+  if(step.target){
+    const el = document.querySelector(step.target);
+    if(el){
+      const r = el.getBoundingClientRect();
+      spot.style.cssText = `left:${r.left-6}px;top:${r.top-6}px;width:${r.width+12}px;height:${r.height+12}px;display:block`;
+    } else {
+      spot.style.display = 'none';
+    }
+  } else {
+    spot.style.display = 'none';
+  }
+}
+
+function endTutorial(){
+  document.getElementById('tutorial-overlay').classList.add('hidden');
+  document.getElementById('tutorial-spotlight').style.display = 'none';
+  try{ localStorage.setItem(TUTORIAL_KEY, '1'); } catch(e){}
+}
+
+document.getElementById('btn-tut-next').addEventListener('click', ()=>{
+  tutStep++;
+  if(tutStep >= TUTORIAL_STEPS.length){ endTutorial(); return; }
+  showTutStep();
+});
+document.getElementById('btn-tut-skip').addEventListener('click', endTutorial);
+
+// Start tutorial on first ever visit
+try{
+  if(!localStorage.getItem(TUTORIAL_KEY)) startTutorial();
+} catch(e){}
+
+// Mobile: tap [data-tip] element to toggle tooltip
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-tip]');
+  document.querySelectorAll('[data-tip].tip-open').forEach(t=>{ if(t!==el) t.classList.remove('tip-open'); });
+  if(el) el.classList.toggle('tip-open');
+}, true);
+</script>
 </body>
 </html>

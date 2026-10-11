@@ -1,1 +1,2543 @@
-[{"id": "hu-1", "subject": "magyar", "b": -1.4, "prompt": "Melyik szófaj a „fut” szó?", "correct": "Ige", "distractors": ["Főnév", "Melléknév", "Számnév", "Névmás", "Határozószó", "Kötőszó"]}, {"id": "hu-2", "subject": "magyar", "b": -1.0, "prompt": "Hány magánhangzó betű van a magyar ábécében?", "correct": "14", "distractors": ["7", "10", "24", "40", "5", "20"]}, {"id": "hu-3", "subject": "magyar", "b": -0.6, "prompt": "Ki írta a Toldi című művet?", "correct": "Arany János", "distractors": ["Petőfi Sándor", "Jókai Mór", "Móricz Zsigmond", "Kölcsey Ferenc", "Vörösmarty Mihály", "Mikszáth Kálmán"]}, {"id": "hu-4", "subject": "magyar", "b": 0.2, "prompt": "Melyik toldalék a többes szám jele a magyarban?", "correct": "-k", "distractors": ["-m", "-d", "-t", "-ban", "-ra", "-tól"]}, {"id": "hu-5", "subject": "magyar", "b": 0.6, "prompt": "Melyik mondatfajta végén áll kérdőjel?", "correct": "Kérdő mondat", "distractors": ["Kijelentő mondat", "Felkiáltó mondat", "Felszólító mondat", "Óhajtó mondat", "Tagadó mondat", "Állító mondat"]}, {"id": "hu-6", "subject": "magyar", "b": 1.5, "prompt": "Ki írta Az ember tragédiája című drámát?", "correct": "Madách Imre", "distractors": ["Arany János", "Petőfi Sándor", "Vörösmarty Mihály", "Jókai Mór", "Kölcsey Ferenc", "Babits Mihály"]}, {"id": "mat-1", "subject": "matematika", "b": -1.4, "prompt": "Mennyi 7 + 8?", "correct": "15", "distractors": ["14", "16", "13", "17", "12", "18"]}, {"id": "mat-2", "subject": "matematika", "b": -1.0, "prompt": "Mennyi 9 × 6?", "correct": "54", "distractors": ["45", "56", "63", "48", "52", "60"]}, {"id": "mat-3", "subject": "matematika", "b": -0.6, "prompt": "Hány oldala van egy háromszögnek?", "correct": "3", "distractors": ["2", "4", "5", "6", "1", "8"]}, {"id": "mat-4", "subject": "matematika", "b": 0.2, "prompt": "Mennyi 12²?", "correct": "144", "distractors": ["124", "132", "140", "154", "169", "122"]}, {"id": "mat-5", "subject": "matematika", "b": 0.6, "prompt": "Mi a kör kerületének képlete (r = sugár)?", "correct": "2πr", "distractors": ["πr²", "2r²", "πr", "4r", "r²", "πd/2"]}, {"id": "mat-6", "subject": "matematika", "b": 1.5, "prompt": "Mi x értéke, ha 3x + 5 = 20?", "correct": "5", "distractors": ["4", "6", "15", "25/3", "3", "7"]}, {"id": "fiz-1", "subject": "fizika", "b": -1.4, "prompt": "Hány fokon forr a víz normál légköri nyomáson (°C)?", "correct": "100", "distractors": ["0", "50", "90", "120", "200", "37"]}, {"id": "fiz-2", "subject": "fizika", "b": -1.0, "prompt": "Mi az erő SI-mértékegysége?", "correct": "newton", "distractors": ["joule", "watt", "pascal", "volt", "amper", "kelvin"]}, {"id": "fiz-3", "subject": "fizika", "b": -0.6, "prompt": "Mi húzza a tárgyakat a Föld középpontja felé?", "correct": "Gravitáció", "distractors": ["Súrlódás", "Mágnesesség", "Elektromosság", "Légnyomás", "Hőtágulás", "Rezgés"]}, {"id": "fiz-4", "subject": "fizika", "b": 0.2, "prompt": "Mekkora (kerekítve) a fény sebessége vákuumban?", "correct": "300 000 km/s", "distractors": ["150 000 km/s", "3 000 km/s", "1 000 000 km/s", "30 000 km/s", "900 000 km/s", "3 000 m/s"]}, {"id": "fiz-5", "subject": "fizika", "b": 0.6, "prompt": "Melyik mennyiséget méri a watt?", "correct": "Teljesítmény", "distractors": ["Erő", "Energia", "Nyomás", "Feszültség", "Áramerősség", "Sebesség"]}, {"id": "fiz-6", "subject": "fizika", "b": 1.5, "prompt": "Newton második törvénye szerint mivel egyenlő az erő?", "correct": "tömeg × gyorsulás", "distractors": ["tömeg × sebesség", "tömeg / gyorsulás", "sebesség × idő", "tömeg × idő", "erő / tömeg", "gyorsulás / tömeg"]}, {"id": "kem-1", "subject": "kemia", "b": -1.4, "prompt": "Mi a víz vegyjele?", "correct": "H₂O", "distractors": ["CO₂", "O₂", "NaCl", "H₂", "HO₂", "CH₄"]}, {"id": "kem-2", "subject": "kemia", "b": -1.0, "prompt": "Hány proton van egy hidrogénatomban?", "correct": "1", "distractors": ["2", "0", "3", "6", "8", "4"]}, {"id": "kem-3", "subject": "kemia", "b": -0.6, "prompt": "Mi a konyhasó vegyjele?", "correct": "NaCl", "distractors": ["KCl", "CaCO₃", "NaOH", "H₂SO₄", "NaHCO₃", "MgCl₂"]}, {"id": "kem-4", "subject": "kemia", "b": 0.2, "prompt": "Melyik gáz szükséges az égéshez?", "correct": "Oxigén", "distractors": ["Nitrogén", "Szén-dioxid", "Hidrogén", "Hélium", "Argon", "Metán"]}, {"id": "kem-5", "subject": "kemia", "b": 0.6, "prompt": "Ki alkotta meg a periódusos rendszert?", "correct": "Mengyelejev", "distractors": ["Einstein", "Curie", "Bohr", "Newton", "Rutherford", "Avogadro"]}, {"id": "kem-6", "subject": "kemia", "b": 1.5, "prompt": "Mi a pH-skála semleges értéke?", "correct": "7", "distractors": ["0", "14", "1", "10", "5", "3"]}, {"id": "bio-1", "subject": "biologia", "b": -1.4, "prompt": "Melyik szerv pumpálja a vért a testben?", "correct": "Szív", "distractors": ["Tüdő", "Máj", "Vese", "Gyomor", "Agy", "Lép"]}, {"id": "bio-2", "subject": "biologia", "b": -1.0, "prompt": "Mivel lélegeznek a halak?", "correct": "Kopoltyúval", "distractors": ["Tüdővel", "Bőrrel", "Orral", "Szájjal", "Úszóhólyaggal", "Farokkal"]}, {"id": "bio-3", "subject": "biologia", "b": -0.6, "prompt": "Mi a növények zöld színanyagának neve?", "correct": "Klorofill", "distractors": ["Karotin", "Hemoglobin", "Melanin", "Xantofill", "Antocián", "Kollagén"]}, {"id": "bio-4", "subject": "biologia", "b": 0.2, "prompt": "Melyik sejtszervecske termeli a sejt energiáját?", "correct": "Mitokondrium", "distractors": ["Sejtmag", "Riboszóma", "Golgi-készülék", "Lizoszóma", "Vakuólum", "Kloroplasztisz"]}, {"id": "bio-5", "subject": "biologia", "b": 0.6, "prompt": "Kb. hány csontból áll a felnőtt emberi test?", "correct": "206", "distractors": ["106", "150", "300", "86", "250", "180"]}, {"id": "bio-6", "subject": "biologia", "b": 1.5, "prompt": "Ki dolgozta ki az evolúció elméletét?", "correct": "Charles Darwin", "distractors": ["Gregor Mendel", "Louis Pasteur", "Carl Linné", "Isaac Newton", "Robert Hooke", "James Watson"]}, {"id": "tor-1", "subject": "tortenelem", "b": -1.4, "prompt": "Mikor történt (kb.) a honfoglalás?", "correct": "895", "distractors": ["1000", "1100", "700", "1241", "1526", "800"]}, {"id": "tor-2", "subject": "tortenelem", "b": -1.0, "prompt": "Ki volt Magyarország első királya?", "correct": "I. István", "distractors": ["Mátyás király", "Árpád vezér", "Könyves Kálmán", "II. András", "Szent László", "I. Béla"]}, {"id": "tor-3", "subject": "tortenelem", "b": -0.6, "prompt": "Melyik évben volt a mohácsi vész?", "correct": "1526", "distractors": ["1456", "1241", "1686", "1848", "1920", "1711"]}, {"id": "tor-4", "subject": "tortenelem", "b": 0.2, "prompt": "Melyik magyar királyt nevezték „Hollós királynak”?", "correct": "Mátyás király", "distractors": ["I. István", "Szent László", "II. Lajos", "I. Lipót", "Könyves Kálmán", "III. Béla"]}, {"id": "tor-5", "subject": "tortenelem", "b": 0.6, "prompt": "Melyik évben tört ki az 1848-as forradalom?", "correct": "1848", "distractors": ["1830", "1867", "1918", "1956", "1800", "1900"]}, {"id": "tor-6", "subject": "tortenelem", "b": 1.5, "prompt": "Melyik békeszerződés zárta le Magyarország számára az első világháborút?", "correct": "Trianoni békeszerződés", "distractors": ["Versailles-i szerződés", "Párizsi békeszerződés", "Bécsi döntés", "Karlócai béke", "Nikolsburgi béke", "Pozsonyi béke"]}, {"id": "fold-1", "subject": "foldrajz", "b": -1.4, "prompt": "Melyik Magyarország fővárosa?", "correct": "Budapest", "distractors": ["Debrecen", "Szeged", "Pécs", "Győr", "Miskolc", "Székesfehérvár"]}, {"id": "fold-2", "subject": "foldrajz", "b": -1.0, "prompt": "Melyik Európa leghosszabb folyója, amely Magyarországon is átfolyik?", "correct": "Duna", "distractors": ["Tisza", "Dráva", "Rába", "Körös", "Sajó", "Ipoly"]}, {"id": "fold-3", "subject": "foldrajz", "b": -0.6, "prompt": "Melyik a legnagyobb óceán a Földön?", "correct": "Csendes-óceán", "distractors": ["Atlanti-óceán", "Indiai-óceán", "Jeges-tenger", "Balti-tenger", "Fekete-tenger", "Vörös-tenger"]}, {"id": "fold-4", "subject": "foldrajz", "b": 0.2, "prompt": "Melyik a legmagasabb hegycsúcs a Földön?", "correct": "Mount Everest", "distractors": ["Kilimandzsáró", "Mont Blanc", "K2", "Elbrusz", "Matterhorn", "Aconcagua"]}, {"id": "fold-5", "subject": "foldrajz", "b": 0.6, "prompt": "Melyik a legnagyobb forró (homok-)sivatag a Földön?", "correct": "Szahara", "distractors": ["Gobi", "Atacama", "Kalahári", "Arab-sivatag", "Namib", "Mojave"]}, {"id": "fold-6", "subject": "foldrajz", "b": 1.5, "prompt": "Melyik a legnagyobb területű ország a Földön?", "correct": "Oroszország", "distractors": ["Kanada", "Kína", "USA", "Brazília", "Ausztrália", "India"]}, {"id": "inf-1", "subject": "informatika", "b": -1.4, "prompt": "Mit jelent a „CPU” rövidítés?", "correct": "Központi feldolgozóegység", "distractors": ["Memória", "Merevlemez", "Videokártya", "Billentyűzet", "Operációs rendszer", "Hálózati kártya"]}, {"id": "inf-2", "subject": "informatika", "b": -1.0, "prompt": "Melyik egység méri a tárhely méretét?", "correct": "Bájt", "distractors": ["Watt", "Volt", "Hertz", "Amper", "Newton", "Celsius"]}, {"id": "inf-3", "subject": "informatika", "b": -0.6, "prompt": "Hogy hívják az internet böngészésére használt programot?", "correct": "Böngésző", "distractors": ["Szövegszerkesztő", "Táblázatkezelő", "Operációs rendszer", "Vírusirtó", "Fordítóprogram", "Adatbázis-kezelő"]}, {"id": "inf-4", "subject": "informatika", "b": 0.2, "prompt": "Melyik számrendszert használja alapvetően a számítógép?", "correct": "Kettes (bináris)", "distractors": ["Tízes", "Nyolcas", "Tizenhatos", "Hármas", "Ötös", "Hetes"]}, {"id": "inf-5", "subject": "informatika", "b": 0.6, "prompt": "Mit jelent a „www” rövidítés?", "correct": "World Wide Web", "distractors": ["World Wide Watch", "Web Wide World", "Wide World Web", "World Web Wide", "Web World Wide", "Wild Web World"]}, {"id": "inf-6", "subject": "informatika", "b": 1.5, "prompt": "Kit tartanak a modern számítógép-tudomány egyik megalapítójának?", "correct": "Alan Turing", "distractors": ["Albert Einstein", "Isaac Newton", "Charles Darwin", "Nikola Tesla", "Thomas Edison", "Stephen Hawking"]}]
+{
+  "schema_version": 1,
+  "questions": [
+    {
+      "id": "hu-1",
+      "subject": "magyar",
+      "b": -1.4,
+      "prompt": "Melyik szófaj a „fut” szó?",
+      "correct": "Ige",
+      "distractors": [
+        "Főnév",
+        "Melléknév",
+        "Számnév",
+        "Névmás",
+        "Határozószó",
+        "Kötőszó"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "hu-2",
+      "subject": "magyar",
+      "b": -1.0,
+      "prompt": "Hány magánhangzó betű van a magyar ábécében?",
+      "correct": "14",
+      "distractors": [
+        "7",
+        "10",
+        "24",
+        "40",
+        "5",
+        "20"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "hu-3",
+      "subject": "magyar",
+      "b": -0.6,
+      "prompt": "Ki írta a Toldi című művet?",
+      "correct": "Arany János",
+      "distractors": [
+        "Petőfi Sándor",
+        "Jókai Mór",
+        "Móricz Zsigmond",
+        "Kölcsey Ferenc",
+        "Vörösmarty Mihály",
+        "Mikszáth Kálmán"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "hu-4",
+      "subject": "magyar",
+      "b": 0.2,
+      "prompt": "Melyik toldalék a többes szám jele a magyarban?",
+      "correct": "-k",
+      "distractors": [
+        "-m",
+        "-d",
+        "-t",
+        "-ban",
+        "-ra",
+        "-tól"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "hu-5",
+      "subject": "magyar",
+      "b": 0.6,
+      "prompt": "Melyik mondatfajta végén áll kérdőjel?",
+      "correct": "Kérdő mondat",
+      "distractors": [
+        "Kijelentő mondat",
+        "Felkiáltó mondat",
+        "Felszólító mondat",
+        "Óhajtó mondat",
+        "Tagadó mondat",
+        "Állító mondat"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "hu-6",
+      "subject": "magyar",
+      "b": 1.5,
+      "prompt": "Ki írta Az ember tragédiája című drámát?",
+      "correct": "Madách Imre",
+      "distractors": [
+        "Arany János",
+        "Petőfi Sándor",
+        "Vörösmarty Mihály",
+        "Jókai Mór",
+        "Kölcsey Ferenc",
+        "Babits Mihály"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "mat-1",
+      "subject": "matematika",
+      "b": -1.4,
+      "prompt": "Mennyi 7 + 8?",
+      "correct": "15",
+      "distractors": [
+        "14",
+        "16",
+        "13",
+        "17",
+        "12",
+        "18"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "mat-2",
+      "subject": "matematika",
+      "b": -1.0,
+      "prompt": "Mennyi 9 × 6?",
+      "correct": "54",
+      "distractors": [
+        "45",
+        "56",
+        "63",
+        "48",
+        "52",
+        "60"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "mat-3",
+      "subject": "matematika",
+      "b": -0.6,
+      "prompt": "Hány oldala van egy háromszögnek?",
+      "correct": "3",
+      "distractors": [
+        "2",
+        "4",
+        "5",
+        "6",
+        "1",
+        "8"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "mat-4",
+      "subject": "matematika",
+      "b": 0.2,
+      "prompt": "Mennyi 12²?",
+      "correct": "144",
+      "distractors": [
+        "124",
+        "132",
+        "140",
+        "154",
+        "169",
+        "122"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "mat-5",
+      "subject": "matematika",
+      "b": 0.6,
+      "prompt": "Mi a kör kerületének képlete (r = sugár)?",
+      "correct": "2πr",
+      "distractors": [
+        "πr²",
+        "2r²",
+        "πr",
+        "4r",
+        "r²",
+        "πd/2"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "mat-6",
+      "subject": "matematika",
+      "b": 1.5,
+      "prompt": "Mi x értéke, ha 3x + 5 = 20?",
+      "correct": "5",
+      "distractors": [
+        "4",
+        "6",
+        "15",
+        "25/3",
+        "3",
+        "7"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fiz-1",
+      "subject": "fizika",
+      "b": -1.4,
+      "prompt": "Hány fokon forr a víz normál légköri nyomáson (°C)?",
+      "correct": "100",
+      "distractors": [
+        "0",
+        "50",
+        "90",
+        "120",
+        "200",
+        "37"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fiz-2",
+      "subject": "fizika",
+      "b": -1.0,
+      "prompt": "Mi az erő SI-mértékegysége?",
+      "correct": "newton",
+      "distractors": [
+        "joule",
+        "watt",
+        "pascal",
+        "volt",
+        "amper",
+        "kelvin"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fiz-3",
+      "subject": "fizika",
+      "b": -0.6,
+      "prompt": "Mi húzza a tárgyakat a Föld középpontja felé?",
+      "correct": "Gravitáció",
+      "distractors": [
+        "Súrlódás",
+        "Mágnesesség",
+        "Elektromosság",
+        "Légnyomás",
+        "Hőtágulás",
+        "Rezgés"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fiz-4",
+      "subject": "fizika",
+      "b": 0.2,
+      "prompt": "Mekkora (kerekítve) a fény sebessége vákuumban?",
+      "correct": "300 000 km/s",
+      "distractors": [
+        "150 000 km/s",
+        "3 000 km/s",
+        "1 000 000 km/s",
+        "30 000 km/s",
+        "900 000 km/s",
+        "3 000 m/s"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fiz-5",
+      "subject": "fizika",
+      "b": 0.6,
+      "prompt": "Melyik mennyiséget méri a watt?",
+      "correct": "Teljesítmény",
+      "distractors": [
+        "Erő",
+        "Energia",
+        "Nyomás",
+        "Feszültség",
+        "Áramerősség",
+        "Sebesség"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fiz-6",
+      "subject": "fizika",
+      "b": 1.5,
+      "prompt": "Newton második törvénye szerint mivel egyenlő az erő?",
+      "correct": "tömeg × gyorsulás",
+      "distractors": [
+        "tömeg × sebesség",
+        "tömeg / gyorsulás",
+        "sebesség × idő",
+        "tömeg × idő",
+        "erő / tömeg",
+        "gyorsulás / tömeg"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "kem-1",
+      "subject": "kemia",
+      "b": -1.4,
+      "prompt": "Mi a víz vegyjele?",
+      "correct": "H₂O",
+      "distractors": [
+        "CO₂",
+        "O₂",
+        "NaCl",
+        "H₂",
+        "HO₂",
+        "CH₄"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "kem-2",
+      "subject": "kemia",
+      "b": -1.0,
+      "prompt": "Hány proton van egy hidrogénatomban?",
+      "correct": "1",
+      "distractors": [
+        "2",
+        "0",
+        "3",
+        "6",
+        "8",
+        "4"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "kem-3",
+      "subject": "kemia",
+      "b": -0.6,
+      "prompt": "Mi a konyhasó vegyjele?",
+      "correct": "NaCl",
+      "distractors": [
+        "KCl",
+        "CaCO₃",
+        "NaOH",
+        "H₂SO₄",
+        "NaHCO₃",
+        "MgCl₂"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "kem-4",
+      "subject": "kemia",
+      "b": 0.2,
+      "prompt": "Melyik gáz szükséges az égéshez?",
+      "correct": "Oxigén",
+      "distractors": [
+        "Nitrogén",
+        "Szén-dioxid",
+        "Hidrogén",
+        "Hélium",
+        "Argon",
+        "Metán"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "kem-5",
+      "subject": "kemia",
+      "b": 0.6,
+      "prompt": "Ki alkotta meg a periódusos rendszert?",
+      "correct": "Mengyelejev",
+      "distractors": [
+        "Einstein",
+        "Curie",
+        "Bohr",
+        "Newton",
+        "Rutherford",
+        "Avogadro"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "kem-6",
+      "subject": "kemia",
+      "b": 1.5,
+      "prompt": "Mi a pH-skála semleges értéke?",
+      "correct": "7",
+      "distractors": [
+        "0",
+        "14",
+        "1",
+        "10",
+        "5",
+        "3"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "bio-1",
+      "subject": "biologia",
+      "b": -1.4,
+      "prompt": "Melyik szerv pumpálja a vért a testben?",
+      "correct": "Szív",
+      "distractors": [
+        "Tüdő",
+        "Máj",
+        "Vese",
+        "Gyomor",
+        "Agy",
+        "Lép"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "bio-2",
+      "subject": "biologia",
+      "b": -1.0,
+      "prompt": "Mivel lélegeznek a halak?",
+      "correct": "Kopoltyúval",
+      "distractors": [
+        "Tüdővel",
+        "Bőrrel",
+        "Orral",
+        "Szájjal",
+        "Úszóhólyaggal",
+        "Farokkal"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "bio-3",
+      "subject": "biologia",
+      "b": -0.6,
+      "prompt": "Mi a növények zöld színanyagának neve?",
+      "correct": "Klorofill",
+      "distractors": [
+        "Karotin",
+        "Hemoglobin",
+        "Melanin",
+        "Xantofill",
+        "Antocián",
+        "Kollagén"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "bio-4",
+      "subject": "biologia",
+      "b": 0.2,
+      "prompt": "Melyik sejtszervecske termeli a sejt energiáját?",
+      "correct": "Mitokondrium",
+      "distractors": [
+        "Sejtmag",
+        "Riboszóma",
+        "Golgi-készülék",
+        "Lizoszóma",
+        "Vakuólum",
+        "Kloroplasztisz"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "bio-5",
+      "subject": "biologia",
+      "b": 0.6,
+      "prompt": "Kb. hány csontból áll a felnőtt emberi test?",
+      "correct": "206",
+      "distractors": [
+        "106",
+        "150",
+        "300",
+        "86",
+        "250",
+        "180"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "bio-6",
+      "subject": "biologia",
+      "b": 1.5,
+      "prompt": "Ki dolgozta ki az evolúció elméletét?",
+      "correct": "Charles Darwin",
+      "distractors": [
+        "Gregor Mendel",
+        "Louis Pasteur",
+        "Carl Linné",
+        "Isaac Newton",
+        "Robert Hooke",
+        "James Watson"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "tor-1",
+      "subject": "tortenelem",
+      "b": -1.4,
+      "prompt": "Mikor történt (kb.) a honfoglalás?",
+      "correct": "895",
+      "distractors": [
+        "1000",
+        "1100",
+        "700",
+        "1241",
+        "1526",
+        "800"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "tor-2",
+      "subject": "tortenelem",
+      "b": -1.0,
+      "prompt": "Ki volt Magyarország első királya?",
+      "correct": "I. István",
+      "distractors": [
+        "Mátyás király",
+        "Árpád vezér",
+        "Könyves Kálmán",
+        "II. András",
+        "Szent László",
+        "I. Béla"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "tor-3",
+      "subject": "tortenelem",
+      "b": -0.6,
+      "prompt": "Melyik évben volt a mohácsi vész?",
+      "correct": "1526",
+      "distractors": [
+        "1456",
+        "1241",
+        "1686",
+        "1848",
+        "1920",
+        "1711"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "tor-4",
+      "subject": "tortenelem",
+      "b": 0.2,
+      "prompt": "Melyik magyar királyt nevezték „Hollós királynak”?",
+      "correct": "Mátyás király",
+      "distractors": [
+        "I. István",
+        "Szent László",
+        "II. Lajos",
+        "I. Lipót",
+        "Könyves Kálmán",
+        "III. Béla"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "tor-5",
+      "subject": "tortenelem",
+      "b": 0.6,
+      "prompt": "Melyik évben tört ki az 1848-as forradalom?",
+      "correct": "1848",
+      "distractors": [
+        "1830",
+        "1867",
+        "1918",
+        "1956",
+        "1800",
+        "1900"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "tor-6",
+      "subject": "tortenelem",
+      "b": 1.5,
+      "prompt": "Melyik békeszerződés zárta le Magyarország számára az első világháborút?",
+      "correct": "Trianoni békeszerződés",
+      "distractors": [
+        "Versailles-i szerződés",
+        "Párizsi békeszerződés",
+        "Bécsi döntés",
+        "Karlócai béke",
+        "Nikolsburgi béke",
+        "Pozsonyi béke"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fold-1",
+      "subject": "foldrajz",
+      "b": -1.4,
+      "prompt": "Melyik Magyarország fővárosa?",
+      "correct": "Budapest",
+      "distractors": [
+        "Debrecen",
+        "Szeged",
+        "Pécs",
+        "Győr",
+        "Miskolc",
+        "Székesfehérvár"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fold-2",
+      "subject": "foldrajz",
+      "b": -1.0,
+      "prompt": "Melyik Európa leghosszabb folyója, amely Magyarországon is átfolyik?",
+      "correct": "Duna",
+      "distractors": [
+        "Tisza",
+        "Dráva",
+        "Rába",
+        "Körös",
+        "Sajó",
+        "Ipoly"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fold-3",
+      "subject": "foldrajz",
+      "b": -0.6,
+      "prompt": "Melyik a legnagyobb óceán a Földön?",
+      "correct": "Csendes-óceán",
+      "distractors": [
+        "Atlanti-óceán",
+        "Indiai-óceán",
+        "Jeges-tenger",
+        "Balti-tenger",
+        "Fekete-tenger",
+        "Vörös-tenger"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fold-4",
+      "subject": "foldrajz",
+      "b": 0.2,
+      "prompt": "Melyik a legmagasabb hegycsúcs a Földön?",
+      "correct": "Mount Everest",
+      "distractors": [
+        "Kilimandzsáró",
+        "Mont Blanc",
+        "K2",
+        "Elbrusz",
+        "Matterhorn",
+        "Aconcagua"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fold-5",
+      "subject": "foldrajz",
+      "b": 0.6,
+      "prompt": "Melyik a legnagyobb forró (homok-)sivatag a Földön?",
+      "correct": "Szahara",
+      "distractors": [
+        "Gobi",
+        "Atacama",
+        "Kalahári",
+        "Arab-sivatag",
+        "Namib",
+        "Mojave"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "fold-6",
+      "subject": "foldrajz",
+      "b": 1.5,
+      "prompt": "Melyik a legnagyobb területű ország a Földön?",
+      "correct": "Oroszország",
+      "distractors": [
+        "Kanada",
+        "Kína",
+        "USA",
+        "Brazília",
+        "Ausztrália",
+        "India"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "inf-1",
+      "subject": "digitalis_kultura",
+      "b": -1.4,
+      "prompt": "Mit jelent a „CPU” rövidítés?",
+      "correct": "Központi feldolgozóegység",
+      "distractors": [
+        "Memória",
+        "Merevlemez",
+        "Videokártya",
+        "Billentyűzet",
+        "Operációs rendszer",
+        "Hálózati kártya"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "inf-2",
+      "subject": "digitalis_kultura",
+      "b": -1.0,
+      "prompt": "Melyik egység méri a tárhely méretét?",
+      "correct": "Bájt",
+      "distractors": [
+        "Watt",
+        "Volt",
+        "Hertz",
+        "Amper",
+        "Newton",
+        "Celsius"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "inf-3",
+      "subject": "digitalis_kultura",
+      "b": -0.6,
+      "prompt": "Hogy hívják az internet böngészésére használt programot?",
+      "correct": "Böngésző",
+      "distractors": [
+        "Szövegszerkesztő",
+        "Táblázatkezelő",
+        "Operációs rendszer",
+        "Vírusirtó",
+        "Fordítóprogram",
+        "Adatbázis-kezelő"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "inf-4",
+      "subject": "digitalis_kultura",
+      "b": 0.2,
+      "prompt": "Melyik számrendszert használja alapvetően a számítógép?",
+      "correct": "Kettes (bináris)",
+      "distractors": [
+        "Tízes",
+        "Nyolcas",
+        "Tizenhatos",
+        "Hármas",
+        "Ötös",
+        "Hetes"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "inf-5",
+      "subject": "digitalis_kultura",
+      "b": 0.6,
+      "prompt": "Mit jelent a „www” rövidítés?",
+      "correct": "World Wide Web",
+      "distractors": [
+        "World Wide Watch",
+        "Web Wide World",
+        "Wide World Web",
+        "World Web Wide",
+        "Web World Wide",
+        "Wild Web World"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "inf-6",
+      "subject": "digitalis_kultura",
+      "b": 1.5,
+      "prompt": "Kit tartanak a modern számítógép-tudomány egyik megalapítójának?",
+      "correct": "Alan Turing",
+      "distractors": [
+        "Albert Einstein",
+        "Isaac Newton",
+        "Charles Darwin",
+        "Nikola Tesla",
+        "Thomas Edison",
+        "Stephen Hawking"
+      ],
+      "grade": "5-8"
+    },
+    {
+      "id": "q201",
+      "subject": "idegen_nyelv",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a helyes fordítása: „I have a cat\"?",
+      "correct": "Van egy macskám",
+      "distractors": [
+        "Van egy kutyám",
+        "Ez egy macska",
+        "Szeretem a macskát"
+      ]
+    },
+    {
+      "id": "q202",
+      "subject": "idegen_nyelv",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik szín angolul „red\"?",
+      "correct": "Piros",
+      "distractors": [
+        "Kék",
+        "Zöld",
+        "Sárga"
+      ]
+    },
+    {
+      "id": "q203",
+      "subject": "idegen_nyelv",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Hogyan mondják angolul: „jó reggelt\"?",
+      "correct": "Good morning",
+      "distractors": [
+        "Good night",
+        "Good evening",
+        "Good afternoon"
+      ]
+    },
+    {
+      "id": "q204",
+      "subject": "idegen_nyelv",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik szám angolul „seven\"?",
+      "correct": "7",
+      "distractors": [
+        "6",
+        "8",
+        "9"
+      ]
+    },
+    {
+      "id": "q205",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mit jelent: „She is reading a book\"?",
+      "correct": "Ő könyvet olvas",
+      "distractors": [
+        "Ő könyvet ír",
+        "Ő iskolába megy",
+        "Ő könyvet vesz"
+      ]
+    },
+    {
+      "id": "q206",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Melyik a helyes Past Simple alak: „go\"?",
+      "correct": "went",
+      "distractors": [
+        "goed",
+        "gone",
+        "going"
+      ]
+    },
+    {
+      "id": "q207",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mit jelent: „It is raining cats and dogs\"?",
+      "correct": "Szakad az eső",
+      "distractors": [
+        "Macskák és kutyák vannak az udvaron",
+        "Kellemes az idő",
+        "Esik a hó"
+      ]
+    },
+    {
+      "id": "q208",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Melyik nem főnév?",
+      "correct": "quickly",
+      "distractors": [
+        "friendship",
+        "city",
+        "decision"
+      ]
+    },
+    {
+      "id": "q209",
+      "subject": "idegen_nyelv",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik mondatban helyes a feltételes mód?",
+      "correct": "If I had money, I would travel.",
+      "distractors": [
+        "If I have money, I would travel.",
+        "If I had money, I will travel.",
+        "If I would have money, I travel."
+      ]
+    },
+    {
+      "id": "q210",
+      "subject": "idegen_nyelv",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mit jelent az „ubiquitous\" szó?",
+      "correct": "Mindenhol jelen lévő",
+      "distractors": [
+        "Egyedi",
+        "Ritka",
+        "Ismeretlen"
+      ]
+    },
+    {
+      "id": "q211",
+      "subject": "idegen_nyelv",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik mondat helyes?",
+      "correct": "She suggested that he study harder.",
+      "distractors": [
+        "She suggested that he studies harder.",
+        "She suggested him to study harder.",
+        "She suggested him studying harder."
+      ]
+    },
+    {
+      "id": "q212",
+      "subject": "termeszettudomany",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik bolygón élünk?",
+      "correct": "Földön",
+      "distractors": [
+        "Marson",
+        "Vénuszon",
+        "Holdon"
+      ]
+    },
+    {
+      "id": "q213",
+      "subject": "termeszettudomany",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi az állapota a víznek megfagyasztva?",
+      "correct": "Szilárd",
+      "distractors": [
+        "Folyékony",
+        "Légnemű",
+        "Gőz"
+      ]
+    },
+    {
+      "id": "q214",
+      "subject": "termeszettudomany",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Honnan kapják táplálékukat a növények?",
+      "correct": "Napfényből és talajból",
+      "distractors": [
+        "Csak talajból",
+        "Csak vízből",
+        "Levegőből"
+      ]
+    },
+    {
+      "id": "q215",
+      "subject": "termeszettudomany",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik kering a Nap körül?",
+      "correct": "A Föld",
+      "distractors": [
+        "A Nap",
+        "A Hold",
+        "A csillagok"
+      ]
+    },
+    {
+      "id": "q216",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mi a fotoszintézis végterméke?",
+      "correct": "Glükóz és oxigén",
+      "distractors": [
+        "Víz és szén-dioxid",
+        "Cukor és hidrogén",
+        "Keményítő és nitrogén"
+      ]
+    },
+    {
+      "id": "q217",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Melyik részecskék alkotják az atommagot?",
+      "correct": "Protonok és neutronok",
+      "distractors": [
+        "Elektronok és protonok",
+        "Neutronok és elektronok",
+        "Fotonok"
+      ]
+    },
+    {
+      "id": "q218",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mekkora a víz forráspontja normál légnyomáson?",
+      "correct": "100 °C",
+      "distractors": [
+        "90 °C",
+        "80 °C",
+        "110 °C"
+      ]
+    },
+    {
+      "id": "q219",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Melyik erő tartja a bolygókat pályájukon?",
+      "correct": "Gravitáció",
+      "distractors": [
+        "Mágneses erő",
+        "Elektromos erő",
+        "Súrlódás"
+      ]
+    },
+    {
+      "id": "q220",
+      "subject": "termeszettudomany",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik törvény fejezi ki, hogy az energia megmarad?",
+      "correct": "A termodinamika első főtétele",
+      "distractors": [
+        "Newton első törvénye",
+        "Ohm törvénye",
+        "A termodinamika második főtétele"
+      ]
+    },
+    {
+      "id": "q221",
+      "subject": "termeszettudomany",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi a pH-skála semleges értéke?",
+      "correct": "7",
+      "distractors": [
+        "0",
+        "14",
+        "5"
+      ]
+    },
+    {
+      "id": "q222",
+      "subject": "termeszettudomany",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik részecskének van pozitív töltése?",
+      "correct": "Proton",
+      "distractors": [
+        "Elektron",
+        "Neutron",
+        "Foton"
+      ]
+    },
+    {
+      "id": "q223",
+      "subject": "allampolgari",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi Magyarország fővárosa?",
+      "correct": "Budapest",
+      "distractors": [
+        "Debrecen",
+        "Pécs",
+        "Győr"
+      ]
+    },
+    {
+      "id": "q224",
+      "subject": "allampolgari",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Milyen színű Magyarország zászlaja?",
+      "correct": "Piros, fehér, zöld",
+      "distractors": [
+        "Kék, fehér, piros",
+        "Piros, fehér, kék",
+        "Zöld, sárga, piros"
+      ]
+    },
+    {
+      "id": "q225",
+      "subject": "allampolgari",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Ki a Magyar Köztársaság legfőbb közjogi méltósága?",
+      "correct": "Köztársasági elnök",
+      "distractors": [
+        "Miniszterelnök",
+        "Polgármester",
+        "Bíró"
+      ]
+    },
+    {
+      "id": "q226",
+      "subject": "allampolgari",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a neve Magyarország parlamentjének?",
+      "correct": "Országgyűlés",
+      "distractors": [
+        "Szenátus",
+        "Minisztertanács",
+        "Alkotmánybíróság"
+      ]
+    },
+    {
+      "id": "q227",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Hány képviselőből áll a Magyar Országgyűlés?",
+      "correct": "199",
+      "distractors": [
+        "386",
+        "120",
+        "300"
+      ]
+    },
+    {
+      "id": "q228",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mikor fogadták el Magyarország Alaptörvényét?",
+      "correct": "2011-ben",
+      "distractors": [
+        "2004-ben",
+        "1989-ben",
+        "1990-ben"
+      ]
+    },
+    {
+      "id": "q229",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Melyik szervezetnek tagja Magyarország 2004 óta?",
+      "correct": "Európai Unió",
+      "distractors": [
+        "NATO",
+        "ENSZ",
+        "OECD"
+      ]
+    },
+    {
+      "id": "q230",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mi a helyi önkormányzat választott vezetőjének neve?",
+      "correct": "Polgármester",
+      "distractors": [
+        "Prefektus",
+        "Elnök",
+        "Kormányzó"
+      ]
+    },
+    {
+      "id": "q231",
+      "subject": "allampolgari",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik elv szerint minden állampolgár egyenlő a törvény előtt?",
+      "correct": "Jogegyenlőség",
+      "distractors": [
+        "Szuverenitás",
+        "Hatalommegosztás",
+        "Szubszidiaritás"
+      ]
+    },
+    {
+      "id": "q232",
+      "subject": "allampolgari",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik szerv vizsgálja az alkotmányosságot Magyarországon?",
+      "correct": "Alkotmánybíróság",
+      "distractors": [
+        "Kúria",
+        "Országgyűlés",
+        "Köztársasági elnök"
+      ]
+    },
+    {
+      "id": "q233",
+      "subject": "allampolgari",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mit jelent a közvetlen demokrácia?",
+      "correct": "A polgárok közvetlenül döntenek a politikai kérdésekről",
+      "distractors": [
+        "Képviselők útján döntéshozatal",
+        "A kormány egyedül dönt",
+        "A bíróság hoz törvényeket"
+      ]
+    },
+    {
+      "id": "q234",
+      "subject": "etika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi az arany szabály lényege?",
+      "correct": "Úgy bánj másokkal, ahogy szeretnéd, hogy veled bánjanak",
+      "distractors": [
+        "Mindig nyerj",
+        "Segíts csak barátaidnak",
+        "Ne osztd meg a dolgaidat"
+      ]
+    },
+    {
+      "id": "q235",
+      "subject": "etika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi az empátia?",
+      "correct": "Mások érzéseinek megértése",
+      "distractors": [
+        "Önzőség",
+        "Versengés",
+        "Haragtartás"
+      ]
+    },
+    {
+      "id": "q236",
+      "subject": "etika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mit jelent a becsületesség?",
+      "correct": "Igazat mondani és betartani a szabályokat",
+      "distractors": [
+        "Mindig nyerni",
+        "Mindent elvenni",
+        "Hazudni, ha hasznos"
+      ]
+    },
+    {
+      "id": "q237",
+      "subject": "etika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a felelősségvállalás?",
+      "correct": "Tetteid következményeinek elfogadása",
+      "distractors": [
+        "Mások hibáztatása",
+        "Menekülés",
+        "Tagadás"
+      ]
+    },
+    {
+      "id": "q238",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Melyik etikai irányzat szerint a cselekvés értékét a következmények határozzák meg?",
+      "correct": "Következményetika (utilitarizmus)",
+      "distractors": [
+        "Kötelességetika",
+        "Erényetika",
+        "Vallási etika"
+      ]
+    },
+    {
+      "id": "q239",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mit jelent az erkölcsi dilemma?",
+      "correct": "Két jó vagy kötelező érték ütközése",
+      "distractors": [
+        "Egyszerű döntési helyzet",
+        "Törvényi kötelezettség",
+        "Szokásokon alapuló viselkedés"
+      ]
+    },
+    {
+      "id": "q240",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Ki alkotta a kategorikus imperatívuszt?",
+      "correct": "Immanuel Kant",
+      "distractors": [
+        "Arisztotelész",
+        "John Stuart Mill",
+        "Platón"
+      ]
+    },
+    {
+      "id": "q241",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mi az emberi méltóság alapelve?",
+      "correct": "Minden ember értékes és tiszteletet érdemel önmagáért",
+      "distractors": [
+        "Az erősebbek jogai fontosabbak",
+        "Az értékesség teljesítménytől függ",
+        "A társadalom felette áll az egyénnek"
+      ]
+    },
+    {
+      "id": "q242",
+      "subject": "etika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik gondolkodó fogalmazta meg az erényetika modern változatát?",
+      "correct": "Alasdair MacIntyre",
+      "distractors": [
+        "Jeremy Bentham",
+        "John Rawls",
+        "Immanuel Kant"
+      ]
+    },
+    {
+      "id": "q243",
+      "subject": "etika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mit vizsgál a bioetika?",
+      "correct": "Az élet, az egészség és a biotechnológia erkölcsi kérdéseit",
+      "distractors": [
+        "A számítástechnika etikai vonatkozásait",
+        "A gazdasági döntések erkölcsét",
+        "A politikai hatalom legitimációját"
+      ]
+    },
+    {
+      "id": "q244",
+      "subject": "etika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi a rawlsi igazságosság mint méltányosság alapelve?",
+      "correct": "Az egyenlőtlenségek csak akkor igazolhatók, ha a legelesettebbeknek kedveznek",
+      "distractors": [
+        "Mindenki kapjon egyenlő részt",
+        "Az erősebbnek jár több",
+        "A szabadság fontosabb az egyenlőségnél"
+      ]
+    },
+    {
+      "id": "q245",
+      "subject": "hon_nepismeret",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik a legismertebb magyar népmese-gyűjtő?",
+      "correct": "Benedek Elek",
+      "distractors": [
+        "Arany János",
+        "Petőfi Sándor",
+        "Jókai Mór"
+      ]
+    },
+    {
+      "id": "q246",
+      "subject": "hon_nepismeret",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a neve a magyarok ősének a mondában?",
+      "correct": "Emese",
+      "distractors": [
+        "Attila",
+        "Álmos",
+        "Árpád"
+      ]
+    },
+    {
+      "id": "q247",
+      "subject": "hon_nepismeret",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Milyen ünnepen emlékezünk a honfoglalásra?",
+      "correct": "Augusztus 20-án",
+      "distractors": [
+        "Március 15-én",
+        "Október 23-án",
+        "Január 1-én"
+      ]
+    },
+    {
+      "id": "q248",
+      "subject": "hon_nepismeret",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Hogyan hívjuk a pusztán lovakat őrző embert?",
+      "correct": "Csikós",
+      "distractors": [
+        "Gulyás",
+        "Halász",
+        "Pásztor"
+      ]
+    },
+    {
+      "id": "q249",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mikor volt a magyar honfoglalás?",
+      "correct": "895–896 körül",
+      "distractors": [
+        "1000 körül",
+        "800 körül",
+        "1100 körül"
+      ]
+    },
+    {
+      "id": "q250",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Ki dolgozott együtt Bartók Bélával a népzenegyűjtésben?",
+      "correct": "Kodály Zoltán",
+      "distractors": [
+        "Liszt Ferenc",
+        "Erkel Ferenc",
+        "Dohnányi Ernő"
+      ]
+    },
+    {
+      "id": "q251",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Melyik régió ismert a matyó hímzéséről, UNESCO-örökségről?",
+      "correct": "Matyóföld – Mezőkövesd",
+      "distractors": [
+        "Győr-Sopron",
+        "Debrecen",
+        "Eger"
+      ]
+    },
+    {
+      "id": "q252",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": "A",
+      "prompt": "Mi a palóc kultúra jellemzője?",
+      "correct": "Észak-Magyarország sajátos népi hagyományai",
+      "distractors": [
+        "Dunántúli szőlőkultúra",
+        "Alföldi pásztorvilág",
+        "Erdélyi kézimunka"
+      ]
+    },
+    {
+      "id": "q253",
+      "subject": "hon_nepismeret",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik területen élnek a csángók?",
+      "correct": "Moldvában (Románia)",
+      "distractors": [
+        "Kárpátalján",
+        "Vajdaságban",
+        "Burgenlandban"
+      ]
+    },
+    {
+      "id": "q254",
+      "subject": "hon_nepismeret",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi jellemzi a kettős honfoglalás elméletét?",
+      "correct": "A magyarok bejövetele előtt rokon népcsoport élt a Kárpát-medencében",
+      "distractors": [
+        "Két különböző törzsszövetség érkezett",
+        "A honfoglalás két lépcsőben zajlott",
+        "Két vezér irányította a honfoglalást"
+      ]
+    },
+    {
+      "id": "q255",
+      "subject": "hon_nepismeret",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mit jelöl a kaláka fogalma?",
+      "correct": "Hagyományos közösségi munkavégzési szokás",
+      "distractors": [
+        "Robot",
+        "Dézsma",
+        "Bordélyházi szokás"
+      ]
+    },
+    {
+      "id": "q256",
+      "subject": "magyar",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Hány betű van a magyar ABC-ben?",
+      "correct": "44",
+      "distractors": [
+        "26",
+        "36",
+        "40"
+      ]
+    },
+    {
+      "id": "q257",
+      "subject": "magyar",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik betű magánhangzó?",
+      "correct": "Á",
+      "distractors": [
+        "B",
+        "K",
+        "T"
+      ]
+    },
+    {
+      "id": "q258",
+      "subject": "magyar",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a mondóka?",
+      "correct": "Rímes, ritmusos kis vers",
+      "distractors": [
+        "Prózavers",
+        "Novella",
+        "Mese"
+      ]
+    },
+    {
+      "id": "q259",
+      "subject": "magyar",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mit jelent a szinonima?",
+      "correct": "Azonos vagy hasonló jelentésű szó",
+      "distractors": [
+        "Ellentétes értelmű szó",
+        "Idegen szó",
+        "Kötőszó"
+      ]
+    },
+    {
+      "id": "q260",
+      "subject": "magyar",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik irodalmi irányzathoz tartozik Ady Endre?",
+      "correct": "Szimbolizmus",
+      "distractors": [
+        "Realizmus",
+        "Klasszicizmus",
+        "Romantika"
+      ]
+    },
+    {
+      "id": "q261",
+      "subject": "magyar",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi a különbség az eposz és az elbeszélő költemény között?",
+      "correct": "Az eposz antik hősi témájú, az elbeszélő költemény modern témájú lehet",
+      "distractors": [
+        "Az eposz rövidebb",
+        "Az elbeszélő költemény prózában íródik",
+        "Nincs különbség"
+      ]
+    },
+    {
+      "id": "q262",
+      "subject": "magyar",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik Arany János-vers tekinthető nemzeti balladának?",
+      "correct": "Szondi két apródja",
+      "distractors": [
+        "A walesi bárdok",
+        "Toldi estéje",
+        "Buda halála"
+      ]
+    },
+    {
+      "id": "q263",
+      "subject": "matematika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mennyit tesz 3 × 4?",
+      "correct": "12",
+      "distractors": [
+        "7",
+        "14",
+        "10"
+      ]
+    },
+    {
+      "id": "q264",
+      "subject": "matematika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik szám osztható 2-vel?",
+      "correct": "14",
+      "distractors": [
+        "13",
+        "15",
+        "17"
+      ]
+    },
+    {
+      "id": "q265",
+      "subject": "matematika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Egy háromszögnek hány szöge van?",
+      "correct": "3",
+      "distractors": [
+        "4",
+        "5",
+        "6"
+      ]
+    },
+    {
+      "id": "q266",
+      "subject": "matematika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mennyi 20 − 8?",
+      "correct": "12",
+      "distractors": [
+        "10",
+        "11",
+        "14"
+      ]
+    },
+    {
+      "id": "q267",
+      "subject": "matematika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi a másodfokú egyenlet megkülönböztetőjének neve?",
+      "correct": "Diszkrimináns",
+      "distractors": [
+        "Koefficiáns",
+        "Gyök",
+        "Determináns"
+      ]
+    },
+    {
+      "id": "q268",
+      "subject": "matematika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mit állít a Pitagorasz-tétel?",
+      "correct": "A befogók négyzetének összege egyenlő az átfogó négyzetével",
+      "distractors": [
+        "Az átfogó egyenlő a befogók összegével",
+        "Minden háromszög szögeinek összege 180°",
+        "A kerületi szög fele a középponti szögnek"
+      ]
+    },
+    {
+      "id": "q269",
+      "subject": "matematika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi az e szám közelítő értéke?",
+      "correct": "≈ 2,718",
+      "distractors": [
+        "≈ 3,14",
+        "≈ 1,41",
+        "≈ 1,73"
+      ]
+    },
+    {
+      "id": "q270",
+      "subject": "fizika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a neve a tárgyakat a Föld felé vonzó erőnek?",
+      "correct": "Gravitáció",
+      "distractors": [
+        "Mágnesesség",
+        "Elektromosság",
+        "Rugalmasság"
+      ]
+    },
+    {
+      "id": "q271",
+      "subject": "fizika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi szükséges a hang terjedéséhez?",
+      "correct": "Közeg, pl. levegő",
+      "distractors": [
+        "Vákuum",
+        "Fény",
+        "Hő"
+      ]
+    },
+    {
+      "id": "q272",
+      "subject": "fizika",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik nem anyag?",
+      "correct": "Fény (foton)",
+      "distractors": [
+        "Levegő",
+        "Víz",
+        "Homok"
+      ]
+    },
+    {
+      "id": "q273",
+      "subject": "fizika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik törvény fejezi ki F = m·a összefüggést?",
+      "correct": "Newton második törvénye",
+      "distractors": [
+        "Newton első törvénye",
+        "Ohm törvénye",
+        "Archimédész elve"
+      ]
+    },
+    {
+      "id": "q274",
+      "subject": "fizika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi a fény sebessége vákuumban?",
+      "correct": "~3×10⁸ m/s",
+      "distractors": [
+        "~3×10⁶ m/s",
+        "~300 m/s",
+        "~3×10¹⁰ m/s"
+      ]
+    },
+    {
+      "id": "q275",
+      "subject": "fizika",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi jellemzi a félvezetőket?",
+      "correct": "Vezető képességük hőmérséklettel nő",
+      "distractors": [
+        "Mindig szigetelnek",
+        "Mindig vezetnek",
+        "Mágneses tulajdonságaik vannak"
+      ]
+    },
+    {
+      "id": "q276",
+      "subject": "kemia",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Milyen ízű az ecet?",
+      "correct": "Savanyú",
+      "distractors": [
+        "Édes",
+        "Keserű",
+        "Sós"
+      ]
+    },
+    {
+      "id": "q277",
+      "subject": "kemia",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a víz kémiai képlete?",
+      "correct": "H₂O",
+      "distractors": [
+        "CO₂",
+        "O₂",
+        "NaCl"
+      ]
+    },
+    {
+      "id": "q278",
+      "subject": "kemia",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi keletkezik, ha a cukor megpirításkor megolvad?",
+      "correct": "Karamell",
+      "distractors": [
+        "Só",
+        "Cukorpor",
+        "Szén"
+      ]
+    },
+    {
+      "id": "q279",
+      "subject": "kemia",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik a legkisebb tömegszámú elem?",
+      "correct": "Hidrogén (H)",
+      "distractors": [
+        "Hélium (He)",
+        "Szén (C)",
+        "Oxigén (O)"
+      ]
+    },
+    {
+      "id": "q280",
+      "subject": "kemia",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi az elektrolízis?",
+      "correct": "Kémiai anyag bontása elektromos árammal",
+      "distractors": [
+        "Hő hatására bekövetkező reakció",
+        "Reakció fény hatására",
+        "Oldás savban"
+      ]
+    },
+    {
+      "id": "q281",
+      "subject": "kemia",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik kötéstípus jellemző NaCl-ban Na és Cl között?",
+      "correct": "Ionos kötés",
+      "distractors": [
+        "Kovalens kötés",
+        "Fémes kötés",
+        "Hidrogénkötés"
+      ]
+    },
+    {
+      "id": "q282",
+      "subject": "biologia",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a neve a zöld festéknek a növényekben?",
+      "correct": "Klorofill",
+      "distractors": [
+        "Melanin",
+        "Karotin",
+        "Hemoglobin"
+      ]
+    },
+    {
+      "id": "q283",
+      "subject": "biologia",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik állat él vízben és szárazon is?",
+      "correct": "Béka",
+      "distractors": [
+        "Oroszlán",
+        "Sas",
+        "Kígyó"
+      ]
+    },
+    {
+      "id": "q284",
+      "subject": "biologia",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a sejtmag feladata?",
+      "correct": "A sejt irányítóközpontja, DNS-t tartalmaz",
+      "distractors": [
+        "A sejt energiatermelője",
+        "A sejt vázrendszere",
+        "A sejt burka"
+      ]
+    },
+    {
+      "id": "q285",
+      "subject": "biologia",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Ki fedezte fel a DNS kettős hélix szerkezetét?",
+      "correct": "Watson és Crick (1953)",
+      "distractors": [
+        "Mendel és Darwin",
+        "Pasteur és Koch",
+        "Flemming és Lister"
+      ]
+    },
+    {
+      "id": "q286",
+      "subject": "biologia",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi az öröklődés alaptörvénye Mendel szerint?",
+      "correct": "A tulajdonságok elkülönülnek az utódokban",
+      "distractors": [
+        "Az utódok a szülők keverékei",
+        "A mutáció az öröklődés alapja",
+        "A környezet meghatározza a géneket"
+      ]
+    },
+    {
+      "id": "q287",
+      "subject": "biologia",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik folyamat termeli az ATP-t a sejtlégzés során?",
+      "correct": "Oxidatív foszforiláció",
+      "distractors": [
+        "Glikolízis",
+        "Fotoszintézis",
+        "Fermentáció"
+      ]
+    },
+    {
+      "id": "q288",
+      "subject": "tortenelem",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Ki alapította a Magyar Királyságot?",
+      "correct": "I. István király",
+      "distractors": [
+        "Attila",
+        "Árpád",
+        "Mátyás király"
+      ]
+    },
+    {
+      "id": "q289",
+      "subject": "tortenelem",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mit ünneplünk március 15-én?",
+      "correct": "Az 1848-as forradalom kezdetét",
+      "distractors": [
+        "A honfoglalást",
+        "A koronázást",
+        "A rendszerváltást"
+      ]
+    },
+    {
+      "id": "q290",
+      "subject": "tortenelem",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Ki volt az igazságos királyként ismert Hunyadi-sarj?",
+      "correct": "Mátyás király",
+      "distractors": [
+        "Hunyadi János",
+        "I. István",
+        "IV. Béla"
+      ]
+    },
+    {
+      "id": "q291",
+      "subject": "tortenelem",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi volt a kiegyezés 1867-ben?",
+      "correct": "Az Osztrák–Magyar Monarchia létrehozása",
+      "distractors": [
+        "Magyarország függetlenné válása",
+        "A Habsburgok elűzése",
+        "Az alkotmány elfogadása"
+      ]
+    },
+    {
+      "id": "q292",
+      "subject": "tortenelem",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik esemény indította el az első világháborút?",
+      "correct": "Franz Ferdinand főherceg meggyilkolása",
+      "distractors": [
+        "A verduni csata",
+        "A Zimmermann-távirat",
+        "Oroszország mozgósítása"
+      ]
+    },
+    {
+      "id": "q293",
+      "subject": "tortenelem",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi volt a Trianoni béke következménye Magyarországra nézve?",
+      "correct": "Az ország területének 2/3-át elveszítette",
+      "distractors": [
+        "Új területeket kapott",
+        "Semleges maradt",
+        "Budapest elveszítésével járt"
+      ]
+    },
+    {
+      "id": "q294",
+      "subject": "foldrajz",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik Magyarország leghosszabb folyója?",
+      "correct": "Tisza",
+      "distractors": [
+        "Duna",
+        "Rába",
+        "Körös"
+      ]
+    },
+    {
+      "id": "q295",
+      "subject": "foldrajz",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Hány kontinens van a Földön?",
+      "correct": "7",
+      "distractors": [
+        "5",
+        "6",
+        "8"
+      ]
+    },
+    {
+      "id": "q296",
+      "subject": "foldrajz",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Melyik a világ legmagasabb hegye?",
+      "correct": "Mount Everest",
+      "distractors": [
+        "Mont Blanc",
+        "Kilimandzsáró",
+        "Aconcagua"
+      ]
+    },
+    {
+      "id": "q297",
+      "subject": "foldrajz",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi jellemzi az éghajlati kontinentalitást?",
+      "correct": "Nagy hőingadozás és kevés csapadék",
+      "distractors": [
+        "Egyenletes hőmérséklet",
+        "Sok csapadék",
+        "Trópusi hőség"
+      ]
+    },
+    {
+      "id": "q298",
+      "subject": "foldrajz",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mit vizsgál a tektonika?",
+      "correct": "A kőzetlemezek mozgását",
+      "distractors": [
+        "Az időjárást",
+        "A talaj minőségét",
+        "A folyók áramlását"
+      ]
+    },
+    {
+      "id": "q299",
+      "subject": "foldrajz",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik területen jellemzők a monszun-esők?",
+      "correct": "Dél- és Délkelet-Ázsia",
+      "distractors": [
+        "Szahara",
+        "Alaszka",
+        "Skandinávia"
+      ]
+    },
+    {
+      "id": "q300",
+      "subject": "digitalis_kultura",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi a neve a számítógép agyának?",
+      "correct": "Processzor (CPU)",
+      "distractors": [
+        "Monitor",
+        "Billentyűzet",
+        "Egér"
+      ]
+    },
+    {
+      "id": "q301",
+      "subject": "digitalis_kultura",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mit jelent a mentés a számítógépen?",
+      "correct": "Az adatok tartós tárolása",
+      "distractors": [
+        "Az adatok törlése",
+        "A gép kikapcsolása",
+        "A képernyő kikapcsolása"
+      ]
+    },
+    {
+      "id": "q302",
+      "subject": "digitalis_kultura",
+      "grade": "1-4",
+      "b": "A",
+      "prompt": "Mi az internet?",
+      "correct": "Globális számítógépes hálózat",
+      "distractors": [
+        "Egy program",
+        "Egy operációs rendszer",
+        "Egy számítógép-típus"
+      ]
+    },
+    {
+      "id": "q303",
+      "subject": "digitalis_kultura",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik adatszerkezet FIFO elvű?",
+      "correct": "Sor (Queue)",
+      "distractors": [
+        "Verem (Stack)",
+        "Fa",
+        "Gráf"
+      ]
+    },
+    {
+      "id": "q304",
+      "subject": "digitalis_kultura",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Mi a különbség a GET és POST HTTP-kérések között?",
+      "correct": "GET lekér, POST adatot küld a szerverre",
+      "distractors": [
+        "GET gyorsabb",
+        "POST visszaad adatot",
+        "Nincs különbség"
+      ]
+    },
+    {
+      "id": "q305",
+      "subject": "digitalis_kultura",
+      "grade": "9-12",
+      "b": "A",
+      "prompt": "Melyik az O(log n) időbonyolultságú keresési algoritmus?",
+      "correct": "Bináris keresés",
+      "distractors": [
+        "Lineáris keresés",
+        "Buborékrendezés",
+        "Gyors rendezés"
+      ]
+    },
+    {
+      "id": "q301",
+      "subject": "digitalis_kultura",
+      "grade": "5-8",
+      "b": -0.5,
+      "prompt": "Melyik vezérlési szerkezet felel meg az 'ha...akkor' utasításnak a programozásban?",
+      "correct": "Szelekció (elágazás)",
+      "distractors": [
+        "Szekvencia",
+        "Iteráció (ciklus)",
+        "Függvény",
+        "Változó",
+        "Rekurzió"
+      ]
+    },
+    {
+      "id": "q302",
+      "subject": "digitalis_kultura",
+      "grade": "5-8",
+      "b": -0.3,
+      "prompt": "Mi az algoritmus?",
+      "correct": "Egy probléma megoldásához vezető lépések sorozata",
+      "distractors": [
+        "Számítógépes programnyelv",
+        "Hardveres eszköz",
+        "Adatbázis-kezelő",
+        "Operációs rendszer",
+        "Hálózati protokoll"
+      ]
+    },
+    {
+      "id": "q303",
+      "subject": "digitalis_kultura",
+      "grade": "5-8",
+      "b": 0.2,
+      "prompt": "Mi az adathalászat (phishing) a digitális biztonságban?",
+      "correct": "Megtévesztő módszer, amivel személyes adatokat próbálnak megszerezni",
+      "distractors": [
+        "Vírusirtó program",
+        "Adatmentési módszer",
+        "Fájltömörítési eljárás",
+        "Internetprotokoll",
+        "Programozási módszer"
+      ]
+    },
+    {
+      "id": "q304",
+      "subject": "digitalis_kultura",
+      "grade": "5-8",
+      "b": 0.5,
+      "prompt": "Melyik táblázatkezelő függvény összesíti a kiválasztott cellák értékeit?",
+      "correct": "SZUM",
+      "distractors": [
+        "ÁTLAG",
+        "MAX",
+        "MIN",
+        "DARAB",
+        "HA"
+      ]
+    },
+    {
+      "id": "q305",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": -0.5,
+      "prompt": "Melyik angol igeidőt fejezi ki az 'I am reading a book' mondat?",
+      "correct": "Present Continuous",
+      "distractors": [
+        "Present Simple",
+        "Past Simple",
+        "Future Simple",
+        "Present Perfect",
+        "Past Continuous"
+      ]
+    },
+    {
+      "id": "q306",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": -0.3,
+      "prompt": "Mit jelent angolul a 'Where are you from?'?",
+      "correct": "Honnan jössz? / Hova valósi vagy?",
+      "distractors": [
+        "Hány éves vagy?",
+        "Mi a neved?",
+        "Hol laksz?",
+        "Mi a foglalkozásod?",
+        "Hogy hívnak?"
+      ]
+    },
+    {
+      "id": "q307",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": 0.0,
+      "prompt": "Melyik az angol jövő idő egyszerű alakja (Future Simple)?",
+      "correct": "will + igető",
+      "distractors": [
+        "is/am/are + ing",
+        "did + igető",
+        "have + múlt idejű igenév",
+        "to + igető",
+        "shall + igető (csak I/we-vel)"
+      ]
+    },
+    {
+      "id": "q308",
+      "subject": "idegen_nyelv",
+      "grade": "5-8",
+      "b": 0.4,
+      "prompt": "Melyik CEFR szinten van a tanuló, ha egyszerű mondatokat tud alkotni ismerős témákban?",
+      "correct": "A2",
+      "distractors": [
+        "A1",
+        "B1",
+        "B2",
+        "C1",
+        "C2"
+      ]
+    },
+    {
+      "id": "q309",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": -1.4,
+      "prompt": "Melyik gázból áll legnagyobb arányban a levegő?",
+      "correct": "Nitrogén (~78%)",
+      "distractors": [
+        "Oxigén (~21%)",
+        "Szén-dioxid",
+        "Argon",
+        "Hidrogén",
+        "Hélium"
+      ]
+    },
+    {
+      "id": "q310",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": -1.2,
+      "prompt": "Hány bolygója van a Naprendszernek?",
+      "correct": "8",
+      "distractors": [
+        "7",
+        "9",
+        "6",
+        "10",
+        "12"
+      ]
+    },
+    {
+      "id": "q311",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": -1.0,
+      "prompt": "Mi a vízkörforgás első lépése az óceánok felett?",
+      "correct": "Párolgás",
+      "distractors": [
+        "Csapadék",
+        "Beszivárgás",
+        "Lefolyás",
+        "Kondenzáció",
+        "Fagyás"
+      ]
+    },
+    {
+      "id": "q312",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": -0.8,
+      "prompt": "Mi a tudományos hipotézis?",
+      "correct": "Előzetes feltételezés, amelyet kísérlettel ellenőrzünk",
+      "distractors": [
+        "Bizonyított törvény",
+        "Mérési eredmény",
+        "Matematikai képlet",
+        "Természeti jelenség",
+        "Végleges következtetés"
+      ]
+    },
+    {
+      "id": "q313",
+      "subject": "termeszettudomany",
+      "grade": "5-8",
+      "b": -0.5,
+      "prompt": "Mi okozza a Földön a nappalok és éjszakák váltakozását?",
+      "correct": "A Föld saját tengelye körüli forgása",
+      "distractors": [
+        "A Hold keringése a Föld körül",
+        "A Föld keringése a Nap körül",
+        "A Nap forgása",
+        "A Hold árnyéka",
+        "A légkör változása"
+      ]
+    },
+    {
+      "id": "q314",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": -1.4,
+      "prompt": "Mi Magyarország legfőbb törvénye?",
+      "correct": "Alaptörvény",
+      "distractors": [
+        "Büntető törvénykönyv",
+        "Polgári törvénykönyv",
+        "Alkotmány 1949",
+        "Trianoni szerződés",
+        "Magna Carta"
+      ]
+    },
+    {
+      "id": "q315",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": -1.2,
+      "prompt": "Mikor csatlakozott Magyarország az Európai Unióhoz?",
+      "correct": "2004. május 1.",
+      "distractors": [
+        "1990. október 23.",
+        "1999. január 1.",
+        "2007. január 1.",
+        "2002. január 1.",
+        "1995. március 15."
+      ]
+    },
+    {
+      "id": "q316",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": -1.0,
+      "prompt": "Mi a demokrácia szó eredeti görög jelentése?",
+      "correct": "Néphatalom (demos = nép, kratosz = hatalom)",
+      "distractors": [
+        "Királyság",
+        "Arisztokrácia",
+        "Diktatúra",
+        "Teokrácia",
+        "Oligarchia"
+      ]
+    },
+    {
+      "id": "q317",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": -0.7,
+      "prompt": "Ki vezeti a helyi önkormányzatot?",
+      "correct": "Polgármester",
+      "distractors": [
+        "Miniszterelnök",
+        "Köztársasági elnök",
+        "Képviselő",
+        "Bíró",
+        "Ombudsman"
+      ]
+    },
+    {
+      "id": "q318",
+      "subject": "allampolgari",
+      "grade": "5-8",
+      "b": -0.4,
+      "prompt": "Melyik évben fogadták el az ENSZ Emberi Jogok Egyetemes Nyilatkozatát?",
+      "correct": "1948",
+      "distractors": [
+        "1918",
+        "1945",
+        "1956",
+        "1789",
+        "1989"
+      ]
+    },
+    {
+      "id": "q319",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": -1.4,
+      "prompt": "Mit jelent az empátia?",
+      "correct": "Mások érzéseinek, helyzetének megértése",
+      "distractors": [
+        "Önzőség",
+        "Közömbösség",
+        "Félelem",
+        "Versengés",
+        "Bosszúvágy"
+      ]
+    },
+    {
+      "id": "q320",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": -1.2,
+      "prompt": "Mi az erkölcsi norma?",
+      "correct": "Előírás, amely a viselkedést szabályozza egy közösségben",
+      "distractors": [
+        "Fizikai törvény",
+        "Matematikai képlet",
+        "Jogi szankció",
+        "Vallási szertartás",
+        "Technikai utasítás"
+      ]
+    },
+    {
+      "id": "q321",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": -0.9,
+      "prompt": "Mi a fenntartható fejlődés alapelve?",
+      "correct": "A jelen szükségletek kielégítése a jövő generációk lehetőségeinek csorbítása nélkül",
+      "distractors": [
+        "Minél több természeti erőforrás kitermelése",
+        "A gazdasági növekedés mindenekfelett",
+        "A természet teljes megőrzése változtatás nélkül",
+        "Az ipar elsőbbsége a környezettel szemben",
+        "A fogyasztás maximalizálása"
+      ]
+    },
+    {
+      "id": "q322",
+      "subject": "etika",
+      "grade": "5-8",
+      "b": -0.6,
+      "prompt": "Milyen etikai irányzat vallja, hogy a cselekvés értékét annak következményei határozzák meg?",
+      "correct": "Utilitarizmus (következmény-etika)",
+      "distractors": [
+        "Kantiánus etika",
+        "Erény-etika",
+        "Vallási etika",
+        "Sztoicizmus",
+        "Nihilizmus"
+      ]
+    },
+    {
+      "id": "q324",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": -1.4,
+      "prompt": "Melyik zenész gyűjtötte össze a magyar népdalokat Bartók Bélával együtt?",
+      "correct": "Kodály Zoltán",
+      "distractors": [
+        "Franz Liszt",
+        "Erkel Ferenc",
+        "Dohnányi Ernő",
+        "Weiner Leó",
+        "Hubay Jenő"
+      ]
+    },
+    {
+      "id": "q325",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": -1.2,
+      "prompt": "Melyik népi tánc jellemző a magyar paraszti hagyományra, párban járva?",
+      "correct": "Csárdás",
+      "distractors": [
+        "Keringő",
+        "Polka",
+        "Mazurka",
+        "Tango",
+        "Flamenco"
+      ]
+    },
+    {
+      "id": "q326",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": -1.0,
+      "prompt": "Melyik Mohácson megrendezett, téltemetőnek tekintett UNESCO-szellemi-örökség?",
+      "correct": "Busójárás",
+      "distractors": [
+        "Farsang",
+        "Húsvéti locsolás",
+        "Aratóünnep",
+        "Szüret",
+        "Luca-nap"
+      ]
+    },
+    {
+      "id": "q327",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": -0.7,
+      "prompt": "Melyik tájegység jellemző gazdag, élénk hímzéséről a Mezőkövesdhez köthető stílusban?",
+      "correct": "Matyó",
+      "distractors": [
+        "Kalocsa",
+        "Sárköz",
+        "Palóc",
+        "Székely",
+        "Dunántúl"
+      ]
+    },
+    {
+      "id": "q328",
+      "subject": "hon_nepismeret",
+      "grade": "5-8",
+      "b": -0.4,
+      "prompt": "Hány határon túli (Kárpát-medencei) magyar él hozzávetőlegesen Magyarország szomszédos országaiban?",
+      "correct": "Kb. 2,5–3 millió",
+      "distractors": [
+        "Kb. 500 ezer",
+        "Kb. 10 millió",
+        "Kb. 1 millió",
+        "Kb. 5 millió",
+        "Kb. 100 ezer"
+      ]
+    }
+  ]
+}
