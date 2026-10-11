@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440">
+
+  <path id="prov_0" d="M 212.6,371.7 328.7,371.7 328.7,437.0 212.6,437.0 Z" fill="#d15a52" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_1" d="M 382.2,280.7 469.6,280.7 469.6,379.3 382.2,379.3 Z" fill="#3ca8c4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_2" d="M 469.6,341.4 554.3,341.4 554.3,394.5 469.6,394.5 Z" fill="#bcb43f" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_3" d="M 606.5,232.1 733.0,232.1 733.0,327.7 606.5,327.7 Z" fill="#9a66c4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_4" d="M 737.0,144.1 834.8,144.1 834.8,227.6 737.0,227.6 Z" fill="#5fae5a" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_5" d="M 551.7,60.7 652.2,60.7 652.2,148.7 551.7,148.7 Z" fill="#5a74c8" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_6" d="M 491.7,300.4 593.5,300.4 593.5,386.9 491.7,386.9 Z" fill="#d68f3e" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_7" d="M 300.0,106.2 378.3,106.2 378.3,151.7 300.0,151.7 Z" fill="#3bb08c" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_8" d="M 262.2,159.3 384.8,159.3 384.8,270.1 262.2,270.1 Z" fill="#c662a4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_9" d="M 195.7,98.6 260.9,98.6 260.9,151.7 195.7,151.7 Z" fill="#d15a52" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_10" d="M 678.3,80.4 763.0,80.4 763.0,182.1 678.3,182.1 Z" fill="#3ca8c4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_11" d="M 493.0,72.8 626.1,72.8 626.1,139.6 493.0,139.6 Z" fill="#bcb43f" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_12" d="M 485.2,136.6 573.9,136.6 573.9,242.8 485.2,242.8 Z" fill="#9a66c4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_13" d="M 246.5,116.8 378.3,116.8 378.3,179.0 246.5,179.0 Z" fill="#5fae5a" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_14" d="M 117.4,89.5 195.7,89.5 195.7,136.6 117.4,136.6 Z" fill="#5a74c8" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_15" d="M 573.9,209.4 665.2,209.4 665.2,277.7 573.9,277.7 Z" fill="#d68f3e" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_16" d="M 378.3,71.3 546.5,71.3 546.5,125.9 378.3,125.9 Z" fill="#3bb08c" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_17" d="M 365.2,91.0 547.8,91.0 547.8,242.8 365.2,242.8 Z" fill="#c662a4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_18" d="M 107.0,250.3 293.5,250.3 293.5,364.1 107.0,364.1 Z" fill="#d15a52" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_19" d="M 6.5,121.4 130.4,121.4 130.4,192.7 6.5,192.7 Z" fill="#3ca8c4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_20" d="M 730.4,6.1 834.8,6.1 834.8,133.5 730.4,133.5 Z" fill="#bcb43f" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_21" d="M 834.8,30.3 900.0,30.3 900.0,106.2 834.8,106.2 Z" fill="#9a66c4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_22" d="M 534.8,227.6 619.6,227.6 619.6,277.7 534.8,277.7 Z" fill="#5fae5a" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_23" d="M 268.7,256.4 378.3,256.4 378.3,364.1 268.7,364.1 Z" fill="#5a74c8" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_24" d="M 534.8,356.6 628.7,356.6 628.7,424.8 534.8,424.8 Z" fill="#d68f3e" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_25" d="M 717.4,3.0 795.7,3.0 795.7,60.7 717.4,60.7 Z" fill="#3bb08c" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_26" d="M 6.5,174.5 148.7,174.5 148.7,288.3 6.5,288.3 Z" fill="#c662a4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_27" d="M 151.3,162.3 287.0,162.3 287.0,274.6 151.3,274.6 Z" fill="#d15a52" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_28" d="M 10.4,257.9 182.6,257.9 182.6,349.0 10.4,349.0 Z" fill="#3ca8c4" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+  <path id="prov_29" d="M 658.7,30.3 756.5,30.3 756.5,121.4 658.7,121.4 Z" fill="#bcb43f" stroke="#1a202c" stroke-width="1.2" opacity="0.9"/>
+</svg>
