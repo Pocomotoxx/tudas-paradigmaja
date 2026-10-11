@@ -1,0 +1,1948 @@
+{
+  "schema_version": 1,
+  "subjects": {
+    "magyar": {
+      "title": "Magyar nyelv",
+      "icon": "📖",
+      "summary": "A magyar nyelv agglutináló (ragozó) nyelv, az uráli nyelvcsaládba tartozik. Szókincsét toldalékokkal gazdagítja, amelyek a szótőhöz kapcsolódnak.",
+      "articles": [
+        {
+          "heading": "Szófajok",
+          "body": "A szófaj a szavak nyelvtani osztálya. Főbb szófajok: **ige** (cselekvést, történést fejez ki, pl. fut, olvas, alszik), **főnév** (dolgot, személyt, fogalmat nevez meg, pl. ház, ember, szerelem), **melléknév** (főnév tulajdonságát fejezi ki, pl. szép, nagy, piros; fokozható: szép – szebb – legszebb), **számnév** (mennyiséget jelöl, pl. három, kettedik, sok), **névmás** (szófajokat helyettesít, pl. ő, ez, amely), **határozószó** (körülményt fejez ki, pl. gyorsan, itt, ma), **névelő** (a/az, egy), **kötőszó** (mondatokat kapcsol össze, pl. és, de, mert). Az igék ragozhatók személyben, számban és időben (múlt, jelen, jövő).",
+          "keywords": [
+            "ige",
+            "főnév",
+            "melléknév",
+            "számnév",
+            "névmás",
+            "határozószó",
+            "névelő",
+            "kötőszó",
+            "szófaj",
+            "fokozás"
+          ]
+        },
+        {
+          "heading": "Magyar ábécé – magánhangzók",
+          "body": "A magyar ábécé **14 magánhangzót** tartalmaz: a, á, e, é, i, í, o, ó, ö, ő, u, ú, ü, ű. Minden betűnek van rövid és hosszú párja: a–á, e–é, i–í, o–ó, ö–ő, u–ú, ü–ű. A hosszúságot ékezet jelzi (pl. ´ az á-n, ˝ az ő-n). A **mássalhangzók** száma 25, köztük kétjegyűek is vannak: cs, dz, dzs, gy, ly, ny, sz, ty, zs. Az ábécé összesen **44 betűt** tartalmaz. A magánhangzók harmóniája fontos toldalékolási szabályt eredményez: magas hangrendű szavakhoz magas, mély hangrendűekhez mély hangrendű toldalék járul (pl. ház→házban, kéz→kézben).",
+          "keywords": [
+            "magánhangzó",
+            "mássalhangzó",
+            "ábécé",
+            "14",
+            "ékezet",
+            "hangrend",
+            "toldalék",
+            "rövid",
+            "hosszú"
+          ]
+        },
+        {
+          "heading": "Toldi – Arany János",
+          "body": "A **Toldi** Arany János 1847-ben írt elbeszélő költeménye, amely Toldi Miklós ifjúkorát meséli el 12 énekben. Az eposz a népi hőst állítja középpontba: a paraszt sorból kiemelkedő, hatalmas erejű fiatalembert, aki a testvérétől szenved igazságtalanságot. **Petőfi Sándor** ajánlására jelent meg és azonnal sikert aratott. A mű a **hexameter** és a **népdal** hagyományait ötvözi. A trilógia másik két részét a *Toldi estéje* (1848) és a *Toldi szerelme* (1879) alkotja. A költemény fontos jelképe a népi hős küzdelme az igazságtalansággal szemben.",
+          "keywords": [
+            "Toldi",
+            "Arany János",
+            "elbeszélő költemény",
+            "eposz",
+            "1847",
+            "Petőfi",
+            "hexameter",
+            "népi hős",
+            "trilógia"
+          ]
+        },
+        {
+          "heading": "Toldalékok – többes szám",
+          "body": "A magyarban a **többes számot** a **-k** toldalék jelzi. Mássalhangzóra végződő szavaknál kötőhangzó (a/e/o) kapcsolja a toldalékot: ház → házak, ember → emberek, könyv → könyvek. A magánhangzóra végződő szavakhoz közvetlenül járul: alma → almák. Mély hangrendű szavakhoz -ak/-ok, magas hangrendűekhez -ek/-ök járul (pl. szék → székek, asztal → asztalok). A **hangrend** szabálya dönti el, melyik változatot kell alkalmazni. Más toldalékok is hasonló mintát követnek: -ban/-ben (ház→házban, kert→kertben), -nak/-nek, -val/-vel.",
+          "keywords": [
+            "-k",
+            "többes szám",
+            "toldalék",
+            "kötőhangzó",
+            "hangrend",
+            "mély",
+            "magas",
+            "ragozás"
+          ]
+        },
+        {
+          "heading": "Mondatfajták",
+          "body": "Mondatfajták írásjel szerint: **kijelentő mondat** (.) tényközlés (pl. Az ég kék.), **kérdő mondat** (?) kérdésfeltevés (pl. Hol vagy?), **felkiáltó mondat** (!) érzelem kifejezése (pl. Milyen szép!), **óhajtó mondat** (!) kívánság (pl. Bárcsak sütnél!), **felszólító mondat** (!) utasítás (pl. Gyere ide!). A kérdő mondatokban az ige a mondat elejére kerülhet. A mondatokat szerkezetük szerint is csoportosítjuk: **egyszerű** (egy tagmondatból áll) és **összetett** (több tagmondat kapcsolódik össze kötőszóval vagy vesszővel). Az összetett mondatok lehetnek **mellérendelők** (és, de, vagy, mert) és **alárendelők** (hogy, amely, ha, mikor).",
+          "keywords": [
+            "kérdő mondat",
+            "kérdőjel",
+            "mondatfajta",
+            "kijelentő",
+            "felkiáltó",
+            "felszólító",
+            "óhajtó",
+            "egyszerű mondat",
+            "összetett mondat"
+          ]
+        },
+        {
+          "heading": "Az ember tragédiája – Madách Imre",
+          "body": "**Az ember tragédiája** Madách Imre 1861-ben megjelent drámai költeménye, amelyet **Arany János** fedezett fel és tett közzé. Az emberiség történetét és jövőjét ábrázolja Ádám álmain keresztül, Lucifer kíséretében, Éva jelenlétével. A 15 szín (epizód) a Paradicsomtól a jövő halálos fagyáig vezet. Kérdése: van-e értelme az emberi létnek? Az Úr zárószava reménnyel vigasztal: *'Ember, küzdj és bízva bízzál!'* A mű a **romantika** egyik kiemelkedő alkotása, és a világ számos nyelvén megjelent.",
+          "keywords": [
+            "Madách Imre",
+            "Az ember tragédiája",
+            "drámai költemény",
+            "Ádám",
+            "Lucifer",
+            "Éva",
+            "romantika",
+            "Arany János",
+            "1861"
+          ]
+        },
+        {
+          "heading": "Metafora és szóképek",
+          "body": "A **metafora** közvetlen azonosítás két dolog között (pl. 'Az élet egy utazás'). A **hasonlat** kötőszóval fejez ki hasonlóságot (pl. 'Fehér, mint a hó'). A **megszemélyesítés** emberi tulajdonságot ad tárgyaknak (pl. 'Suttog a szél'). A **hiperbola** szándékos túlzás (pl. 'Ezerszer mondtam már'). A **metonímia** érintkezésen alapuló névátvitel (pl. 'Az egész ház nevetett' – a ház lakói nevetek). A **szinekdoché** rész-egész kapcsolaton alapul (pl. 'Minden kéz forog' – mindenki dolgozik). A **szimbólum** elvont fogalom érzékelhetővé tételére szolgáló kép (pl. galamb = béke).",
+          "keywords": [
+            "metafora",
+            "hasonlat",
+            "megszemélyesítés",
+            "hiperbola",
+            "metonímia",
+            "szinekdoché",
+            "szimbólum",
+            "szókép",
+            "stilisztika"
+          ]
+        },
+        {
+          "heading": "Mondattan alapjai",
+          "body": "A mondat minimálisan **alanyból** (Ki? Mi? kérdésre válaszoló szó) és **állítmányból** (Mit csinál? Mi? kérdésre válaszoló igéből vagy névszói állítmányból) áll. A **tárgy** a cselekvés irányát (Kit? Mit?) jelöli, és -t ragot kap. A **határozó** körülményt ad meg: hely (Hol?), idő (Mikor?), mód (Hogyan?), ok (Miért?). A **jelző** a főnév tulajdonságát fejezi ki (Milyen? Melyik?). Az összetett mondatoknak több **tagmondata** van, amelyeket kötőszók vagy vesszők kapcsolnak. Az alárendelő összetett mondatban a főmondathoz tagmondat kapcsolódik (pl. 'Tudom, hogy igazad van').",
+          "keywords": [
+            "alany",
+            "állítmány",
+            "tárgy",
+            "határozó",
+            "jelző",
+            "mondattan",
+            "összetett mondat",
+            "tagmondat",
+            "alárendelő",
+            "mellérendelő"
+          ]
+        },
+        {
+          "heading": "Petőfi Sándor",
+          "body": "**Petőfi Sándor** (1823–1849) a romantika korának legjelentősebb magyar költője. Legismertebb művei: **Nemzeti dal** (1848), **János vitéz** (1844) – az első nagy sikert arató magyar elbeszélő költemény, **Szeptember végén** (1847). A forradalmi szellemű lírikus **1848. március 15-én** szavalta a Nemzeti dalt a Pilvax kávéházban Jókai Mórral és barátaival. Részt vett az 1848–49-es szabadságharcban. Valószínűleg a **fehéregyházi csatában** esett el 1849. július 31-én. Hatalmas lírai életmúvet hagyott maga után: tájversek, szerelmi versek, forradalmi költemények alkotják.",
+          "keywords": [
+            "Petőfi",
+            "Nemzeti dal",
+            "János vitéz",
+            "1848",
+            "romantika",
+            "forradalom",
+            "fehéregyházi csata",
+            "szabadságharc",
+            "Szeptember végén"
+          ]
+        },
+        {
+          "heading": "Verstani fogalmak",
+          "body": "A **versláb** a vers ritmikai alapegysége. **Jambus**: hangsúlytalan-hangsúlyos (˘ –), pl. 'a ház'; **trocheus**: hangsúlyos-hangsúlytalan (– ˘), pl. 'kérem'; **daktilus**: hangsúlyos + két hangsúlytalan (– ˘ ˘); **spondeus**: két hangsúlyos (– –). A **rím** sorvégi hangzásbeli egyezés: páros rím (aabb), keresztrím (abab), ölelkező rím (abba). A **strófa** (versszak) sorok csoportja. A **cezúra** sorközépi szünet. Az **alliteráció** soron belüli betűrím (pl. 'Süvít a szél'). A **hexameter** az antik görög epika versformája (– ˘ ˘ ismétlődő egységek).",
+          "keywords": [
+            "versláb",
+            "jambus",
+            "trocheus",
+            "daktilus",
+            "rím",
+            "strófa",
+            "cezúra",
+            "ritmus",
+            "alliteráció",
+            "hexameter",
+            "keresztrím"
+          ]
+        }
+      ]
+    },
+    "matematika": {
+      "title": "Matematika",
+      "icon": "🔢",
+      "summary": "A matematika az absztrakt struktúrák, számok és összefüggések tudománya. Alapja a logikus gondolkodás és a bizonyítás.",
+      "articles": [
+        {
+          "heading": "Összeadás és szorzás",
+          "body": "Az **összeadás** (7 + 8 = 15) és **szorzás** (9 × 6 = 54) az aritmetika alappillérei. A szorzás ismételt összeadás: 9 × 6 = 9+9+9+9+9+9 = 54. A **szorzótábla** 1-től 10-ig alapvető: pl. 7 × 8 = 56, 6 × 9 = 54, 12 × 12 = 144. A **műveletek sorrendje**: hatványozás → szorzás/osztás → összeadás/kivonás. A **zárójel** felülírja a sorrendet: (3 + 4) × 2 = 14, de 3 + 4 × 2 = 11. A **negatív számokkal** való szorzásnál: (–3) × (–4) = +12, (–3) × 4 = –12. Ezek az alapszabályok minden matematikai területen elengedhetetlenek.",
+          "keywords": [
+            "összeadás",
+            "szorzás",
+            "szorzótábla",
+            "alapműveletek",
+            "zárójel",
+            "műveletek sorrendje",
+            "negatív szám"
+          ]
+        },
+        {
+          "heading": "Háromszög",
+          "body": "A háromszög **3 oldallal** és **3 szöggel** rendelkező sokszög. Belső szögeinek összege mindig **180°**. Fajtái: **egyenlő oldalú** (mindhárom oldala egyenlő, szögei 60°–60°–60°), **egyenlő szárú** (két oldala egyenlő), **derékszögű** (egyik szöge 90°, ilyenre alkalmazható a Pitagorasz-tétel). A háromszög **területe**: T = (a × m) / 2, ahol a az alap, m a magasság. Például ha a = 6 cm, m = 4 cm, akkor T = (6 × 4) / 2 = 12 cm². A **kerület** a három oldal összege: K = a + b + c.",
+          "keywords": [
+            "háromszög",
+            "3 oldal",
+            "szög",
+            "180°",
+            "egyenlő oldalú",
+            "derékszögű",
+            "terület",
+            "kerület",
+            "magasság"
+          ]
+        },
+        {
+          "heading": "Hatványozás – 12²",
+          "body": "A **hatványozás** ismételt szorzás: 12² = 12 × 12 = **144**. Általánosan: aⁿ = a × a × … × a (n-szer), ahol a az alap, n a kitevő. Speciális esetek: a¹ = a, a⁰ = 1 (ha a ≠ 0), a⁻¹ = 1/a. Fontosabb értékek: 2⁵ = 32, 3³ = 27, 4² = 16, 10³ = 1000. A **négyzetszámok**: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100. A **négyzetgyök** a hatványozás inverze: √144 = 12. Hatványok szorzása: aⁿ × aᵐ = aⁿ⁺ᵐ; osztása: aⁿ / aᵐ = aⁿ⁻ᵐ.",
+          "keywords": [
+            "hatványozás",
+            "12²",
+            "144",
+            "négyzet",
+            "kitevő",
+            "alap",
+            "négyzetgyök",
+            "hatványszabályok",
+            "négyzetszámok"
+          ]
+        },
+        {
+          "heading": "Kör kerülete",
+          "body": "A kör kerülete: **K = 2πr**, ahol r a sugár és π ≈ 3,14159 (pi). A kör területe: **T = πr²**. Ha r = 5 cm, akkor K = 2 × 3,14159 × 5 ≈ **31,4 cm** és T = 3,14159 × 25 ≈ **78,5 cm²**. Az átmérő d = 2r, így K = πd is. A π iracionális szám, nem fejezhető ki egyszerű törttel. Körrel kapcsolatos fogalmak: **húr** (két pontot összekötő szakasz), **ív** (a kerület egy darabja), **húrszög** (a húr által bezárt szög). A kör speciális ellipszis, ahol a két fókuszpont egybeesik a középponttal.",
+          "keywords": [
+            "kör",
+            "kerület",
+            "2πr",
+            "sugár",
+            "π",
+            "pi",
+            "terület",
+            "átmérő",
+            "húr",
+            "ív"
+          ]
+        },
+        {
+          "heading": "Elsőfokú egyenlet",
+          "body": "Az **elsőfokú egyenlet** megoldása egyetlen lépést igényel az ismeretlen meghatározásához. Példa: 3x + 5 = 20 → 3x = 15 → **x = 5**. A megoldás elve: azonos műveletet végzünk mindkét oldalon, hogy az ismeretlent egyedül kapjuk. Összetettebb példa: 2(x + 3) = 14 → 2x + 6 = 14 → 2x = 8 → x = 4. Az **egyenlet ellenőrzése**: visszahelyettesítéssel: 3 × 5 + 5 = 20 ✓. Az egyenleteknek lehet egy megoldása, végtelen sok megoldása (pl. 2x = 2x), vagy nincs megoldása (pl. x + 1 = x + 2). Az elsőfokú egyenlet grafikusan egy egyenest ábrázol.",
+          "keywords": [
+            "egyenlet",
+            "x = 5",
+            "elsőfokú",
+            "ismeretlen",
+            "megoldás",
+            "ellenőrzés",
+            "egyenes",
+            "visszahelyettesítés"
+          ]
+        },
+        {
+          "heading": "Pitagorasz-tétel",
+          "body": "A **Pitagorasz-tétel** szerint derékszögű háromszögben az átfogó négyzetének értéke egyenlő a két befogó négyzetének összegével: **a² + b² = c²**, ahol c az átfogó (a derékszöggel szemben lévő oldal). A legismertebb egész megoldás: a = 3, b = 4 → c = √(9+16) = √25 = **5** (az ún. 3-4-5-ös pitagoraszi számhármas). Más példa: a = 5, b = 12, c = 13. A tétel **megfordítása** is igaz: ha a² + b² = c², akkor a háromszög derékszögű. A tételt Püthagorasz görög matematikus nevezi el, de Babilonban már i.e. 1800 körül ismerték. Felhasználják: távolságszámítás, építészet, térinformatika.",
+          "keywords": [
+            "Pitagorasz",
+            "a² + b² = c²",
+            "derékszögű",
+            "befogó",
+            "átfogó",
+            "háromszög",
+            "3-4-5",
+            "pitagoraszi számhármas",
+            "távolság"
+          ]
+        },
+        {
+          "heading": "Százalékszámítás",
+          "body": "A **százalék** egy szám száz részének egy részét jelöli (% jel). Képlet: **százalék = (rész / egész) × 100**. Pl. 30% a 200-ból: 200 × 0,3 = **60**. Százaléknövekedés: új = eredeti × (1 + n/100), pl. 200 + 15% = 200 × 1,15 = 230. Százalékcsökkentés: új = eredeti × (1 – n/100), pl. 200 – 20% = 200 × 0,8 = 160. A **kamatos kamat** esetén az alap évente nő: T = T₀ × (1 + r/100)ⁿ. Mindennapokban használjuk: árengedmény, adó, kamat, statisztika. Hasznos tudnivaló: 1% = 0,01; 100% = az egész.",
+          "keywords": [
+            "százalék",
+            "százalékszámítás",
+            "alap",
+            "rész",
+            "kamatos kamat",
+            "arány",
+            "növekedés",
+            "csökkentés"
+          ]
+        },
+        {
+          "heading": "Statisztika alapjai",
+          "body": "A statisztika adatok gyűjtésével és elemzésével foglalkozik. **Átlag** (várható érték): adatok összege / adatok száma. Pl. {2, 4, 6, 8} → átlag = 20/4 = 5. **Medián**: a rendezett adatok középső értéke (páros esetén a két középső átlaga). **Módusz**: legtöbbször előforduló érték. **Szórás** (σ): az adatok átlagtól való átlagos eltérése – nagy szórás = szétszórt adatok. **Grafikus megjelenítés**: oszlopdiagram, kördiagram, hisztogram. A statisztika alkalmazásai: közvélemény-kutatás, orvostudomány, közgazdaságtan, természettudományok. Az **outlier** (kiugró érték) torzíthatja az átlagot, ezért a mediánt is érdemes nézni.",
+          "keywords": [
+            "átlag",
+            "medián",
+            "módusz",
+            "szórás",
+            "statisztika",
+            "középérték",
+            "szóródás",
+            "hisztogram",
+            "outlier"
+          ]
+        },
+        {
+          "heading": "Törtek és arányok",
+          "body": "A **tört** egy osztás jelölése: a/b, ahol b ≠ 0. A **közös nevező** meghatározása az összeadáshoz szükséges: 1/3 + 1/4 = 4/12 + 3/12 = 7/12. **Egyszerűsítés**: 6/8 = (6÷2)/(8÷2) = 3/4. Vegyes szám: 2½ = 5/2. A tört **szorzása**: (a/b) × (c/d) = ac/bd; **osztása**: (a/b) ÷ (c/d) = (a/b) × (d/c). Az **arány** két mennyiség hányadosa: pl. 3:4 = 3/4. Az **egyenes arányosságnál** y = k·x (pl. áru ára); a **fordított arányosságnál** y = k/x (pl. sebesség–idő). Az arányos gondolkodás alapvető a mindennapokban: receptek, térkép, pénzváltás.",
+          "keywords": [
+            "tört",
+            "közös nevező",
+            "egyszerűsítés",
+            "arányosság",
+            "egyenes arányosság",
+            "fordított arányosság",
+            "vegyes szám",
+            "tört szorzása"
+          ]
+        }
+      ]
+    },
+    "fizika": {
+      "title": "Fizika",
+      "icon": "⚡",
+      "summary": "A fizika a természet alapvető törvényeit vizsgálja: mozgás, erő, energia, anyag és sugárzás. Az SI-mértékrendszer egységesíti a méréseket.",
+      "articles": [
+        {
+          "heading": "Víz forráspontja",
+          "body": "A víz **100 °C-on forr** normál légköri nyomáson (101 325 Pa = 1 atm). Forraláskor a folyadék gőzzé alakul: a molekulák elegendő energiát kapnak, hogy elhagyják a folyékony fázist. **Magasabb nyomáson** (pl. kukta: ~2 atm) a forráspont emelkedik (~120 °C), ezért a kukta gyorsabban főz. **Alacsonyabb nyomáson** (pl. hegycsúcson: ~0,7 atm, 4 000 m felett) a víz ~86 °C-on forr, ami megnehezíti a főzést. A víz **fagyáspontja** 0 °C normál nyomáson. A két speciális pont alkotja a Celsius-skála alapját: Anders Celsius svéd csillagász definiálta 1742-ben.",
+          "keywords": [
+            "forrás",
+            "100 °C",
+            "víz",
+            "légköri nyomás",
+            "kukta",
+            "hegycsúcs",
+            "Celsius",
+            "fagyáspont",
+            "gőz"
+          ]
+        },
+        {
+          "heading": "Erő – newton",
+          "body": "Az erő **SI-mértékegysége** a **newton (N)**. Definíció: 1 N = 1 kg·m/s² – az az erő, amely 1 kg tömegű testet 1 m/s² gyorsulással gyorsít. Newton második törvénye: **F = m × a** (erő = tömeg × gyorsulás). Példa: 5 kg tömegű testet 3 m/s²-os gyorsulással mozgatni → F = 5 × 3 = **15 N**. A **gravitációs erő** (súlyerő) Földön: G = m × g, ahol g ≈ 9,81 m/s². Egy 10 kg-os tárgy súlyereje kb. 100 N. Az erő **vektormennyiség**: iránya és nagysága is fontos. Erők összeadása vektoriálisan történik; az eredő erő határozza meg a mozgást.",
+          "keywords": [
+            "newton",
+            "N",
+            "erő",
+            "SI",
+            "F = ma",
+            "gyorsulás",
+            "tömeg",
+            "gravitációs erő",
+            "vektor"
+          ]
+        },
+        {
+          "heading": "Gravitáció",
+          "body": "A **gravitáció** a tömegek közötti vonzóerő. A Föld gravitációja minden testet a középpontja felé húz, a gravitációs gyorsulás Földön **g ≈ 9,81 m/s²**. Newton gravitációs törvénye: F = G × (m₁ × m₂) / r², ahol G = 6,674 × 10⁻¹¹ Nm²/kg² az egyetemes gravitációs állandó. A **szabadesés** során a tárgyak g gyorsulással esnek (levegő ellenállása nélkül). A Hold gravitációja kb. 1/6-a a Föld gravitációjának (g_Hold ≈ 1,62 m/s²). A gravitáció tartja pályán a bolygókat a Nap körül és a holdakat a bolygók körül.",
+          "keywords": [
+            "gravitáció",
+            "9,81 m/s²",
+            "Newton",
+            "vonzás",
+            "Föld",
+            "szabadesés",
+            "gravitációs állandó",
+            "Hold",
+            "bolygó"
+          ]
+        },
+        {
+          "heading": "Fény sebessége",
+          "body": "A fény sebessége vákuumban pontosan **299 792 458 m/s** (≈ 300 000 km/s), amelyet **c**-vel jelölünk. Ez az egyik legfontosabb természeti állandó. Einstein **relativitáselmélete** szerint semmi sem haladhat gyorsabban a fénynél. Egy fényév (ly) az a távolság, amelyet a fény egy év alatt tesz meg: kb. 9,46 × 10¹² km. A fény anyagon áthaladva lelassul: vízben kb. 225 000 km/s, üvegben kb. 200 000 km/s. Az **index of refraction** (törésmutatói) n = c/v mutatja, mennyire lassul a fény az adott közegben.",
+          "keywords": [
+            "fény",
+            "300 000 km/s",
+            "c",
+            "sebesség",
+            "vákuum",
+            "relativitás",
+            "fényév",
+            "törésmutató",
+            "Einstein"
+          ]
+        },
+        {
+          "heading": "Teljesítmény – watt",
+          "body": "A **watt (W)** a teljesítmény SI-mértékegysége, James Watt skót feltalálóról elnevezve. Definíció: **P = W / t** (munka per idő), ahol 1 W = 1 J/s (joule per másodperc). Egy 60 W-os izzó 60 J energiát alakít át másodpercenként. A **kilowatt (kW)** = 1000 W; **megawatt (MW)** = 10⁶ W. Az energiafogyasztást **kilowattórában (kWh)** mérik: 1 kWh = 3 600 000 J. Egy átlagos háztartás ~300-400 kWh/hó villamosenergiát fogyaszt. Az emberi test nyugalmi állapotban kb. 80–100 W hőteljesítményt termel.",
+          "keywords": [
+            "watt",
+            "W",
+            "teljesítmény",
+            "P = W/t",
+            "joule",
+            "kWh",
+            "kilowatt",
+            "energiafogyasztás"
+          ]
+        },
+        {
+          "heading": "Newton II. törvénye",
+          "body": "Newton **második mozgástörvénye**: a testre ható eredő erő egyenlő a test tömegének és gyorsulásának szorzatával: **F = m · a**. Átrendezve: a = F/m (nagyobb erő → nagyobb gyorsulás; nagyobb tömeg → kisebb gyorsulás). Példa: 2 kg tömegű testet 10 N erővel gyorsítunk → a = 10/2 = **5 m/s²**. Ha az erő kétszeres, a gyorsulás is kétszeres; ha a tömeg kétszeres, a gyorsulás feleakkora. Mértékegység: [F] = kg · m/s² = N. Newton **első törvénye** (tehetetlenség): egyenes vonalú egyenletes mozgást csak erő változtathat meg. Newton **harmadik törvénye** (hatás-visszahatás): minden erőre egyenlő és ellentétes erő hat.",
+          "keywords": [
+            "Newton II.",
+            "F = ma",
+            "tömeg",
+            "gyorsulás",
+            "erő",
+            "tehetetlenség",
+            "hatás-visszahatás",
+            "mozgástörvény"
+          ]
+        },
+        {
+          "heading": "Mozgás és sebesség",
+          "body": "A **sebesség** az elmozdulás és az eltelt idő hányadosa: **v = s/t** (m/s). Átlagsebesség példa: 120 km/2 h = 60 km/h. Az **egyenletesen gyorsuló mozgásnál** a gyorsulás állandó: **a = Δv/Δt** (m/s²). A megtett út: **s = v₀t + ½at²**. A **szabadesés** speciális egyenletesen gyorsuló mozgás, ahol a = g ≈ 9,81 m/s² lefelé. Pl. 3 másodpercig eső test sebessége: v = g × t = 9,81 × 3 ≈ 29,4 m/s. A **lökés** (impulzus): p = m × v. A **kinematika** a mozgások leírásával foglalkozik az okok vizsgálata nélkül.",
+          "keywords": [
+            "sebesség",
+            "gyorsulás",
+            "egyenletes mozgás",
+            "szabadesés",
+            "kinematika",
+            "elmozdulás",
+            "impulzus",
+            "v = s/t"
+          ]
+        },
+        {
+          "heading": "Elektromosság alapjai",
+          "body": "Az **elektromos áram** töltéshordozók (elektronok) rendezett mozgása a vezető anyagban. Az **Ohm-törvény**: **U = R × I** (feszültség = ellenállás × áramerősség). Mértékegységek: feszültség [V = volt], ellenállás [Ω = ohm], áramerősség [A = amper]. A **teljesítmény**: P = U × I = I² × R. Soros kapcsolásban az ellenállások összeadódnak: R = R₁ + R₂. Párhuzamos kapcsolásban: 1/R = 1/R₁ + 1/R₂. A **szupravezető** anyag 0 Ω ellenállással rendelkezik nagyon alacsony hőmérsékleten. Az áramkör alapjai: forrás (pl. elem), vezető (drót), fogyasztó (pl. lámpa), kapcsoló.",
+          "keywords": [
+            "elektromos áram",
+            "Ohm-törvény",
+            "feszültség",
+            "ellenállás",
+            "teljesítmény",
+            "soros",
+            "párhuzamos",
+            "volt",
+            "amper",
+            "ohm"
+          ]
+        },
+        {
+          "heading": "Hőtan alapjai",
+          "body": "A **hőmérséklet** a molekulák átlagos mozgási energiájának mérőszáma (SI egysége a **kelvin, K**; hétköznapokban Celsius, °C). **Hővezetés** (kondukció): érintkezésen át (pl. fémek). **Konvekció**: folyadék/gáz áramlással (pl. radiátor melegíti a szobát). **Sugárzás**: elektromágneses hullámok útján (vákuumban is, pl. Nap melegíti a Földet). A **hőtágulás**: anyagok melegítésre megnyúlnak; vasúti sín hézagai emiatt szükségesek. A víz **0 °C**-on fagy, **100 °C**-on forr. Az abszolút nulla fok **–273,15 °C = 0 K**, az elméletileg leghidegebb hőmérséklet.",
+          "keywords": [
+            "hőmérséklet",
+            "hővezetés",
+            "konvekció",
+            "sugárzás",
+            "hőtágulás",
+            "fagyáspont",
+            "forráspont",
+            "kelvin",
+            "abszolút nulla"
+          ]
+        },
+        {
+          "heading": "Optika alapjai",
+          "body": "A **fény** elektromágneses hullám, sebessége vákuumban c ≈ 300 000 km/s. A **visszaverődési törvény**: beesési szög = visszaverődési szög (mindkettő a felületre bocsátott merőlegeshez képest). A **fénytörés** (refrakció) akkor következik be, ha a fény különböző optikai sűrűségű közegek határán halad át – a fény megtörik, iránya megváltozik. A törésmutatói n = c/v (vízé ≈ 1,33). A **domború lencse** (pl. nagyító) összegyűjti a fénysugarakat, a **homorú lencse** szétszórja. Az emberi szem lencseként működik; a **szemüveg** korrigálja a rövidlátást és a távollátást.",
+          "keywords": [
+            "fény",
+            "visszaverődés",
+            "fénytörés",
+            "lencse",
+            "refrakció",
+            "optika",
+            "törésmutató",
+            "domború",
+            "homorú",
+            "szemüveg"
+          ]
+        }
+      ]
+    },
+    "kemia": {
+      "title": "Kémia",
+      "icon": "🧪",
+      "summary": "A kémia az anyagok összetételét, szerkezetét és átalakulásait tanulmányozza. Alapfogalmak: atom, molekula, vegyület, reakció.",
+      "articles": [
+        {
+          "heading": "Víz – H₂O",
+          "body": "A víz vegyjele **H₂O**: 2 hidrogén- és 1 oxigénatom alkotja **kovalens kötéssel**. A szögalakú molekula (105°-os kötésszög) **poláris**, ezért a molekulák között **hidrogénkötések** jönnek létre – ez magyarázza szokatlanul magas forráspontját (100 °C) és fagyáspontját (0 °C). Az élet nélkülözhetetlen oldószere; a legtöbb élőlény 60–80%-a víz. A víz **maximális sűrűsége** 4 °C-on van; ezért a jég úszik a vízen (kisebb sűrűségű). A víz **amfoter**: savként és bázisként is viselkedhet (pH 7 = semleges). A Föld felszínének kb. 71%-át borítja víz.",
+          "keywords": [
+            "H₂O",
+            "víz",
+            "hidrogén",
+            "oxigén",
+            "molekula",
+            "hidrogénkötés",
+            "poláris",
+            "forráspont",
+            "fagyáspont",
+            "oldószer"
+          ]
+        },
+        {
+          "heading": "Hidrogénatom – protonszám",
+          "body": "A hidrogén (H) a periódusos rendszer **1. eleme**, rendszáma (protonszáma) = **1**: egyetlen proton van a magjában, és 1 elektron keringi körül. A legkönnyebb és legegyszerűbb elem; atomtömege ≈ 1 u (atomtömegegység). A hidrogén a Világegyetem **leggyakoribb eleme** (~75% tömeg szerint). A Napban hidrogén fúziója adja az energiát: 4H → He + energia. A hidrogén **molekulája** H₂ (kétatomos). Iparilag fontos: ammónia-szintézis (Haber–Bosch-eljárás), hidrogénbomba (nukleáris fúzió), üzemanyagcellák.",
+          "keywords": [
+            "hidrogén",
+            "1 proton",
+            "rendszám",
+            "atom",
+            "H₂",
+            "legkönnyebb",
+            "atomtömeg",
+            "fúzió",
+            "Világegyetem"
+          ]
+        },
+        {
+          "heading": "Konyhasó – NaCl",
+          "body": "A konyhasó vegyjele **NaCl** (nátrium-klorid). A **nátrium** (Na, fém, 11. elem) leadja elektrontját a **klórnak** (Cl, 17. elem), így Na⁺ és Cl⁻ ionok keletkeznek, amelyek **ionos rácsot** alkotnak. Az ionos kötés erős – olvadáspontja **801 °C**, forráspontja 1413 °C. Vízben jól oldódik, elektrolitos oldatot ad (elektromos áramot vezet). Az ember számára nélkülözhetetlen: az idegrendszer és az izomzat Na⁺ és K⁺ ionokat használ jelátadáshoz. Az ókorban a só értékes fizetőeszköz volt – innen ered a 'fizetés' szó (latin: salarium).",
+          "keywords": [
+            "NaCl",
+            "konyhasó",
+            "nátrium",
+            "klorid",
+            "ionos kötés",
+            "ionos rács",
+            "olvadáspont",
+            "elektrolit",
+            "oldódás"
+          ]
+        },
+        {
+          "heading": "Oxigén és égés",
+          "body": "Az oxigén (O, 8. elem) a levegő **~21%-a**, molekulája O₂. Az égéshez **oxigén** szükséges – ez az **oxidációs folyamat**. Égési reakció általánosan: **üzemanyag + O₂ → CO₂ + H₂O + hő**. Például metán égése: CH₄ + 2O₂ → CO₂ + 2H₂O. Oxigén nélkül a tűz kialszik (a tűzoltó CO₂-vel fojtja el). Az oxigén biológiailag is elengedhetetlen: a **sejtlégzés** során a sejt glükózt oxidál: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP. A folyékony oxigén (-183 °C-on) rakétaüzemanyagként is szolgál.",
+          "keywords": [
+            "oxigén",
+            "égés",
+            "O₂",
+            "oxidáció",
+            "levegő",
+            "CO₂",
+            "sejtlégzés",
+            "tűz",
+            "metán",
+            "lángoltás"
+          ]
+        },
+        {
+          "heading": "Periódusos rendszer – Mengyelejev",
+          "body": "**Dmitrij Ivanovics Mengyelejev** orosz kémikus 1869-ben alkotta meg a periódusos rendszert. Az elemeket **rendszámuk** (protonszámuk) növekvő sorrendje és kémiai tulajdonságaik alapján rendezte el. Egy **periódus** (sor) megmutatja az elektronhéjak számát; egy **csoport** (oszlop) azonos vegyértékelektron-számot jelent, ezért hasonló kémiai tulajdonságokat. Mengyelejev **előre jelezte** a hiányzó elemek (gallium, germanium, skandium) tulajdonságait – ezek utóbb igazolódtak. Jelenleg **118 elemet** tartalmaz a rendszer; a 104-nél nagyobb rendszámúak mesterségesek.",
+          "keywords": [
+            "Mengyelejev",
+            "periódusos rendszer",
+            "elemek",
+            "rendszám",
+            "periódus",
+            "csoport",
+            "vegyértékelektron",
+            "118 elem"
+          ]
+        },
+        {
+          "heading": "pH-skála",
+          "body": "A **pH** a savasság mérőszáma, a hidrogénion-koncentrációt fejezi ki logaritmikusan: **pH = –log[H⁺]**. A skála **0–14** közötti értékeket vesz fel. **pH 7 = semleges** (pl. tiszta víz); **pH < 7 = savas** (pl. citromlé pH ≈ 2, kávé pH ≈ 5); **pH > 7 = lúgos** (pl. szappan pH ≈ 9, sütőpor pH ≈ 11). A skála **logaritmikus**: pH 6 tízszer savasabb pH 7-nél; pH 4 tízszer savasabb pH 5-nél. Az emberi vér pH-ja szigorúan 7,35–7,45 között kell maradjon. A pH mérésére pH-papírt vagy digitális pH-mérőt használunk.",
+          "keywords": [
+            "pH",
+            "7",
+            "semleges",
+            "savas",
+            "lúgos",
+            "skála",
+            "logaritmikus",
+            "hidrogénion",
+            "vér",
+            "citromlé"
+          ]
+        },
+        {
+          "heading": "Kémiai kötések",
+          "body": "Az **ionos kötés** különböző elektronegativitású elemek között jön létre (fémek és nemfémek, pl. NaCl): az egyik atom elektronokat ad át a másiknak. A **kovalens kötés** elektronpár megosztásán alapul (pl. H₂O, CO₂, H₂); lehet egyszeres (H–H), kettős (C=O) vagy hármas (N≡N). A **fémes kötés** fémrácson belül szabad elektronokkal valósul meg – ez magyarázza a fémek vezető képességét. A **poláris kovalens kötés** részleges töltésszétválasztással jár (pl. H–O kötés vízben). A kötés erősségét **kötési energia** (kJ/mol) jellemzi. A molekulák közötti gyenge vonzóerők: van der Waals-erők, hidrogénkötések.",
+          "keywords": [
+            "ionos kötés",
+            "kovalens kötés",
+            "fémes kötés",
+            "poláris",
+            "elektronpár",
+            "NaCl",
+            "H₂O",
+            "kötési energia",
+            "hidrogénkötés"
+          ]
+        },
+        {
+          "heading": "Savak és bázisok",
+          "body": "A **sav** H⁺ iont ad le vízben (pH < 7), a **bázis** (lúg) OH⁻ iont vesz fel (pH > 7). A **semlegesítési reakció**: sav + bázis → só + víz (pl. HCl + NaOH → NaCl + H₂O). Az **erős savak** (HCl = sósav, H₂SO₄ = kénsav, HNO₃ = salétromsav) teljesen disszociálnak. A **gyenge savak** (CH₃COOH = ecetsav, H₂CO₃ = szénsav) részlegesen. A **puffer** oldatok megakadályozzák a pH gyors változását (pl. vérsavak). Brønsted–Lowry-elmélet: sav protondonor, bázis protonakceptor.",
+          "keywords": [
+            "sav",
+            "bázis",
+            "pH",
+            "semlegesítés",
+            "disszociáció",
+            "erős sav",
+            "puffer",
+            "HCl",
+            "H₂SO₄",
+            "NaOH"
+          ]
+        },
+        {
+          "heading": "Szerves kémia alapjai",
+          "body": "A **szerves vegyületek** szén-alapú molekulák; a szén (C) 4 kötést tud kialakítani, ezért rendkívül sokféle vegyületet alkot. A **szénhidrogének** csak szénből és hidrogénből állnak: **telített alkánok** (pl. metán CH₄, etán C₂H₆, propán C₃H₈), **telítetlen alkének** (pl. etilén CH₂=CH₂), **alkinek** (pl. acetilén HC≡CH). Az **aromás vegyületek** benzolgyűrűs struktúrát tartalmaznak. Fontosabb funkciós csoportok: **–OH** (alkoholok), **–COOH** (savak), **–NH₂** (aminok), **–CHO** (aldehidek). A szerves kémia alapja a gyógyszergyártásnak, műanyagiparnak és élelmiszerkémiának.",
+          "keywords": [
+            "szerves kémia",
+            "szénhidrogén",
+            "alkán",
+            "alkén",
+            "benzol",
+            "funkciós csoport",
+            "metán",
+            "etanol",
+            "alkohol"
+          ]
+        },
+        {
+          "heading": "Redox reakciók",
+          "body": "A **redox reakció** oxidáció (elektronvesztés) és redukció (elektronfelvétel) egyidejű végbemenetele. Memória: **OIL RIG** (Oxidation Is Loss, Reduction Is Gain). Az **oxidáló szer** elektronokat vesz fel (maga redukálódik). A **redukáló szer** elektronokat ad le (maga oxidálódik). Példa: Zn + CuSO₄ → ZnSO₄ + Cu – a cink oxidálódik (0 → +2), a réz redukálódik (+2 → 0). Az oxidációs számok változása alapján egyensúlyozzuk a redox egyenleteket. Biológiában fontos: fotoszintézis, sejtlégzés mind redox folyamatok.",
+          "keywords": [
+            "redox",
+            "oxidáció",
+            "redukció",
+            "oxidációs szám",
+            "oxidáló szer",
+            "redukáló szer",
+            "elektron",
+            "OIL RIG",
+            "cink",
+            "réz"
+          ]
+        }
+      ]
+    },
+    "biologia": {
+      "title": "Biológia",
+      "icon": "🌿",
+      "summary": "A biológia az élő szervezeteket tanulmányozza: felépítésüket, működésüket, fejlődésüket és környezetükkel való kapcsolatukat.",
+      "articles": [
+        {
+          "heading": "Szív – keringési rendszer",
+          "body": "A **szív** egy kb. ökölnyi izom, amely a **kettős keringés** pumpájaként működik. **4 ütege**: bal kamra (nagy vérköri vér pumpálása), jobb kamra (kis vérköri pumpálás a tüdőhöz), bal pitvar és jobb pitvar. A **pulzus** normálisan percenként **60–100** ütés. A szív jobb oldalán oxigénszegény vér, bal oldalán oxigéndús vér folyik. Az **artériák** (verőerek) a szívtől, a **vénák** (visszeres) a szívhez szállítják a vért. A vérnyomás értéke normálisan 120/80 Hgmm. A szívizomnak folyamatos vérellátása szükséges (koszorúerek). Szívelégtelenség esetén a pumpa gyengül.",
+          "keywords": [
+            "szív",
+            "kamra",
+            "pitvar",
+            "pulzus",
+            "artéria",
+            "véna",
+            "vérnyomás",
+            "keringés",
+            "kettős keringés"
+          ]
+        },
+        {
+          "heading": "Halak légzése – kopoltyú",
+          "body": "A halak **kopoltyúval** lélegeznek, amelyek a fejük két oldalán helyezkednek el. A kopoltyú vékony **lamellák** (lemezecskék) sorozata, amelyen keresztül a vér és a víz érintkezik. A víz a szájon beáramlik, majd a **kopoltyúrésen** kiáramlik. A lamellák falán keresztül az oldott **O₂** a vérbe diffundál, a **CO₂** a vérből a vízbe kerül (**gázcsere**). Ez a rendszer nagyon hatékony, mert az ellenáramú elv alapján működik: a víz és a vér ellentétes irányban áramlik, maximalizálva az oxigénátvételt. A szárazföldi állatok tüdővel lélegeznek, a kétéltűek mindkettőt használhatják.",
+          "keywords": [
+            "kopoltyú",
+            "hal",
+            "légzés",
+            "oxigén",
+            "víz",
+            "lamella",
+            "gázcsere",
+            "CO₂",
+            "ellenáramú elv",
+            "diffúzió"
+          ]
+        },
+        {
+          "heading": "Klorofill – fotoszintézis",
+          "body": "A **klorofill** a növények zöld fotoszintetikus pigmentje, amely a kloroplasztokban lévő **tilakoidokban** helyezkedik el. Feladata a napfény energiájának elnyelése – főként a vörös és kék hullámhosszú fényt, ezért a zöldet visszaveri (így látjuk zöldnek). A **fotoszintézis** összefoglaló egyenlete: **6CO₂ + 6H₂O + fény → C₆H₁₂O₆ + 6O₂**. Két főszakasza van: a **fényfázis** (ATP és NADPH termelés) és a **sötétfázis** (Calvin-ciklus, cukrok szintézise). Évente kb. 120 milliárd tonna szerves anyagot termelnek a növények fotoszintézissel, és az összes légköri oxigén innen származik.",
+          "keywords": [
+            "klorofill",
+            "zöld",
+            "fotoszintézis",
+            "kloroplaszt",
+            "napfény",
+            "CO₂",
+            "O₂",
+            "tilakoid",
+            "Calvin-ciklus",
+            "C₆H₁₂O₆"
+          ]
+        },
+        {
+          "heading": "Mitokondrium – sejt energiája",
+          "body": "A **mitokondrium** a sejt 'erőműve': itt megy végbe a **sejtlégzés**, amelynek során glükózból és oxigénből **ATP** (adenozin-trifoszfát) keletkezik. Az ATP az élő szervezetek 'energiavalutája'. A sejtlégzés összefoglaló egyenlete: **C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ~38 ATP**. A mitokondriumnak saját **DNS-e** és kettős membránja van (külső és belső). A belső membrán **krisztákon** (redőzetek) keresztül növeli a felszínét. Az **endoszimbionta elmélet** szerint a mitokondriumok egykor szabad baktériumok voltak, amelyeket az ős-eukaryóta sejt befogadott.",
+          "keywords": [
+            "mitokondrium",
+            "energia",
+            "ATP",
+            "sejtlégzés",
+            "glükóz",
+            "O₂",
+            "CO₂",
+            "DNS",
+            "endoszimbionta",
+            "kristák"
+          ]
+        },
+        {
+          "heading": "Az emberi csontrendszer",
+          "body": "A felnőtt emberi test **206 csontból** áll (újszülöttnél ~270, mert egyes porccsontok az évek során összenőnek). A csontrendszer funkciói: **megtámasztás** (testszerkezet), **védelem** (koponya védi az agyat, bordák a tüdőt), **mozgás** (izmokkal együtt), **vérképzés** (a vöröscsontvelőben) és **ásványi anyagok tárolása** (kalcium, foszfor). A **csontok felépítése**: kompakt csontszövet (külső kemény rész) és szivacsos csontszövet (belső, könnyebb szerkezet). A legnagyobb csont a **combcsont** (femur), a legkisebb a kengyel (fül). A csontok a **porcokkal** és **szalagokkal** alkotják az ízületeket.",
+          "keywords": [
+            "206 csont",
+            "csontrendszer",
+            "emberi test",
+            "csontváz",
+            "vérképzés",
+            "koponya",
+            "combcsont",
+            "kengyel",
+            "ízület"
+          ]
+        },
+        {
+          "heading": "Evolúció – Darwin",
+          "body": "**Charles Darwin** brit természettudós 1859-ben publikálta *A fajok eredete* (On the Origin of Species) c. művét. Elmélete szerint az evolúció hajtóereje a **természetes szelekció**: a kedvező tulajdonságú egyedek jobban alkalmazkodnak a környezethez, több utódot hagynak, így az adott jegyek elterjednek a populációban. Az **adaptáció** a környezethez való alkalmazkodást jelenti. A **közös ős** elve szerint minden mai élőlény egyetlen közös ősre vezethető vissza. Darwin a Galápagos-szigeteken tett megfigyelései alapján fejlesztette ki elméletét – különösen a pintyeke különböző csőrformái inspirálták. Az evolúció bizonyítékai: fosszíliák, összehasonlító anatómia, DNS-elemzés.",
+          "keywords": [
+            "Darwin",
+            "evolúció",
+            "természetes szelekció",
+            "fajok eredete",
+            "adaptáció",
+            "közös ős",
+            "Galápagos",
+            "1859",
+            "fossziília"
+          ]
+        },
+        {
+          "heading": "Sejt szerkezete",
+          "body": "A **prokaryóta sejt** (baktériumok, archaea) sejtmag nélküli; genetikai anyaga a citoplazmában lebegő **nukleoidban** helyezkedik el. Az **eukaryóta sejt** (növények, állatok, gombák) valódi sejtmaggal rendelkezik. Fő sejtszervecskék: **sejtmag** (DNS tárolás és átírás), **mitokondrium** (energia = ATP), **riboszóma** (fehérjeszintézis), **endoplazmatikus retikulum** (ER; fehérjék és lipidek szállítása), **Golgi-készülék** (szortírozás és szekréció), **lizoszóma** (emésztés), **vakuólum** (tárolás, vízháztartás). A **sejtmembrán** foszfolipid kettős réteggel választja el a sejtet a környezettől.",
+          "keywords": [
+            "prokaryóta",
+            "eukaryóta",
+            "sejtmag",
+            "mitokondrium",
+            "riboszóma",
+            "Golgi",
+            "sejtszervecske",
+            "sejtmembrán",
+            "ER",
+            "DNS"
+          ]
+        },
+        {
+          "heading": "Genetika alapjai",
+          "body": "A **DNS** (dezoxiribonukleinsav) kettős spirál alakú molekula, amely az örökletes információt tárolja nukleotid-bázispárok sorrendjében (A-T, G-C). A **gén** egy DNS-szakasz, amely egy fehérje vagy RNS szintézisét kódolja. A **kromoszóma** DNS és fehérjék (hisztonok) komplex szerkezete. Az emberben **46 kromoszóma** (23 pár) van; a 23. pár nemkromoszóma (XX = nő, XY = férfi). Az **allélok** egy gén különböző változatai; a **domináns allél** érvényesül a **recesszív** felett. Mendel borsókísérletei alapján vezette le az öröklés törvényeit (1866). A **mutáció** a DNS-szekvencia spontán vagy indukált megváltozása.",
+          "keywords": [
+            "DNS",
+            "gén",
+            "kromoszóma",
+            "allél",
+            "domináns",
+            "recesszív",
+            "genetika",
+            "öröklés",
+            "Mendel",
+            "mutáció"
+          ]
+        },
+        {
+          "heading": "Ökológia alapjai",
+          "body": "Az **ökológia** az élőlények és a biotikus (élő) és abiotikus (élettelen) tényezők kapcsolatát vizsgálja. A **tápláléklánc** az energiaáramlás irányát mutatja: producens (növények) → elsődleges fogyasztó (növényevők) → másodlagos fogyasztó (ragadozók) → lebontók (gombák, baktériumok). A **táplálékhálózat** összeszövődő táplálékláncok rendszere. A **biom** nagy éghajlati-növényzeti öv (trópusi esőerdő, tundra, szavanna, mérsékelt erdő). Az **ökoszisztéma** biotikus és abiotikus tényezők egysége (pl. tó, erdő). A **biodiverzitás** a fajok sokfélesége egy élőhelyen. Az **anyagkörforgás** (szén, nitrogén, víz) az ökoszisztémák fenntartásának alapja.",
+          "keywords": [
+            "ökológia",
+            "tápláléklánc",
+            "táplálékhálózat",
+            "biom",
+            "ökoszisztéma",
+            "producens",
+            "fogyasztó",
+            "lebontó",
+            "biodiverzitás",
+            "anyagkörforgás"
+          ]
+        },
+        {
+          "heading": "Evolúció és természetes szelekció",
+          "body": "**Darwin** evolúcióelmélete (1859) szerint a fajok változnak az időben a **természetes szelekció** által: a kedvező tulajdonságú egyedek több utódot hagynak. A **mutáció** és rekombináció genetikai változatosságot okoz. A **fajképzés** általában geográfiai izolációval kezdődik (**allopatrikus fajképzés**): ha két populáció elválik, külön fejlődési útra lépnek, majd már nem szaporodhatnak egymással. A **szimpatrikus fajképzés** azonos területen belül is létrejöhet. A **szintetikus evolúcióelmélet** (neodarwinizmus) a darwini elveket a genetikával (Mendel, DNS) egyesíti. A **szexuális szelekció** a párzási sikert befolyásoló tulajdonságokat erősíti (pl. páva farktolla).",
+          "keywords": [
+            "Darwin",
+            "evolúció",
+            "természetes szelekció",
+            "mutáció",
+            "fajképzés",
+            "szintetikus evolúció",
+            "adaptáció",
+            "allopatrikus",
+            "neodarwinizmus"
+          ]
+        }
+      ]
+    },
+    "tortenelem": {
+      "title": "Történelem",
+      "icon": "🏰",
+      "summary": "Magyarország és a világ történelme: a honfoglalástól a modern korig. Fontos évszámok, személyek és fordulópontok.",
+      "articles": [
+        {
+          "heading": "Honfoglalás – 895",
+          "body": "A magyar törzsek **895 körül** foglalták el a Kárpát-medencét **Árpád vezér** irányítása alatt. A hét törzs (a hagyomány szerint Megyer, Nyék, Kürt-Gyarmat, Tarján, Jenő, Kér, Keszi) és a csatlakozó **kabarok** keltek át a Vereckei-hágón a Kárpátokban. A honfoglaló magyarok a sztyeppéről érkező, **lovas nomád** életmódot folytató nép volt, és sikeresen legyőzték a Kárpát-medencében élő morvákat, bolgárokat és az avar maradványokat. A honfoglalást megelőzte a **'levédiai'** és **'etelközi'** szállás. A honfoglalás a **Magyar Királyság** megalapításának előzménye volt.",
+          "keywords": [
+            "honfoglalás",
+            "895",
+            "Árpád",
+            "Kárpát-medence",
+            "törzsek",
+            "lovas nomád",
+            "Vereckei-hágó",
+            "kabarok",
+            "hét törzs"
+          ]
+        },
+        {
+          "heading": "I. István – első király",
+          "body": "**I. (Szent) István** (969/975–1038) volt Magyarország első koronázott királya, **1000. január 1-jén** koronázták meg a pápától kapott koronával. Bevezette a **kereszténységet** (erőszakkal is), megszüntette a törzsi szervezetet, és létrehozta a **vármegyerendszert** (kb. 45 vármegye). Megalapította az **esztergomi érsekséget** és több püspökséget. Kiadta az első **törvénykönyvet** (Intelmek), amelyet fiának, Imre hercegnek szánt. 1083-ban avatták szentté. Az István-koronát (a **Szent Koronát**) ma is Magyarország legfontosabb állami jelképeként őrzik a Parlamentben.",
+          "keywords": [
+            "I. István",
+            "első király",
+            "1000",
+            "kereszténység",
+            "korona",
+            "vármegyerendszer",
+            "esztergomi érsekség",
+            "Szent Korona",
+            "Intelmek"
+          ]
+        },
+        {
+          "heading": "Mohácsi vész – 1526",
+          "body": "Az **1526. augusztus 29-i mohácsi csatában** **II. Lajos** magyar király seregét (kb. 25 000 fő) **I. Szulejmán** oszmán szultán serege (kb. 60–80 000 fő) döntő vereséggel sújtotta. A csata mindössze 2 óra alatt eldőlt. Maga a **20 éves II. Lajos** is belehalt sérüléseibe (lova a Csele-patakba fullasztotta). Az ütközet nyomán Magyarország **három részre szakadt**: a **Királyság** Bécsi Habsburgok uralma alatt, az **Erdélyi Fejedelemség** (Szapolyai János), és a **Török hódoltság** (középső rész, kb. 150 évig). A csata máig a magyar történelem egyik legtragikusabb eseménye.",
+          "keywords": [
+            "mohácsi vész",
+            "1526",
+            "II. Lajos",
+            "I. Szulejmán",
+            "törökök",
+            "három részre",
+            "Habsburgok",
+            "Erdély",
+            "hódoltság"
+          ]
+        },
+        {
+          "heading": "Mátyás király – Hollós",
+          "body": "**Hunyadi Mátyás** (1458–1490) a 'Hollós király' melléknevét a Hunyadi-ház hollós **fekete hollós** címeréről kapta. **Reneszánsz** uralkodó volt: bevezette a **Fekete Sereget** (zsoldos hadsereget), amellyel megvédte az országot a törököktől és meghódította Morvaországot, Sziléziát és Ausztriát. Felépítette a **visegrádi palotát** és a budai királyi palotát, pártfogolta a humanista tudósokat és művészeteket (**Corvina-könyvtár** – kb. 2000 kézirat). Az egyszerű népmese szerint éjjel álruhában járta az országot, hogy megismerje a köznép helyzetét. Halála után 'Meghalt Mátyás, oda az igazság' – mondta a nép.",
+          "keywords": [
+            "Mátyás király",
+            "Hollós",
+            "Hunyadi",
+            "Fekete Sereg",
+            "reneszánsz",
+            "Corvina",
+            "visegrádi palota",
+            "zsoldos",
+            "humanizmus"
+          ]
+        },
+        {
+          "heading": "1848-as forradalom",
+          "body": "Az **1848-as forradalom** március 15-én robbant ki Pesten, az európai forradalmi hullámba illeszkedve. A **12 pont** követelései: sajtószabadság, jobbágyfelszabadítás, független felelős kormány, törvény előtti egyenlőség. **Petőfi Sándor** szavalta a Nemzeti dalt a Múzeum előtt, **Jókai Mór** és **Vasvári Pál** részvételével. Megalakult az első felelős magyar kormány **Batthyány Lajos** vezetésével. A szabadságharc (1848–49) végül az osztrák és orosz csapatok ereje miatt elbukott; **Haynau** tábornok végrehajtotta a megtorlást, az aradi 13 tábornokot kivégezték **1849. október 6-án**.",
+          "keywords": [
+            "1848",
+            "forradalom",
+            "március 15",
+            "12 pont",
+            "Petőfi",
+            "Batthyány",
+            "jobbágyfelszabadítás",
+            "aradi vértanúk",
+            "szabadságharc"
+          ]
+        },
+        {
+          "heading": "Trianoni békeszerződés",
+          "body": "A **Trianoni békeszerződést** 1920. június 4-én írták alá a versailles-i Trianon-kastélyban. Magyarország elveszítette területének **kb. 67%-át** és korábban (~21 millióról ~7,6 millióra) csökkent a területén élők száma; kb. **3,3 millió magyar** került más ország fennhatósága alá. Az elcsatolt területek: Erdély (Románia), Felvidék (Csehszlovákia), Délvidék (Szerbia/Jugoszlávia), Kárpátalja (Csehszlovákia, majd Szovjetunió/Ukrajna). A békét az I. világháborút lezáró párizsi békerendszer részeként írták alá. A Trianon következményei máig hatnak a magyar-szomszéd kapcsolatokra és a határon túli magyarok helyzetére.",
+          "keywords": [
+            "Trianon",
+            "1920",
+            "békeszerződés",
+            "első világháború",
+            "területveszteség",
+            "Erdély",
+            "Felvidék",
+            "Délvidék",
+            "3,3 millió magyar"
+          ]
+        },
+        {
+          "heading": "Ókori Görögország",
+          "body": "Az ókori görög civilizáció (Kr.e. 8–4. sz.) a **városállamokra** (poliszokra) épített. **Athén** a demokrácia és kultúra, **Spárta** a katonai erő szimbóluma. Az **olimpiai játékokat** Kr.e. 776-ban tartották először. A **görög-perzsa háborúk** (490–479 BC) során Görögország megvédte függetlenségét (maratoni csata, thermopülai ütközet). **Periklész** (Kr.e. 5. sz.) aranykorában épültek az Akropoliszon a **Parthenon** és más épületek. Kiemelkedő gondolkodók: **Szókratész**, **Platón**, **Arisztotelész**. **Nagy Sándor** terjesztette el a görög kultúrát (hellenizmus) Egyiptomtól Indiáig.",
+          "keywords": [
+            "görög",
+            "polisz",
+            "Athén",
+            "Spárta",
+            "demokrácia",
+            "Periklész",
+            "Szókratész",
+            "Parthenon",
+            "Nagy Sándor",
+            "olimpia"
+          ]
+        },
+        {
+          "heading": "Magyar Királyság az Árpád-korban",
+          "body": "**I. István** (1000–1038) megalapozta a keresztény Magyar Királyságot: püspökségek, **vármegyerendszer** (az ország igazgatási egységei), tizeddel és egyházi adóval. **I. László** (1077–1095) megszilárdította az egyházi rendet, Horvátországot is uralma alá vonta. **Könyves Kálmán** (1095–1116) törvénybe foglalta a boszorkányok hiányát és a zsidók jogait. A **tatárjárás** (1241–42, Batu kán mongol seregei) súlyos pusztítást hozott; **IV. Béla** (1235–1270) kővárak építésével és új telepesekkel (kunok, szászok) újjáépítette az országot. Az Árpád-ház 1301-ben kihalt **III. Andrással**.",
+          "keywords": [
+            "I. István",
+            "Árpád-kor",
+            "tatárjárás",
+            "IV. Béla",
+            "kereszténység",
+            "Magyar Királyság",
+            "vármegyerendszer",
+            "Könyves Kálmán",
+            "I. László"
+          ]
+        },
+        {
+          "heading": "Az újkor kezdete – felfedezések és reformáció",
+          "body": "A **nagy földrajzi felfedezések** (15–16. sz.) megváltoztatták a világ képét. **Kolombusz Kristóf** 1492-ben elérte Amerikát. **Vasco da Gama** 1498-ban megnyitotta India tengeri útját Afrika megkerülésével. **Magellán** 1519–1522-es expedíciója körülhajózta a Földet. A **reformáció** (1517) **Luther Márton** 95 tézisével kezdődött; nyomán az egyház megoszlott (katolikusok, lutheránusok, kálvinisták). A **reneszánsz** a humanizmus és individualizmus szellemi megújulása volt (Leonardo, Michelangelo). A könyvnyomtatás (**Gutenberg**, 1450-es évek) lehetővé tette az ismeretek gyors terjedését.",
+          "keywords": [
+            "felfedezések",
+            "Kolombusz",
+            "reformáció",
+            "Luther",
+            "reneszánsz",
+            "humanizmus",
+            "Vasco da Gama",
+            "Gutenberg",
+            "Magellán",
+            "1492"
+          ]
+        },
+        {
+          "heading": "20. századi Magyarország",
+          "body": "**Trianon** (1920) után Magyarország elveszítette területeinek kb. 2/3-át. A **Horthy-korszak** (1920–1944) konzervatív, revizionista politikát folytatott. Magyarország belépett a **2. világháborúba** (1941) Németország oldalán; a háborút elveszítve súlyos veszteségeket szenvedett (kb. 500 000 katona és 600 000 zsidó áldozat, többek között a **holokauszt** során). 1945 után **szovjet megszállás** és kommunista rendszer következett (**Rákosi-korszak**). Az **1956-os forradalom** október 23-án tört ki, de szovjet tankok tiporták le november 4-én. **Kádár János** vezette a kompromisszumos 'gulyáskommunista' rendszert. **1989. október 23-án** kikiáltották a III. Magyar Köztársaságot.",
+          "keywords": [
+            "Trianon",
+            "Horthy",
+            "2. világháború",
+            "1956",
+            "rendszerváltás",
+            "szovjet megszállás",
+            "Magyarország",
+            "1989",
+            "holokauszt",
+            "Kádár"
+          ]
+        }
+      ]
+    },
+    "foldrajz": {
+      "title": "Földrajz",
+      "icon": "🌍",
+      "summary": "A Föld felszíne, éghajlata, folyói, hegyei, országai és népeinek tudománya. Magyarország és a világ legfontosabb földrajzi adatai.",
+      "articles": [
+        {
+          "heading": "Budapest – Magyarország fővárosa",
+          "body": "**Budapest** Magyarország fővárosa, amely 1873-ban jött létre **Buda**, **Óbuda** és **Pest** egyesítésével. Lakossága kb. **1,7 millió** fő (a Nagybpesti területen kb. 3 millió). A **Duna** osztja kétfelé: a dombos Buda nyugaton és a sík Pest keleten helyezkedik el. Legismertebb látványosságok: **Parlament** (a világ egyik legszebb neoklasszikus/neogótikus épülete), **Várnegyed**, **Hősök tere**, **Lánchíd** (1849). Budapest szerte híres **termálvizeire** (több mint 100 forrás), **Nagy Zsinagóga** (Európa legnagyobb), **Operaház**. 2002 óta a Duna-part és a Budai Várnegyed UNESCO világörökség.",
+          "keywords": [
+            "Budapest",
+            "főváros",
+            "Duna",
+            "Buda",
+            "Pest",
+            "Parlament",
+            "Lánchíd",
+            "1873",
+            "termálfürdő",
+            "UNESCO"
+          ]
+        },
+        {
+          "heading": "Duna – Európa folyói",
+          "body": "A **Duna** Európa második leghosszabb folyója (**2 860 km**), a Fekete-erdőből (Németország) ered és a Fekete-tengerbe torkollik. 10 ország területén folyik át: Németország, Ausztria, Szlovákia, Magyarország, Horvátország, Szerbia, Románia, Bulgária, Moldova, Ukrajna. Magyarországon az ország területén **417 km** hosszan folyik, átszeli Budapestet. A **Tisza** a Duna legnagyobb magyarországi mellékfolyója (~966 km). A Duna az európai hajózás és kereskedelem fontos útvonala; a **Duna-Rajna-Majna** csatorna-rendszer összeköti a Fekete-tengert az Északi-tengerrel.",
+          "keywords": [
+            "Duna",
+            "2860 km",
+            "Fekete-tenger",
+            "10 ország",
+            "Budapest",
+            "Tisza",
+            "Fekete-erdő",
+            "hajózás",
+            "mellékfolyó"
+          ]
+        },
+        {
+          "heading": "Csendes-óceán",
+          "body": "A **Csendes-óceán** (Pacifikus-óceán) a Föld legnagyobb és legmélyebb óceánja, területe kb. **165 millió km²** (az összes szárazföld területének nagyobb, mint 1,5-szerese). Legnagyobb mélysége a **Mariana-árok**: kb. **11 034 m** (Challenger-mélység). Határos Ázsiával, Amerikával, Óceániával és az Antarktisszal. A **csendes-óceáni tűzgyűrű** mentén a legtöbb vulkán és földrengés koncentrálódik. A halas területek (Japán, Chile, Alaszka) a világ halászatának kb. felét adják. Az óceánban közel **25 000 sziget** található.",
+          "keywords": [
+            "Csendes-óceán",
+            "165 millió km²",
+            "Mariana-árok",
+            "11034 m",
+            "tűzgyűrű",
+            "mélység",
+            "szigetek",
+            "Pacifikus"
+          ]
+        },
+        {
+          "heading": "Mount Everest",
+          "body": "A **Mount Everest** a Föld legmagasabb hegye, csúcsmagassága **8 849 m** (2020-as mérés szerint) tengerszint felett. A Himaláján belül a **Nepal–Tibeti autonóm terület** határán helyezkedik el. A helyi nepáli neve **Sagarmatha**, tibeti neve **Chomolungma**. Az első sikeres mászást **Edmund Hillary** (új-zélandi) és **Tenzing Norgay** (nepáli) hajtotta végre **1953. május 29-én**. Jelenleg évente kb. 600–800 fő éri el a csúcsot. A hegy magassága lassan növekszik, mivel az indiai kőzetlemez Ázsia alá tolódik (kb. 4 mm/év).",
+          "keywords": [
+            "Mount Everest",
+            "8849 m",
+            "Himalája",
+            "Nepal",
+            "Tibet",
+            "Hillary",
+            "Tenzing Norgay",
+            "1953",
+            "legmagasabb hegy"
+          ]
+        },
+        {
+          "heading": "Szahara",
+          "body": "A **Szahara** a világ legnagyobb forró sivataga, területe kb. **9,2 millió km²** (Afrika területének kb. 1/3-a). Észak-Afrikában terül el, 11 ország érinti (Marokkó, Algéria, Tunézia, Líbia, Egyiptom, Mauritánia, Mali, Niger, Csád, Szudán, Eritrea). Az átlagos napi hőmérséklet nyáron **38–40 °C**, de egyes helyeken akár **58 °C**-ot is mértek. Éjszaka a hőmérséklet erősen csökkenhet. A Szahara nem kizárólag homokos: kb. 25%-a homok (**erg**), a többi sziklás (**hamada**) vagy kavicsos (**reg**) sivatag. Legmagasabb hegye a Tibesti-hegyvidéken van (~3 415 m).",
+          "keywords": [
+            "Szahara",
+            "9,2 millió km²",
+            "Afrika",
+            "sivatag",
+            "hőmérséklet",
+            "erg",
+            "hamada",
+            "Észak-Afrika",
+            "homok"
+          ]
+        },
+        {
+          "heading": "Oroszország – legnagyobb ország",
+          "body": "**Oroszország** a Föld legnagyobb területű országa, területe kb. **17,1 millió km²** (az összes szárazföld 11%-a), ami ~1,8-szorosa az Antarktisznak és nagyobb, mint Plútó. Eurázsiában, **11 időzónán** nyúlik át. **14 országgal** határos (Norvégiától Észak-Koreáig). Fővárosa **Moszkva** (~12 millió fő). Legnagyobb városai: Moszkva, Szentpétervár, Novoszibirszk. A **Szibéria** régió a világ legnagyobb összefüggő erdőterületét (tajga) foglalja magába. Oroszország a világ legnagyobb **gáz- és olajkészleteinek** egyikével rendelkezik. A **Bajkál-tó** a világ legmélyebb (1 642 m) édesvízi tava.",
+          "keywords": [
+            "Oroszország",
+            "legnagyobb ország",
+            "17,1 millió km²",
+            "Moszkva",
+            "Eurázsia",
+            "11 időzóna",
+            "Szibéria",
+            "Bajkál-tó",
+            "gáz"
+          ]
+        },
+        {
+          "heading": "Magyarország tájai",
+          "body": "Magyarország főbb tájegységei: **Alföld** (Nagy-Alföld, Kis-Alföld) – az ország kb. felét lefedi, sík terep, mezőgazdaság. **Dunántúl** (dombvidék, Mecsek 682 m, Bakony). **Északi-középhegység** (Mátra legmagasabb csúcsa **Kékes: 1014 m**, Bükk ~959 m, Zemplén). A **Tisza** és a **Duna** az ország legfontosabb folyói. A **Balaton** Közép-Európa legnagyobb tava (kb. 600 km²). Magyarország területe **93 024 km²**, tengerszint feletti átlagmagassága ~143 m. Fontosabb tavak még: Velencei-tó, Fertő-tó (határos Ausztriával). A Hortobágy Nemzeti Park UNESCO világörökség – a puszta jellegzetes tája.",
+          "keywords": [
+            "Alföld",
+            "Dunántúl",
+            "Mátra",
+            "Bükk",
+            "Balaton",
+            "Tisza",
+            "Duna",
+            "Magyarország",
+            "Kékes",
+            "1014 m",
+            "93 024 km²"
+          ]
+        },
+        {
+          "heading": "Éghajlati övezetek",
+          "body": "A Föld éghajlati övezetei szélességi fokok szerint: **egyenlítői** (forró és esős egész évben, trópusi esőerdők), **trópusi szavanna** (két évszak: száraz és esős), **szubtrópusi** (mediterrán: száraz nyár, enyhe tél; vagy monszun), **mérsékelt** (négy évszak, Európa nagy része), **szubarktikus** (tajga, kevés csapadék, kemény tél), **arktikus/sarki** (örökös fagy). A **monszun éghajlat** Ázsiában jellemző az évszakos szélirányváltással. A **Köppen-rendszer** 5 főtípust (A–E) különböztet meg. Az **éghajlatváltozás** miatt az övezethatárok tolódnak: a sivatagok terjeszkednek, a sarkvidéki jég olvad.",
+          "keywords": [
+            "éghajlati övek",
+            "egyenlítői",
+            "trópusi",
+            "mérsékelt",
+            "mediterrán",
+            "monszun",
+            "sarki",
+            "sivatag",
+            "Köppen",
+            "éghajlatváltozás"
+          ]
+        },
+        {
+          "heading": "Kontinensek és fővárosok",
+          "body": "A **7 kontinens** és néhány fontos főváros: **Európa** – Budapest, London, Párizs, Berlin, Moszkva, Róma; **Ázsia** – Peking, Tokió, Delhi, Ankara, Szöul, Bangkok; **Afrika** – Kairó, Nairobi, Addis Abeba, Lagos; **Észak-Amerika** – Washington D.C., Ottawa, Mexico City; **Dél-Amerika** – Brazília, Buenos Aires, Lima, Bogotá; **Ausztrália/Óceánia** – Canberra, Wellington; **Antarktisz** – nincs állandó főváros, de kutatóállomások vannak. A legnagyobb kontinens terület szerint Ázsia (~44 millió km²), a legkisebb Ausztrália (~7,7 millió km²).",
+          "keywords": [
+            "kontinens",
+            "főváros",
+            "Európa",
+            "Ázsia",
+            "Afrika",
+            "Amerika",
+            "Ausztrália",
+            "Antarktisz",
+            "Budapest",
+            "Peking"
+          ]
+        },
+        {
+          "heading": "Természeti katasztrófák",
+          "body": "**Földrengés** a tektonikus lemezek mozgásánál keletkezik; erősségét a **Richter-skálán** (logaritmikus) mérik: 6 felettitől pusztító. A legpusztítóbb 2010-es haiti földrengés kb. 200 000 halálos áldozatot követelt. **Vulkánkitörés** a magma felszínre törése (pl. Vezúv 79-ben elpusztította Pompejit). A **cunami (szökőár)** tenger alatti földrengés okozta hullám, sebessége akár 800 km/h. **Hurrikán/tájfun/ciklon** meleg trópusi tengerek felett képződő forgószél (szél >119 km/h). **Árvíz** folyók kilépése a mederből. Az **erdőtűz** száraz, meleg éghajlaton terjed gyorsan.",
+          "keywords": [
+            "földrengés",
+            "vulkán",
+            "cunami",
+            "hurrikán",
+            "árvíz",
+            "Richter-skála",
+            "természeti katasztrófa",
+            "tektonikus lemez",
+            "tájfun",
+            "Vezúv"
+          ]
+        }
+      ]
+    },
+    "digitalis_kultura": {
+      "title": "Digitális kultúra",
+      "icon": "💻",
+      "summary": "A digitális kultúra tantárgy a digitális eszközök és alkalmazások tudatos, alkotó és biztonságos használatára készít fel. Fejleszti a számítógépes gondolkodást, a programozási alapismereteket és az információbiztonság iránti tudatosságot.",
+      "articles": [
+        {
+          "heading": "Adatok és információ",
+          "body": "Az **adat** nyers tény vagy mérési eredmény, az **információ** az értelmezett, feldolgozott adat. Az adatok tárolásának alapegysége a **bit** (0 vagy 1), 8 bit = 1 **bájt**. Nagy tárolóegységek: kilobájt (KB), megabájt (MB), gigabájt (GB). A digitális eszközök bináris (kettes számrendszerbeli) adatokkal dolgoznak.",
+          "keywords": [
+            "adat",
+            "információ",
+            "bit",
+            "bájt",
+            "bináris",
+            "tárolás"
+          ]
+        },
+        {
+          "heading": "Számítógép felépítése",
+          "body": "A számítógép fő részei: **CPU** (processzor – a számítások elvégzője), **RAM** (véletlen hozzáférésű memória – ideiglenes tárolás), **háttértár** (merevlemez, SSD – tartós tárolás), **beviteli eszközök** (billentyűzet, egér) és **kiviteli eszközök** (monitor, nyomtató). Az **operációs rendszer** (pl. Windows, Linux, macOS) vezérli a hardvert és a szoftvereket.",
+          "keywords": [
+            "CPU",
+            "RAM",
+            "operációs rendszer",
+            "hardware",
+            "szoftver",
+            "számítógép"
+          ]
+        },
+        {
+          "heading": "Internet és hálózatok",
+          "body": "Az **internet** globális számítógép-hálózat, amelyen az eszközök **IP-cím** alapján azonosítják egymást. A **WWW** (World Wide Web) weboldalak hálózata, amelyeket **böngészővel** érünk el. Az **URL** az oldalak egyedi címe (pl. https://). A **http** és **https** protokollok szabályozzák az adatátvitelt; a https titkosított és biztonságosabb.",
+          "keywords": [
+            "internet",
+            "IP-cím",
+            "WWW",
+            "böngésző",
+            "URL",
+            "https",
+            "hálózat"
+          ]
+        },
+        {
+          "heading": "Algoritmusok és programozás",
+          "body": "Az **algoritmus** lépések sorozata, amely egy probléma megoldásához vezet. Az **alapvető vezérlési szerkezetek**: szekvencia (egymás utáni lépések), szelekció (elágazás: ha...akkor), iteráció (ciklus: ismétlés). A **blokkalapú programozás** (pl. Scratch) vizuálisan mutatja be ezeket. A szöveges programozási nyelvek (Python, Java) pontosabb utasításokat igényelnek.",
+          "keywords": [
+            "algoritmus",
+            "programozás",
+            "elágazás",
+            "ciklus",
+            "Scratch",
+            "Python",
+            "vezérlési szerkezet"
+          ]
+        },
+        {
+          "heading": "Digitális biztonság",
+          "body": "Az **adatvédelem** célja a személyes adatok védelme. **Erős jelszó** tartalmazzon nagy- és kisbetűket, számokat, speciális karaktereket. A **kétfaktoros hitelesítés** (2FA) plusz védelmet nyújt. Az **adathalászat** (phishing) megtévesztő e-mailes vagy webes kísérlet adatlopásra. A **vírus** és **kártékony szoftver** (malware) ártalmas programok; víruskereső szoftver véd ellenük.",
+          "keywords": [
+            "adatvédelem",
+            "jelszó",
+            "adathalászat",
+            "vírus",
+            "kétfaktoros hitelesítés",
+            "kiberbiztonság"
+          ]
+        },
+        {
+          "heading": "Táblázatkezelés alapjai",
+          "body": "A **táblázatkezelő** (pl. LibreOffice Calc, Excel) adatokat rendez táblázatba: sorok és oszlopok metszéspontjai a **cellák**. A cellák **hivatkozása** oszlop+sor betű-szám kombinációval (pl. A1, B3). **Képletek** = jellel kezdődnek (pl. =A1+B1). **Függvények**: SZUM, ÁTLAG, MAX, MIN. Az adatok **diagramba** (grafikonba) is ábrázolhatók: oszlopdiagram, kördiagram, vonaldiagram.",
+          "keywords": [
+            "táblázatkezelő",
+            "cella",
+            "képlet",
+            "függvény",
+            "SZUM",
+            "diagram",
+            "Excel"
+          ]
+        },
+        {
+          "heading": "Szövegszerkesztés",
+          "body": "A **szövegszerkesztő** (pl. Word, LibreOffice Writer) lehetővé teszi dokumentumok írását, formázását, mentését. Alapvető formázások: **betűméret**, **betűstílus** (félkövér, dőlt, aláhúzott), **bekezdés igazítás** (balra, középre, jobbra, sorkizárt). Az **oldalbeállítás** magába foglalja a margókat, tájolást, lapformátumot. A **másolás-beillesztés** (Ctrl+C, Ctrl+V) és a **visszavonás** (Ctrl+Z) alapvető műveletek.",
+          "keywords": [
+            "szövegszerkesztő",
+            "formázás",
+            "bekezdés",
+            "oldalbeállítás",
+            "másolás",
+            "betűstílus"
+          ]
+        },
+        {
+          "heading": "Digitális kommunikáció és médiaismeret",
+          "body": "A digitális kommunikáció formái: **e-mail**, **chat**, **videóhívás**, **közösségi média**. Fontos a **netikett** (hálózati illemtan): udvarias, tiszteletteljes kommunikáció online is. A **médiaismeret** segít felismerni a hiteles és a hamis információkat (**fake news**). A **szerzői jog** az alkotók munkáit védi; a **Creative Commons** licencek szabad felhasználást engedélyeznek bizonyos feltételekkel.",
+          "keywords": [
+            "e-mail",
+            "kommunikáció",
+            "netikett",
+            "médiaismeret",
+            "fake news",
+            "szerzői jog",
+            "közösségi média"
+          ]
+        }
+      ]
+    },
+    "idegen_nyelv": {
+      "title": "Idegen nyelv",
+      "icon": "🗣️",
+      "summary": "Az idegen nyelv tantárgy (elsősorban angol és német) fejleszti a kommunikációs készségeket: olvasás, írás, hallásértés és szóbeli kifejezés. Az 5–8. évfolyamon a CEFR A1–B1 szintek elérése a cél.",
+      "articles": [
+        {
+          "heading": "Kommunikációs alapkészségek",
+          "body": "Az idegen nyelvi kommunikáció négy fő készsége: **olvasás** (szövegértés), **írás**, **hallásértés** (listening) és **szóbeli kifejezés** (speaking). A CEFR (Common European Framework of Reference) hat szintet különböztet meg: A1, A2 (alapszint), B1, B2 (középszint), C1, C2 (haladó szint). Az 5–8. osztályban A1–B1 szint az elvárás.",
+          "keywords": [
+            "CEFR",
+            "olvasás",
+            "írás",
+            "hallásértés",
+            "kommunikáció",
+            "A1",
+            "B1"
+          ]
+        },
+        {
+          "heading": "Angol alapszókincs és kifejezések",
+          "body": "Alapvető angol üdvözlések: **Good morning** (jó reggelt), **Good afternoon** (jó napot), **Good evening** (jó estét), **Good night** (jó éjszakát), **How are you?** (Hogy vagy?), **Thank you** (köszönöm), **Please** (kérem), **Sorry** (sajnálom/elnézést). A **to be** ige ragozása: I am, you are, he/she/it is, we/you/they are.",
+          "keywords": [
+            "angol",
+            "üdvözlés",
+            "to be",
+            "szókincs",
+            "alapkifejezések",
+            "köszönés"
+          ]
+        },
+        {
+          "heading": "Angol igeidők",
+          "body": "**Present Simple**: rendszeres cselekvés (I work, she works). **Present Continuous**: folyamatban lévő cselekvés (I am working). **Past Simple**: befejezett múlt (I worked, I went). **Future Simple**: jövő (I will work). Kérdőszavak: **Who?** (ki), **What?** (mi), **Where?** (hol), **When?** (mikor), **Why?** (miért), **How?** (hogyan).",
+          "keywords": [
+            "igeidők",
+            "Present Simple",
+            "Present Continuous",
+            "Past Simple",
+            "Future",
+            "kérdőszavak"
+          ]
+        },
+        {
+          "heading": "Német alapok",
+          "body": "Németül háromféle névelő van: **der** (hímnemű), **die** (nőnemű), **das** (semlegesnemű). Az **Umlaut** (ä, ö, ü) fontos kiejtési jellemző. Köszönések: **Guten Morgen** (jó reggelt), **Guten Tag** (jó napot), **Guten Abend** (jó estét), **Tschüss** (szia/viszlát), **Danke** (köszönöm), **Bitte** (kérem). A számnévi rendszer: 1–eins, 2–zwei, 3–drei, 10–zehn, 100–hundert.",
+          "keywords": [
+            "német",
+            "névelő",
+            "der die das",
+            "Umlaut",
+            "köszönés",
+            "számok",
+            "alap"
+          ]
+        },
+        {
+          "heading": "Idegen nyelvi szövegértés",
+          "body": "A **szövegértési stratégiák**: skim (gyors átfutás a lényeg kiszűrésére), scan (konkrét adat keresése), intensive reading (részletes olvasás). Az ismeretlen szavak **kontextusból** fejthetők meg. A **szótár** (papír vagy online) és a **szövegkörnyezet** segíti a szójelentés megértését. Hallásértésnél fontos a figyelem az **intonációra** és **hangsúlyra**.",
+          "keywords": [
+            "szövegértés",
+            "skim",
+            "scan",
+            "szótár",
+            "intonáció",
+            "olvasási stratégia"
+          ]
+        },
+        {
+          "heading": "Mindennapi témák idegen nyelven",
+          "body": "Az 5–8. osztályos idegen nyelv legfontosabb témái: **bemutatkozás** (name, age, nationality, hobbies), **iskola és tantárgyak**, **család és otthon**, **ételek és vásárlás**, **időjárás és évszakok**, **szabadidő és sport**, **utazás és közlekedés**, **egészség és testrészek**. Minden témához tartozó alapszókincset és mondatszerkezeteket kell elsajátítani.",
+          "keywords": [
+            "bemutatkozás",
+            "iskola",
+            "család",
+            "szabadidő",
+            "utazás",
+            "egészség",
+            "témaköök"
+          ]
+        },
+        {
+          "heading": "Nyelvtani alapfogalmak",
+          "body": "Az **ige** (verb) cselekvést vagy állapotot fejez ki. A **főnév** (noun) személyt, tárgyat, fogalmat nevez meg. A **melléknév** (adjective) minőséget jelöl. A **határozószó** (adverb) az igét módosítja. Az angol mondatrend alapvetően **SVO**: Alany (Subject) – Állítmány (Verb) – Tárgy (Object), pl. *She reads a book.* Tagadás: **do not / does not / did not** + igető.",
+          "keywords": [
+            "ige",
+            "főnév",
+            "melléknév",
+            "mondatrend",
+            "SVO",
+            "tagadás",
+            "szófaj"
+          ]
+        },
+        {
+          "heading": "Kultúra és civilizáció",
+          "body": "Az idegen nyelvek tanulásának részét képezi az adott **kultúra megismerése**: angol anyanyelvű országok (UK, USA, Ausztrália, Kanada, Írország), hagyományaik (**Halloween**, **Thanksgiving**, **Guy Fawkes Night**, **Christmas**). Németül beszélő országok: Németország, Ausztria, Svájc. A **kulturális különbségek** megértése segíti a hatékony kommunikációt.",
+          "keywords": [
+            "kultúra",
+            "UK",
+            "USA",
+            "Németország",
+            "ünnepek",
+            "Halloween",
+            "Christmas",
+            "civilizáció"
+          ]
+        }
+      ],
+      "phrases": [
+        {
+          "lang": "Angol",
+          "source": "Good morning",
+          "target": "Jó reggelt"
+        },
+        {
+          "lang": "Angol",
+          "source": "Good afternoon",
+          "target": "Jó napot"
+        },
+        {
+          "lang": "Angol",
+          "source": "Good night",
+          "target": "Jó éjszakát"
+        },
+        {
+          "lang": "Angol",
+          "source": "How are you?",
+          "target": "Hogy vagy?"
+        },
+        {
+          "lang": "Angol",
+          "source": "I am fine, thank you.",
+          "target": "Jól vagyok, köszönöm."
+        },
+        {
+          "lang": "Angol",
+          "source": "What is your name?",
+          "target": "Mi a neved?"
+        },
+        {
+          "lang": "Angol",
+          "source": "My name is...",
+          "target": "A nevem..."
+        },
+        {
+          "lang": "Angol",
+          "source": "Nice to meet you.",
+          "target": "Örülök, hogy megismertelek."
+        },
+        {
+          "lang": "Angol",
+          "source": "Where are you from?",
+          "target": "Honnan való vagy?"
+        },
+        {
+          "lang": "Angol",
+          "source": "I don't understand.",
+          "target": "Nem értem."
+        },
+        {
+          "lang": "Angol",
+          "source": "Can you help me?",
+          "target": "Tudna segíteni?"
+        },
+        {
+          "lang": "Angol",
+          "source": "How much does it cost?",
+          "target": "Mennyibe kerül?"
+        },
+        {
+          "lang": "Német",
+          "source": "Guten Morgen",
+          "target": "Jó reggelt"
+        },
+        {
+          "lang": "Német",
+          "source": "Guten Tag",
+          "target": "Jó napot"
+        },
+        {
+          "lang": "Német",
+          "source": "Gute Nacht",
+          "target": "Jó éjszakát"
+        },
+        {
+          "lang": "Német",
+          "source": "Wie geht es Ihnen?",
+          "target": "Hogy van? (udvarias)"
+        },
+        {
+          "lang": "Német",
+          "source": "Danke, gut.",
+          "target": "Köszönöm, jól."
+        },
+        {
+          "lang": "Német",
+          "source": "Wie heißen Sie?",
+          "target": "Hogy hívják? (udvarias)"
+        },
+        {
+          "lang": "Német",
+          "source": "Ich heiße...",
+          "target": "A nevem... / ...vagyok"
+        },
+        {
+          "lang": "Német",
+          "source": "Ich verstehe nicht.",
+          "target": "Nem értem."
+        },
+        {
+          "lang": "Német",
+          "source": "Können Sie mir helfen?",
+          "target": "Tud segíteni?"
+        },
+        {
+          "lang": "Német",
+          "source": "Auf Wiedersehen",
+          "target": "Viszontlátásra"
+        },
+        {
+          "lang": "Német",
+          "source": "Entschuldigung!",
+          "target": "Elnézést!"
+        },
+        {
+          "lang": "Német",
+          "source": "Wie viel kostet das?",
+          "target": "Mennyibe kerül ez?"
+        },
+        {
+          "lang": "Francia",
+          "source": "Bonjour",
+          "target": "Jó napot / Jó reggelt"
+        },
+        {
+          "lang": "Francia",
+          "source": "Bonsoir",
+          "target": "Jó estét"
+        },
+        {
+          "lang": "Francia",
+          "source": "Bonne nuit",
+          "target": "Jó éjszakát"
+        },
+        {
+          "lang": "Francia",
+          "source": "Comment allez-vous ?",
+          "target": "Hogy van? (udvarias)"
+        },
+        {
+          "lang": "Francia",
+          "source": "Je vais bien, merci.",
+          "target": "Jól vagyok, köszönöm."
+        },
+        {
+          "lang": "Francia",
+          "source": "Comment vous appelez-vous ?",
+          "target": "Hogy hívják?"
+        },
+        {
+          "lang": "Francia",
+          "source": "Je m'appelle...",
+          "target": "A nevem..."
+        },
+        {
+          "lang": "Francia",
+          "source": "Je ne comprends pas.",
+          "target": "Nem értem."
+        },
+        {
+          "lang": "Francia",
+          "source": "Pouvez-vous m'aider ?",
+          "target": "Tud segíteni?"
+        },
+        {
+          "lang": "Francia",
+          "source": "Au revoir",
+          "target": "Viszontlátásra"
+        },
+        {
+          "lang": "Francia",
+          "source": "S'il vous plaît",
+          "target": "Kérem (udvarias)"
+        },
+        {
+          "lang": "Francia",
+          "source": "Combien ça coûte ?",
+          "target": "Mennyibe kerül?"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "Buenos días",
+          "target": "Jó reggelt"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "Buenas tardes",
+          "target": "Jó napot / Jó délutánt"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "Buenas noches",
+          "target": "Jó estét / Jó éjszakát"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "¿Cómo estás?",
+          "target": "Hogy vagy?"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "Muy bien, gracias.",
+          "target": "Nagyon jól, köszönöm."
+        },
+        {
+          "lang": "Spanyol",
+          "source": "¿Cómo te llamas?",
+          "target": "Hogy hívnak?"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "Me llamo...",
+          "target": "A nevem... / ...vagyok"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "No entiendo.",
+          "target": "Nem értem."
+        },
+        {
+          "lang": "Spanyol",
+          "source": "¿Puede ayudarme?",
+          "target": "Tud segíteni?"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "Hasta luego",
+          "target": "Viszontlátásra"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "Por favor",
+          "target": "Kérem / Legyen szíves"
+        },
+        {
+          "lang": "Spanyol",
+          "source": "¿Cuánto cuesta?",
+          "target": "Mennyibe kerül?"
+        }
+      ]
+    },
+    "termeszettudomany": {
+      "title": "Természettudomány",
+      "icon": "🔬",
+      "summary": "A természettudomány az 5–6. évfolyamon integrálja a biológia, fizika, kémia és földrajz alapjait. A tantárgy célja a természeti jelenségek megfigyelése, kísérletezés és az összefüggések felismerése.",
+      "articles": [
+        {
+          "heading": "Anyagok és tulajdonságaik",
+          "body": "Az **anyagok** lehetnek szilárd, folyékony vagy gáz halmazállapotúak. A szilárd anyagoknak állandó **alakjuk és térfogatuk** van. A folyadékoknak állandó a térfogatuk, de az edény alakját veszik fel. A gázok kitöltik az egész rendelkezésre álló teret. A halmazállapot-változások: **olvadás, fagyás, párolgás, kondenzáció, szublimáció**.",
+          "keywords": [
+            "halmazállapot",
+            "szilárd",
+            "folyékony",
+            "gáz",
+            "olvadás",
+            "párolgás",
+            "anyag"
+          ]
+        },
+        {
+          "heading": "Élőlények és környezetük",
+          "body": "Az **élőlények** alapvető tulajdonságai: táplálkozás, légzés, mozgás, szaporodás, növekedés, ingerlékenység. Az **élőhely** (biotóp) az a terület, ahol az élőlény él. Az **ökoszisztémában** az élőlények kölcsönhatásban vannak egymással és az élettelen környezettel. A **tápláléklánc** a termelőktől (növények) a fogyasztókon át a lebontókig vezet.",
+          "keywords": [
+            "élőlény",
+            "élőhely",
+            "ökoszisztéma",
+            "tápláléklánc",
+            "producens",
+            "fogyasztó"
+          ]
+        },
+        {
+          "heading": "Erők és mozgás",
+          "body": "Az **erő** hatása: megváltoztatja a test mozgásállapotát vagy alakját. Fajtái: **gravitáció**, **rugóerő**, **súrlódás**, **légköri nyomás**. Az **egyensúlyi helyzet** akkor áll fenn, ha az összes erő eredője nulla. A **sebesség** az elmozdulás és az idő hányadosa: v = s/t. A **gyorsulás** a sebesség megváltozásának mértéke.",
+          "keywords": [
+            "erő",
+            "gravitáció",
+            "súrlódás",
+            "sebesség",
+            "egyensúly",
+            "mozgás",
+            "rugóerő"
+          ]
+        },
+        {
+          "heading": "Víz a természetben",
+          "body": "A víz a Föld felszínének kb. **71%-át** borítja. A **vízkörforgás** lépései: párolgás (óceánokból), felhőképződés, csapadék (eső, hó), lefolyás, beszivárgás. A víz nélkülözhetetlen az élet számára: oldószer, hőtároló, élőhely. Az **ivóvíz** tisztasága egészségügyi szempontból alapvető. A vizek szennyezése az élővilágot és az emberi egészséget is veszélyezteti.",
+          "keywords": [
+            "vízkörforgás",
+            "párolgás",
+            "csapadék",
+            "ivóvíz",
+            "óceán",
+            "vízszennyezés",
+            "természet"
+          ]
+        },
+        {
+          "heading": "Levegő és légkör",
+          "body": "A levegő **nitrogénből** (~78%) és **oxigénből** (~21%) áll, kis arányban szén-dioxid, argon és egyéb gázok is találhatók. A **légkör** rétegei: troposzféra (időjárás), sztratoszféra (ózonréteg), mezoszféra, termoszféra, exoszféra. Az **ózonréteg** véd az UV sugárzástól. Az üvegházhatás: a **CO₂** és más gázok visszatartják a hőt, növelve a hőmérsékletet.",
+          "keywords": [
+            "levegő",
+            "nitrogén",
+            "oxigén",
+            "légkör",
+            "ózonréteg",
+            "üvegházhatás",
+            "CO₂"
+          ]
+        },
+        {
+          "heading": "Kísérletes megfigyelés",
+          "body": "A természettudományos **kísérlet** lépései: kérdés felvetése, **hipotézis** megfogalmazása, kísérlet tervezése, végrehajtása, adatok rögzítése, elemzés, következtetés. A **mérés** pontossága függ a mérőeszköz felbontásától. Alapvető eszközök: **hőmérő** (hőmérséklet), **mérlegen** (tömeg), **mérőhengerrel** (folyadéktérfogat). A kísérlet eredményét grafikonon is ábrázolhatjuk.",
+          "keywords": [
+            "kísérlet",
+            "hipotézis",
+            "mérés",
+            "hőmérő",
+            "megfigyelés",
+            "következtetés",
+            "tudományos módszer"
+          ]
+        },
+        {
+          "heading": "Naprendszer és Föld",
+          "body": "A **Naprendszer** középpontjában a **Nap** áll. 8 bolygója van: Merkúr, Vénusz, **Föld**, Mars, Jupiter, Szaturnusz, Uránusz, Neptunusz. A Föld egyetlen holdja a **Hold**. A Föld **forgása** (24 h) okozza a nappalt és éjszakát, a Nap körüli **keringése** (365,25 nap) az évszakokat. A Föld gömbszerű, belső szerkezete: kéreg, köpeny, mag.",
+          "keywords": [
+            "Naprendszer",
+            "Nap",
+            "Föld",
+            "bolygók",
+            "Hold",
+            "forgás",
+            "keringés",
+            "évszakok"
+          ]
+        }
+      ]
+    },
+    "allampolgari": {
+      "title": "Állampolgári ismeretek",
+      "icon": "🏛️",
+      "summary": "Az állampolgári ismeretek a demokratikus gondolkodást, a jogokat, kötelezettségeket és a közösségi felelősségvállalást fejleszti. A 7–8. évfolyamon alapvető alkotmányjogi és közéleti ismereteket nyújt.",
+      "articles": [
+        {
+          "heading": "Állam és alkotmány",
+          "body": "Az **állam** egy meghatározott területen élő népcsoport szervezett közössége, amelyet a **szuverenitás** (önálló döntési jog) jellemez. Az **alkotmány** az állam alapvető törvénye, amely meghatározza a hatalom szervezetét és a polgárok jogait. Magyarország **Alaptörvénye** 2012 óta érvényes, és tartalmazza az emberi jogokat és a kötelezettségeket.",
+          "keywords": [
+            "állam",
+            "alkotmány",
+            "szuverenitás",
+            "Alaptörvény",
+            "emberi jogok",
+            "törvény"
+          ]
+        },
+        {
+          "heading": "Demokrácia és választások",
+          "body": "A **demokrácia** a néphatalomra épülő államforma: a polgárok **választások** útján döntenek képviselőikről. A **szabad választás** elvei: általános, titkos, közvetlen, egyenlő szavazati jog. Magyarországon a **parlamenti választások** 4 évente zajlanak. A **Parlament** a törvényhozó hatalom, a **Kormány** a végrehajtó hatalom, a **bíróságok** az igazságszolgáltatási hatalom.",
+          "keywords": [
+            "demokrácia",
+            "választás",
+            "Parlament",
+            "Kormány",
+            "szavazat",
+            "képviselet",
+            "törvényhozás"
+          ]
+        },
+        {
+          "heading": "Emberi jogok",
+          "body": "Az **emberi jogok** minden embert születésénél fogva megilletnek, függetlenül nemétől, vallásától, bőrszínétől. Az **ENSZ Emberi Jogok Egyetemes Nyilatkozata** (1948) rögzítette ezeket: élethez való jog, szólásszabadság, vallásszabadság, oktatáshoz való jog, diszkrimináció tilalma. Az **Alaptörvény** és az **Európai Emberi Jogi Egyezmény** is védi e jogokat Magyarországon.",
+          "keywords": [
+            "emberi jogok",
+            "ENSZ",
+            "szólásszabadság",
+            "élethez való jog",
+            "diszkrimináció",
+            "Alaptörvény"
+          ]
+        },
+        {
+          "heading": "Helyi önkormányzat",
+          "body": "A **helyi önkormányzat** a lakóhely közügyeit intézi. Élén a **polgármester** áll, a döntéseket a **képviselő-testület** hozza. Az önkormányzat feladata: helyi utakról, iskolákról, szociális ellátásokról, hulladékgazdálkodásról gondoskodás. A polgármestert és a képviselőket 5 évenként választják. Az **önkormányzati választás** egyidőben zajlik az országgyűlési választásokkal.",
+          "keywords": [
+            "önkormányzat",
+            "polgármester",
+            "képviselő-testület",
+            "helyi közügyek",
+            "választás",
+            "közszolgáltatás"
+          ]
+        },
+        {
+          "heading": "Polgári jogok és kötelességek",
+          "body": "A **polgárnak** jogai (pl. szavazati jog, oktatáshoz való jog, szabad vallásgyakorlás) és **kötelességei** is vannak (pl. adófizetés, honvédelmi kötelezettség, gyermekek iskoláztatása). A **törvények** előtt mindenki egyenlő. A **jogorvoslat** joga lehetővé teszi, hogy a polgár bíróság előtt védje érdekeit. Az **ombudsman** az állampolgári jogok biztosa.",
+          "keywords": [
+            "polgári jogok",
+            "kötelességek",
+            "adófizetés",
+            "jogorvoslat",
+            "ombudsman",
+            "egyenlőség"
+          ]
+        },
+        {
+          "heading": "Magyarország az EU-ban",
+          "body": "Magyarország **2004. május 1-jén** csatlakozott az **Európai Unióhoz**. Az EU 27 tagállamból áll, legfőbb intézményei: **Európai Parlament** (törvényhozás), **Európai Bizottság** (végrehajtás), **Európai Unió Tanácsa** (tagállamok), **Európai Bíróság** (jogérvényesítés). Az egységes belső piacon szabad a személyek, áruk, szolgáltatások és tőke áramlása (**négy szabadság**).",
+          "keywords": [
+            "Európai Unió",
+            "EU",
+            "2004",
+            "Európai Parlament",
+            "négy szabadság",
+            "tagállam",
+            "egységes piac"
+          ]
+        },
+        {
+          "heading": "Közösségi felelősség",
+          "body": "Az **aktív állampolgárság** azt jelenti, hogy a polgár részt vesz a közösség életében: választásokon szavaz, önkénteskedik, véleményt nyilvánít. Az **önkéntes munka** a közösség javát szolgálja. A **civil szervezetek** (NGO-k) az állami és piaci szektoron kívül működnek. A **fenntartható fejlődés** megköveteli, hogy ma hozott döntéseink a jövő generációit is figyelembe vegyék.",
+          "keywords": [
+            "aktív állampolgárság",
+            "önkéntes munka",
+            "civil szervezet",
+            "közösség",
+            "fenntartható fejlődés",
+            "részvétel"
+          ]
+        }
+      ]
+    },
+    "etika": {
+      "title": "Etika",
+      "icon": "⚖️",
+      "summary": "Az etika tantárgy az erkölcsi gondolkodást, az értékrendet és a felelős döntéshozatalt fejleszti. Segít eligazodni az emberi kapcsolatok, közösségi normák és erkölcsi dilemmák világában.",
+      "articles": [
+        {
+          "heading": "Erkölcs és értékek",
+          "body": "Az **erkölcs** egy közösség által elfogadott viselkedési normák és értékek rendszere. Az **értékek** olyan elvek, amelyek szerint helyesnek tartjuk a cselekvést (pl. becsületesség, igazságosság, együttérzés). A **norma** előírja vagy tiltja a viselkedést. A **lelkiismeret** az a belső hang, amely megmondja, helyes vagy helytelen-e, amit teszünk.",
+          "keywords": [
+            "erkölcs",
+            "értékek",
+            "norma",
+            "lelkiismeret",
+            "becsületesség",
+            "igazságosság",
+            "etika"
+          ]
+        },
+        {
+          "heading": "Emberi kapcsolatok és empátia",
+          "body": "Az **empátia** mások érzéseinek, helyzetének megértése, beleélőképesség. A **tisztelet** azt jelenti, hogy másokat értéküknek megfelelően kezeljük. A **barátság** kölcsönös bizalomra, segítőkészségre épülő kapcsolat. A **konfliktus** elkerülhetetlen, de **párbeszéddel** és **kompromisszummal** megoldható. A **bántalmazás** (bullying) és a **diszkrimináció** erkölcsileg elfogadhatatlan.",
+          "keywords": [
+            "empátia",
+            "tisztelet",
+            "barátság",
+            "konfliktus",
+            "bántalmazás",
+            "párbeszéd",
+            "kapcsolat"
+          ]
+        },
+        {
+          "heading": "Igazságosság és felelősség",
+          "body": "Az **igazságosság** azt jelenti, hogy mindenki azt kapja, amit megérdemel, és az egyenlő eseteket egyenlően kezeljük. A **felelősség** a saját cselekményeinkért való elszámoltathatóság; a döntéseinknek következményeik vannak másokra is. A **szociális igazságosság** az elesettebb csoportok védelméért és egyenlő esélyeiért küzd.",
+          "keywords": [
+            "igazságosság",
+            "felelősség",
+            "döntés",
+            "következmény",
+            "szociális igazságosság",
+            "elszámoltathatóság"
+          ]
+        },
+        {
+          "heading": "Erkölcsi dilemmák",
+          "body": "Az **erkölcsi dilemma** olyan helyzet, amelyben két vagy több érték vagy kötelesség kerül egymással szembe, és nincs egyértelmű helyes döntés. Pl. hazugság, amely megakadályoz egy sérelmet – szabad-e hazudni? Az erkölcsi gondolkodás segít ilyen helyzetekben mérlegelni az **értékeket**, a **következményeket** és a **szabályokat**. A filozófusok különböző etikai elméleteket alkottak (pl. **Kant** kötelességetikája, **utilitarizmus**).",
+          "keywords": [
+            "dilemma",
+            "döntés",
+            "Kant",
+            "utilitarizmus",
+            "érték",
+            "kötelességetika",
+            "mérlegelés"
+          ]
+        },
+        {
+          "heading": "Közösség és egyén",
+          "body": "Az ember **szociális lény**: szükségletei kielégítéséhez közösségre van szüksége (család, barátok, iskola, társadalom). Az egyén és a közösség érdeke néha ütközhet: pl. a közösségi haszon szembe kerülhet az egyéni érdekkel. A **szolidaritás** azt jelenti, hogy a közösség tagjai segítik egymást. A **szabadság** joga nem korlátlan: másokon nem mehet a saját szabadságunk.",
+          "keywords": [
+            "közösség",
+            "egyén",
+            "szolidaritás",
+            "szabadság",
+            "szociális lény",
+            "érdek",
+            "felelősség"
+          ]
+        },
+        {
+          "heading": "Fenntarthatóság és környezeti etika",
+          "body": "A **környezeti etika** vizsgálja, milyen erkölcsi kötelezettségünk van a természettel szemben. A **fenntartható fejlődés** elve szerint a jelen generáció szükségleteit úgy kell kielégíteni, hogy a jövő generációk lehetőségeit ne csorbítsuk. Az **állatok védelme**, a **természeti erőforrások** megőrzése és a **klímaváltozás** elleni küzdelem erkölcsi kötelességnek tekinthető.",
+          "keywords": [
+            "környezeti etika",
+            "fenntarthatóság",
+            "klímaváltozás",
+            "állatok védelme",
+            "jövő generáció",
+            "erőforrás"
+          ]
+        },
+        {
+          "heading": "Identitás és önismeret",
+          "body": "Az **identitás** az, ami megkülönbözteti az embert másoktól: személyiség, értékek, hagyományok, kultúra. Az **önismeret** segít megérteni saját erősségeinket és gyengeségeinket. A **kamaszkor** fontos időszak az identitás formálódásában: értékek, életcélok, kapcsolatok alakulnak. A **kulturális identitás** a közösség hagyományain, nyelvén, értékein alapul.",
+          "keywords": [
+            "identitás",
+            "önismeret",
+            "kamaszkor",
+            "személyiség",
+            "kulturális identitás",
+            "értékek",
+            "fejlődés"
+          ]
+        }
+      ]
+    },
+    "hon_nepismeret": {
+      "title": "Hon- és népismeretek",
+      "icon": "🏡",
+      "summary": "A hon- és népismeretek tantárgy a magyar népi kultúra, hagyományok, szokások és a Kárpát-medencei magyarság megismerésére irányul. Célja a nemzeti öntudat és a kulturális örökség megbecsülésének fejlesztése.",
+      "articles": [
+        {
+          "heading": "Magyar népi kultúra",
+          "body": "A **népi kultúra** a nép évszázadokon át kialakult szellemi és tárgyi hagyományainak összessége. A **néphagyomány** generációról generációra öröklődik: dalok, mesék, szokások, mesterségek. A **népi kézművesség** magában foglalja a fazekasságot, szövést, hímzést, fafaragást. A **Kárpát-medence** a magyarság szülőföldjeként meghatározó a nemzeti identitásban.",
+          "keywords": [
+            "népi kultúra",
+            "néphagyomány",
+            "kézművesség",
+            "Kárpát-medence",
+            "hímzés",
+            "fazekasság",
+            "hagyomány"
+          ]
+        },
+        {
+          "heading": "Magyar népdalok és néptánc",
+          "body": "A **népdal** a nép szájhagyományban élő dala; dallamát és szövegét a nép alkotta és hagyományozta. **Bartók Béla** és **Kodály Zoltán** a 20. sz. elején felgyűjtötte a magyar, román és szlovák népdalokat. A **néptánc** régióként változó: **csárdás** (párokban), **verbunkos** (legénytánc), **körtánc** stb. A **Gyöngyösbokréta** mozgalom (1930-as évek) propagálta a néptáncot.",
+          "keywords": [
+            "népdal",
+            "néptánc",
+            "Bartók",
+            "Kodály",
+            "csárdás",
+            "verbunkos",
+            "szájhagyomány"
+          ]
+        },
+        {
+          "heading": "Népszokások és ünnepek",
+          "body": "A **naptári ünnepekhez** kötődő szokások: **farsang** (télűzés, maszkos mulatság), **húsvét** (locsolás, tojásfestés), **pünkösd** (pünkösdi király, királyné), **aratóünnep** (betakarítás utáni hálaadás), **Márton-nap** (november 11., libasütés, libás szokások), **Luca-nap** (dec. 13., szerencsehozó szokások), **karácsony** (betlehemezés, regölés). Ezek a szokások az agrárközösségek életéhez kötődtek.",
+          "keywords": [
+            "farsang",
+            "húsvét",
+            "pünkösd",
+            "Márton-nap",
+            "népszokás",
+            "naptár",
+            "ünnep"
+          ]
+        },
+        {
+          "heading": "Népi építészet és lakáskultúra",
+          "body": "A hagyományos **népi ház** felépítése tájegységenként változott: alföldi sárházak, dunántúli boronaházak, erdélyi tornácos házak. A ház alapvető részei: **szoba, konyha, kamra, istálló**. A **tüzelőberendezés** (kemence, kandalló) fűtött és sütött. A **bútorok** és **textíliák** (terítők, párnák) a ház díszítését, az életkörülményeket tükrözik. A **népi építészeti emlékek** ma múzeumokban (pl. **szabadtéri múzeum**, Szentendre) tekinthetők meg.",
+          "keywords": [
+            "népi ház",
+            "parasztház",
+            "kemence",
+            "tornác",
+            "bútor",
+            "Szentendre",
+            "népi építészet"
+          ]
+        },
+        {
+          "heading": "Magyar népmesék és mondák",
+          "body": "A **népmese** a szájhagyomány egyik legősibb formája: jó és rossz harcát, a hős próbatételeit meséli el. Főbb típusai: **tündérmese** (pl. Fehérlófia), **állatmese** (pl. ravasz róka), **tréfás mese**. A **monda** valóságos eseményekhez kötődő, legendásított történet (pl. csodaszarvas-monda, **turulmadár**). A **közmondások** és **szólások** a nép bölcsességét sűrítik.",
+          "keywords": [
+            "népmese",
+            "monda",
+            "tündérmese",
+            "csodaszarvas",
+            "turulmadár",
+            "szájhagyomány",
+            "közmondás"
+          ]
+        },
+        {
+          "heading": "Kárpát-medencei magyarság",
+          "body": "A **Kárpát-medence** Magyarországon kívül határon túli magyarokat is magában foglal: Erdélyben (Románia), Felvidéken (Szlovákia), Kárpátalján (Ukrajna), Délvidéken (Szerbia, Horvátország) és Burgenlandban (Ausztria) él kb. **2,5–3 millió** magyar. A **magyarság** összetartozása kultúra, nyelv, hagyomány által kötődik össze. A **Trianoni béke** (1920) után alakult ki ez a helyzet.",
+          "keywords": [
+            "Kárpát-medence",
+            "határon túli magyarok",
+            "Erdély",
+            "Felvidék",
+            "Trianon",
+            "magyarság",
+            "összetartozás"
+          ]
+        },
+        {
+          "heading": "Helyi és regionális hagyományok",
+          "body": "Magyarország tájegységei megőrizték saját hagyományaikat: **Matyó** népművészet (Mezőkövesd, gazdag hímzések), **Kalocsa** (paprikakultúra és hímzés), **Busójárás** Mohácson (téltemetés, UNESCO szellemi kulturális örökség 2009), **sárközi** és **palóc** szokások, **Debreceni Virágkarnevál**. A **helyi büszkeség** erősíti a közösségi összetartozást.",
+          "keywords": [
+            "matyó",
+            "Kalocsa",
+            "Busójárás",
+            "hímzés",
+            "paprika",
+            "UNESCO",
+            "regionális hagyomány"
+          ]
+        }
+      ]
+    }
+  }
+}
