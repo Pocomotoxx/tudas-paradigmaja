@@ -354,6 +354,38 @@
   .phrase-del-btn{ background:none; border:none; color:#664; font-size:14px; cursor:pointer;
     padding:0 4px; }
   .phrase-del-btn:hover{ color:#cc5555; }
+  /* Subject & grade settings overlay */
+  #subj-settings-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:450;
+    display:flex; align-items:center; justify-content:center; }
+  #subj-settings-overlay.hidden{ display:none; }
+  #subj-settings-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:28px 32px; max-width:560px; width:94%; max-height:90vh; overflow-y:auto; }
+  #subj-settings-box h2{ font-size:20px; font-weight:800; color:#e7ebf0; margin:0 0 4px; }
+  #subj-settings-box .ss-sub{ color:var(--muted); font-size:12px; margin-bottom:20px; }
+  .ss-section{ margin-bottom:18px; }
+  .ss-section h4{ font-size:12px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.07em; color:#7daaff; margin:0 0 8px; }
+  .grade-btns{ display:flex; gap:8px; }
+  .grade-btn{ flex:1; padding:8px 0; border:1px solid #3a414b; border-radius:8px;
+    background:#262b33; color:#a0aab5; cursor:pointer; font-size:13px; font-weight:600;
+    transition:background .15s, border-color .15s, color .15s; }
+  .grade-btn.active{ background:#1a4a2e; border-color:#7ddf7d; color:#7ddf7d; }
+  .subj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .subj-check{ display:flex; align-items:center; gap:6px; padding:5px 8px;
+    border:1px solid #3a414b; border-radius:7px; background:#262b33; cursor:pointer;
+    font-size:12px; color:#c8d0db; transition:border-color .15s; }
+  .subj-check:hover{ border-color:#7daaff; }
+  .subj-check input[type=checkbox]{ accent-color:#7ddf7d; width:14px; height:14px; }
+  .ss-footer{ display:flex; gap:10px; margin-top:18px; }
+  .ss-footer button{ flex:1; padding:9px 0; border-radius:8px; font-size:14px;
+    font-weight:700; cursor:pointer; border:none; transition:background .15s; }
+  #ss-confirm{ background:#1a5a2e; color:#7ddf7d; }
+  #ss-confirm:hover{ background:#1d6a35; }
+  #ss-cancel{ background:#2a2f38; color:#a0aab5; }
+  #ss-cancel:hover{ background:#3a414b; }
+  #btn-subj-settings{ background:#1e3060; color:#7daaff; border:1px solid #3a5080;
+    border-radius:6px; padding:4px 12px; cursor:pointer; font-size:13px; }
+
   /* i67: campaign */
   #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
     display:flex; align-items:center; justify-content:center; }
@@ -444,8 +476,33 @@
   </select>
   <span id="hero-flag" style="color:var(--muted)"></span>
   &nbsp;·&nbsp; <button id="btn-campaign">&#9654; Hadjárat</button>
+  &nbsp;·&nbsp; <button id="btn-subj-settings">&#9881; Tantárgyak &amp; szint</button>
   &nbsp;·&nbsp; <button id="btn-wiki" style="background:#1e3060;color:#7daaff;border:1px solid #3a5080;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:13px;">&#128218; Wiki</button>
 </header>
+
+<!-- Subject & grade settings overlay -->
+<div id="subj-settings-overlay" class="hidden">
+  <div id="subj-settings-box">
+    <h2>&#9881; Tantárgyak &amp; Évfolyamszint</h2>
+    <p class="ss-sub">Válaszd ki, melyik tantárgyak szerepeljenek a kvízkérdésekben, és melyik évfolyamszintnek megfelelők legyenek a kérdések.</p>
+    <div class="ss-section">
+      <h4>Évfolyamszint</h4>
+      <div class="grade-btns">
+        <button class="grade-btn" data-grade="1-4">1–4. évfolyam<br><small>Általános iskola, alsó</small></button>
+        <button class="grade-btn" data-grade="5-8">5–8. évfolyam<br><small>Általános iskola, felső</small></button>
+        <button class="grade-btn" data-grade="9-12">9–12. évfolyam<br><small>Középiskola</small></button>
+      </div>
+    </div>
+    <div class="ss-section">
+      <h4>Aktív tantárgyak</h4>
+      <div class="subj-grid" id="ss-subj-grid"><!-- filled by JS --></div>
+    </div>
+    <div class="ss-footer">
+      <button id="ss-cancel">Mégse</button>
+      <button id="ss-confirm">&#10003; Alkalmaz</button>
+    </div>
+  </div>
+</div>
 <div id="wrap">
   <div id="mapbox">
     <canvas id="map3d"></canvas>
@@ -571,7 +628,26 @@ let QBANK = []; // loaded from qbank.json
 const SUBJ_MAP = {
   MAGYAR:'magyar', MATEMATIKA:'matematika', FIZIKA:'fizika', KEMIA:'kemia',
   BIOLOGIA:'biologia', TORTENELEM:'tortenelem', FOLDRAJZ:'foldrajz',
-  INFORMATIKA:'informatika', IDEGEN_NYELV:'idegen'
+  DIGITALIS_KULTURA:'digitalis_kultura', IDEGEN_NYELV:'idegen_nyelv',
+  TERMESZETTUDOMANY:'termeszettudomany', ALLAMPOLGARI:'allampolgari',
+  ETIKA:'etika', HON_NEPISMERET:'hon_nepismeret',
+};
+// Reverse map: lowercase key → display name (Hungarian)
+const SUBJ_NAMES = {
+  magyar:'Magyar nyelv és irodalom', matematika:'Matematika',
+  fizika:'Fizika', kemia:'Kémia', biologia:'Biológia',
+  tortenelem:'Történelem', foldrajz:'Földrajz',
+  digitalis_kultura:'Digitális kultúra', idegen_nyelv:'Idegen nyelv',
+  termeszettudomany:'Természettudomány', allampolgari:'Állampolgári ismeretek',
+  etika:'Etika', hon_nepismeret:'Hon- és népismeretek',
+};
+// All subject lowercase keys
+const ALL_SUBJECTS = Object.values(SUBJ_MAP);
+
+// Game settings: grade band and active subjects
+let gameSettings = {
+  gradeBand: '5-8',  // '1-4' | '5-8' | '9-12'
+  activeSubjects: new Set(ALL_SUBJECTS),
 };
 
 /**
@@ -601,10 +677,19 @@ function normaliseWiki(raw){
 fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=normaliseQbank(d); }).catch(()=>{});
 
 function pickQuestion(subjectId){
-  const key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
-  const pool = QBANK.filter(q=>q.subject===key);
-  if(!pool.length) return null;
-  return pool[Math.floor(Math.random()*pool.length)];
+  let key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
+  // If subject is not active, pick from a random active subject
+  if(!gameSettings.activeSubjects.has(key)){
+    const active = [...gameSettings.activeSubjects];
+    if(!active.length) return null;
+    key = active[Math.floor(Math.random()*active.length)];
+  }
+  const gb = gameSettings.gradeBand;
+  const pool = QBANK.filter(q=>q.subject===key && q.grade===gb);
+  if(pool.length) return pool[Math.floor(Math.random()*pool.length)];
+  // Fallback: any grade for this subject
+  const fallback = QBANK.filter(q=>q.subject===key);
+  return fallback.length ? fallback[Math.floor(Math.random()*fallback.length)] : null;
 }
 
 let _timerInterval = null;
@@ -759,15 +844,19 @@ const BOT_INCOME = { gold: 6, kk: 2 };
 // Per-subject income bonus: correct answer in subject → that province yields bonus next turn
 // subject id (lowercase) → { gold?: multiplier, kk?: multiplier }
 const SUBJECT_BONUS = {
-  matematika:   { gold: 1.4 },          // Matematika → arany-termelékenység
-  magyar:       { kk: 1.4 },            // Magyar irodalom → KK-növekedés
-  tortenelem:   { gold: 1.2, kk: 1.2 }, // Történelem → mindkettő
-  fizika:       { gold: 1.3 },          // Fizika → ipari bónusz
-  biologia:     { kk: 1.3 },            // Biológia → KK (tudás)
-  kemia:        { gold: 1.2 },          // Kémia → arany
-  foldrajz:     { gold: 1.15, kk: 1.15 },
-  informatika:  { gold: 1.3 },
-  idegen:       { kk: 1.35 },           // Idegen nyelv → diplomáciai KK
+  matematika:          { gold: 1.4 },           // Matematika → arany
+  magyar:              { kk: 1.4 },             // Magyar → KK
+  tortenelem:          { gold: 1.2, kk: 1.2 },  // Történelem → mindkettő
+  fizika:              { gold: 1.3 },            // Fizika → ipari bónusz
+  biologia:            { kk: 1.3 },             // Biológia → KK
+  kemia:               { gold: 1.2 },            // Kémia → arany
+  foldrajz:            { gold: 1.15, kk: 1.15 },
+  digitalis_kultura:   { gold: 1.3 },            // Digitális kultúra → arany
+  idegen_nyelv:        { kk: 1.35 },            // Idegen nyelv → diplomáciai KK
+  termeszettudomany:   { gold: 1.2, kk: 1.1 },  // Természettudomány → vegyes
+  allampolgari:        { kk: 1.25 },            // Állampolgári → KK
+  etika:               { kk: 1.2 },             // Etika → KK
+  hon_nepismeret:      { kk: 1.15 },            // Hon- és népismeretek → KK
 };
 // Active subject bonuses: subject id → expiry turn (lasts 1 turn after earning)
 let subjectBonusActive = {}; // { [subjectId]: expiryTurn }
@@ -3006,6 +3095,59 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   document.getElementById('btn-wiki').addEventListener('click',()=>openWiki());
   document.getElementById('wiki-search').addEventListener('input', e=>wikiSearch(e.target.value));
+
+  // ── Subject & grade settings ──────────────────────────────────────────────
+  function openSubjSettings(){
+    const overlay = document.getElementById('subj-settings-overlay');
+    const grid = document.getElementById('ss-subj-grid');
+    // Render grade buttons
+    document.querySelectorAll('.grade-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.grade === gameSettings.gradeBand);
+    });
+    // Render subject checkboxes
+    grid.innerHTML = ALL_SUBJECTS.map(key=>`
+      <label class="subj-check">
+        <input type="checkbox" data-subj="${key}" ${gameSettings.activeSubjects.has(key)?'checked':''}>
+        ${SUBJ_NAMES[key]||key}
+      </label>`).join('');
+    overlay.classList.remove('hidden');
+  }
+
+  document.getElementById('btn-subj-settings').addEventListener('click', openSubjSettings);
+
+  document.querySelectorAll('.grade-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.getElementById('ss-confirm').addEventListener('click', ()=>{
+    const activeGrade = document.querySelector('.grade-btn.active')?.dataset.grade || '5-8';
+    gameSettings.gradeBand = activeGrade;
+    gameSettings.activeSubjects = new Set(
+      [...document.querySelectorAll('#ss-subj-grid input[type=checkbox]:checked')]
+        .map(el=>el.dataset.subj)
+    );
+    // Ensure at least one subject is active
+    if(gameSettings.activeSubjects.size === 0)
+      gameSettings.activeSubjects = new Set(ALL_SUBJECTS);
+    document.getElementById('subj-settings-overlay').classList.add('hidden');
+    const gradeName = {'1-4':'1–4. évfolyam','5-8':'5–8. évfolyam','9-12':'9–12. évfolyam'}[gameSettings.gradeBand]||gameSettings.gradeBand;
+    addEvent(`⚙ Beállítás: <b>${gradeName}</b> · ${gameSettings.activeSubjects.size} aktív tantárgy`, 'ev-info');
+  });
+
+  document.getElementById('ss-cancel').addEventListener('click', ()=>{
+    document.getElementById('subj-settings-overlay').classList.add('hidden');
+  });
+
+  // Auto-open settings on first run (before tutorial, after page load)
+  if(!localStorage.getItem('tudas_settingsDone')){
+    setTimeout(()=>{
+      openSubjSettings();
+      localStorage.setItem('tudas_settingsDone','1');
+    }, 800);
+  }
 });
 
 // ── Mentés / Betöltés rendszer ────────────────────────────────────────────
