@@ -354,6 +354,38 @@
   .phrase-del-btn{ background:none; border:none; color:#664; font-size:14px; cursor:pointer;
     padding:0 4px; }
   .phrase-del-btn:hover{ color:#cc5555; }
+  /* Subject & grade settings overlay */
+  #subj-settings-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:450;
+    display:flex; align-items:center; justify-content:center; }
+  #subj-settings-overlay.hidden{ display:none; }
+  #subj-settings-box{ background:#1e2330; border:1px solid #3a414b; border-radius:16px;
+    padding:28px 32px; max-width:560px; width:94%; max-height:90vh; overflow-y:auto; }
+  #subj-settings-box h2{ font-size:20px; font-weight:800; color:#e7ebf0; margin:0 0 4px; }
+  #subj-settings-box .ss-sub{ color:var(--muted); font-size:12px; margin-bottom:20px; }
+  .ss-section{ margin-bottom:18px; }
+  .ss-section h4{ font-size:12px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.07em; color:#7daaff; margin:0 0 8px; }
+  .grade-btns{ display:flex; gap:8px; }
+  .grade-btn{ flex:1; padding:8px 0; border:1px solid #3a414b; border-radius:8px;
+    background:#262b33; color:#a0aab5; cursor:pointer; font-size:13px; font-weight:600;
+    transition:background .15s, border-color .15s, color .15s; }
+  .grade-btn.active{ background:#1a4a2e; border-color:#7ddf7d; color:#7ddf7d; }
+  .subj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .subj-check{ display:flex; align-items:center; gap:6px; padding:5px 8px;
+    border:1px solid #3a414b; border-radius:7px; background:#262b33; cursor:pointer;
+    font-size:12px; color:#c8d0db; transition:border-color .15s; }
+  .subj-check:hover{ border-color:#7daaff; }
+  .subj-check input[type=checkbox]{ accent-color:#7ddf7d; width:14px; height:14px; }
+  .ss-footer{ display:flex; gap:10px; margin-top:18px; }
+  .ss-footer button{ flex:1; padding:9px 0; border-radius:8px; font-size:14px;
+    font-weight:700; cursor:pointer; border:none; transition:background .15s; }
+  #ss-confirm{ background:#1a5a2e; color:#7ddf7d; }
+  #ss-confirm:hover{ background:#1d6a35; }
+  #ss-cancel{ background:#2a2f38; color:#a0aab5; }
+  #ss-cancel:hover{ background:#3a414b; }
+  #btn-subj-settings{ background:#1e3060; color:#7daaff; border:1px solid #3a5080;
+    border-radius:6px; padding:4px 12px; cursor:pointer; font-size:13px; }
+
   /* i67: campaign */
   #camp-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.88); z-index:400;
     display:flex; align-items:center; justify-content:center; }
@@ -387,6 +419,46 @@
   #ctrl-bar button:hover{ color:#fff; border-color:#6a7280; }
   #cam-hint{ position:absolute; bottom:10px; left:12px; color:var(--muted); font-size:11px;
     pointer-events:none; opacity:.7; }
+
+  /* ── Tutorial tooltip system ─────────────────────────────────────── */
+  [data-tip]{ position:relative; }
+  [data-tip]::after{
+    content: attr(data-tip);
+    position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%);
+    background:#1e2736; color:#e0e8f0; border:1px solid #3a4a5c;
+    border-radius:6px; padding:6px 10px; font-size:11px; line-height:1.4;
+    white-space:pre-wrap; max-width:220px; width:max-content;
+    pointer-events:none; opacity:0; transition:opacity .15s;
+    z-index:9999; text-align:center; box-shadow:0 4px 16px #0005;
+  }
+  [data-tip]:hover::after, [data-tip].tip-open::after{ opacity:1; }
+
+  /* ── Tutorial wizard overlay ─────────────────────────────────────── */
+  #tutorial-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:10000;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #tutorial-box{
+    background:#1a2232; border:1px solid #3a5070; border-radius:12px;
+    padding:24px 28px; max-width:400px; width:90%; color:#e0e8f0;
+    box-shadow:0 8px 40px #000a; position:relative;
+  }
+  #tutorial-box h2{ margin:0 0 8px; font-size:18px; color:#7ec8e3; }
+  #tutorial-box p{ margin:0 0 16px; font-size:14px; line-height:1.6; color:#b8c8d8; }
+  #tutorial-step{ font-size:11px; color:#6a7a8a; margin-bottom:10px; }
+  #tutorial-btns{ display:flex; gap:8px; justify-content:flex-end; }
+  #tutorial-btns button{
+    padding:7px 16px; border-radius:6px; border:none; cursor:pointer; font-size:13px;
+  }
+  #btn-tut-next{ background:#2a6060; color:#7ee8e8; }
+  #btn-tut-next:hover{ background:#3a8080; }
+  #btn-tut-skip{ background:#2a2e38; color:#7a8898; }
+  #btn-tut-skip:hover{ background:#3a404e; }
+  #tutorial-spotlight{
+    position:fixed; pointer-events:none; border:3px solid #7ec8e3;
+    border-radius:8px; box-shadow:0 0 0 9999px rgba(0,0,0,.55);
+    transition: all .25s; z-index:9999;
+  }
 </style>
 </head>
 <body>
@@ -404,8 +476,33 @@
   </select>
   <span id="hero-flag" style="color:var(--muted)"></span>
   &nbsp;·&nbsp; <button id="btn-campaign">&#9654; Hadjárat</button>
+  &nbsp;·&nbsp; <button id="btn-subj-settings">&#9881; Tantárgyak &amp; szint</button>
   &nbsp;·&nbsp; <button id="btn-wiki" style="background:#1e3060;color:#7daaff;border:1px solid #3a5080;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:13px;">&#128218; Wiki</button>
 </header>
+
+<!-- Subject & grade settings overlay -->
+<div id="subj-settings-overlay" class="hidden">
+  <div id="subj-settings-box">
+    <h2>&#9881; Tantárgyak &amp; Évfolyamszint</h2>
+    <p class="ss-sub">Válaszd ki, melyik tantárgyak szerepeljenek a kvízkérdésekben, és melyik évfolyamszintnek megfelelők legyenek a kérdések.</p>
+    <div class="ss-section">
+      <h4>Évfolyamszint</h4>
+      <div class="grade-btns">
+        <button class="grade-btn" data-grade="1-4">1–4. évfolyam<br><small>Általános iskola, alsó</small></button>
+        <button class="grade-btn" data-grade="5-8">5–8. évfolyam<br><small>Általános iskola, felső</small></button>
+        <button class="grade-btn" data-grade="9-12">9–12. évfolyam<br><small>Középiskola</small></button>
+      </div>
+    </div>
+    <div class="ss-section">
+      <h4>Aktív tantárgyak</h4>
+      <div class="subj-grid" id="ss-subj-grid"><!-- filled by JS --></div>
+    </div>
+    <div class="ss-footer">
+      <button id="ss-cancel">Mégse</button>
+      <button id="ss-confirm">&#10003; Alkalmaz</button>
+    </div>
+  </div>
+</div>
 <div id="wrap">
   <div id="mapbox">
     <canvas id="map3d"></canvas>
@@ -422,7 +519,8 @@
         <span class="res">Kör: <b id="turn-num">1</b></span>
         <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
         <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
-        <button id="btn-end-turn">Kör vége ▶</button>
+        <button id="btn-end-turn" data-tip="Kör vége: bevétel, botok lépése, majd a te köröd jön">Kör vége ▶</button>
+        <button id="btn-sound" data-tip="Hang be/ki" style="min-width:34px;padding:4px 7px" title="Hang">🔊</button>
       </div>
       <div id="xp-bar">
         <b id="xp-label">XP: 0</b>
@@ -453,13 +551,20 @@
     <div class="card" id="save-card">
       <h3>Mentés / Betöltés</h3>
       <div class="save-row">
-        <button id="btn-save-now">💾 Mentés</button>
-        <button id="btn-export-json">⬇ Export JSON</button>
-        <button id="btn-import-json">⬆ Import JSON</button>
+        <button id="btn-save-now" data-tip="Játékállás mentése az aktuális slotba">💾 Mentés</button>
+        <button id="btn-export-json" data-tip="Teljes mentés letöltése JSON fájlként">⬇ Export JSON</button>
+        <button id="btn-import-json" data-tip="Korábban exportált JSON mentés betöltése">⬆ Import JSON</button>
+      </div>
+      <div class="save-row">
+        <button id="btn-export-csv" title="Válasznapló letöltése CSV-ként (osztálytermi mód)">📋 Válasznapló CSV</button>
       </div>
       <div id="save-status"></div>
       <div id="save-slots"></div>
       <input type="file" id="import-file-input" accept=".json" style="display:none">
+    </div>
+    <div class="card" id="teacher-card">
+      <h3>📊 Tanár-nézet</h3>
+      <div id="teacher-body"><span class="k">Még nincs kvíz-adat.</span></div>
     </div>
     <div class="card">
       <h3>Terület-tulajdon (szimuláció)</h3>
@@ -523,7 +628,26 @@ let QBANK = []; // loaded from qbank.json
 const SUBJ_MAP = {
   MAGYAR:'magyar', MATEMATIKA:'matematika', FIZIKA:'fizika', KEMIA:'kemia',
   BIOLOGIA:'biologia', TORTENELEM:'tortenelem', FOLDRAJZ:'foldrajz',
-  INFORMATIKA:'informatika', IDEGEN_NYELV:'idegen'
+  DIGITALIS_KULTURA:'digitalis_kultura', IDEGEN_NYELV:'idegen_nyelv',
+  TERMESZETTUDOMANY:'termeszettudomany', ALLAMPOLGARI:'allampolgari',
+  ETIKA:'etika', HON_NEPISMERET:'hon_nepismeret',
+};
+// Reverse map: lowercase key → display name (Hungarian)
+const SUBJ_NAMES = {
+  magyar:'Magyar nyelv és irodalom', matematika:'Matematika',
+  fizika:'Fizika', kemia:'Kémia', biologia:'Biológia',
+  tortenelem:'Történelem', foldrajz:'Földrajz',
+  digitalis_kultura:'Digitális kultúra', idegen_nyelv:'Idegen nyelv',
+  termeszettudomany:'Természettudomány', allampolgari:'Állampolgári ismeretek',
+  etika:'Etika', hon_nepismeret:'Hon- és népismeretek',
+};
+// All subject lowercase keys
+const ALL_SUBJECTS = Object.values(SUBJ_MAP);
+
+// Game settings: grade band and active subjects
+let gameSettings = {
+  gradeBand: '5-8',  // '1-4' | '5-8' | '9-12'
+  activeSubjects: new Set(ALL_SUBJECTS),
 };
 
 /**
@@ -553,10 +677,19 @@ function normaliseWiki(raw){
 fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=normaliseQbank(d); }).catch(()=>{});
 
 function pickQuestion(subjectId){
-  const key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
-  const pool = QBANK.filter(q=>q.subject===key);
-  if(!pool.length) return null;
-  return pool[Math.floor(Math.random()*pool.length)];
+  let key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
+  // If subject is not active, pick from a random active subject
+  if(!gameSettings.activeSubjects.has(key)){
+    const active = [...gameSettings.activeSubjects];
+    if(!active.length) return null;
+    key = active[Math.floor(Math.random()*active.length)];
+  }
+  const gb = gameSettings.gradeBand;
+  const pool = QBANK.filter(q=>q.subject===key && q.grade===gb);
+  if(pool.length) return pool[Math.floor(Math.random()*pool.length)];
+  // Fallback: any grade for this subject
+  const fallback = QBANK.filter(q=>q.subject===key);
+  return fallback.length ? fallback[Math.floor(Math.random()*fallback.length)] : null;
 }
 
 let _timerInterval = null;
@@ -566,7 +699,8 @@ function provinceChoiceCount(prov){
   const base = DIFFICULTIES[currentDifficulty].choiceCount;
   const b = prov.b ?? 0; // IRT difficulty, typically -3..+3
   const delta = b > 1 ? 2 : b > 0 ? 1 : b < -1 ? -1 : 0;
-  return Math.min(7, Math.max(2, base + delta));
+  const boost = heroSpeedBoost(); // speed_boost heroes reduce choices (easier)
+  return Math.min(7, Math.max(2, base + delta - boost));
 }
 
 function provinceTimeLimit(prov){
@@ -630,6 +764,9 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
     choicesEl.querySelectorAll('.q-choice').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const correct = btn.textContent === q.correct;
+        // Log answer for classroom mode
+        answerLog.push({ts: Date.now(), subjectId: prov.subject, prompt: q.prompt, correct, turn: turnNumber});
+        renderTeacherCard();
         // Disable all buttons
         choicesEl.querySelectorAll('.q-choice').forEach(b=>{
           b.disabled = true;
@@ -645,7 +782,18 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
             const earned = XP_PER_CORRECT + (streak > 1 ? XP_STREAK_BONUS * (streak - 1) : 0);
             addXP(earned);
             const streakMsg = streak > 1 ? ` 🔥 Sorozat ×${streak} (+${earned} XP)` : ` (+${earned} XP)`;
-            addEvent('&#10003; Helyes válasz!' + streakMsg, 'ev-player');
+            // Activate subject income bonus for next turn
+            const subjKey = SUBJ_MAP[prov.subject] || prov.subject?.toLowerCase();
+            let bonusMsg = '';
+            if(subjKey && SUBJECT_BONUS[subjKey]){
+              subjectBonusActive[subjKey] = turnNumber + 1;
+              const bd = SUBJECT_BONUS[subjKey];
+              const parts = [];
+              if(bd.gold) parts.push(`×${bd.gold} ⭐`);
+              if(bd.kk)   parts.push(`×${bd.kk} 📖`);
+              bonusMsg = ` <span style="color:#7dccc8;font-size:11px">[+tantárgy bónusz: ${parts.join(' ')}]</span>`;
+            }
+            addEvent('&#10003; Helyes válasz!' + streakMsg + bonusMsg, 'ev-player');
             onSuccess && onSuccess();
           } else {
             sfx('wrong');
@@ -693,6 +841,30 @@ const INCOME = { gold: 8, kk: 3 };
 // Bot income multiplier
 const BOT_INCOME = { gold: 6, kk: 2 };
 
+// Per-subject income bonus: correct answer in subject → that province yields bonus next turn
+// subject id (lowercase) → { gold?: multiplier, kk?: multiplier }
+const SUBJECT_BONUS = {
+  matematika:          { gold: 1.4 },           // Matematika → arany
+  magyar:              { kk: 1.4 },             // Magyar → KK
+  tortenelem:          { gold: 1.2, kk: 1.2 },  // Történelem → mindkettő
+  fizika:              { gold: 1.3 },            // Fizika → ipari bónusz
+  biologia:            { kk: 1.3 },             // Biológia → KK
+  kemia:               { gold: 1.2 },            // Kémia → arany
+  foldrajz:            { gold: 1.15, kk: 1.15 },
+  digitalis_kultura:   { gold: 1.3 },            // Digitális kultúra → arany
+  idegen_nyelv:        { kk: 1.35 },            // Idegen nyelv → diplomáciai KK
+  termeszettudomany:   { gold: 1.2, kk: 1.1 },  // Természettudomány → vegyes
+  allampolgari:        { kk: 1.25 },            // Állampolgári → KK
+  etika:               { kk: 1.2 },             // Etika → KK
+  hon_nepismeret:      { kk: 1.15 },            // Hon- és népismeretek → KK
+};
+// Active subject bonuses: subject id → expiry turn (lasts 1 turn after earning)
+let subjectBonusActive = {}; // { [subjectId]: expiryTurn }
+// Hero duration tracking: hero.id → remaining turns (for duration-limited effects)
+let heroEffectDuration = {}; // { [heroId]: turnsRemaining }
+// Classroom mode answer log
+let answerLog = []; // [{ts, subjectId, prompt, correct, turn}]
+
 // ── i79: Multi-bot system ─────────────────────────────────────────────────
 // Persona definitions: scoring weights, quiz success rate, diplomacy style
 const BOT_PERSONAS = {
@@ -733,6 +905,14 @@ const BOT_PERSONAS = {
     maxConquestPerTurn: 1,
   },
 };
+
+// Bot difficulty: scales quiz success and aggressiveness independently of quiz difficulty
+const BOT_DIFFICULTY = {
+  easy:   { quizBonus: 0.25, aggrMult: 0.45, incomeMult: 0.7,  label: 'Könnyű', desc: 'Gyengébb ellenfelek — több hibát vétenek, lassabban terjeszkednek' },
+  normal: { quizBonus: 0,    aggrMult: 1.0,  incomeMult: 1.0,  label: 'Normál', desc: 'Kiegyensúlyozott kihívás' },
+  hard:   { quizBonus: -0.2, aggrMult: 1.6,  incomeMult: 1.35, label: 'Nehéz',  desc: 'Agresszív ellenfelek — ritkán hibáznak, gyorsabban gazdagodnak' },
+};
+let botDifficulty = 'normal';
 
 // Active bots: up to 3, initialized on map load
 let BOTS = [];
@@ -1767,7 +1947,8 @@ function botScoreFor(bot, prov){
 // i79: Bot quiz — siker-valószínűség persona + nehézség alapján
 function botQuizSuccess(bot){
   const diffPenalty = [0, 0, 0.05, 0.12, 0.22][currentDifficulty] || 0;
-  const chance = Math.max(0.20, bot.persona.quizSuccessBase - diffPenalty);
+  const bd = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const chance = Math.max(0.10, bot.persona.quizSuccessBase - diffPenalty + bd.quizBonus);
   return Math.random() < chance;
 }
 
@@ -1775,8 +1956,9 @@ function botQuizSuccess(bot){
 function runBotTurn(bot){
   if(gameOver) return;
   // Income
-  const gMult = bot.persona.incomeMultGold;
-  const kMult = bot.persona.incomeMultKK;
+  const bdInc = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const gMult = bot.persona.incomeMultGold * bdInc.incomeMult;
+  const kMult = bot.persona.incomeMultKK   * bdInc.incomeMult;
   bot.gold += Math.round((bot.owned.size * BOT_INCOME.gold + BOT_INCOME.gold) * gMult);
   bot.kk   += Math.round((bot.owned.size * BOT_INCOME.kk   + BOT_INCOME.kk)   * kMult);
 
@@ -1786,7 +1968,8 @@ function runBotTurn(bot){
 
   const cost = 20;
   let conquered = 0;
-  const maxConq = bot.persona.maxConquestPerTurn;
+  const bd = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const maxConq = Math.max(1, Math.round(bot.persona.maxConquestPerTurn * bd.aggrMult));
 
   for(const target of candidates){
     if(bot.gold < cost || conquered >= maxConq) break;
@@ -1859,17 +2042,33 @@ function renderBotOverlay(){
 // i79: bot status card
 function renderBotsCard(){
   const el = document.getElementById('bots-body');
-  if(!el || BOTS.length===0){ if(el) el.innerHTML='<span class="k">Nincs ellenfél.</span>'; return; }
+  if(!el) return;
+  const bd = BOT_DIFFICULTY[botDifficulty] || BOT_DIFFICULTY.normal;
+  const diffHtml = `<div style="margin-bottom:8px">
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <label style="font-size:11px;color:var(--muted)">Ellenfelek szintje:</label>
+      <select id="bot-diff-select" style="font-size:12px;padding:2px 6px;border-radius:5px;background:#1b1e24;color:#e7ebf0;border:1px solid #3a414b">
+        ${Object.entries(BOT_DIFFICULTY).map(([k,v])=>`<option value="${k}"${botDifficulty===k?' selected':''}>${v.label}</option>`).join('')}
+      </select>
+    </div>
+    <div style="font-size:10px;color:var(--muted);margin-top:3px">${bd.desc}</div>
+  </div>`;
   const total = DATA?.provinces?.length || 1;
-  el.innerHTML = BOTS.map(bot=>{
-    const pct = Math.round(bot.owned.size/total*100);
-    const pactText = bot.paceTurns>0 ? ` <span style="color:#7dcc88;font-size:10px">🤝 paktum (${bot.paceTurns} kör)</span>` : '';
-    return `<div class="bot-row">
-      <span>${bot.persona.icon} <b>${bot.persona.name}</b>
-        <span class="persona-badge ${bot.personaKey}">${bot.personaKey}</span>${pactText}</span>
-      <span style="color:#aaa">${bot.owned.size} (${pct}%) · ⭐${bot.gold}</span>
-    </div>`;
-  }).join('');
+  const botsHtml = BOTS.length === 0 ? '<span class="k">Nincs ellenfél.</span>' :
+    BOTS.map(bot=>{
+      const pct = Math.round(bot.owned.size/total*100);
+      const pactText = bot.paceTurns>0 ? ` <span style="color:#7dcc88;font-size:10px">🤝 paktum (${bot.paceTurns} kör)</span>` : '';
+      return `<div class="bot-row">
+        <span>${bot.persona.icon} <b>${bot.persona.name}</b>
+          <span class="persona-badge ${bot.personaKey}">${bot.personaKey}</span>${pactText}</span>
+        <span style="color:#aaa">${bot.owned.size} (${pct}%) · ⭐${bot.gold}</span>
+      </div>`;
+    }).join('');
+  el.innerHTML = diffHtml + botsHtml;
+  document.getElementById('bot-diff-select')?.addEventListener('change', e=>{
+    botDifficulty = e.target.value;
+    renderBotsCard();
+  });
 }
 
 // ── i79: Diplomacy system ─────────────────────────────────────────────────
@@ -1969,21 +2168,47 @@ function playerIncome(){
   const prev = { gold, kk };
   const gMult = heroGoldBonus();
   const kMult = heroKKBonus();
-  const baseGold = owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
-  const baseKK   = owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
+  let baseGold = owned.size * INCOME.gold + INCOME.gold + buildingGoldBonus();
+  let baseKK   = owned.size * INCOME.kk   + INCOME.kk  + buildingKKBonus();
+
+  // Subject bonuses: owned provinces in an active-bonus subject earn extra
+  const subjBonusMsgs = [];
+  for(const [sid, expiry] of Object.entries(subjectBonusActive)){
+    if(expiry < turnNumber){ delete subjectBonusActive[sid]; continue; }
+    const bonusDef = SUBJECT_BONUS[sid]; if(!bonusDef) continue;
+    const provCount = DATA ? DATA.provinces.filter(p=>p.subject===sid && owned.has(p.id)).length : 0;
+    if(provCount === 0) continue;
+    const gExtra = bonusDef.gold ? Math.round(provCount * INCOME.gold * (bonusDef.gold - 1)) : 0;
+    const kExtra = bonusDef.kk   ? Math.round(provCount * INCOME.kk   * (bonusDef.kk   - 1)) : 0;
+    baseGold += gExtra; baseKK += kExtra;
+    const subjLabel = DATA?.subjects?.find(s=>s.id===sid)?.name || sid;
+    if(gExtra || kExtra) subjBonusMsgs.push(`${subjLabel}: +${gExtra}⭐ +${kExtra}📖`);
+  }
+
   gold += Math.round(baseGold * gMult);
   kk   += Math.round(baseKK   * kMult);
   const gBonus = gold - prev.gold, kBonus = kk - prev.kk;
   const heroMsg = (gMult > 1 || kMult > 1)
-    ? ` <span style="color:#c9a84c;font-size:11px">(hős bónusz: ×${gMult.toFixed(2)} arany, ×${kMult.toFixed(2)} KK)</span>`
+    ? ` <span style="color:#c9a84c;font-size:11px">(hős: ×${gMult.toFixed(2)}⭐ ×${kMult.toFixed(2)}📖)</span>`
     : '';
-  addEvent(`&#9733; Bevétel: +${gBonus} arany, +${kBonus} KK${heroMsg}`, 'ev-player');
+  const subjMsg = subjBonusMsgs.length
+    ? ` <span style="color:#7dccc8;font-size:11px">[tantárgy bónusz: ${subjBonusMsgs.join(', ')}]</span>`
+    : '';
+  addEvent(`&#9733; Bevétel: +${gBonus} arany, +${kBonus} KK${heroMsg}${subjMsg}`, 'ev-player');
 }
 
 function endTurn(){
   if(gameOver) return;
   sfx('turn');
   document.getElementById('btn-end-turn').disabled = true;
+  // Expire subject bonuses that were active last turn
+  for(const sid of Object.keys(subjectBonusActive)){
+    if(subjectBonusActive[sid] < turnNumber) delete subjectBonusActive[sid];
+  }
+  // Decrement duration-limited hero effects
+  for(const hId of Object.keys(heroEffectDuration)){
+    if(heroEffectDuration[hId] > 0) heroEffectDuration[hId]--;
+  }
   playerIncome();
   applyHeroSideEffects(); // i78: Madách +1 unrest stb.
   // i78: hero unrest reduction per subject
@@ -2009,7 +2234,75 @@ function endTurn(){
   renderTurnBar();
   addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
   document.getElementById('btn-end-turn').disabled = false;
+  // Autosave every 5 turns
+  if(turnNumber % 5 === 1 && turnNumber > 1) autoSave();
 }
+
+// ── Teacher dashboard ─────────────────────────────────────────────────────────
+function renderTeacherCard(){
+  const el = document.getElementById('teacher-body');
+  if(!el) return;
+  if(!answerLog.length){ el.innerHTML='<span class="k">Még nincs kvíz-adat.</span>'; return; }
+  const stats = {};
+  for(const r of answerLog){
+    const sid = r.subjectId || 'ismeretlen';
+    if(!stats[sid]) stats[sid] = {correct:0, total:0};
+    stats[sid].total++;
+    if(r.correct) stats[sid].correct++;
+  }
+  const totalQ = answerLog.length;
+  const totalC = answerLog.filter(r=>r.correct).length;
+  const overallPct = Math.round(totalC/totalQ*100);
+  let html = `<div style="font-size:12px;margin-bottom:8px">
+    <b>Összesített:</b> ${totalC}/${totalQ} helyes (${overallPct}%) — ${turnNumber}. kör — XP: ${xp}
+  </div>
+  <table style="width:100%;font-size:11px;border-collapse:collapse">
+  <tr style="color:var(--muted);border-bottom:1px solid #2a3345">
+    <th style="text-align:left;padding:2px 4px">Tantárgy</th>
+    <th style="text-align:right;padding:2px 4px">✓</th>
+    <th style="text-align:right;padding:2px 4px">Összes</th>
+    <th style="text-align:right;padding:2px 4px">%</th>
+  </tr>`;
+  for(const [sid, st] of Object.entries(stats).sort((a,b)=>b[1].total-a[1].total)){
+    const pct = Math.round(st.correct/st.total*100);
+    const subjName = DATA?.subjects?.find(s=>s.id===sid)?.name || sid;
+    const barColor = pct>=70?'#4db86a':pct>=40?'#c9a840':'#cc4444';
+    html += `<tr style="border-bottom:1px solid #1e2738">
+      <td style="padding:3px 4px">${subjName}</td>
+      <td style="text-align:right;padding:3px 4px;color:#7de8a0">${st.correct}</td>
+      <td style="text-align:right;padding:3px 4px">${st.total}</td>
+      <td style="padding:3px 4px;min-width:64px">
+        <span style="display:inline-block;width:${pct}%;max-width:60%;height:4px;background:${barColor};border-radius:2px;vertical-align:middle;margin-right:3px"></span>${pct}%
+      </td>
+    </tr>`;
+  }
+  html += `</table><div style="margin-top:8px">
+    <button id="btn-export-stats" style="font-size:11px;padding:4px 8px;cursor:pointer;border-radius:5px;
+      background:#1e3040;border:1px solid #3a5060;color:#6aacee">📥 Statisztika CSV</button>
+  </div>`;
+  el.innerHTML = html;
+  document.getElementById('btn-export-stats')?.addEventListener('click', ()=>{
+    const summaryHeader = `# Tanár-statisztika\n# Generálva: ${new Date().toISOString()}\n# Kör: ${turnNumber}  XP: ${xp}\n`;
+    const header = 'Időbélyeg;Tantárgy;Kérdés;Helyes;Kör';
+    const rows = answerLog.map(r=>[
+      new Date(r.ts).toISOString(), r.subjectId||'',
+      '"'+(r.prompt||'').replace(/"/g,'""')+'"',
+      r.correct?'igen':'nem', r.turn
+    ].join(';'));
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(summaryHeader+header+'\n'+rows.join('\n'));
+    a.download = 'tanar_statisztika_'+Date.now()+'.csv';
+    a.click();
+  });
+}
+window.renderTeacherCard = renderTeacherCard;
+
+// Sound toggle button
+document.getElementById('btn-sound')?.addEventListener('click', ()=>{
+  _sfxEnabled = !_sfxEnabled;
+  document.getElementById('btn-sound').textContent = _sfxEnabled ? '🔊' : '🔇';
+  if(!_sfxEnabled) stopBgm(); else ensureBgm();
+});
 
 function initTurnSystem(){
   renderTurnBar(); renderXPBar();
@@ -2034,7 +2327,7 @@ document.getElementById('btn-reset-cam').addEventListener('click', resetCamera);
 
 renderDiffCard(); renderUnrestCard(); initTurnSystem();
 
-// ── i68: Web Audio sound system ───────────────────────────────────────────
+// ── Audio system: MP3 files (sfx/ folder) with Web Audio synth fallback ──────
 let _audioCtx = null;
 function getAudioCtx(){
   if(!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2054,7 +2347,51 @@ function playTone(freq, type, duration, gainVal=0.18, delay=0){
     osc.stop(ctx.currentTime + delay + duration + 0.05);
   } catch(e){}
 }
+
+// MP3 cache: pre-load audio files from sfx/ if they exist
+const _sfxCache = {};
+const SFX_FILES = ['correct','wrong','conquest','lose_province','turn','win','lose','build'];
+let _sfxEnabled = true; // can be toggled by user
+let _bgmAudio = null;
+
+function loadSfxFiles(){
+  SFX_FILES.forEach(name=>{
+    const a = new Audio();
+    a.src = 'sfx/' + name + '.mp3';
+    a.preload = 'auto';
+    // Mark as loaded only if file actually exists (no 404)
+    a.addEventListener('canplaythrough', ()=>{ _sfxCache[name] = a; }, {once:true});
+  });
+}
+// Attempt to load; silently ignore if sfx/ doesn't exist yet
+try { loadSfxFiles(); } catch(e){}
+
+function startBgm(){
+  if(_bgmAudio) return;
+  const a = new Audio('sfx/bgm.mp3');
+  a.loop = true; a.volume = 0.35;
+  a.play().then(()=>{ _bgmAudio = a; }).catch(()=>{});
+}
+function stopBgm(){ if(_bgmAudio){ _bgmAudio.pause(); _bgmAudio = null; } }
+let _bgmStarted = false;
+function ensureBgm(){
+  if(!_bgmStarted){ _bgmStarted = true; startBgm(); }
+}
+
 function sfx(name){
+  if(!_sfxEnabled) return;
+  ensureBgm();
+  // Try MP3 file first
+  const cached = _sfxCache[name];
+  if(cached){
+    try{
+      const clone = cached.cloneNode();
+      clone.volume = 0.7;
+      clone.play().catch(()=>{});
+      return;
+    } catch(e){}
+  }
+  // Fallback: Web Audio synthesizer
   switch(name){
     case 'correct':
       playTone(523, 'sine', 0.12, 0.15);
@@ -2125,7 +2462,18 @@ function activeHeroEffects(){
     const prov = byId[id]; if(!prov?.nutsId) continue;
     const heroes = HEROES[prov.nutsId]||[];
     for(const h of heroes){
-      if(h.ability?.effect) out.push({eff: h.ability.effect, hero: h, provId: id});
+      const eff = h.ability?.effect; if(!eff) continue;
+      // duration-limited effects: skip if expired
+      if(eff.duration !== undefined){
+        const rem = heroEffectDuration[h.id];
+        if(rem === undefined){
+          // Initialize on first access
+          heroEffectDuration[h.id] = eff.duration;
+        } else if(rem <= 0){
+          continue; // expired
+        }
+      }
+      out.push({eff, hero: h, provId: id});
     }
   }
   return out;
@@ -2171,6 +2519,15 @@ function heroAttackBonus(){
   return bonus;
 }
 
+// Speed boost: reduces number of answer choices (easier quiz)
+function heroSpeedBoost(){
+  let reduction = 0;
+  for(const {eff} of activeHeroEffects()){
+    if(eff.type==='speed_boost') reduction += eff.value ?? 1;
+  }
+  return reduction;
+}
+
 // Defense bonus from heroes in a given region
 function heroDefBonus(regionId){
   let bonus = 0;
@@ -2199,7 +2556,11 @@ function applyHeroSideEffects(){
 function heroEffectSummary(){
   const effs = activeHeroEffects();
   if(!effs.length) return '';
-  return effs.map(({eff,hero})=>`⚡ <b>${hero.name}</b>: ${eff.desc}`).join('<br>');
+  return effs.map(({eff,hero})=>{
+    const durRem = eff.duration !== undefined ? heroEffectDuration[hero.id] ?? eff.duration : null;
+    const durStr = durRem !== null ? ` <span style="color:#aaa;font-size:10px">(${durRem} kör)</span>` : '';
+    return `⚡ <b>${hero.name}</b>: ${eff.desc}${durStr}`;
+  }).join('<br>');
 }
 
 function buildAt(provId, bldKey){
@@ -2734,6 +3095,59 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   document.getElementById('btn-wiki').addEventListener('click',()=>openWiki());
   document.getElementById('wiki-search').addEventListener('input', e=>wikiSearch(e.target.value));
+
+  // ── Subject & grade settings ──────────────────────────────────────────────
+  function openSubjSettings(){
+    const overlay = document.getElementById('subj-settings-overlay');
+    const grid = document.getElementById('ss-subj-grid');
+    // Render grade buttons
+    document.querySelectorAll('.grade-btn').forEach(btn=>{
+      btn.classList.toggle('active', btn.dataset.grade === gameSettings.gradeBand);
+    });
+    // Render subject checkboxes
+    grid.innerHTML = ALL_SUBJECTS.map(key=>`
+      <label class="subj-check">
+        <input type="checkbox" data-subj="${key}" ${gameSettings.activeSubjects.has(key)?'checked':''}>
+        ${SUBJ_NAMES[key]||key}
+      </label>`).join('');
+    overlay.classList.remove('hidden');
+  }
+
+  document.getElementById('btn-subj-settings').addEventListener('click', openSubjSettings);
+
+  document.querySelectorAll('.grade-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  document.getElementById('ss-confirm').addEventListener('click', ()=>{
+    const activeGrade = document.querySelector('.grade-btn.active')?.dataset.grade || '5-8';
+    gameSettings.gradeBand = activeGrade;
+    gameSettings.activeSubjects = new Set(
+      [...document.querySelectorAll('#ss-subj-grid input[type=checkbox]:checked')]
+        .map(el=>el.dataset.subj)
+    );
+    // Ensure at least one subject is active
+    if(gameSettings.activeSubjects.size === 0)
+      gameSettings.activeSubjects = new Set(ALL_SUBJECTS);
+    document.getElementById('subj-settings-overlay').classList.add('hidden');
+    const gradeName = {'1-4':'1–4. évfolyam','5-8':'5–8. évfolyam','9-12':'9–12. évfolyam'}[gameSettings.gradeBand]||gameSettings.gradeBand;
+    addEvent(`⚙ Beállítás: <b>${gradeName}</b> · ${gameSettings.activeSubjects.size} aktív tantárgy`, 'ev-info');
+  });
+
+  document.getElementById('ss-cancel').addEventListener('click', ()=>{
+    document.getElementById('subj-settings-overlay').classList.add('hidden');
+  });
+
+  // Auto-open settings on first run (before tutorial, after page load)
+  if(!localStorage.getItem('tudas_settingsDone')){
+    setTimeout(()=>{
+      openSubjSettings();
+      localStorage.setItem('tudas_settingsDone','1');
+    }, 800);
+  }
 });
 
 // ── Mentés / Betöltés rendszer ────────────────────────────────────────────
@@ -2779,6 +3193,10 @@ function buildSavePayload(){
     })),
     unrestWrong: Object.fromEntries(Object.entries(unrestWrong)),
     unrestLevel: Object.fromEntries(Object.entries(unrestLevel)),
+    botDifficulty,
+    subjectBonusActive: Object.fromEntries(Object.entries(subjectBonusActive)),
+    heroEffectDuration: Object.fromEntries(Object.entries(heroEffectDuration)),
+    answerLog,
   };
 }
 
@@ -2805,6 +3223,10 @@ function applySavePayload(s){
   }
   unrestWrong = Object.assign({}, s.unrestWrong || {});
   unrestLevel = Object.assign({}, s.unrestLevel || {});
+  if(s.botDifficulty && BOT_DIFFICULTY[s.botDifficulty]) botDifficulty = s.botDifficulty;
+  subjectBonusActive = Object.assign({}, s.subjectBonusActive || {});
+  heroEffectDuration = Object.assign({}, s.heroEffectDuration || {});
+  answerLog = Array.isArray(s.answerLog) ? s.answerLog : [];
   // refresh UI
   renderOwnershipOverlay3D();
   renderUnrestOverlay3D();
@@ -2896,6 +3318,15 @@ function saveNow(){
   setSaveStatus('Mentve! (slot '+slot+')'); renderSaveSlots();
 }
 
+function autoSave(){
+  if(!DATA) return;
+  try{
+    localStorage.setItem('tudas_autosave', JSON.stringify(buildSavePayload()));
+    setSaveStatus('Automatikus mentés (' + turnNumber + '. kör)');
+    setTimeout(()=>{ const el=document.getElementById('save-status'); if(el) el.textContent=''; }, 2000);
+  } catch(e){}
+}
+
 function exportJson(){
   if(!DATA){ setSaveStatus('Nincs betöltött térkép!', true); return; }
   const blob = new Blob([JSON.stringify(buildSavePayload(),null,2)],{type:'application/json'});
@@ -2932,6 +3363,27 @@ function importJson(file){
 
 document.getElementById('btn-save-now').addEventListener('click', saveNow);
 document.getElementById('btn-export-json').addEventListener('click', exportJson);
+document.getElementById('btn-export-csv').addEventListener('click', ()=>{
+  if(!answerLog.length){
+    const st = document.getElementById('save-status');
+    st.textContent = 'Nincs még válasz a naplóban.';
+    setTimeout(()=>{ st.textContent=''; }, 2500);
+    return;
+  }
+  const header = 'Időbélyeg;Tantárgy;Kérdés;Helyes;Kör';
+  const rows = answerLog.map(r=>[
+    new Date(r.ts).toISOString(),
+    r.subjectId || '',
+    '"' + (r.prompt||'').replace(/"/g,'""') + '"',
+    r.correct ? 'igen' : 'nem',
+    r.turn,
+  ].join(';'));
+  const csv = [header, ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'valasznaplo.csv';
+  a.click();
+});
 document.getElementById('btn-import-json').addEventListener('click',()=>{
   document.getElementById('import-file-input').click();
 });
@@ -2940,8 +3392,32 @@ document.getElementById('import-file-input').addEventListener('change', e=>{
   e.target.value='';
 });
 
+
+// ── Autosave slot in save card ────────────────────────────────────────────────
+function renderAutoSaveSlot(){
+  const container = document.getElementById('save-slots');
+  if(!container) return;
+  try{
+    const raw = localStorage.getItem('tudas_autosave');
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    const dt = new Date(s.ts);
+    const label = `Auto: ${dt.toLocaleDateString('hu')} ${dt.toLocaleTimeString('hu',{hour:'2-digit',minute:'2-digit'})} — ${s.turn}. kör`;
+    const row = document.createElement('div');
+    row.className = 'slot-row';
+    row.innerHTML = `<span class="slot-label">${label}</span>
+      <button class="slot-load" id="btn-load-autosave">Betölt</button>`;
+    container.prepend(row);
+    document.getElementById('btn-load-autosave').addEventListener('click', ()=>{
+      try{ applySavePayload(JSON.parse(localStorage.getItem('tudas_autosave'))); setSaveStatus('Auto-mentés betöltve!'); }
+      catch(e){ setSaveStatus('Hiba: '+e.message, true); }
+    });
+  } catch(e){}
+}
+
 // Render slot list on page load and expose for external refresh
 renderSaveSlots();
+renderAutoSaveSlot();
 </script>
 <!-- i79: Diplomacy modal -->
 <div id="diplo-overlay" class="hidden">
@@ -3003,5 +3479,97 @@ renderSaveSlots();
     </div>
   </div>
 </div>
+
+<!-- Tutorial wizard overlay -->
+<div id="tutorial-overlay" class="hidden">
+  <div id="tutorial-spotlight"></div>
+  <div id="tutorial-box">
+    <div id="tutorial-step"></div>
+    <h2 id="tutorial-title"></h2>
+    <p id="tutorial-text"></p>
+    <div id="tutorial-btns">
+      <button id="btn-tut-skip">Kihagyom</button>
+      <button id="btn-tut-next">Tovább →</button>
+    </div>
+  </div>
+</div>
+<script>
+// ── Tutorial / Onboarding wizard ─────────────────────────────────────────────
+const TUTORIAL_KEY = 'tudas_tutorialDone';
+const TUTORIAL_STEPS = [
+  { title: 'Üdvözöllek a Tudás Paradigmájában!',
+    text: 'Ez egy stratégiai játék, ahol kvízkérdések helyes megválaszolásával foglalhatsz el tartományokat, gyűjthetsz aranyat és tudáspontot (KK).',
+    target: null },
+  { title: 'Pályacsomag kiválasztása',
+    text: 'Először válassz egy kvíz-pályacsomagot. Minden csomag más tantárgyakat és kérdéseket tartalmaz.',
+    target: '#pack-select' },
+  { title: 'Tartomány elfoglalása',
+    text: 'Kattints egy tartományra a térképen, majd az „Elfoglalom" gombra. Helyes kvíz-válasszal megszerezed a területet és bevételt fogsz kapni minden körben.',
+    target: null },
+  { title: 'Kör vége gomb',
+    text: 'Ha befejeztél egy körben, nyomd meg a „Kör vége" gombot. Ekkor megkapod a tartományaid bevételét, és az ellenfél-botok is lépnek.',
+    target: '#btn-end-turn' },
+  { title: 'Mentés és statisztikák',
+    text: 'A bal oldalsávban mentheted a játékot és exportálhatod a válasznaplót CSV-ként (osztálytermi mód). Jó játékot!',
+    target: '#save-card' },
+];
+
+let tutStep = 0;
+
+function startTutorial(){
+  tutStep = 0;
+  showTutStep();
+  document.getElementById('tutorial-overlay').classList.remove('hidden');
+}
+
+function showTutStep(){
+  const step = TUTORIAL_STEPS[tutStep];
+  if(!step){ endTutorial(); return; }
+  const stepEl = document.getElementById('tutorial-step');
+  stepEl.textContent = `${tutStep+1} / ${TUTORIAL_STEPS.length}`;
+  document.getElementById('tutorial-title').textContent = step.title;
+  document.getElementById('tutorial-text').textContent = step.text;
+  const nextBtn = document.getElementById('btn-tut-next');
+  nextBtn.textContent = tutStep === TUTORIAL_STEPS.length - 1 ? 'Kezdés ✓' : 'Tovább →';
+  // Spotlight target element
+  const spot = document.getElementById('tutorial-spotlight');
+  if(step.target){
+    const el = document.querySelector(step.target);
+    if(el){
+      const r = el.getBoundingClientRect();
+      spot.style.cssText = `left:${r.left-6}px;top:${r.top-6}px;width:${r.width+12}px;height:${r.height+12}px;display:block`;
+    } else {
+      spot.style.display = 'none';
+    }
+  } else {
+    spot.style.display = 'none';
+  }
+}
+
+function endTutorial(){
+  document.getElementById('tutorial-overlay').classList.add('hidden');
+  document.getElementById('tutorial-spotlight').style.display = 'none';
+  try{ localStorage.setItem(TUTORIAL_KEY, '1'); } catch(e){}
+}
+
+document.getElementById('btn-tut-next').addEventListener('click', ()=>{
+  tutStep++;
+  if(tutStep >= TUTORIAL_STEPS.length){ endTutorial(); return; }
+  showTutStep();
+});
+document.getElementById('btn-tut-skip').addEventListener('click', endTutorial);
+
+// Start tutorial on first ever visit
+try{
+  if(!localStorage.getItem(TUTORIAL_KEY)) startTutorial();
+} catch(e){}
+
+// Mobile: tap [data-tip] element to toggle tooltip
+document.addEventListener('click', e=>{
+  const el = e.target.closest('[data-tip]');
+  document.querySelectorAll('[data-tip].tip-open').forEach(t=>{ if(t!==el) t.classList.remove('tip-open'); });
+  if(el) el.classList.toggle('tip-open');
+}, true);
+</script>
 </body>
 </html>

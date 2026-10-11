@@ -1101,334 +1101,218 @@
         }
       ]
     },
-    "informatika": {
-      "title": "Informatika",
+    "digitalis_kultura": {
+      "title": "Digitális kultúra",
       "icon": "💻",
-      "summary": "Az információ feldolgozásának és tárolásának tudománya. Számítógépes rendszerek, algoritmusok, hálózatok és a digitális világ alapjai.",
+      "summary": "A digitális kultúra tantárgy a digitális eszközök és alkalmazások tudatos, alkotó és biztonságos használatára készít fel. Fejleszti a számítógépes gondolkodást, a programozási alapismereteket és az információbiztonság iránti tudatosságot.",
       "articles": [
         {
-          "heading": "CPU – Központi feldolgozóegység",
-          "body": "A **CPU** (Central Processing Unit) = **Központi feldolgozóegység**, a számítógép 'agya'. Feladatai: utasítások végrehajtása, aritmetikai és logikai műveletek, más komponensek vezérlése. A CPU **órajele** (GHz) mutatja, hány milliárd műveletet hajt végre másodpercenként (pl. 3 GHz = 3 milliárd ciklus/s). A modern CPU-k **többmagosak** (pl. 4, 8, 16 mag), amelyek párhuzamosan végezhetnek feladatokat. A processzor **cache memóriája** (L1, L2, L3) gyorsan elérhető átmeneti tárolás. Napjaink legnépszerűbb CPU-gyártói: **Intel** (Core sorozat) és **AMD** (Ryzen sorozat).",
+          "heading": "Adatok és információ",
+          "body": "Az **adat** nyers tény vagy mérési eredmény, az **információ** az értelmezett, feldolgozott adat. Az adatok tárolásának alapegysége a **bit** (0 vagy 1), 8 bit = 1 **bájt**. Nagy tárolóegységek: kilobájt (KB), megabájt (MB), gigabájt (GB). A digitális eszközök bináris (kettes számrendszerbeli) adatokkal dolgoznak.",
+          "keywords": [
+            "adat",
+            "információ",
+            "bit",
+            "bájt",
+            "bináris",
+            "tárolás"
+          ]
+        },
+        {
+          "heading": "Számítógép felépítése",
+          "body": "A számítógép fő részei: **CPU** (processzor – a számítások elvégzője), **RAM** (véletlen hozzáférésű memória – ideiglenes tárolás), **háttértár** (merevlemez, SSD – tartós tárolás), **beviteli eszközök** (billentyűzet, egér) és **kiviteli eszközök** (monitor, nyomtató). Az **operációs rendszer** (pl. Windows, Linux, macOS) vezérli a hardvert és a szoftvereket.",
           "keywords": [
             "CPU",
-            "Central Processing Unit",
-            "Központi feldolgozóegység",
-            "processzor",
-            "GHz",
-            "mag",
-            "órajel",
-            "cache",
-            "Intel",
-            "AMD"
-          ]
-        },
-        {
-          "heading": "Adattárolás – bájt",
-          "body": "A tárhely alapegysége a **bájt (B)** = **8 bit**. A **bit** a legkisebb információs egység (értéke 0 vagy 1). Előtagok: **1 KB** (kilobájt) = 1024 B, **1 MB** (megabájt) = 1024 KB, **1 GB** (gigabájt) = 1024 MB, **1 TB** (terabájt) = 1024 GB, **1 PB** (petabájt) = 1024 TB. Egy közepes minőségű fénykép kb. 3–5 MB. Egy MP3 dal kb. 4–8 MB. Egy HD film kb. 4–10 GB. Egy átlagos laptop **SSD** kapacitása kb. 256 GB – 1 TB. A RAM (operatív memória) szintén bájtokban mérhető, tipikusan 8–32 GB.",
-          "keywords": [
-            "bájt",
-            "bit",
-            "KB",
-            "MB",
-            "GB",
-            "TB",
-            "tárhely",
-            "SSD",
             "RAM",
-            "adattárolás"
-          ]
-        },
-        {
-          "heading": "Böngésző",
-          "body": "A **böngésző** (web browser) az internet böngészésére szolgáló program, amely **HTTP** vagy **HTTPS** protokollon tölti le és jeleníti meg a weboldalakat. Legfontosabb böngészők: **Google Chrome** (>65% piaci részesedés), **Mozilla Firefox**, **Apple Safari**, **Microsoft Edge**, **Opera**. A böngésző **HTML, CSS és JavaScript** kódot értelmez és jelenít meg vizuálisan. Az **URL** (Uniform Resource Locator) a weboldal pontos cimépe (pl. https://www.example.com). A **cookie** a böngésző által tárolt kis adatfájl (bejelentkezési állapot, preferenciák). A **HTTPS** titkosított kapcsolatot jelent, biztonságosabb a HTTP-nél.",
-          "keywords": [
-            "böngésző",
-            "browser",
-            "internet",
-            "HTTP",
-            "HTTPS",
-            "Chrome",
-            "Firefox",
-            "HTML",
-            "CSS",
-            "URL",
-            "cookie"
-          ]
-        },
-        {
-          "heading": "Bináris (kettes) számrendszer",
-          "body": "A számítógép alapvetően a **kettes (bináris) számrendszert** használja, ahol csak 0 és 1 jegy létezik. Minden adat bitek sorozataként tárolódik. Átváltás decimálisra: 1010₂ = 1×2³ + 0×2² + 1×2¹ + 0×2⁰ = 8+0+2+0 = **10₁₀**. További példák: 1111₂ = 15₁₀, 10000₂ = 16₁₀. A **hexadecimális** (16-os) rendszer tömörebb jelölés: 0–9 és A–F (A=10, B=11, ..., F=15). Pl. FF₁₆ = 255₁₀. Az **oktetális** (8-as) rendszer szintén használatos. A bináris aritmetika alapja: 1+1=10 (kettes átváltás).",
-          "keywords": [
-            "bináris",
-            "kettes számrendszer",
-            "bit",
-            "0 és 1",
-            "digitális",
-            "hexadecimális",
-            "átváltás",
-            "1010",
-            "10"
-          ]
-        },
-        {
-          "heading": "World Wide Web – www",
-          "body": "A **www** a **World Wide Web** rövidítése, **Tim Berners-Lee** brit informatikus találmánya (1989, CERN). Hiperlinkekkel összekapcsolt **weboldalak** hálózata, amely az interneten keresztül érhető el. Az internet maga a fizikai infrastruktúra (kábelek, szerverek, routerek), a web csak az egyik alkalmazás, ami rajta fut. A web működéséhez szükséges: **webszerver** (tárolja az oldalakat), **böngésző** (megjeleníti), **HTTP protokoll** (kommunikáció), **HTML** (tartalom), **CSS** (stílus), **JavaScript** (interaktivitás). Az első weboldal 1991-ben jött létre; ma több mint 1,9 milliárd weboldal létezik.",
-          "keywords": [
-            "www",
-            "World Wide Web",
-            "internet",
-            "Tim Berners-Lee",
-            "hiperhivatkozás",
-            "webszerver",
-            "HTML",
-            "HTTP",
-            "CERN",
-            "1989"
-          ]
-        },
-        {
-          "heading": "Alan Turing",
-          "body": "**Alan Turing** (1912–1954) brit matematikus, a számítógép-tudomány és mesterséges intelligencia egyik alapítója. Megalkotta a **Turing-gép** elméleti modelljét (1936), amely az összes számítógép elméleti alapját képezi. A 2. világháborúban Bletchley Parkban feltörte a németek **Enigma** kódológépét, amivel lényegesen megrövidítette a háborút. Bevezette a **Turing-tesztet** (1950): ha egy gép úgy kommunikál, hogy nem lehet megkülönböztetni egy embertől, intelligensnek tekinthetjük. Homoszexualitása miatt kémiai kasztrációra ítélték; 41 évesen halt meg (valószínűleg öngyilkosság). Az informatika 'Nobel-díja' a **Turing-díj**.",
-          "keywords": [
-            "Alan Turing",
-            "Turing-gép",
-            "mesterséges intelligencia",
-            "Enigma",
-            "informatika",
-            "Turing-teszt",
-            "Bletchley Park",
-            "Turing-díj",
-            "1912"
-          ]
-        },
-        {
-          "heading": "Programozás alapjai",
-          "body": "A **programozás** algoritmusok számítógépre való lefordítása valamilyen programnyelven. Alapfogalmak: **változó** (adat tárolása, pl. x = 5), **típus** (egész szám, valós, szöveg/string, logikai/boolean), **feltétel** (if-else elágazás: ha igaz, tedd ezt; különben azt), **ciklus** (for: adott számú ismétlés, while: feltétel teljesüléséig), **függvény** (újrahasználható kódblokk). Az **algoritmus** lépések meghatározott sorrendű végrehajtása egy feladat megoldásához. Elterjedt programnyelvek: **Python** (adattudomány, tanulás), **Java** (vállalati rendszerek), **JavaScript** (web), **C/C++** (rendszerprogramozás).",
-          "keywords": [
-            "programozás",
-            "változó",
-            "feltétel",
-            "ciklus",
-            "függvény",
-            "algoritmus",
-            "Python",
-            "Java",
-            "JavaScript",
-            "if-else"
-          ]
-        },
-        {
-          "heading": "Hálózatok és internet",
-          "body": "A **hálózat** összekapcsolt számítógépek és eszközök rendszere. **LAN** (helyi hálózat, pl. irodai), **WAN** (nagy kiterjedésű, pl. az internet). A **TCP/IP** az internet alapprotokollja: adatokat csomagokra bontja és összerakja. A **DNS** (Domain Name System) domainneveket fordít IP-címekre (pl. google.com → 142.250.xx.xx). A **router** irányítja az adatcsomagokat a célállomás felé. A **HTTP/HTTPS** protokoll a weboldalak letöltéséhez. Az **IP-cím** egy hálózati eszköz egyedi azonosítója (pl. 192.168.1.1). **Wi-Fi** (IEEE 802.11) és **Ethernet** a két fő csatlakozási technológia.",
-          "keywords": [
-            "hálózat",
-            "LAN",
-            "WAN",
-            "TCP/IP",
-            "DNS",
-            "router",
-            "HTTP",
-            "Wi-Fi",
-            "internet",
-            "IP-cím"
-          ]
-        },
-        {
-          "heading": "Adatbázisok",
-          "body": "Az **adatbázis** szervezett adatgyűjtemény, amelyből hatékonyan lehet adatokat lekérdezni, módosítani. A **relációs adatbázisban** (pl. MySQL, PostgreSQL) táblák (sorok és oszlopok) kapcsolódnak egymáshoz **elsődleges kulcs** (primary key) és **idegen kulcs** (foreign key) alapján. Az **SQL** (Structured Query Language) a szabványos lekérdező nyelv: **SELECT** (lekérdezés), **INSERT** (felvétel), **UPDATE** (módosítás), **DELETE** (törlés), **CREATE TABLE** (tábla létrehozása). A **NoSQL** adatbázisok (pl. MongoDB) dokumentum- vagy kulcs-érték párokat tárolnak. Az **index** gyorsítja a keresést hatalmas adathalmazokban.",
-          "keywords": [
-            "adatbázis",
-            "relációs",
-            "SQL",
-            "tábla",
-            "elsődleges kulcs",
-            "SELECT",
-            "INSERT",
-            "index",
-            "MySQL",
-            "NoSQL"
-          ]
-        },
-        {
-          "heading": "Operációs rendszerek",
-          "body": "Az **operációs rendszer** (OS) a számítógép hardverét és szoftvereit kezeli, és felületet biztosít a felhasználónak. Fő feladatai: **folyamatkezelés** (CPU-idő elosztása a programok között), **memóriakezelés** (RAM allokáció), **fájlrendszer** (adattárolás szervezése mappákban és fájlokban), **eszközkezelés** (driverek a perifériákhoz). Főbb OS-ek: **Windows** (asztali PC-k domináns rendszere), **Linux** (szabad/nyílt forráskódú, szerverek 90%-a), **macOS** (Apple), **Android** (okostelefonok ~70%), **iOS** (iPhone). A **kernel** az OS magja, közvetlen kapcsolatban áll a hardverrel.",
-          "keywords": [
             "operációs rendszer",
-            "kernel",
-            "folyamatkezelés",
-            "memóriakezelés",
-            "fájlrendszer",
-            "Windows",
-            "Linux",
-            "Android",
-            "iOS",
-            "driver"
+            "hardware",
+            "szoftver",
+            "számítógép"
+          ]
+        },
+        {
+          "heading": "Internet és hálózatok",
+          "body": "Az **internet** globális számítógép-hálózat, amelyen az eszközök **IP-cím** alapján azonosítják egymást. A **WWW** (World Wide Web) weboldalak hálózata, amelyeket **böngészővel** érünk el. Az **URL** az oldalak egyedi címe (pl. https://). A **http** és **https** protokollok szabályozzák az adatátvitelt; a https titkosított és biztonságosabb.",
+          "keywords": [
+            "internet",
+            "IP-cím",
+            "WWW",
+            "böngésző",
+            "URL",
+            "https",
+            "hálózat"
+          ]
+        },
+        {
+          "heading": "Algoritmusok és programozás",
+          "body": "Az **algoritmus** lépések sorozata, amely egy probléma megoldásához vezet. Az **alapvető vezérlési szerkezetek**: szekvencia (egymás utáni lépések), szelekció (elágazás: ha...akkor), iteráció (ciklus: ismétlés). A **blokkalapú programozás** (pl. Scratch) vizuálisan mutatja be ezeket. A szöveges programozási nyelvek (Python, Java) pontosabb utasításokat igényelnek.",
+          "keywords": [
+            "algoritmus",
+            "programozás",
+            "elágazás",
+            "ciklus",
+            "Scratch",
+            "Python",
+            "vezérlési szerkezet"
+          ]
+        },
+        {
+          "heading": "Digitális biztonság",
+          "body": "Az **adatvédelem** célja a személyes adatok védelme. **Erős jelszó** tartalmazzon nagy- és kisbetűket, számokat, speciális karaktereket. A **kétfaktoros hitelesítés** (2FA) plusz védelmet nyújt. Az **adathalászat** (phishing) megtévesztő e-mailes vagy webes kísérlet adatlopásra. A **vírus** és **kártékony szoftver** (malware) ártalmas programok; víruskereső szoftver véd ellenük.",
+          "keywords": [
+            "adatvédelem",
+            "jelszó",
+            "adathalászat",
+            "vírus",
+            "kétfaktoros hitelesítés",
+            "kiberbiztonság"
+          ]
+        },
+        {
+          "heading": "Táblázatkezelés alapjai",
+          "body": "A **táblázatkezelő** (pl. LibreOffice Calc, Excel) adatokat rendez táblázatba: sorok és oszlopok metszéspontjai a **cellák**. A cellák **hivatkozása** oszlop+sor betű-szám kombinációval (pl. A1, B3). **Képletek** = jellel kezdődnek (pl. =A1+B1). **Függvények**: SZUM, ÁTLAG, MAX, MIN. Az adatok **diagramba** (grafikonba) is ábrázolhatók: oszlopdiagram, kördiagram, vonaldiagram.",
+          "keywords": [
+            "táblázatkezelő",
+            "cella",
+            "képlet",
+            "függvény",
+            "SZUM",
+            "diagram",
+            "Excel"
+          ]
+        },
+        {
+          "heading": "Szövegszerkesztés",
+          "body": "A **szövegszerkesztő** (pl. Word, LibreOffice Writer) lehetővé teszi dokumentumok írását, formázását, mentését. Alapvető formázások: **betűméret**, **betűstílus** (félkövér, dőlt, aláhúzott), **bekezdés igazítás** (balra, középre, jobbra, sorkizárt). Az **oldalbeállítás** magába foglalja a margókat, tájolást, lapformátumot. A **másolás-beillesztés** (Ctrl+C, Ctrl+V) és a **visszavonás** (Ctrl+Z) alapvető műveletek.",
+          "keywords": [
+            "szövegszerkesztő",
+            "formázás",
+            "bekezdés",
+            "oldalbeállítás",
+            "másolás",
+            "betűstílus"
+          ]
+        },
+        {
+          "heading": "Digitális kommunikáció és médiaismeret",
+          "body": "A digitális kommunikáció formái: **e-mail**, **chat**, **videóhívás**, **közösségi média**. Fontos a **netikett** (hálózati illemtan): udvarias, tiszteletteljes kommunikáció online is. A **médiaismeret** segít felismerni a hiteles és a hamis információkat (**fake news**). A **szerzői jog** az alkotók munkáit védi; a **Creative Commons** licencek szabad felhasználást engedélyeznek bizonyos feltételekkel.",
+          "keywords": [
+            "e-mail",
+            "kommunikáció",
+            "netikett",
+            "médiaismeret",
+            "fake news",
+            "szerzői jog",
+            "közösségi média"
           ]
         }
       ]
     },
-    "idegen": {
-      "title": "Idegen nyelvek",
-      "icon": "🌍",
-      "summary": "Az idegen nyelvek tanulása kulcsfontosságú a modern világban. Az angol a nemzetközi kommunikáció nyelve, a német Közép-Európa vezető nyelve, a francia pedig a diplomácia és kultúra hagyományos nyelve.",
+    "idegen_nyelv": {
+      "title": "Idegen nyelv",
+      "icon": "🗣️",
+      "summary": "Az idegen nyelv tantárgy (elsősorban angol és német) fejleszti a kommunikációs készségeket: olvasás, írás, hallásértés és szóbeli kifejezés. Az 5–8. évfolyamon a CEFR A1–B1 szintek elérése a cél.",
       "articles": [
         {
-          "heading": "Angol alapszókincs",
-          "body": "Az angol a világ legszélesebb körben használt nyelve. Alapvető köszönések: **Hello** (Szia), **Good morning** (Jó reggelt), **Good night** (Jó éjt), **Thank you** (Köszönöm), **Please** (Kérem), **Sorry** (Elnézést). Számok: **one, two, three, four, five, six, seven, eight, nine, ten**. Színek: **red** (piros), **blue** (kék), **green** (zöld), **yellow** (sárga), **black** (fekete), **white** (fehér). Az angol abc 26 betűből áll.",
+          "heading": "Kommunikációs alapkészségek",
+          "body": "Az idegen nyelvi kommunikáció négy fő készsége: **olvasás** (szövegértés), **írás**, **hallásértés** (listening) és **szóbeli kifejezés** (speaking). A CEFR (Common European Framework of Reference) hat szintet különböztet meg: A1, A2 (alapszint), B1, B2 (középszint), C1, C2 (haladó szint). Az 5–8. osztályban A1–B1 szint az elvárás.",
           "keywords": [
-            "hello",
-            "good morning",
-            "thank you",
-            "please",
-            "sorry",
-            "one",
-            "two",
-            "three",
+            "CEFR",
+            "olvasás",
+            "írás",
+            "hallásértés",
+            "kommunikáció",
+            "A1",
+            "B1"
+          ]
+        },
+        {
+          "heading": "Angol alapszókincs és kifejezések",
+          "body": "Alapvető angol üdvözlések: **Good morning** (jó reggelt), **Good afternoon** (jó napot), **Good evening** (jó estét), **Good night** (jó éjszakát), **How are you?** (Hogy vagy?), **Thank you** (köszönöm), **Please** (kérem), **Sorry** (sajnálom/elnézést). A **to be** ige ragozása: I am, you are, he/she/it is, we/you/they are.",
+          "keywords": [
             "angol",
+            "üdvözlés",
+            "to be",
+            "szókincs",
+            "alapkifejezések",
             "köszönés"
           ]
         },
         {
           "heading": "Angol igeidők",
-          "body": "Az angolban három fő igeidő létezik. **Jelen idő (Present Simple)**: She reads every day — az igéhez egyes szám harmadik személyben -s/-es kerül. **Folyamatos jelen (Present Continuous)**: She is reading now — az is/am/are segédigével és -ing toldalékkal képezzük. **Múlt idő (Past Simple)**: She read yesterday — a szabályos igéknél -ed, a rendhagyóknál tőváltás: go→went, see→saw, eat→ate. **Jövő idő**: She will read tomorrow — a will segédigével fejezzük ki.",
+          "body": "**Present Simple**: rendszeres cselekvés (I work, she works). **Present Continuous**: folyamatban lévő cselekvés (I am working). **Past Simple**: befejezett múlt (I worked, I went). **Future Simple**: jövő (I will work). Kérdőszavak: **Who?** (ki), **What?** (mi), **Where?** (hol), **When?** (mikor), **Why?** (miért), **How?** (hogyan).",
           "keywords": [
-            "present simple",
-            "past simple",
-            "will",
-            "ing",
-            "igeidő",
-            "went",
-            "saw",
-            "szabályos ige",
-            "rendhagyó ige"
+            "igeidők",
+            "Present Simple",
+            "Present Continuous",
+            "Past Simple",
+            "Future",
+            "kérdőszavak"
           ]
         },
         {
-          "heading": "Német alapszókincs",
-          "body": "A német Közép-Európa legelterjedtebb anyanyelve (~100 millió). Köszönések: **Guten Morgen** (Jó reggelt), **Guten Tag** (Jó napot), **Guten Abend** (Jó estét), **Auf Wiedersehen** (Viszontlátásra), **Bitte** (Kérem/Szívesen), **Danke** (Köszönöm), **Entschuldigung** (Elnézést). A **főneveknek** nemük van: **der** (hímnem), **die** (nőnem), **das** (semleges). Pl. der Mann (a férfi), die Frau (a nő), das Kind (a gyerek). A névelők ragozódnak (eset szerint): Nominatív: der/die/das, Akkuzatív: den/die/das, Datívusz: dem/der/dem. Számok: eins, zwei, drei, vier, fünf, sechs, sieben, acht, neun, zehn.",
+          "heading": "Német alapok",
+          "body": "Németül háromféle névelő van: **der** (hímnemű), **die** (nőnemű), **das** (semlegesnemű). Az **Umlaut** (ä, ö, ü) fontos kiejtési jellemző. Köszönések: **Guten Morgen** (jó reggelt), **Guten Tag** (jó napot), **Guten Abend** (jó estét), **Tschüss** (szia/viszlát), **Danke** (köszönöm), **Bitte** (kérem). A számnévi rendszer: 1–eins, 2–zwei, 3–drei, 10–zehn, 100–hundert.",
           "keywords": [
-            "guten morgen",
-            "guten tag",
-            "auf wiedersehen",
-            "danke",
-            "bitte",
-            "der",
-            "die",
-            "das",
-            "főnévi nem",
             "német",
-            "számok"
+            "névelő",
+            "der die das",
+            "Umlaut",
+            "köszönés",
+            "számok",
+            "alap"
           ]
         },
         {
-          "heading": "Német nyelvtan — esetek",
-          "body": "A németben négy eset van. **Nominatív** (alany): Der Hund bellt — a kutya ugat. **Akkuzatív** (tárgy): Ich sehe den Hund — Látom a kutyát. **Datívusz** (részeshatározó): Ich gebe dem Hund Futter — Adok enni a kutyának. **Genitív** (birtok): Das Haus des Mannes — A férfi háza. A névelők az esetek szerint változnak: der→den (akk.), dem (dat.). Különleges szavak: **ich** (én), **du** (te), **er/sie/es** (ő), **wir** (mi), **ihr** (ti), **sie/Sie** (ők/Ön).",
+          "heading": "Idegen nyelvi szövegértés",
+          "body": "A **szövegértési stratégiák**: skim (gyors átfutás a lényeg kiszűrésére), scan (konkrét adat keresése), intensive reading (részletes olvasás). Az ismeretlen szavak **kontextusból** fejthetők meg. A **szótár** (papír vagy online) és a **szövegkörnyezet** segíti a szójelentés megértését. Hallásértésnél fontos a figyelem az **intonációra** és **hangsúlyra**.",
           "keywords": [
-            "nominatív",
-            "akkuzatív",
-            "datívusz",
-            "genitív",
-            "eset",
-            "der den dem des",
-            "ich",
-            "du",
-            "wir",
-            "névmás"
+            "szövegértés",
+            "skim",
+            "scan",
+            "szótár",
+            "intonáció",
+            "olvasási stratégia"
           ]
         },
         {
-          "heading": "Francia alapszókincs",
-          "body": "A francia a romantikus nyelvek egyike, amely a latinból fejlődött ki. Köszönések: **Bonjour** (Jó napot/Jó reggelt), **Bonsoir** (Jó estét), **Merci** (Köszönöm), **S'il vous plaît** (Kérem), **Excusez-moi** (Elnézést), **Au revoir** (Viszontlátásra). A franciában a főneveknek két nemük van: **le/un** (hímnem), **la/une** (nőnem). Pl. le livre (a könyv), la table (az asztal). A néma betűk miatt a kiejtés különbözik az írástól.",
+          "heading": "Mindennapi témák idegen nyelven",
+          "body": "Az 5–8. osztályos idegen nyelv legfontosabb témái: **bemutatkozás** (name, age, nationality, hobbies), **iskola és tantárgyak**, **család és otthon**, **ételek és vásárlás**, **időjárás és évszakok**, **szabadidő és sport**, **utazás és közlekedés**, **egészség és testrészek**. Minden témához tartozó alapszókincset és mondatszerkezeteket kell elsajátítani.",
           "keywords": [
-            "bonjour",
-            "merci",
-            "au revoir",
-            "bonsoir",
-            "le",
-            "la",
-            "un",
-            "une",
-            "hímnem",
-            "nőnem",
-            "francia"
+            "bemutatkozás",
+            "iskola",
+            "család",
+            "szabadidő",
+            "utazás",
+            "egészség",
+            "témaköök"
           ]
         },
         {
-          "heading": "Nyelvtanulási módszerek",
-          "body": "A hatékony nyelvtanuláshoz több módszer kombinálása ajánlott. **Szókártyák (flashcard)**: Egy oldalon az idegen szó, másikon a fordítás — napi ismétléssel rögzíthetők. **Spaced repetition**: A nehezebb szavakat sűrűbben, a könnyen megjegyzetteket ritkábban kell ismételni. **Input-módszer**: Minél több célnyelvi szöveget (könyv, film, zene) fogyasszunk el. **Tandem**: Anyanyelvi beszélővel cserélünk — te tanítod a magyart, ő a célnyelvet. Az Európai Referenciakeret (KER/CEFR) szintjei: A1–A2 (kezdő), B1–B2 (középhaladó), C1–C2 (haladó/anyanyelvi szintű).",
+          "heading": "Nyelvtani alapfogalmak",
+          "body": "Az **ige** (verb) cselekvést vagy állapotot fejez ki. A **főnév** (noun) személyt, tárgyat, fogalmat nevez meg. A **melléknév** (adjective) minőséget jelöl. A **határozószó** (adverb) az igét módosítja. Az angol mondatrend alapvetően **SVO**: Alany (Subject) – Állítmány (Verb) – Tárgy (Object), pl. *She reads a book.* Tagadás: **do not / does not / did not** + igető.",
           "keywords": [
-            "szókártya",
-            "flashcard",
-            "spaced repetition",
-            "tandem",
-            "KER",
-            "CEFR",
-            "A1",
-            "B2",
-            "C1",
-            "input-módszer",
-            "nyelvtanulás"
+            "ige",
+            "főnév",
+            "melléknév",
+            "mondatrend",
+            "SVO",
+            "tagadás",
+            "szófaj"
           ]
         },
         {
-          "heading": "Rendhagyó angol igék",
-          "body": "A rendhagyó angol igéknél a **Past Simple** és **Past Participle** eltér az alapalaktól – ezeket memorizálni kell. Legfontosabbak (alap – múlt – befejezett): **go–went–gone**, **see–saw–seen**, **come–came–come**, **take–took–taken**, **make–made–made**, **give–gave–given**, **write–wrote–written**, **know–knew–known**, **eat–ate–eaten**, **run–ran–run**, **be–was/were–been**, **have–had–had**, **do–did–done**, **say–said–said**, **get–got–got**. A szabályos igéknél mindig -ed toldalék kerül a múlt időhöz (pl. play–played, work–worked).",
+          "heading": "Kultúra és civilizáció",
+          "body": "Az idegen nyelvek tanulásának részét képezi az adott **kultúra megismerése**: angol anyanyelvű országok (UK, USA, Ausztrália, Kanada, Írország), hagyományaik (**Halloween**, **Thanksgiving**, **Guy Fawkes Night**, **Christmas**). Németül beszélő országok: Németország, Ausztria, Svájc. A **kulturális különbségek** megértése segíti a hatékony kommunikációt.",
           "keywords": [
-            "rendhagyó ige",
-            "go went gone",
-            "see saw seen",
-            "Past Simple",
-            "Past Participle",
-            "irregular verb",
-            "be was been",
-            "have had",
-            "do did done"
-          ]
-        },
-        {
-          "heading": "Angol idiómák",
-          "body": "Az **idiómák** (állandósult szókapcsolatok) szó szerint nem értelmezhetők – az egész kifejezés más jelentést hordoz. Legfontosabbak: **'It's raining cats and dogs'** (szakad az eső), **'break a leg'** (sok sikert!), **'beat around the bush'** (kerülgeti a forró kását), **'cost an arm and a leg'** (nagyon drága), **'once in a blue moon'** (nagyon ritkán), **'hit the nail on the head'** (pontosan eltalálja), **'under the weather'** (rosszul érzi magát), **'bite the bullet'** (összeszedi magát/végrehajtja), **'spill the beans'** (kifecsegi a titkot), **'it's a piece of cake'** (gyerekjáték).",
-          "keywords": [
-            "idióma",
-            "raining cats and dogs",
-            "break a leg",
-            "cost an arm and a leg",
-            "blue moon",
-            "angol kifejezés",
-            "under the weather",
-            "piece of cake",
-            "spill the beans"
-          ]
-        },
-        {
-          "heading": "Present Perfect vs. Past Simple",
-          "body": "A **Present Perfect** (have/has + past participle) múlt cselekvés jelen szempontból fontos hatását fejezi ki: *'I have lost my keys'* (nem találom, most sincs meg). A **Past Simple** befejezett múltbeli cselekvés: *'I lost my keys yesterday'* (tegnap volt). Kulcsszavak: **already** (már, PP), **yet** (még nem, PP), **ever/never** (valaha/soha, PP), **just** (most, PP), **since/for** (óta, PP), **yesterday/last week/in 1990** (Past Simple). Kérdezés: 'Have you ever been to Paris?' (PP) vs. 'Did you go to Paris last year?' (PS). Tagadás: 'I haven't finished.' (PP) vs. 'I didn't finish it yesterday.' (PS).",
-          "keywords": [
-            "Present Perfect",
-            "Past Simple",
-            "have has",
-            "already",
-            "yet",
-            "since",
-            "for",
-            "yesterday",
-            "just",
-            "ever never"
-          ]
-        },
-        {
-          "heading": "Feltételes mondatok angolban",
-          "body": "Az angol **feltételes mondatoknak** (conditional) 4 típusa van. **0. feltételes** (Zero Conditional): *If water reaches 100°C, it boils* – általános igazság, természeti törvény (if + present, present). **1. feltételes**: *If it rains, I will take an umbrella* – valós, lehetséges jövő (if + present, will). **2. feltételes**: *If I were rich, I would travel the world* – képzelt, valószínűtlen jelen/jövő (if + past simple, would). **3. feltételes**: *If I had known, I would have helped* – múltbeli lehetőség, amit elszalasztottunk; sajnálat (if + past perfect, would have + PP). A *were* (nem was!) minden személlyel használható a 2. feltételesben.",
-          "keywords": [
-            "feltételes mondat",
-            "conditional",
-            "if",
-            "would",
-            "Past Simple",
-            "Past Perfect",
-            "3. feltételes",
-            "zero conditional",
-            "would have"
+            "kultúra",
+            "UK",
+            "USA",
+            "Németország",
+            "ünnepek",
+            "Halloween",
+            "Christmas",
+            "civilizáció"
           ]
         }
       ],
@@ -1672,6 +1556,391 @@
           "lang": "Spanyol",
           "source": "¿Cuánto cuesta?",
           "target": "Mennyibe kerül?"
+        }
+      ]
+    },
+    "termeszettudomany": {
+      "title": "Természettudomány",
+      "icon": "🔬",
+      "summary": "A természettudomány az 5–6. évfolyamon integrálja a biológia, fizika, kémia és földrajz alapjait. A tantárgy célja a természeti jelenségek megfigyelése, kísérletezés és az összefüggések felismerése.",
+      "articles": [
+        {
+          "heading": "Anyagok és tulajdonságaik",
+          "body": "Az **anyagok** lehetnek szilárd, folyékony vagy gáz halmazállapotúak. A szilárd anyagoknak állandó **alakjuk és térfogatuk** van. A folyadékoknak állandó a térfogatuk, de az edény alakját veszik fel. A gázok kitöltik az egész rendelkezésre álló teret. A halmazállapot-változások: **olvadás, fagyás, párolgás, kondenzáció, szublimáció**.",
+          "keywords": [
+            "halmazállapot",
+            "szilárd",
+            "folyékony",
+            "gáz",
+            "olvadás",
+            "párolgás",
+            "anyag"
+          ]
+        },
+        {
+          "heading": "Élőlények és környezetük",
+          "body": "Az **élőlények** alapvető tulajdonságai: táplálkozás, légzés, mozgás, szaporodás, növekedés, ingerlékenység. Az **élőhely** (biotóp) az a terület, ahol az élőlény él. Az **ökoszisztémában** az élőlények kölcsönhatásban vannak egymással és az élettelen környezettel. A **tápláléklánc** a termelőktől (növények) a fogyasztókon át a lebontókig vezet.",
+          "keywords": [
+            "élőlény",
+            "élőhely",
+            "ökoszisztéma",
+            "tápláléklánc",
+            "producens",
+            "fogyasztó"
+          ]
+        },
+        {
+          "heading": "Erők és mozgás",
+          "body": "Az **erő** hatása: megváltoztatja a test mozgásállapotát vagy alakját. Fajtái: **gravitáció**, **rugóerő**, **súrlódás**, **légköri nyomás**. Az **egyensúlyi helyzet** akkor áll fenn, ha az összes erő eredője nulla. A **sebesség** az elmozdulás és az idő hányadosa: v = s/t. A **gyorsulás** a sebesség megváltozásának mértéke.",
+          "keywords": [
+            "erő",
+            "gravitáció",
+            "súrlódás",
+            "sebesség",
+            "egyensúly",
+            "mozgás",
+            "rugóerő"
+          ]
+        },
+        {
+          "heading": "Víz a természetben",
+          "body": "A víz a Föld felszínének kb. **71%-át** borítja. A **vízkörforgás** lépései: párolgás (óceánokból), felhőképződés, csapadék (eső, hó), lefolyás, beszivárgás. A víz nélkülözhetetlen az élet számára: oldószer, hőtároló, élőhely. Az **ivóvíz** tisztasága egészségügyi szempontból alapvető. A vizek szennyezése az élővilágot és az emberi egészséget is veszélyezteti.",
+          "keywords": [
+            "vízkörforgás",
+            "párolgás",
+            "csapadék",
+            "ivóvíz",
+            "óceán",
+            "vízszennyezés",
+            "természet"
+          ]
+        },
+        {
+          "heading": "Levegő és légkör",
+          "body": "A levegő **nitrogénből** (~78%) és **oxigénből** (~21%) áll, kis arányban szén-dioxid, argon és egyéb gázok is találhatók. A **légkör** rétegei: troposzféra (időjárás), sztratoszféra (ózonréteg), mezoszféra, termoszféra, exoszféra. Az **ózonréteg** véd az UV sugárzástól. Az üvegházhatás: a **CO₂** és más gázok visszatartják a hőt, növelve a hőmérsékletet.",
+          "keywords": [
+            "levegő",
+            "nitrogén",
+            "oxigén",
+            "légkör",
+            "ózonréteg",
+            "üvegházhatás",
+            "CO₂"
+          ]
+        },
+        {
+          "heading": "Kísérletes megfigyelés",
+          "body": "A természettudományos **kísérlet** lépései: kérdés felvetése, **hipotézis** megfogalmazása, kísérlet tervezése, végrehajtása, adatok rögzítése, elemzés, következtetés. A **mérés** pontossága függ a mérőeszköz felbontásától. Alapvető eszközök: **hőmérő** (hőmérséklet), **mérlegen** (tömeg), **mérőhengerrel** (folyadéktérfogat). A kísérlet eredményét grafikonon is ábrázolhatjuk.",
+          "keywords": [
+            "kísérlet",
+            "hipotézis",
+            "mérés",
+            "hőmérő",
+            "megfigyelés",
+            "következtetés",
+            "tudományos módszer"
+          ]
+        },
+        {
+          "heading": "Naprendszer és Föld",
+          "body": "A **Naprendszer** középpontjában a **Nap** áll. 8 bolygója van: Merkúr, Vénusz, **Föld**, Mars, Jupiter, Szaturnusz, Uránusz, Neptunusz. A Föld egyetlen holdja a **Hold**. A Föld **forgása** (24 h) okozza a nappalt és éjszakát, a Nap körüli **keringése** (365,25 nap) az évszakokat. A Föld gömbszerű, belső szerkezete: kéreg, köpeny, mag.",
+          "keywords": [
+            "Naprendszer",
+            "Nap",
+            "Föld",
+            "bolygók",
+            "Hold",
+            "forgás",
+            "keringés",
+            "évszakok"
+          ]
+        }
+      ]
+    },
+    "allampolgari": {
+      "title": "Állampolgári ismeretek",
+      "icon": "🏛️",
+      "summary": "Az állampolgári ismeretek a demokratikus gondolkodást, a jogokat, kötelezettségeket és a közösségi felelősségvállalást fejleszti. A 7–8. évfolyamon alapvető alkotmányjogi és közéleti ismereteket nyújt.",
+      "articles": [
+        {
+          "heading": "Állam és alkotmány",
+          "body": "Az **állam** egy meghatározott területen élő népcsoport szervezett közössége, amelyet a **szuverenitás** (önálló döntési jog) jellemez. Az **alkotmány** az állam alapvető törvénye, amely meghatározza a hatalom szervezetét és a polgárok jogait. Magyarország **Alaptörvénye** 2012 óta érvényes, és tartalmazza az emberi jogokat és a kötelezettségeket.",
+          "keywords": [
+            "állam",
+            "alkotmány",
+            "szuverenitás",
+            "Alaptörvény",
+            "emberi jogok",
+            "törvény"
+          ]
+        },
+        {
+          "heading": "Demokrácia és választások",
+          "body": "A **demokrácia** a néphatalomra épülő államforma: a polgárok **választások** útján döntenek képviselőikről. A **szabad választás** elvei: általános, titkos, közvetlen, egyenlő szavazati jog. Magyarországon a **parlamenti választások** 4 évente zajlanak. A **Parlament** a törvényhozó hatalom, a **Kormány** a végrehajtó hatalom, a **bíróságok** az igazságszolgáltatási hatalom.",
+          "keywords": [
+            "demokrácia",
+            "választás",
+            "Parlament",
+            "Kormány",
+            "szavazat",
+            "képviselet",
+            "törvényhozás"
+          ]
+        },
+        {
+          "heading": "Emberi jogok",
+          "body": "Az **emberi jogok** minden embert születésénél fogva megilletnek, függetlenül nemétől, vallásától, bőrszínétől. Az **ENSZ Emberi Jogok Egyetemes Nyilatkozata** (1948) rögzítette ezeket: élethez való jog, szólásszabadság, vallásszabadság, oktatáshoz való jog, diszkrimináció tilalma. Az **Alaptörvény** és az **Európai Emberi Jogi Egyezmény** is védi e jogokat Magyarországon.",
+          "keywords": [
+            "emberi jogok",
+            "ENSZ",
+            "szólásszabadság",
+            "élethez való jog",
+            "diszkrimináció",
+            "Alaptörvény"
+          ]
+        },
+        {
+          "heading": "Helyi önkormányzat",
+          "body": "A **helyi önkormányzat** a lakóhely közügyeit intézi. Élén a **polgármester** áll, a döntéseket a **képviselő-testület** hozza. Az önkormányzat feladata: helyi utakról, iskolákról, szociális ellátásokról, hulladékgazdálkodásról gondoskodás. A polgármestert és a képviselőket 5 évenként választják. Az **önkormányzati választás** egyidőben zajlik az országgyűlési választásokkal.",
+          "keywords": [
+            "önkormányzat",
+            "polgármester",
+            "képviselő-testület",
+            "helyi közügyek",
+            "választás",
+            "közszolgáltatás"
+          ]
+        },
+        {
+          "heading": "Polgári jogok és kötelességek",
+          "body": "A **polgárnak** jogai (pl. szavazati jog, oktatáshoz való jog, szabad vallásgyakorlás) és **kötelességei** is vannak (pl. adófizetés, honvédelmi kötelezettség, gyermekek iskoláztatása). A **törvények** előtt mindenki egyenlő. A **jogorvoslat** joga lehetővé teszi, hogy a polgár bíróság előtt védje érdekeit. Az **ombudsman** az állampolgári jogok biztosa.",
+          "keywords": [
+            "polgári jogok",
+            "kötelességek",
+            "adófizetés",
+            "jogorvoslat",
+            "ombudsman",
+            "egyenlőség"
+          ]
+        },
+        {
+          "heading": "Magyarország az EU-ban",
+          "body": "Magyarország **2004. május 1-jén** csatlakozott az **Európai Unióhoz**. Az EU 27 tagállamból áll, legfőbb intézményei: **Európai Parlament** (törvényhozás), **Európai Bizottság** (végrehajtás), **Európai Unió Tanácsa** (tagállamok), **Európai Bíróság** (jogérvényesítés). Az egységes belső piacon szabad a személyek, áruk, szolgáltatások és tőke áramlása (**négy szabadság**).",
+          "keywords": [
+            "Európai Unió",
+            "EU",
+            "2004",
+            "Európai Parlament",
+            "négy szabadság",
+            "tagállam",
+            "egységes piac"
+          ]
+        },
+        {
+          "heading": "Közösségi felelősség",
+          "body": "Az **aktív állampolgárság** azt jelenti, hogy a polgár részt vesz a közösség életében: választásokon szavaz, önkénteskedik, véleményt nyilvánít. Az **önkéntes munka** a közösség javát szolgálja. A **civil szervezetek** (NGO-k) az állami és piaci szektoron kívül működnek. A **fenntartható fejlődés** megköveteli, hogy ma hozott döntéseink a jövő generációit is figyelembe vegyék.",
+          "keywords": [
+            "aktív állampolgárság",
+            "önkéntes munka",
+            "civil szervezet",
+            "közösség",
+            "fenntartható fejlődés",
+            "részvétel"
+          ]
+        }
+      ]
+    },
+    "etika": {
+      "title": "Etika",
+      "icon": "⚖️",
+      "summary": "Az etika tantárgy az erkölcsi gondolkodást, az értékrendet és a felelős döntéshozatalt fejleszti. Segít eligazodni az emberi kapcsolatok, közösségi normák és erkölcsi dilemmák világában.",
+      "articles": [
+        {
+          "heading": "Erkölcs és értékek",
+          "body": "Az **erkölcs** egy közösség által elfogadott viselkedési normák és értékek rendszere. Az **értékek** olyan elvek, amelyek szerint helyesnek tartjuk a cselekvést (pl. becsületesség, igazságosság, együttérzés). A **norma** előírja vagy tiltja a viselkedést. A **lelkiismeret** az a belső hang, amely megmondja, helyes vagy helytelen-e, amit teszünk.",
+          "keywords": [
+            "erkölcs",
+            "értékek",
+            "norma",
+            "lelkiismeret",
+            "becsületesség",
+            "igazságosság",
+            "etika"
+          ]
+        },
+        {
+          "heading": "Emberi kapcsolatok és empátia",
+          "body": "Az **empátia** mások érzéseinek, helyzetének megértése, beleélőképesség. A **tisztelet** azt jelenti, hogy másokat értéküknek megfelelően kezeljük. A **barátság** kölcsönös bizalomra, segítőkészségre épülő kapcsolat. A **konfliktus** elkerülhetetlen, de **párbeszéddel** és **kompromisszummal** megoldható. A **bántalmazás** (bullying) és a **diszkrimináció** erkölcsileg elfogadhatatlan.",
+          "keywords": [
+            "empátia",
+            "tisztelet",
+            "barátság",
+            "konfliktus",
+            "bántalmazás",
+            "párbeszéd",
+            "kapcsolat"
+          ]
+        },
+        {
+          "heading": "Igazságosság és felelősség",
+          "body": "Az **igazságosság** azt jelenti, hogy mindenki azt kapja, amit megérdemel, és az egyenlő eseteket egyenlően kezeljük. A **felelősség** a saját cselekményeinkért való elszámoltathatóság; a döntéseinknek következményeik vannak másokra is. A **szociális igazságosság** az elesettebb csoportok védelméért és egyenlő esélyeiért küzd.",
+          "keywords": [
+            "igazságosság",
+            "felelősség",
+            "döntés",
+            "következmény",
+            "szociális igazságosság",
+            "elszámoltathatóság"
+          ]
+        },
+        {
+          "heading": "Erkölcsi dilemmák",
+          "body": "Az **erkölcsi dilemma** olyan helyzet, amelyben két vagy több érték vagy kötelesség kerül egymással szembe, és nincs egyértelmű helyes döntés. Pl. hazugság, amely megakadályoz egy sérelmet – szabad-e hazudni? Az erkölcsi gondolkodás segít ilyen helyzetekben mérlegelni az **értékeket**, a **következményeket** és a **szabályokat**. A filozófusok különböző etikai elméleteket alkottak (pl. **Kant** kötelességetikája, **utilitarizmus**).",
+          "keywords": [
+            "dilemma",
+            "döntés",
+            "Kant",
+            "utilitarizmus",
+            "érték",
+            "kötelességetika",
+            "mérlegelés"
+          ]
+        },
+        {
+          "heading": "Közösség és egyén",
+          "body": "Az ember **szociális lény**: szükségletei kielégítéséhez közösségre van szüksége (család, barátok, iskola, társadalom). Az egyén és a közösség érdeke néha ütközhet: pl. a közösségi haszon szembe kerülhet az egyéni érdekkel. A **szolidaritás** azt jelenti, hogy a közösség tagjai segítik egymást. A **szabadság** joga nem korlátlan: másokon nem mehet a saját szabadságunk.",
+          "keywords": [
+            "közösség",
+            "egyén",
+            "szolidaritás",
+            "szabadság",
+            "szociális lény",
+            "érdek",
+            "felelősség"
+          ]
+        },
+        {
+          "heading": "Fenntarthatóság és környezeti etika",
+          "body": "A **környezeti etika** vizsgálja, milyen erkölcsi kötelezettségünk van a természettel szemben. A **fenntartható fejlődés** elve szerint a jelen generáció szükségleteit úgy kell kielégíteni, hogy a jövő generációk lehetőségeit ne csorbítsuk. Az **állatok védelme**, a **természeti erőforrások** megőrzése és a **klímaváltozás** elleni küzdelem erkölcsi kötelességnek tekinthető.",
+          "keywords": [
+            "környezeti etika",
+            "fenntarthatóság",
+            "klímaváltozás",
+            "állatok védelme",
+            "jövő generáció",
+            "erőforrás"
+          ]
+        },
+        {
+          "heading": "Identitás és önismeret",
+          "body": "Az **identitás** az, ami megkülönbözteti az embert másoktól: személyiség, értékek, hagyományok, kultúra. Az **önismeret** segít megérteni saját erősségeinket és gyengeségeinket. A **kamaszkor** fontos időszak az identitás formálódásában: értékek, életcélok, kapcsolatok alakulnak. A **kulturális identitás** a közösség hagyományain, nyelvén, értékein alapul.",
+          "keywords": [
+            "identitás",
+            "önismeret",
+            "kamaszkor",
+            "személyiség",
+            "kulturális identitás",
+            "értékek",
+            "fejlődés"
+          ]
+        }
+      ]
+    },
+    "hon_nepismeret": {
+      "title": "Hon- és népismeretek",
+      "icon": "🏡",
+      "summary": "A hon- és népismeretek tantárgy a magyar népi kultúra, hagyományok, szokások és a Kárpát-medencei magyarság megismerésére irányul. Célja a nemzeti öntudat és a kulturális örökség megbecsülésének fejlesztése.",
+      "articles": [
+        {
+          "heading": "Magyar népi kultúra",
+          "body": "A **népi kultúra** a nép évszázadokon át kialakult szellemi és tárgyi hagyományainak összessége. A **néphagyomány** generációról generációra öröklődik: dalok, mesék, szokások, mesterségek. A **népi kézművesség** magában foglalja a fazekasságot, szövést, hímzést, fafaragást. A **Kárpát-medence** a magyarság szülőföldjeként meghatározó a nemzeti identitásban.",
+          "keywords": [
+            "népi kultúra",
+            "néphagyomány",
+            "kézművesség",
+            "Kárpát-medence",
+            "hímzés",
+            "fazekasság",
+            "hagyomány"
+          ]
+        },
+        {
+          "heading": "Magyar népdalok és néptánc",
+          "body": "A **népdal** a nép szájhagyományban élő dala; dallamát és szövegét a nép alkotta és hagyományozta. **Bartók Béla** és **Kodály Zoltán** a 20. sz. elején felgyűjtötte a magyar, román és szlovák népdalokat. A **néptánc** régióként változó: **csárdás** (párokban), **verbunkos** (legénytánc), **körtánc** stb. A **Gyöngyösbokréta** mozgalom (1930-as évek) propagálta a néptáncot.",
+          "keywords": [
+            "népdal",
+            "néptánc",
+            "Bartók",
+            "Kodály",
+            "csárdás",
+            "verbunkos",
+            "szájhagyomány"
+          ]
+        },
+        {
+          "heading": "Népszokások és ünnepek",
+          "body": "A **naptári ünnepekhez** kötődő szokások: **farsang** (télűzés, maszkos mulatság), **húsvét** (locsolás, tojásfestés), **pünkösd** (pünkösdi király, királyné), **aratóünnep** (betakarítás utáni hálaadás), **Márton-nap** (november 11., libasütés, libás szokások), **Luca-nap** (dec. 13., szerencsehozó szokások), **karácsony** (betlehemezés, regölés). Ezek a szokások az agrárközösségek életéhez kötődtek.",
+          "keywords": [
+            "farsang",
+            "húsvét",
+            "pünkösd",
+            "Márton-nap",
+            "népszokás",
+            "naptár",
+            "ünnep"
+          ]
+        },
+        {
+          "heading": "Népi építészet és lakáskultúra",
+          "body": "A hagyományos **népi ház** felépítése tájegységenként változott: alföldi sárházak, dunántúli boronaházak, erdélyi tornácos házak. A ház alapvető részei: **szoba, konyha, kamra, istálló**. A **tüzelőberendezés** (kemence, kandalló) fűtött és sütött. A **bútorok** és **textíliák** (terítők, párnák) a ház díszítését, az életkörülményeket tükrözik. A **népi építészeti emlékek** ma múzeumokban (pl. **szabadtéri múzeum**, Szentendre) tekinthetők meg.",
+          "keywords": [
+            "népi ház",
+            "parasztház",
+            "kemence",
+            "tornác",
+            "bútor",
+            "Szentendre",
+            "népi építészet"
+          ]
+        },
+        {
+          "heading": "Magyar népmesék és mondák",
+          "body": "A **népmese** a szájhagyomány egyik legősibb formája: jó és rossz harcát, a hős próbatételeit meséli el. Főbb típusai: **tündérmese** (pl. Fehérlófia), **állatmese** (pl. ravasz róka), **tréfás mese**. A **monda** valóságos eseményekhez kötődő, legendásított történet (pl. csodaszarvas-monda, **turulmadár**). A **közmondások** és **szólások** a nép bölcsességét sűrítik.",
+          "keywords": [
+            "népmese",
+            "monda",
+            "tündérmese",
+            "csodaszarvas",
+            "turulmadár",
+            "szájhagyomány",
+            "közmondás"
+          ]
+        },
+        {
+          "heading": "Kárpát-medencei magyarság",
+          "body": "A **Kárpát-medence** Magyarországon kívül határon túli magyarokat is magában foglal: Erdélyben (Románia), Felvidéken (Szlovákia), Kárpátalján (Ukrajna), Délvidéken (Szerbia, Horvátország) és Burgenlandban (Ausztria) él kb. **2,5–3 millió** magyar. A **magyarság** összetartozása kultúra, nyelv, hagyomány által kötődik össze. A **Trianoni béke** (1920) után alakult ki ez a helyzet.",
+          "keywords": [
+            "Kárpát-medence",
+            "határon túli magyarok",
+            "Erdély",
+            "Felvidék",
+            "Trianon",
+            "magyarság",
+            "összetartozás"
+          ]
+        },
+        {
+          "heading": "Helyi és regionális hagyományok",
+          "body": "Magyarország tájegységei megőrizték saját hagyományaikat: **Matyó** népművészet (Mezőkövesd, gazdag hímzések), **Kalocsa** (paprikakultúra és hímzés), **Busójárás** Mohácson (téltemetés, UNESCO szellemi kulturális örökség 2009), **sárközi** és **palóc** szokások, **Debreceni Virágkarnevál**. A **helyi büszkeség** erősíti a közösségi összetartozást.",
+          "keywords": [
+            "matyó",
+            "Kalocsa",
+            "Busójárás",
+            "hímzés",
+            "paprika",
+            "UNESCO",
+            "regionális hagyomány"
+          ]
         }
       ]
     }
