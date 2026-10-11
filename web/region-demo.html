@@ -463,6 +463,7 @@
         <span class="res">&#9733; Arany: <b id="res-gold">0</b></span>
         <span class="res">&#128214; KK: <b id="res-kk">0</b></span>
         <button id="btn-end-turn" data-tip="Kör vége: bevétel, botok lépése, majd a te köröd jön">Kör vége ▶</button>
+        <button id="btn-sound" data-tip="Hang be/ki" style="min-width:34px;padding:4px 7px" title="Hang">🔊</button>
       </div>
       <div id="xp-bar">
         <b id="xp-label">XP: 0</b>
@@ -503,6 +504,10 @@
       <div id="save-status"></div>
       <div id="save-slots"></div>
       <input type="file" id="import-file-input" accept=".json" style="display:none">
+    </div>
+    <div class="card" id="teacher-card">
+      <h3>📊 Tanár-nézet</h3>
+      <div id="teacher-body"><span class="k">Még nincs kvíz-adat.</span></div>
     </div>
     <div class="card">
       <h3>Terület-tulajdon (szimuláció)</h3>
@@ -676,6 +681,7 @@ function showQuestionModal(prov, onSuccess, onCancel, mode='attack'){
         const correct = btn.textContent === q.correct;
         // Log answer for classroom mode
         answerLog.push({ts: Date.now(), subjectId: prov.subject, prompt: q.prompt, correct, turn: turnNumber});
+        renderTeacherCard();
         // Disable all buttons
         choicesEl.querySelectorAll('.q-choice').forEach(b=>{
           b.disabled = true;
@@ -2139,7 +2145,75 @@ function endTurn(){
   renderTurnBar();
   addEvent(`— ${turnNumber}. kör kezdődik —`, 'ev-info');
   document.getElementById('btn-end-turn').disabled = false;
+  // Autosave every 5 turns
+  if(turnNumber % 5 === 1 && turnNumber > 1) autoSave();
 }
+
+// ── Teacher dashboard ─────────────────────────────────────────────────────────
+function renderTeacherCard(){
+  const el = document.getElementById('teacher-body');
+  if(!el) return;
+  if(!answerLog.length){ el.innerHTML='<span class="k">Még nincs kvíz-adat.</span>'; return; }
+  const stats = {};
+  for(const r of answerLog){
+    const sid = r.subjectId || 'ismeretlen';
+    if(!stats[sid]) stats[sid] = {correct:0, total:0};
+    stats[sid].total++;
+    if(r.correct) stats[sid].correct++;
+  }
+  const totalQ = answerLog.length;
+  const totalC = answerLog.filter(r=>r.correct).length;
+  const overallPct = Math.round(totalC/totalQ*100);
+  let html = `<div style="font-size:12px;margin-bottom:8px">
+    <b>Összesített:</b> ${totalC}/${totalQ} helyes (${overallPct}%) — ${turnNumber}. kör — XP: ${xp}
+  </div>
+  <table style="width:100%;font-size:11px;border-collapse:collapse">
+  <tr style="color:var(--muted);border-bottom:1px solid #2a3345">
+    <th style="text-align:left;padding:2px 4px">Tantárgy</th>
+    <th style="text-align:right;padding:2px 4px">✓</th>
+    <th style="text-align:right;padding:2px 4px">Összes</th>
+    <th style="text-align:right;padding:2px 4px">%</th>
+  </tr>`;
+  for(const [sid, st] of Object.entries(stats).sort((a,b)=>b[1].total-a[1].total)){
+    const pct = Math.round(st.correct/st.total*100);
+    const subjName = DATA?.subjects?.find(s=>s.id===sid)?.name || sid;
+    const barColor = pct>=70?'#4db86a':pct>=40?'#c9a840':'#cc4444';
+    html += `<tr style="border-bottom:1px solid #1e2738">
+      <td style="padding:3px 4px">${subjName}</td>
+      <td style="text-align:right;padding:3px 4px;color:#7de8a0">${st.correct}</td>
+      <td style="text-align:right;padding:3px 4px">${st.total}</td>
+      <td style="padding:3px 4px;min-width:64px">
+        <span style="display:inline-block;width:${pct}%;max-width:60%;height:4px;background:${barColor};border-radius:2px;vertical-align:middle;margin-right:3px"></span>${pct}%
+      </td>
+    </tr>`;
+  }
+  html += `</table><div style="margin-top:8px">
+    <button id="btn-export-stats" style="font-size:11px;padding:4px 8px;cursor:pointer;border-radius:5px;
+      background:#1e3040;border:1px solid #3a5060;color:#6aacee">📥 Statisztika CSV</button>
+  </div>`;
+  el.innerHTML = html;
+  document.getElementById('btn-export-stats')?.addEventListener('click', ()=>{
+    const summaryHeader = `# Tanár-statisztika\n# Generálva: ${new Date().toISOString()}\n# Kör: ${turnNumber}  XP: ${xp}\n`;
+    const header = 'Időbélyeg;Tantárgy;Kérdés;Helyes;Kör';
+    const rows = answerLog.map(r=>[
+      new Date(r.ts).toISOString(), r.subjectId||'',
+      '"'+(r.prompt||'').replace(/"/g,'""')+'"',
+      r.correct?'igen':'nem', r.turn
+    ].join(';'));
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(summaryHeader+header+'\n'+rows.join('\n'));
+    a.download = 'tanar_statisztika_'+Date.now()+'.csv';
+    a.click();
+  });
+}
+window.renderTeacherCard = renderTeacherCard;
+
+// Sound toggle button
+document.getElementById('btn-sound')?.addEventListener('click', ()=>{
+  _sfxEnabled = !_sfxEnabled;
+  document.getElementById('btn-sound').textContent = _sfxEnabled ? '🔊' : '🔇';
+  if(!_sfxEnabled) stopBgm(); else ensureBgm();
+});
 
 function initTurnSystem(){
   renderTurnBar(); renderXPBar();
@@ -2164,7 +2238,7 @@ document.getElementById('btn-reset-cam').addEventListener('click', resetCamera);
 
 renderDiffCard(); renderUnrestCard(); initTurnSystem();
 
-// ── i68: Web Audio sound system ───────────────────────────────────────────
+// ── Audio system: MP3 files (sfx/ folder) with Web Audio synth fallback ──────
 let _audioCtx = null;
 function getAudioCtx(){
   if(!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2184,7 +2258,51 @@ function playTone(freq, type, duration, gainVal=0.18, delay=0){
     osc.stop(ctx.currentTime + delay + duration + 0.05);
   } catch(e){}
 }
+
+// MP3 cache: pre-load audio files from sfx/ if they exist
+const _sfxCache = {};
+const SFX_FILES = ['correct','wrong','conquest','lose_province','turn','win','lose','build'];
+let _sfxEnabled = true; // can be toggled by user
+let _bgmAudio = null;
+
+function loadSfxFiles(){
+  SFX_FILES.forEach(name=>{
+    const a = new Audio();
+    a.src = 'sfx/' + name + '.mp3';
+    a.preload = 'auto';
+    // Mark as loaded only if file actually exists (no 404)
+    a.addEventListener('canplaythrough', ()=>{ _sfxCache[name] = a; }, {once:true});
+  });
+}
+// Attempt to load; silently ignore if sfx/ doesn't exist yet
+try { loadSfxFiles(); } catch(e){}
+
+function startBgm(){
+  if(_bgmAudio) return;
+  const a = new Audio('sfx/bgm.mp3');
+  a.loop = true; a.volume = 0.35;
+  a.play().then(()=>{ _bgmAudio = a; }).catch(()=>{});
+}
+function stopBgm(){ if(_bgmAudio){ _bgmAudio.pause(); _bgmAudio = null; } }
+let _bgmStarted = false;
+function ensureBgm(){
+  if(!_bgmStarted){ _bgmStarted = true; startBgm(); }
+}
+
 function sfx(name){
+  if(!_sfxEnabled) return;
+  ensureBgm();
+  // Try MP3 file first
+  const cached = _sfxCache[name];
+  if(cached){
+    try{
+      const clone = cached.cloneNode();
+      clone.volume = 0.7;
+      clone.play().catch(()=>{});
+      return;
+    } catch(e){}
+  }
+  // Fallback: Web Audio synthesizer
   switch(name){
     case 'correct':
       playTone(523, 'sine', 0.12, 0.15);
@@ -3058,6 +3176,15 @@ function saveNow(){
   setSaveStatus('Mentve! (slot '+slot+')'); renderSaveSlots();
 }
 
+function autoSave(){
+  if(!DATA) return;
+  try{
+    localStorage.setItem('tudas_autosave', JSON.stringify(buildSavePayload()));
+    setSaveStatus('Automatikus mentés (' + turnNumber + '. kör)');
+    setTimeout(()=>{ const el=document.getElementById('save-status'); if(el) el.textContent=''; }, 2000);
+  } catch(e){}
+}
+
 function exportJson(){
   if(!DATA){ setSaveStatus('Nincs betöltött térkép!', true); return; }
   const blob = new Blob([JSON.stringify(buildSavePayload(),null,2)],{type:'application/json'});
@@ -3123,8 +3250,32 @@ document.getElementById('import-file-input').addEventListener('change', e=>{
   e.target.value='';
 });
 
+
+// ── Autosave slot in save card ────────────────────────────────────────────────
+function renderAutoSaveSlot(){
+  const container = document.getElementById('save-slots');
+  if(!container) return;
+  try{
+    const raw = localStorage.getItem('tudas_autosave');
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    const dt = new Date(s.ts);
+    const label = `Auto: ${dt.toLocaleDateString('hu')} ${dt.toLocaleTimeString('hu',{hour:'2-digit',minute:'2-digit'})} — ${s.turn}. kör`;
+    const row = document.createElement('div');
+    row.className = 'slot-row';
+    row.innerHTML = `<span class="slot-label">${label}</span>
+      <button class="slot-load" id="btn-load-autosave">Betölt</button>`;
+    container.prepend(row);
+    document.getElementById('btn-load-autosave').addEventListener('click', ()=>{
+      try{ applySavePayload(JSON.parse(localStorage.getItem('tudas_autosave'))); setSaveStatus('Auto-mentés betöltve!'); }
+      catch(e){ setSaveStatus('Hiba: '+e.message, true); }
+    });
+  } catch(e){}
+}
+
 // Render slot list on page load and expose for external refresh
 renderSaveSlots();
+renderAutoSaveSlot();
 </script>
 <!-- i79: Diplomacy modal -->
 <div id="diplo-overlay" class="hidden">
