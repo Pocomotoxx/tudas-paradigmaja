@@ -438,12 +438,12 @@
    "death": 1761,
    "ability": {
     "name": "Törökországi levelek",
-    "desc": "Diplomáciai hatás: szövetségesek lojalitása +20%",
+    "desc": "Bujdosó tapasztalata: taktikai kitartás és hadimesterség +20%",
     "effect": {
-     "type": "unrest_reduce",
-     "value": 2,
+     "type": "attack_bonus",
+     "value": 0.20,
      "scope": "region",
-     "desc": "Lázadás -2/kör"
+     "desc": "+20% meghódítási siker"
     }
    }
   },
@@ -742,12 +742,12 @@
    "death": 1944,
    "ability": {
     "name": "Erőltetett menet",
-    "desc": "Sereg napi menetteljesítménye +50%, lehetetlen körülmények közt is halad",
+    "desc": "A mártírium emléke kulturális erőt ad — tudás és alkotás nem pusztítható el",
     "effect": {
-     "type": "attack_bonus",
+     "type": "kk_bonus",
      "value": 0.15,
      "scope": "global",
-     "desc": "+15% meghódítási siker globálisan"
+     "desc": "+15% KK bevétel globálisan"
     }
    }
   }
