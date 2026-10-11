@@ -68,6 +68,57 @@
           "Ádám",
           "Lucifer"
         ]
+      },
+      {
+        "heading": "Metafora és szóképek",
+        "body": "A **metafora** közvetlen azonosítás két dolog között (pl. 'Az élet egy utazás'). A **hasonlat** kötőszóval fejez ki hasonlóságot (pl. 'olyan, mint'). A **megszemélyesítés** emberi tulajdonságot ad tárgyaknak. A **hiperbola** szándékos túlzás, a **metonímia** érintkezésen alapuló névátvitel.",
+        "keywords": [
+          "metafora",
+          "hasonlat",
+          "megszemélyesítés",
+          "hiperbola",
+          "metonímia",
+          "szókép"
+        ]
+      },
+      {
+        "heading": "Mondattan alapjai",
+        "body": "A mondat minimálisan **alanyból** (Ki? Mi?) és **állítmányból** (Mit csinál?) áll. A **tárgy** a cselekvés irányát (Kit? Mit?), a **határozó** a körülményt (Hol? Mikor? Hogyan?), a **jelző** a minőséget jelöli. Az összetett mondatnak több tagmondata van, amelyeket kötőszók vagy vesszők kapcsolnak.",
+        "keywords": [
+          "alany",
+          "állítmány",
+          "tárgy",
+          "határozó",
+          "jelző",
+          "mondattan",
+          "összetett mondat"
+        ]
+      },
+      {
+        "heading": "Petőfi Sándor",
+        "body": "**Petőfi Sándor** (1823–1849) a romantika kora legjelentősebb magyar költője. Legismertebb művei: **Nemzeti dal**, **János vitéz**, **Szeptember végén**. A forradalmi szellemű lírikus 1848. március 15-én szavalta a Nemzeti dalt a Pilvax kávéházban. Valószínűleg a fehéregyházi csatában esett el 1849-ben.",
+        "keywords": [
+          "Petőfi",
+          "Nemzeti dal",
+          "János vitéz",
+          "1848",
+          "romantika",
+          "forradalom"
+        ]
+      },
+      {
+        "heading": "Verstani fogalmak",
+        "body": "A **versláb** a vers ritmikai alapegysége. **Jambus**: hangsúlytalan-hangsúlyos (˘ –), **trocheus**: hangsúlyos-hangsúlytalan (– ˘), **daktilus**: hangsúlyos + két hangsúlytalan (– ˘ ˘). A **rím** sorvégi hangzásbeli egyezés. A **strófa** (versszak) sorok csoportja. A **cezúra** sorközépi szünet.",
+        "keywords": [
+          "versláb",
+          "jambus",
+          "trocheus",
+          "daktilus",
+          "rím",
+          "strófa",
+          "cezúra",
+          "ritmus"
+        ]
       }
     ]
   },
@@ -126,6 +177,55 @@
           "x = 5",
           "elsőfokú",
           "ismeretlen"
+        ]
+      },
+      {
+        "heading": "Pitagorasz-tétel",
+        "body": "A **Pitagorasz-tétel** szerint derékszögű háromszögben az átfogó négyzetének értéke egyenlő a két befogó négyzetének összegével: **a² + b² = c²**. Például: ha a = 3, b = 4, akkor c = √(9+16) = 5. A tétel megfordítása is igaz: ha a² + b² = c², akkor a háromszög derékszögű.",
+        "keywords": [
+          "Pitagorasz",
+          "a² + b² = c²",
+          "derékszögű",
+          "befogó",
+          "átfogó",
+          "háromszög"
+        ]
+      },
+      {
+        "heading": "Százalékszámítás",
+        "body": "A **százalék** egy szám száz részének egy részét jelöli. Képlet: százalék = (rész / egész) × 100. Pl. 30% a 200-ból: 200 × 0,3 = 60. Százaléknövekedés: új = eredeti × (1 + n/100). A **kamatos kamat** esetén az alap évente nő: T = T₀ × (1 + r/100)^n.",
+        "keywords": [
+          "százalék",
+          "százalékszámítás",
+          "alap",
+          "rész",
+          "kamatos kamat",
+          "arány"
+        ]
+      },
+      {
+        "heading": "Statisztika alapjai",
+        "body": "A statisztika adatok gyűjtésével és elemzésével foglalkozik. **Átlag**: adatok összege / adatok száma. **Medián**: a rendezett adatok középső értéke. **Módusz**: legtöbbször előforduló érték. **Szórás**: az adatok átlagtól való eltérése. Ezek a **középértékek** és a **szóródási mutatók** az adatelemzés alapjai.",
+        "keywords": [
+          "átlag",
+          "medián",
+          "módusz",
+          "szórás",
+          "statisztika",
+          "középérték",
+          "szóródás"
+        ]
+      },
+      {
+        "heading": "Törtek és arányok",
+        "body": "A **tört** egy osztás jelölése: a/b, ahol b ≠ 0. A **közös nevező** meghatározása az összeadáshoz szükséges. Egyszerűsítés: a/b = (a÷k)/(b÷k). **Arányos** két mennyiség, ha hányadosuk állandó. Az **egyenes arányosságnál** y = k·x; a **fordított arányosságnál** y = k/x.",
+        "keywords": [
+          "tört",
+          "közös nevező",
+          "egyszerűsítés",
+          "arányosság",
+          "egyenes arányosság",
+          "fordított arányosság"
         ]
       }
     ]
@@ -197,6 +297,58 @@
           "tömeg",
           "gyorsulás",
           "erő"
+        ]
+      },
+      {
+        "heading": "Mozgás és sebesség",
+        "body": "A **sebesség** az elmozdulás és az eltelt idő hányadosa: v = s/t (m/s). Az **egyenletesen gyorsuló mozgásnál** a gyorsulás állandó: a = Δv/t. A megtett út: s = v₀t + ½at². A **szabadesés** speciális egyenletesen gyorsuló mozgás, ahol a = g ≈ 9,81 m/s² lefelé.",
+        "keywords": [
+          "sebesség",
+          "gyorsulás",
+          "egyenletes mozgás",
+          "szabadesés",
+          "kinematika",
+          "elmozdulás"
+        ]
+      },
+      {
+        "heading": "Elektromosság alapjai",
+        "body": "Az **elektromos áram** töltéshordozók rendezett mozgása. Az **Ohm-törvény**: U = R × I (feszültség = ellenállás × áramerősség). A **teljesítmény**: P = U × I. Soros kapcsolásban az ellenállások összeadódnak. Párhuzamos kapcsolásban az inverz értékek adódnak össze: 1/R = 1/R₁ + 1/R₂.",
+        "keywords": [
+          "elektromos áram",
+          "Ohm-törvény",
+          "feszültség",
+          "ellenállás",
+          "teljesítmény",
+          "soros",
+          "párhuzamos"
+        ]
+      },
+      {
+        "heading": "Hőtan alapjai",
+        "body": "A **hőmérséklet** a molekulák mozgási energiájának mérőszáma. **Hővezetés** (kondukció): érintkezésen át. **Konvekció**: folyadék/gáz áramlással. **Sugárzás**: elektromágneses hullámok útján (vákuumban is). A **hőtágulás** megmutatja, hogy anyagok melegítésre megnyúlnak. A víz 0°C-on fagy, 100°C-on forr.",
+        "keywords": [
+          "hőmérséklet",
+          "hővezetés",
+          "konvekció",
+          "sugárzás",
+          "hőtágulás",
+          "fagyáspont",
+          "forráspont"
+        ]
+      },
+      {
+        "heading": "Optika alapjai",
+        "body": "A **fény** elektromágneses hullám, sebessége vákuumban c ≈ 300 000 km/s. A **visszaverődési törvény**: beesési szög = visszaverődési szög. A **fénytörés** (refrakció) akkor következik be, ha a fény különböző optikai közegek határán halad át. A **lencse** fókuszálja a fényt; az emberi szem lencseként működik.",
+        "keywords": [
+          "fény",
+          "visszaverődés",
+          "fénytörés",
+          "lencse",
+          "refrakció",
+          "optika",
+          "c",
+          "sebesség"
         ]
       }
     ]
@@ -270,6 +422,60 @@
           "lúgos",
           "skála"
         ]
+      },
+      {
+        "heading": "Kémiai kötések",
+        "body": "Az **ionos kötés** különböző elektronegativitású elemek között jön létre (fémek és nemfémek, pl. NaCl). A **kovalens kötés** elektronpár megosztásán alapul (pl. H₂O, CO₂). A **fémes kötés** fémrácson belül szabad elektronokkal valósul meg. A **poláris kovalens kötés** részleges töltésszétválasztással jár (pl. H-O kötés).",
+        "keywords": [
+          "ionos kötés",
+          "kovalens kötés",
+          "fémes kötés",
+          "poláris",
+          "elektronpár",
+          "NaCl",
+          "H₂O"
+        ]
+      },
+      {
+        "heading": "Savak és bázisok",
+        "body": "A **sav** H⁺ iont ad le vízben (pH < 7), a **bázis** OH⁻ iont (pH > 7). **Semlegesítési reakció**: sav + bázis → só + víz. Az **erős savak** (HCl, H₂SO₄, HNO₃) teljesen disszociálnak. A **gyenge savak** (ecetsav, szénsav) részlegesen. A **puffer** oldatok megakadályozzák a pH gyors változását.",
+        "keywords": [
+          "sav",
+          "bázis",
+          "pH",
+          "semlegesítés",
+          "disszociáció",
+          "erős sav",
+          "puffer",
+          "HCl"
+        ]
+      },
+      {
+        "heading": "Szerves kémia alapjai",
+        "body": "A **szerves vegyületek** szén-alapú molekulák. A **szénhidrogének** csak szénből és hidrogénből állnak: **telített** (alkánok, pl. metán CH₄), **telítetlen** (alkének, alkinek). Az **aromás vegyületek** benzolgyűrűs struktúrát tartalmaznak. A funkciós csoportok (–OH, –COOH, –NH₂) meghatározzák a kémiai tulajdonságokat.",
+        "keywords": [
+          "szerves kémia",
+          "szénhidrogén",
+          "alkán",
+          "alkén",
+          "benzol",
+          "funkciós csoport",
+          "metán",
+          "etanol"
+        ]
+      },
+      {
+        "heading": "Redox reakciók",
+        "body": "A **redox reakció** oxidáció (elektronvesztés) és redukció (elektronfelvétel) egyidejű végbemenetele. **Oxidáló szer**: elektronokat vesz fel (oxidációs száma csökken). **Redukáló szer**: elektronokat ad le (oxidációs száma nő). Az oxidációs számok nyomkövetése segít a redox egyenletek rendezésében.",
+        "keywords": [
+          "redox",
+          "oxidáció",
+          "redukció",
+          "oxidációs szám",
+          "oxidáló szer",
+          "redukáló szer",
+          "elektron"
+        ]
       }
     ]
   },
@@ -340,6 +546,60 @@
           "evolúció",
           "természetes szelekció",
           "fajok eredete"
+        ]
+      },
+      {
+        "heading": "Sejt szerkezete",
+        "body": "A **prokaryóta sejt** (baktériumok) sejtmag nélküli; a **eukaryóta sejt** (növények, állatok, gombák) sejtmaggal rendelkezik. Fő sejtszervecskék: **sejtmag** (DNS tárolás), **mitokondrium** (energia), **riboszóma** (fehérjeszintézis), **endoplazmatikus retikulum** (fehérjetranszport), **Golgi-készülék** (szortírozás).",
+        "keywords": [
+          "prokaryóta",
+          "eukaryóta",
+          "sejtmag",
+          "mitokondrium",
+          "riboszóma",
+          "Golgi",
+          "sejtszervecske"
+        ]
+      },
+      {
+        "heading": "Genetika alapjai",
+        "body": "A **DNS** kettős spirál alakú molekula, amely az örökletes információt tárolja. A **gén** egy DNS-szakasz, amely egy fehérje szintézisét kódolja. A **kromoszóma** DNS és fehérjék komplex szerkezete. Az emberben 46 kromoszóma (23 pár) van. Az **allélok** egy gén különböző változatai; a domináns allél érvényesül a recesszív felett.",
+        "keywords": [
+          "DNS",
+          "gén",
+          "kromoszóma",
+          "allél",
+          "domináns",
+          "recesszív",
+          "genetika",
+          "öröklés"
+        ]
+      },
+      {
+        "heading": "Ökológia alapjai",
+        "body": "Az **ökológia** az élőlények és környezetük kapcsolatát vizsgálja. A **tápláléklánc** az energiaáramlás irányát mutatja: producens → fogyasztók → lebontók. A **táplálékhálózat** összeszövődő táplálékláncok rendszere. A **biom** nagy éghajlati-növényzeti övek (trópusi esőerdő, tundra, szavanna). Az **ökoszisztéma** biotikus és abiotikus tényezők egysége.",
+        "keywords": [
+          "ökológia",
+          "tápláléklánc",
+          "táplálékhálózat",
+          "biom",
+          "ökoszisztéma",
+          "producens",
+          "fogyasztó",
+          "lebontó"
+        ]
+      },
+      {
+        "heading": "Evolúció és természetes szelekció",
+        "body": "**Darwin** evolúcióelmélete szerint a fajok változnak az időben a **természetes szelekció** által: a kedvező tulajdonságú egyedek több utódot hagynak. A **mutáció** és rekombináció genetikai változatosságot okoz. A **fajképződés** általában geográfiai izolációval kezdődik (**allopatrikus fajképzés**). A modern **szintetikus evolúcióelmélet** a darwini elveket a genetikával egyesíti.",
+        "keywords": [
+          "Darwin",
+          "evolúció",
+          "természetes szelekció",
+          "mutáció",
+          "fajképzés",
+          "szintetikus evolúció",
+          "adaptáció"
         ]
       }
     ]
@@ -414,6 +674,60 @@
           "első világháború",
           "területveszteség"
         ]
+      },
+      {
+        "heading": "Ókori Görögország",
+        "body": "Az ókori **görög civilizáció** (Kr.e. 8–4. sz.) a városállamokra (poliszokra) épített. **Athén** a demokrácia és kultúra, **Spárta** a katonai erő szimbóluma. A **görög-perzsa háborúk** (490–479 BC) során Görögország megvédte függetlenségét. **Periklész** arany kora virágzó kultúrát hozott (Parthenon, Szókratész, Platón, Arisztotelész).",
+        "keywords": [
+          "görög",
+          "polisz",
+          "Athén",
+          "Spárta",
+          "demokrácia",
+          "Periklész",
+          "Szókratész",
+          "görög-perzsa háború"
+        ]
+      },
+      {
+        "heading": "Magyar Királyság az Árpád-korban",
+        "body": "**I. István** (1000–1038) megalapozta a keresztény Magyar Királyságot: püspökségek, vármegyerendszer. **I. László** (1077–1095) és **Könyves Kálmán** folytatta a szervezést. A **tatárjárás** (1241–42) pusztítása után **IV. Béla** újjáépítette az országot. Az Árpád-ház 1301-ben kihalt **III. Andrással**.",
+        "keywords": [
+          "I. István",
+          "Árpád-kor",
+          "tatárjárás",
+          "IV. Béla",
+          "kereszténység",
+          "Magyar Királyság",
+          "vármegyerendszer"
+        ]
+      },
+      {
+        "heading": "Az újkor kezdete – felfedezések és reformáció",
+        "body": "A **nagy földrajzi felfedezések** (15–16. sz.) megváltoztatták a világ képét: **Kolombusz** Amerikát, **Vasco da Gama** India tengeri útját fedezte fel. A **reformáció** (1517) **Luther Márton** 95 tézisével kezdődött; nyomán az egyház kettészakadt. A **reneszánsz** a humanizmus és individualizmus szellemi megújulása volt.",
+        "keywords": [
+          "felfedezések",
+          "Kolombusz",
+          "reformáció",
+          "Luther",
+          "reneszánsz",
+          "humanizmus",
+          "Vasco da Gama"
+        ]
+      },
+      {
+        "heading": "20. századi Magyarország",
+        "body": "**Trianon** (1920) után Magyarország elveszítette területeinek 2/3-át. A **Horthy-korszak** (1920–1944) konzervatív politikát jelentett. Magyarország részt vett a **2. világháborúban** a németek oldalán. 1945 után **szovjet megszállás** és kommunista rendszer következett. Az **1956-os forradalom** szovjet tankok segítségével zárult le. **1989-ben** rendszerváltás zajlott le.",
+        "keywords": [
+          "Trianon",
+          "Horthy",
+          "2. világháború",
+          "1956",
+          "rendszerváltás",
+          "szovjet megszállás",
+          "Magyarország",
+          "1989"
+        ]
       }
     ]
   },
@@ -485,6 +799,62 @@
           "17,1 millió km²",
           "Moszkva",
           "Eurázsia"
+        ]
+      },
+      {
+        "heading": "Magyarország tájai",
+        "body": "Magyarország főbb tájegységei: **Alföld** (Nagy-Alföld, Kis-Alföld), **Dunántúl** (dombvidék, Mecsek, Bakony), **Északi-középhegység** (Mátra, Bükk, Zemplén). A **Tisza** és a **Duna** főbb folyók. A **Balaton** Közép-Európa legnagyobb tava. Magyarország tengerszint feletti átlagmagassága ~143 m, az alacsonyabban fekvő európai országok közé tartozik.",
+        "keywords": [
+          "Alföld",
+          "Dunántúl",
+          "Mátra",
+          "Bükk",
+          "Balaton",
+          "Tisza",
+          "Duna",
+          "Magyarország"
+        ]
+      },
+      {
+        "heading": "Éghajlati övezetek",
+        "body": "A Föld éghajlati övezetei szélességi fokok szerint: **egyenlítői** (forró, esős egész évben), **trópusi** (két évszak), **szubtrópusi** (mediterrán: száraz nyár), **mérsékelt** (négy évszak), **szubarktikus**, **arktikus/sarki**. A **monszun éghajlat** Ázsiában jellemző az évszakos szélirányváltással. A **száraz éghajlat** sivatagi területeken figyelhető meg.",
+        "keywords": [
+          "éghajlati övek",
+          "egyenlítői",
+          "trópusi",
+          "mérsékelt",
+          "mediterrán",
+          "monszun",
+          "sarki",
+          "sivatag"
+        ]
+      },
+      {
+        "heading": "Kontinensek és fővárosok",
+        "body": "A 7 kontinens és néhány fontos főváros: **Európa** (London, Párizs, Berlin, Moszkva, Budapest), **Ázsia** (Peking, Tokió, Delhi, Ankara), **Afrika** (Kairó, Nairobi, Johannesburg), **Észak-Amerika** (Washington, Ottawa, Mexico City), **Dél-Amerika** (Brazília, Buenos Aires, Lima), **Ausztrália** (Canberra). Az **Antarktiszon** nincs állandó főváros.",
+        "keywords": [
+          "kontinens",
+          "főváros",
+          "Európa",
+          "Ázsia",
+          "Afrika",
+          "Amerika",
+          "Ausztrália",
+          "Antarktisz"
+        ]
+      },
+      {
+        "heading": "Természeti katasztrófák",
+        "body": "**Földrengés** a tektonikus lemezek mozgásánál keletkezik; erősségét a **Richter-skálán** mérik. **Vulkánkitörés** a magma felszínre törése. A **cunami (szökőár)** tenger alatti földrengés okozta hullámszáll. **Hurrikán/tájfun/ciklon** a meleg trópusi tengerek felett képződő forgószél. Az **árvíz** folyók kilépése a mederből, amelyet csapadék vagy jégolvadás okoz.",
+        "keywords": [
+          "földrengés",
+          "vulkán",
+          "cunami",
+          "hurrikán",
+          "árvíz",
+          "Richter-skála",
+          "természeti katasztrófa",
+          "tektonikus lemez"
         ]
       }
     ]
@@ -559,6 +929,63 @@
           "mesterséges intelligencia",
           "Enigma",
           "informatika"
+        ]
+      },
+      {
+        "heading": "Programozás alapjai",
+        "body": "A **programozás** algoritmusok számítógépre való lefordítása. Alapfogalmak: **változó** (adat tárolása), **típus** (egész, valós, szöveg, logikai), **feltétel** (if-else elágazás), **ciklus** (for, while), **függvény** (újrahasználható kódblokk). Az **algoritmus** lépések meghatározott sorrendű végrehajtása. Elterjedt nyelvek: Python, Java, C++, JavaScript.",
+        "keywords": [
+          "programozás",
+          "változó",
+          "feltétel",
+          "ciklus",
+          "függvény",
+          "algoritmus",
+          "Python",
+          "Java"
+        ]
+      },
+      {
+        "heading": "Hálózatok és internet",
+        "body": "A **hálózat** összekapcsolt számítógépek rendszere. **LAN** (helyi hálózat), **WAN** (nagykiterjedésű, pl. internet). A **TCP/IP** az internet alapprotokollja. A **DNS** domainneveket fordít IP-címekre. A **router** irányítja a csomagokat. A **HTTP/HTTPS** a weboldalak letöltési protokollja. A **Wi-Fi** és **Ethernet** csatlakozási technológiák.",
+        "keywords": [
+          "hálózat",
+          "LAN",
+          "WAN",
+          "TCP/IP",
+          "DNS",
+          "router",
+          "HTTP",
+          "Wi-Fi",
+          "internet"
+        ]
+      },
+      {
+        "heading": "Adatbázisok",
+        "body": "Az **adatbázis** szervezett adatgyűjtemény. A **relációs adatbázisban** táblák kapcsolódnak egymáshoz kulcsok (elsődleges kulcs, idegen kulcs) alapján. Az **SQL** (Structured Query Language) adatlekérdezési és -módosítási nyelv. Főbb parancsok: SELECT (lekérdezés), INSERT (felvétel), UPDATE (módosítás), DELETE (törlés). Az **index** gyorsítja a keresést.",
+        "keywords": [
+          "adatbázis",
+          "relációs",
+          "SQL",
+          "tábla",
+          "elsődleges kulcs",
+          "SELECT",
+          "INSERT",
+          "index"
+        ]
+      },
+      {
+        "heading": "Operációs rendszerek",
+        "body": "Az **operációs rendszer** (OS) a számítógép hardverét és szoftvereit kezeli. Feladatai: **folyamatkezelés** (CPU elosztás), **memóriakezelés** (RAM allokáció), **fájlrendszer** (adattárolás szervezése), **eszközkezelés** (driverek). Főbb OS-ek: **Windows**, **Linux**, **macOS**, **Android**, **iOS**. A **kernel** az OS magja.",
+        "keywords": [
+          "operációs rendszer",
+          "kernel",
+          "folyamatkezelés",
+          "memóriakezelés",
+          "fájlrendszer",
+          "Windows",
+          "Linux",
+          "Android"
         ]
       }
     ]
@@ -663,6 +1090,57 @@
           "C1",
           "input-módszer",
           "nyelvtanulás"
+        ]
+      },
+      {
+        "heading": "Rendhagyó angol igék",
+        "body": "A rendhagyó igéknél a Past Simple és Past Participle eltér az alapalaktól. Fontosak: **go–went–gone**, **see–saw–seen**, **come–came–come**, **take–took–taken**, **make–made–made**, **give–gave–given**, **write–wrote–written**, **know–knew–known**, **eat–ate–eaten**, **run–ran–run**. Ezeket memorizálni kell, mert nem illeszkednek a szabályos -ed mintához.",
+        "keywords": [
+          "rendhagyó ige",
+          "go went gone",
+          "see saw seen",
+          "Past Simple",
+          "Past Participle",
+          "irregular verb"
+        ]
+      },
+      {
+        "heading": "Angol idiómák",
+        "body": "Az **idiómák** olyan kifejezések, amelyek szó szerint nem értelmezhetők. Fontosak: **'It's raining cats and dogs'** (szakad az eső), **'break a leg'** (sok sikert!), **'beat around the bush'** (kerülgeti a forró kását), **'cost an arm and a leg'** (nagyon drága), **'once in a blue moon'** (nagyon ritkán), **'hit the nail on the head'** (pontosan eltalálja).",
+        "keywords": [
+          "idióma",
+          "raining cats and dogs",
+          "break a leg",
+          "cost an arm and a leg",
+          "blue moon",
+          "angol kifejezés"
+        ]
+      },
+      {
+        "heading": "Present Perfect vs. Past Simple",
+        "body": "A **Present Perfect** (have/has + past participle) a múlt és jelen közötti kapcsolatot fejezi ki: 'I have lost my keys' (most nincs meg). A **Past Simple** befejezett múltbeli cselekvés: 'I lost my keys yesterday'. Kulcsszavak: **already, yet, ever, never, just, since, for** → Present Perfect; **yesterday, last week, in 1990** → Past Simple.",
+        "keywords": [
+          "Present Perfect",
+          "Past Simple",
+          "have has",
+          "already",
+          "yet",
+          "since",
+          "for",
+          "yesterday"
+        ]
+      },
+      {
+        "heading": "Feltételes mondatok angolban",
+        "body": "Az angol **feltételes mondatoknak** 4 típusa van. **0. feltételes**: If water reaches 100°C, it boils (általános igazság). **1. feltételes**: If it rains, I will take an umbrella (valós jövő). **2. feltételes**: If I were rich, I would travel (képzelt jelen/jövő). **3. feltételes**: If I had known, I would have helped (múltbeli lehetőség – sajnálat).",
+        "keywords": [
+          "feltételes mondat",
+          "conditional",
+          "if",
+          "would",
+          "Past Simple",
+          "Past Perfect",
+          "3. feltételes"
         ]
       }
     ],
