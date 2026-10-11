@@ -44,7 +44,9 @@ jobs:
       - run: npm --prefix web ci
       - name: Install Playwright Chromium
         run: npx --prefix web playwright install chromium --with-deps
-      - run: npm --prefix web run test:e2e
+      - name: Run smoke tests
+        run: npm --prefix web run test:e2e
+        working-directory: web
         env:
           CI: true
       - uses: actions/upload-artifact@v4

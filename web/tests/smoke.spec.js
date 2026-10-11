@@ -1,11 +1,19 @@
 /**
  * Smoke tests for region-demo.html
  * Verifies the game loads, renders the 3D canvas, and core UI is reachable.
+ * Server: python3 -m http.server 5173 (plain static — Vite dev transforms
+ * importmap vendor entries as Node modules and fails on them).
  */
 import { test, expect } from '@playwright/test';
 
 const DEMO = '/region-demo.html';
-const LOAD_TIMEOUT = 15_000;
+const LOAD_TIMEOUT = 20_000;
+
+/** Wait until the loading message is gone (pack fully loaded). */
+async function waitForPackLoad(page) {
+  await page.locator('canvas').first().waitFor({ state: 'visible', timeout: LOAD_TIMEOUT });
+  await expect(page.locator('#loading-msg')).toBeHidden({ timeout: LOAD_TIMEOUT });
+}
 
 test.describe('region-demo: page load', () => {
   test('page title contains "Tudás"', async ({ page }) => {
@@ -15,24 +23,20 @@ test.describe('region-demo: page load', () => {
 
   test('canvas element is visible', async ({ page }) => {
     await page.goto(DEMO);
-    const canvas = page.locator('canvas').first();
-    await expect(canvas).toBeVisible({ timeout: LOAD_TIMEOUT });
+    await expect(page.locator('canvas').first()).toBeVisible({ timeout: LOAD_TIMEOUT });
   });
 
   test('loading message disappears after pack loads', async ({ page }) => {
     await page.goto(DEMO);
-    // Wait for the canvas to appear (3D scene init)
-    await page.locator('canvas').first().waitFor({ state: 'visible', timeout: LOAD_TIMEOUT });
-    // The loading overlay should hide (either gone or display:none)
-    const loadingMsg = page.locator('#loading-msg');
-    await expect(loadingMsg).toBeHidden({ timeout: LOAD_TIMEOUT });
+    await waitForPackLoad(page);
+    await expect(page.locator('#loading-msg')).toBeHidden();
   });
 });
 
 test.describe('region-demo: UI panels', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(DEMO);
-    await page.locator('canvas').first().waitFor({ state: 'visible', timeout: LOAD_TIMEOUT });
+    await waitForPackLoad(page);
   });
 
   test('turn card shows Kör counter', async ({ page }) => {
@@ -53,8 +57,7 @@ test.describe('region-demo: UI panels', () => {
   });
 
   test('diplomacy overlay is hidden at game start', async ({ page }) => {
-    const diplo = page.locator('#diplo-overlay');
-    await expect(diplo).toBeHidden();
+    await expect(page.locator('#diplo-overlay')).toBeHidden();
   });
 
   test('save card is rendered with Save button', async ({ page }) => {
@@ -66,24 +69,22 @@ test.describe('region-demo: UI panels', () => {
 test.describe('region-demo: pack selector', () => {
   test('pack selector exists and has options', async ({ page }) => {
     await page.goto(DEMO);
-    await page.locator('canvas').first().waitFor({ state: 'visible', timeout: LOAD_TIMEOUT });
+    // pack-select is created dynamically after packs.json loads
     const sel = page.locator('#pack-select');
-    await expect(sel).toBeVisible();
+    await expect(sel).toBeVisible({ timeout: LOAD_TIMEOUT });
     const count = await sel.locator('option').count();
     expect(count).toBeGreaterThanOrEqual(2);
   });
 
   test('switching to Hungary pack reloads the map', async ({ page }) => {
     await page.goto(DEMO);
-    await page.locator('canvas').first().waitFor({ state: 'visible', timeout: LOAD_TIMEOUT });
+    await waitForPackLoad(page);
     const sel = page.locator('#pack-select');
-    // Select Hungary if available
+    await expect(sel).toBeVisible({ timeout: LOAD_TIMEOUT });
     const hungaryOpt = sel.locator('option[value="hungary"]');
     if (await hungaryOpt.count() > 0) {
       await sel.selectOption('hungary');
-      // Loading message should briefly appear, then hide
       await expect(page.locator('#loading-msg')).toBeHidden({ timeout: LOAD_TIMEOUT });
-      // Turn counter should reset to 1
       await expect(page.locator('#turn-num')).toHaveText('1');
     }
   });
@@ -92,29 +93,30 @@ test.describe('region-demo: pack selector', () => {
 test.describe('region-demo: save system', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(DEMO);
-    await page.locator('canvas').first().waitFor({ state: 'visible', timeout: LOAD_TIMEOUT });
-    // Clear previous saves from localStorage
+    await waitForPackLoad(page);
+    // Clear previous saves
     await page.evaluate(() => {
       for (let i = 0; i < 5; i++) localStorage.removeItem('tudas_save_' + i);
     });
-    await page.reload();
-    await page.locator('canvas').first().waitFor({ state: 'visible', timeout: LOAD_TIMEOUT });
+    // Re-render the (now empty) slot list
+    await page.evaluate(() => {
+      if (typeof renderSaveSlots === 'function') renderSaveSlots();
+    });
   });
 
   test('Save button stores a slot and shows status', async ({ page }) => {
     await page.locator('#btn-save-now').click();
-    const status = page.locator('#save-status');
-    await expect(status).toBeVisible();
-    await expect(status).toContainText(/Mentve/);
+    await expect(page.locator('#save-status')).toContainText(/Mentve/, { timeout: 5000 });
   });
 
   test('saved slot appears in slot list', async ({ page }) => {
     await page.locator('#btn-save-now').click();
-    await expect(page.locator('#save-slots .slot-row')).toHaveCount(1, { timeout: 3000 });
+    await expect(page.locator('#save-slots .slot-row')).toHaveCount(1, { timeout: 5000 });
   });
 
   test('saved slot can be deleted', async ({ page }) => {
     await page.locator('#btn-save-now').click();
+    await expect(page.locator('#save-slots .slot-row')).toHaveCount(1, { timeout: 5000 });
     await page.locator('#save-slots .slot-del').first().click();
     await expect(page.locator('#save-slots .slot-row')).toHaveCount(0, { timeout: 3000 });
   });

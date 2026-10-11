@@ -17,9 +17,10 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-  // Start Vite dev server before tests
+  // Use a plain static server so region-demo.html's importmap vendor paths
+  // are served as-is (Vite dev tries to resolve them as Node modules, fails).
   webServer: {
-    command: 'npm run dev',
+    command: 'python3 -m http.server 5173',
     url: 'http://localhost:5173',
     reuseExistingServer: true,
     timeout: 20_000,
