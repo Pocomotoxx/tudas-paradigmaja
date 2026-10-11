@@ -526,7 +526,31 @@ const SUBJ_MAP = {
   INFORMATIKA:'informatika', IDEGEN_NYELV:'idegen'
 };
 
-fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=d; }).catch(()=>{});
+/**
+ * Normalise a qbank payload to a plain question array regardless of schema version.
+ * v1 envelope: { schema_version:1, questions:[...] }
+ * legacy (no envelope): plain array
+ */
+function normaliseQbank(raw){
+  if(Array.isArray(raw)) return raw;            // legacy flat array
+  if(raw && Array.isArray(raw.questions)) return raw.questions; // v1+
+  console.warn('qbank.json: unrecognised format', raw?.schema_version);
+  return [];
+}
+
+/**
+ * Normalise a wiki payload to a plain subject map regardless of schema version.
+ * v1 envelope: { schema_version:1, subjects:{...} }
+ * legacy (no envelope): plain subject map
+ */
+function normaliseWiki(raw){
+  if(raw && typeof raw.subjects === 'object') return raw.subjects; // v1+
+  if(raw && typeof raw === 'object' && !Array.isArray(raw)) return raw; // legacy map
+  console.warn('wiki.json: unrecognised format', raw?.schema_version);
+  return {};
+}
+
+fetch('qbank.json').then(r=>r.json()).then(d=>{ QBANK=normaliseQbank(d); }).catch(()=>{});
 
 function pickQuestion(subjectId){
   const key = SUBJ_MAP[subjectId] || subjectId.toLowerCase();
@@ -2346,7 +2370,7 @@ let _wikiCurrentSubject = null;
 let _wikiCurrentQuestion = null; // { subject, prompt } set when opened from q-modal
 
 fetch('wiki.json').then(r=>r.json()).then(d=>{
-  WIKI_DATA = d;
+  WIKI_DATA = normaliseWiki(d);
   buildWikiNav();
 }).catch(()=>{});
 
@@ -2583,7 +2607,7 @@ function openWiki(subjectKey, scrollHeading){
   if(!WIKI_DATA){
     // wiki.json still loading — show spinner then retry
     document.getElementById('wiki-subject-view').innerHTML = '<p style="color:#556;padding:20px">Betöltés…</p>';
-    fetch('wiki.json').then(r=>r.json()).then(d=>{ WIKI_DATA=d; buildWikiNav(); openWiki(subjectKey,scrollHeading); });
+    fetch('wiki.json').then(r=>r.json()).then(d=>{ WIKI_DATA=normaliseWiki(d); buildWikiNav(); openWiki(subjectKey,scrollHeading); });
     return;
   }
   buildWikiNav();
@@ -2715,10 +2739,30 @@ document.addEventListener('DOMContentLoaded',()=>{
 // ── Mentés / Betöltés rendszer ────────────────────────────────────────────
 const SAVE_KEY_PREFIX = 'tudas_save_';
 const SAVE_MAX = 5;
+const SAVE_CURRENT_VERSION = 2;
+
+/**
+ * Migrate an older save payload forward to SAVE_CURRENT_VERSION.
+ * Each branch upgrades by exactly one version so the chain is additive.
+ * Returns the migrated object (mutates in place and returns it).
+ */
+function migrateSave(s){
+  // v1: no bots array, no unrest fields — add defaults
+  if(s.v === 1){
+    s.bots      = s.bots      ?? [];
+    s.unrestWrong = s.unrestWrong ?? {};
+    s.unrestLevel = s.unrestLevel ?? {};
+    s.xp        = s.xp        ?? 0;
+    s.streak    = s.streak    ?? 0;
+    s.v = 2;
+  }
+  // future: add more branches here as v increments
+  return s;
+}
 
 function buildSavePayload(){
   return {
-    v: 2,
+    v: SAVE_CURRENT_VERSION,
     ts: Date.now(),
     packId: (()=>{
       const sel = document.getElementById('pack-select');
@@ -2739,7 +2783,9 @@ function buildSavePayload(){
 }
 
 function applySavePayload(s){
-  if(!s || s.v !== 2) throw new Error('Ismeretlen mentési formátum');
+  if(!s || typeof s.v !== 'number') throw new Error('Érvénytelen mentési formátum (hiányzó v)');
+  if(s.v < SAVE_CURRENT_VERSION) s = migrateSave(s);
+  if(s.v > SAVE_CURRENT_VERSION) throw new Error(`Újabb játékverzió mentése (v${s.v}) — frissítsd a játékot`);
   turnNumber = s.turn ?? 1;
   gold = s.gold ?? 0;
   kk = s.kk ?? 0;
