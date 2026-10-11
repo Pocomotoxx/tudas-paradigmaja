@@ -52,6 +52,29 @@
   .badge{ display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
   .badge.player{ background:#1a3a1a; color:#7ddf7d; border:1px solid #3a6b3a; }
   .badge.bot{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.bot1{ background:#3a1a00; color:#ff9944; border:1px solid #6b3a00; }
+  .badge.bot2{ background:#0a1a3a; color:#44aaff; border:1px solid #1a4a8a; }
+  .badge.bot3{ background:#1a0a2a; color:#cc77ff; border:1px solid #5a2a8a; }
+  /* i79: diplomacy modal */
+  #diplo-overlay{ position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:300; }
+  #diplo-box{ background:#161b24;border:1px solid #3a414b;border-radius:10px;padding:28px 32px;max-width:400px;width:90%; }
+  #diplo-box h2{ font-size:20px;font-weight:800;color:#e7ebf0;margin-bottom:6px; }
+  #diplo-box .diplo-sub{ color:var(--muted);font-size:13px;margin-bottom:20px; }
+  #diplo-box .diplo-offer{ background:#1e2330;border-radius:6px;padding:14px 16px;margin-bottom:20px;font-size:14px;color:#c0c8d8;line-height:1.6; }
+  .diplo-btns{ display:flex;gap:10px;justify-content:flex-end; }
+  .diplo-btns button{ padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:none; }
+  #diplo-accept{ background:#1e5c1e;color:#7ddf7d; }
+  #diplo-accept:hover{ background:#2a7a2a; }
+  #diplo-decline{ background:#3a1a00;color:#ff9944; }
+  #diplo-decline:hover{ background:#5a2a00; }
+  /* i79: bot persona badge */
+  .persona-badge{ display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;margin-left:4px; }
+  .persona-badge.agresszív{ background:#5a1a00;color:#ffaa44; }
+  .persona-badge.gazdasági{ background:#0a3a1a;color:#44dd88; }
+  .persona-badge.tudós{ background:#1a0a3a;color:#bb77ff; }
+  /* i79: bot status card */
+  #bots-card .bot-row{ display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #2e343d;font-size:12px; }
+  #bots-card .bot-row:last-child{ border:none; }
   .badge.neutral{ background:#2a2e38; color:var(--muted); border:1px solid #3a414b; }
   .badge.capital{ background:#2a2010; color:#ffd700; border:1px solid #6b5a10; }
   .info-row{ display:flex; justify-content:space-between; align-items:baseline;
@@ -337,6 +360,10 @@
       <h3>Nehézség</h3>
       <div id="diff-body"></div>
     </div>
+    <div class="card" id="bots-card">
+      <h3>Ellenfelek</h3>
+      <div id="bots-body"></div>
+    </div>
     <div class="card">
       <h3>Terület-tulajdon (szimuláció)</h3>
       <div id="owned-body"><span class="k">Kattints egy provinciára, majd az „Elfoglalom" gombra.
@@ -540,13 +567,87 @@ let owned = new Set();
 let turnNumber = 1;
 let gold = 0;
 let kk = 0;
-// Bot owns a separate set of provinces
-const botOwned = new Set();
 // Income per province per turn
 const INCOME = { gold: 8, kk: 3 };
 // Bot income multiplier
 const BOT_INCOME = { gold: 6, kk: 2 };
-let botGold = 20, botKK = 10;
+
+// ── i79: Multi-bot system ─────────────────────────────────────────────────
+// Persona definitions: scoring weights, quiz success rate, diplomacy style
+const BOT_PERSONAS = {
+  agresszív: {
+    name: 'Agresszív',
+    icon: '⚔️',
+    color: 0xff4400,
+    cssClass: 'bot1',
+    scoreWeights: { capital:500, adj:12, blockBonus:80, subjectMult:1.0 },
+    quizSuccessBase: 0.55,  // lower — takes risks
+    attackChanceMult: 1.5,
+    incomeMultGold: 0.9, incomeMultKK: 0.8,
+    diploStyle: 'peace', // peace offer when losing
+    maxConquestPerTurn: 3,
+  },
+  gazdasági: {
+    name: 'Gazdasági',
+    icon: '💰',
+    color: 0x00cc55,
+    cssClass: 'bot2',
+    scoreWeights: { capital:300, adj:20, blockBonus:20, subjectMult:1.8 },
+    quizSuccessBase: 0.70,  // careful, picks easy targets
+    attackChanceMult: 0.6,
+    incomeMultGold: 1.4, incomeMultKK: 1.2,
+    diploStyle: 'trade',  // territory trade
+    maxConquestPerTurn: 2,
+  },
+  tudós: {
+    name: 'Tudós',
+    icon: '📚',
+    color: 0x9944ff,
+    cssClass: 'bot3',
+    scoreWeights: { capital:200, adj:8, blockBonus:30, subjectMult:2.5 },
+    quizSuccessBase: 0.85,  // high — prefers known subjects
+    attackChanceMult: 0.4,
+    incomeMultGold: 1.0, incomeMultKK: 1.6,
+    diploStyle: 'alliance', // non-aggression pact
+    maxConquestPerTurn: 1,
+  },
+};
+
+// Active bots: up to 3, initialized on map load
+let BOTS = [];
+
+function initBots(count = 1){
+  BOTS = [];
+  const personaKeys = Object.keys(BOT_PERSONAS);
+  const colors = ['bot1','bot2','bot3'];
+  for(let i=0;i<Math.min(count,3);i++){
+    const personaKey = personaKeys[i % personaKeys.length];
+    const persona = BOT_PERSONAS[personaKey];
+    BOTS.push({
+      id: i,
+      personaKey,
+      persona,
+      owned: new Set(),
+      gold: 20 + i * 5,
+      kk: 10,
+      diploActive: false,    // diplomacy offer pending
+      paceTurns: 0,          // turns remaining in non-aggression pact
+      badgeCss: colors[i],
+    });
+  }
+}
+
+// Legacy alias — first bot's owned set for backwards-compat with existing code
+// (ownerBadge, showInfo, renderBotOverlay, etc. all use botOwned)
+// We keep botOwned as a UNION of all bot owned sets for the overlay renderer
+const botOwned = new Set();
+function syncBotOwned(){
+  botOwned.clear();
+  for(const bot of BOTS) for(const id of bot.owned) botOwned.add(id);
+}
+function botOwnerOf(id){ return BOTS.find(b=>b.owned.has(id)); }
+
+let botGold = 20, botKK = 10; // legacy single-bot, kept for backward compat
 let eventLog = [];
 
 // ── XP / streak system (i64) ──────────────────────────────────────────────
@@ -580,12 +681,14 @@ function checkVictory(){
   const total = DATA.provinces.length;
   if(!total) return;
   const playerRatio = owned.size / total;
-  const botRatio    = botOwned.size / total;
   if(playerRatio >= WIN_THRESHOLD){ showGameOver(true); return; }
-  if(botRatio    >= WIN_THRESHOLD){ showGameOver(false); }
+  // i79: any single bot reaching threshold triggers defeat
+  for(const bot of BOTS){
+    if(bot.owned.size / total >= WIN_THRESHOLD){ showGameOver(false, bot); return; }
+  }
 }
 
-function showGameOver(win){
+function showGameOver(win, losingBot){
   gameOver = true;
   sfx(win ? 'win' : 'lose');
   document.getElementById('btn-end-turn').disabled = true;
@@ -598,11 +701,12 @@ function showGameOver(win){
   title.className   = win ? 'win' : 'lose';
   sub.textContent   = win
     ? `Elfoglaltad a térkép ${Math.round(WIN_THRESHOLD*100)}%-át — A Tudás Győzött!`
-    : `A bot elérte a ${Math.round(WIN_THRESHOLD*100)}%-os határt — Vereség!`;
+    : `${losingBot?.persona.icon||'⚔️'} ${losingBot?.persona.name||'Ellenfél'} elérte a ${Math.round(WIN_THRESHOLD*100)}%-os határt — Vereség!`;
+  const botRows = BOTS.map(b=>[`${b.persona.icon} ${b.persona.name}`, `${b.owned.size} tartomány`]);
   stats.innerHTML = [
     ['Körök száma', turnNumber],
     ['Elfoglalt tartományok', `${owned.size} / ${total}`],
-    ['Bot tartományai', `${botOwned.size} / ${total}`],
+    ...botRows,
     ['Összesített XP', xp],
     ['Szint', Math.floor(xp/XP_PER_LEVEL)+1],
     ['Arany maradt', gold],
@@ -616,7 +720,9 @@ function resetGame(){
   gold = 0; kk = 0;
   botGold = 20; botKK = 10;
   xp = 0; streak = 0;
-  owned.clear(); botOwned.clear();
+  owned.clear();
+  for(const bot of BOTS){ bot.owned.clear(); bot.gold=20; bot.kk=10; bot.diploActive=false; bot.paceTurns=0; }
+  syncBotOwned();
   for(const k in buildings) delete buildings[k];
   activeCampaign = null;
   eventLog = [];
@@ -854,6 +960,9 @@ async function loadPack(dir, pack){
   // UI
   buildLegend(); renderDiffCard(); renderUnrestCard(); renderOwnedCard();
   renderUnrestOverlay3D(); renderOwnershipOverlay3D();
+  // i79: init default 1-bot game on map load
+  if(BOTS.length === 0) initBots(1);
+  renderBotsCard();
   addCapitals3D();
 
   const supports = data.meta?.supportsHeroes;
@@ -1055,8 +1164,9 @@ function toggleOwned(id){
 // ── info panel ────────────────────────────────────────────────────────────
 
 function ownerBadge(id){
-  if(owned.has(id))    return '<span class="badge player">&#9873; Játékos</span>';
-  if(botOwned.has(id)) return '<span class="badge bot">&#9876; Bot</span>';
+  if(owned.has(id)) return '<span class="badge player">&#9873; Játékos</span>';
+  const bot = botOwnerOf(id);
+  if(bot) return `<span class="badge ${bot.badgeCss}">${bot.persona.icon} ${bot.persona.name}</span>`;
   return '<span class="badge neutral">Semleges</span>';
 }
 
@@ -1152,7 +1262,7 @@ function showSubject(subj){
   if(!DATA) return;
   const provs = DATA.provinces.filter(p=>p.subject===subj.id);
   const playerCount = provs.filter(p=>owned.has(p.id)).length;
-  const botCount    = provs.filter(p=>botOwned.has(p.id)).length;
+  const botCount    = provs.filter(p=>botOwned.has(p.id)).length; // botOwned = union
   const totalKK     = playerCount * INCOME.kk;
   const u = cascadeEnabled() ? unrestOf(subj.id) : 0;
   const uColor = u>=7?'#ff4422':u>=4?'#ff8a5c':'#ffd65a';
@@ -1388,80 +1498,103 @@ function renderTurnBar(){
   document.getElementById('res-kk').textContent = kk;
 }
 
-// Utility score U(G) for a province — simplified from the spec
-function utilityScore(prov){
+// ── i79: Persona-based bot scoring ───────────────────────────────────────
+function botScoreFor(bot, prov){
   if(!DATA) return 0;
-  // V: value of the target
-  const isCapital = prov.capital ? 300 : 0;
-  const adjBonus = (prov.adj?.length ?? 0) * 10; // more connections = more strategic
-  const V = 100 + isCapital + adjBonus;
-  // K: knowledge synergy — bot prefers math/history provinces
-  const subj = DATA.subjects?.find(s=>s.id===prov.subject);
-  const K = subj ? 1.4 : 1.0;
-  // T: threat — penalise provinces adjacent to many player-owned (contested)
-  const playerAdjCount = (prov.adj??[]).filter(id=>owned.has(id)).length;
-  const T = playerAdjCount * 20;
-  // Distance cost: rough estimate — provinces adjacent to bot territory cost less
-  const botAdjCount = (prov.adj??[]).filter(id=>botOwned.has(id)).length;
-  const distCost = botOwned.size === 0 ? 1 : Math.max(1, 3 - botAdjCount);
-  return (V * K - T) / distCost;
-}
-
-// i63: improved bot score — adjacency + player-blocking priority
-function botScore(prov){
-  if(!DATA) return 0;
-  const isCapital = prov.capital ? 400 : 0;
+  const w = bot.persona.scoreWeights;
+  const isCapital = prov.capital ? w.capital : 0;
   const adjCount  = prov.adj?.length ?? 0;
   const subj = DATA.subjects?.find(s=>s.id===prov.subject);
-  const K = subj ? 1.5 : 1.0;
-  // Prefer provinces adjacent to bot territory (expansion continuity)
-  const botAdj  = (prov.adj??[]).filter(id=>botOwned.has(id)).length;
-  // Reward blocking player: bonus if adjacent to player province
+  const K = subj ? w.subjectMult : 1.0;
+  const botAdj    = (prov.adj??[]).filter(id=>bot.owned.has(id)).length;
   const playerAdj = (prov.adj??[]).filter(id=>owned.has(id)).length;
-  const blockBonus = playerAdj * 50;
-  const base = (100 + isCapital + adjCount * 8) * K;
-  // Distance cost: isolated provinces cost more (no adjacency)
-  const distCost = botOwned.size === 0 ? 1 : Math.max(1, 4 - botAdj * 2);
+  const blockBonus = playerAdj * w.blockBonus;
+  const base = (100 + isCapital + adjCount * w.adj) * K;
+  const distCost  = bot.owned.size === 0 ? 1 : Math.max(1, 4 - botAdj * 2);
   return (base + blockBonus) / distCost;
 }
 
-function botTurn(){
-  if(!DATA || gameOver) return;
-  // Collect income for bot
-  botGold += botOwned.size * BOT_INCOME.gold + BOT_INCOME.gold;
-  botKK   += botOwned.size * BOT_INCOME.kk   + BOT_INCOME.kk;
+// i79: Bot quiz — siker-valószínűség persona + nehézség alapján
+function botQuizSuccess(bot){
+  const diffPenalty = [0, 0, 0.05, 0.12, 0.22][currentDifficulty] || 0;
+  const chance = Math.max(0.20, bot.persona.quizSuccessBase - diffPenalty);
+  return Math.random() < chance;
+}
 
-  // Find best unclaimed province (not owned by player or bot)
-  const candidates = DATA.provinces.filter(p =>
-    !owned.has(p.id) && !botOwned.has(p.id)
-  );
+// i79: Single bot's expansion turn
+function runBotTurn(bot){
+  if(gameOver) return;
+  // Income
+  const gMult = bot.persona.incomeMultGold;
+  const kMult = bot.persona.incomeMultKK;
+  bot.gold += Math.round((bot.owned.size * BOT_INCOME.gold + BOT_INCOME.gold) * gMult);
+  bot.kk   += Math.round((bot.owned.size * BOT_INCOME.kk   + BOT_INCOME.kk)   * kMult);
+
+  const candidates = DATA.provinces.filter(p => !owned.has(p.id) && !botOwned.has(p.id));
   if(!candidates.length) return;
+  candidates.sort((a,b) => botScoreFor(bot,b) - botScoreFor(bot,a));
 
-  candidates.sort((a,b) => botScore(b) - botScore(a));
   const cost = 20;
-  if(botGold < cost) return;
-
-  // Bot can afford up to 2 conquests per turn if gold allows
   let conquered = 0;
+  const maxConq = bot.persona.maxConquestPerTurn;
+
   for(const target of candidates){
-    if(botGold < cost || conquered >= 2) break;
-    botOwned.add(target.id);
-    botGold -= cost;
+    if(bot.gold < cost || conquered >= maxConq) break;
+    // i79: quiz gate — bot must "answer" a question
+    if(!botQuizSuccess(bot)){
+      addEvent(`${bot.persona.icon} ${bot.persona.name} megpróbálta foglalni <b>${target.name}</b> — de elbukott a kvízen!`, 'ev-bot');
+      break; // failed attempt stops this bot's expansion this turn
+    }
+    bot.owned.add(target.id);
+    bot.gold -= cost;
     conquered++;
+    syncBotOwned();
     renderBotOverlay();
     triggerConquest(target.id, false);
-    addEvent(`&#9876; Bot elfoglalta: <b>${target.name}</b>`, 'ev-bot');
+    // i79: persona-specific conquest messages
+    const msgs = {
+      agresszív: [`⚔️ <b>${bot.persona.name}</b> lerohanta: <b>${target.name}</b>!`,
+                  `⚔️ Vasökölpolitika: <b>${target.name}</b> elesett!`],
+      gazdasági: [`💰 <b>${bot.persona.name}</b> megvásárolta: <b>${target.name}</b>`,
+                  `💰 Befektetés: <b>${target.name}</b> az övé!`],
+      tudós:     [`📚 <b>${bot.persona.name}</b> kutatja: <b>${target.name}</b>`,
+                  `📚 Tudományos terjeszkedés: <b>${target.name}</b>`],
+    };
+    const pool = msgs[bot.personaKey] || [`${bot.persona.icon} ${bot.persona.name} elfoglalta: <b>${target.name}</b>`];
+    addEvent(pool[Math.floor(Math.random()*pool.length)], 'ev-bot');
   }
   checkVictory();
 }
 
+function botTurn(){
+  if(!DATA || gameOver) return;
+  // Legacy single-bot compat: if no BOTS initialized, init 1
+  if(BOTS.length === 0) initBots(1);
+  for(const bot of BOTS){ runBotTurn(bot); if(gameOver) return; }
+  // i79: random diplomacy trigger
+  tryDiplomacyOffer();
+  renderBotsCard();
+}
+
 function renderBotOverlay(){
-  // Re-use ownGroup concept but in a separate group — bot gets orange outlines
-  // We'll tint bot-owned meshes slightly and add a red-orange border
   if(!DATA) return;
-  // Clear existing bot visuals from scene (we tag them)
   scene.children.filter(c=>c.userData.isBotOverlay).forEach(c=>scene.remove(c));
+  // i79: each bot gets its own persona color outline
+  for(const bot of BOTS){
+    for(const id of bot.owned){
+      const line = outlineById.get(id); if(!line) continue;
+      const geo = line.geometry.clone();
+      const pos = geo.attributes.position;
+      for(let i=0;i<pos.count;i++) pos.setZ(i, pos.getZ(i)+0.14);
+      pos.needsUpdate = true;
+      const botLine = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: bot.persona.color }));
+      botLine.userData.isBotOverlay = true;
+      scene.add(botLine);
+    }
+  }
+  // fallback: also cover any legacy botOwned entries
   for(const id of botOwned){
+    if(BOTS.some(b=>b.owned.has(id))) continue;
     const line = outlineById.get(id); if(!line) continue;
     const geo = line.geometry.clone();
     const pos = geo.attributes.position;
@@ -1471,6 +1604,115 @@ function renderBotOverlay(){
     botLine.userData.isBotOverlay = true;
     scene.add(botLine);
   }
+}
+
+// i79: bot status card
+function renderBotsCard(){
+  const el = document.getElementById('bots-body');
+  if(!el || BOTS.length===0){ if(el) el.innerHTML='<span class="k">Nincs ellenfél.</span>'; return; }
+  const total = DATA?.provinces?.length || 1;
+  el.innerHTML = BOTS.map(bot=>{
+    const pct = Math.round(bot.owned.size/total*100);
+    const pactText = bot.paceTurns>0 ? ` <span style="color:#7dcc88;font-size:10px">🤝 paktum (${bot.paceTurns} kör)</span>` : '';
+    return `<div class="bot-row">
+      <span>${bot.persona.icon} <b>${bot.persona.name}</b>
+        <span class="persona-badge ${bot.personaKey}">${bot.personaKey}</span>${pactText}</span>
+      <span style="color:#aaa">${bot.owned.size} (${pct}%) · ⭐${bot.gold}</span>
+    </div>`;
+  }).join('');
+}
+
+// ── i79: Diplomacy system ─────────────────────────────────────────────────
+let _diploCallback = null;
+
+function tryDiplomacyOffer(){
+  if(!DATA || gameOver || owned.size===0) return;
+  for(const bot of BOTS){
+    if(bot.diploActive || bot.paceTurns > 0) continue;
+    // Decrement active pacts
+    if(bot.paceTurns > 0){ bot.paceTurns--; continue; }
+    // Trigger chance: 15% per bot per turn, weighted by how badly bot is losing
+    const total = DATA.provinces.length;
+    const botRatio = bot.owned.size / total;
+    const playerRatio = owned.size / total;
+    const losingPenalty = playerRatio > botRatio ? (playerRatio - botRatio) * 1.5 : 0;
+    const chance = 0.10 + losingPenalty;
+    if(Math.random() > chance) continue;
+    showDiplomacyModal(bot);
+    return; // one offer per turn
+  }
+}
+
+function showDiplomacyModal(bot){
+  bot.diploActive = true;
+  const style = bot.persona.diploStyle;
+  let title, offer, acceptFn, declineFn;
+
+  if(style === 'peace'){
+    title = `${bot.persona.icon} Békeajánlat`;
+    offer = `<b>${bot.persona.name}</b> fegyverszünetet ajánl: <b>3 körre</b> nem támad a tartományaidra, cserébe te sem foglalsz el tőle területet ebben az időszakban.<br><br>Elfogadod a fegyverszünetet?`;
+    acceptFn = ()=>{
+      bot.paceTurns = 3;
+      addEvent(`🤝 Fegyverszünet kötve ${bot.persona.name}-val (3 kör)`, 'ev-info');
+      renderBotsCard();
+    };
+    declineFn = ()=>{ addEvent(`${bot.persona.icon} ${bot.persona.name} elutasítva — a harc folytatódik!`, 'ev-bot'); };
+
+  } else if(style === 'trade'){
+    // Offer: bot gives gold, player gives a neutral province
+    title = `${bot.persona.icon} Kereskedelmi ajánlat`;
+    const reward = 30 + bot.owned.size * 3;
+    offer = `<b>${bot.persona.name}</b> kereskedelmi egyezményt ajánl: <b>+${reward} aranyat</b> fizet neked minden körben, cserébe 2 körre nem terjeszked az ő tartományai szomszédságában.<br><br>Elfogadod?`;
+    acceptFn = ()=>{
+      bot.paceTurns = 2;
+      gold += reward;
+      renderTurnBar();
+      addEvent(`💰 Kereskedelmi egyezmény: +${reward} arany, 2 kör mozgásszünet`, 'ev-player');
+      renderBotsCard();
+    };
+    declineFn = ()=>{ addEvent(`${bot.persona.icon} ${bot.persona.name} kereskedelmi ajánlatát elutasítottad`, 'ev-bot'); };
+
+  } else { // alliance
+    title = `${bot.persona.icon} Szövetségi ajánlat`;
+    const kkReward = 15;
+    offer = `<b>${bot.persona.name}</b> tudományos szövetséget ajánl: <b>+${kkReward} KK</b> kap mindkét fél, és 2 körre szünetel a konfliktus.<br><br>Elfogadod a szövetséget?`;
+    acceptFn = ()=>{
+      bot.paceTurns = 2;
+      kk += kkReward;
+      bot.kk += kkReward;
+      renderTurnBar();
+      addEvent(`📚 Tudományos szövetség kötve: +${kkReward} KK mindkét félnek`, 'ev-player');
+      renderBotsCard();
+    };
+    declineFn = ()=>{ addEvent(`${bot.persona.icon} ${bot.persona.name} szövetségi ajánlatát elutasítottad`, 'ev-bot'); };
+  }
+
+  document.getElementById('diplo-title').textContent = title;
+  document.getElementById('diplo-bot-name').textContent = `${bot.persona.name} · ${bot.personaKey} ellenfél`;
+  document.getElementById('diplo-offer-text').innerHTML = offer;
+  document.getElementById('diplo-overlay').classList.remove('hidden');
+
+  const acceptBtn = document.getElementById('diplo-accept');
+  const declineBtn = document.getElementById('diplo-decline');
+  const close = (accepted)=>{
+    document.getElementById('diplo-overlay').classList.add('hidden');
+    bot.diploActive = false;
+    if(accepted) acceptFn(); else declineFn();
+  };
+  acceptBtn.onclick  = ()=>close(true);
+  declineBtn.onclick = ()=>close(false);
+}
+
+// i79: Decrement pact timers each turn
+function tickBotPacts(){
+  for(const bot of BOTS){
+    if(bot.paceTurns > 0){
+      bot.paceTurns--;
+      if(bot.paceTurns === 0)
+        addEvent(`${bot.persona.icon} A paktum lejárt — ${bot.persona.name} szabadon cselekedhet`, 'ev-bot');
+    }
+  }
+  renderBotsCard();
 }
 
 function playerIncome(){
@@ -1508,6 +1750,7 @@ function endTurn(){
     }
     renderUnrestCard(); renderUnrestOverlay3D();
   }
+  tickBotPacts(); // i79: decrement pact timers
   botTurn();
   if(gameOver) return;
   botAttackTurn(); // i65: bot may attack player province
@@ -1741,70 +1984,77 @@ function buildingsHTML(provId){
 // ── i65: Defense mechanism ────────────────────────────────────────────────
 function botAttackTurn(){
   if(!DATA || gameOver) return;
-  // Bot tries to take 1 player province per turn with 30% chance, harder on higher difficulty
-  const attackChance = [0, 0.20, 0.30, 0.45, 0.60][currentDifficulty] || 0.30;
-  if(Math.random() > attackChance) return;
-  const playerProvs = DATA.provinces.filter(p => owned.has(p.id));
-  if(!playerProvs.length) return;
-  // Prefer provinces adjacent to bot territory
-  const adjacent = playerProvs.filter(p => (p.adj??[]).some(id=>botOwned.has(id)));
-  const target = adjacent.length ? adjacent[Math.floor(Math.random()*adjacent.length)]
-                                 : playerProvs[Math.floor(Math.random()*playerProvs.length)];
-  const defBonus = provDefBonus(target.id);
-  // Show defense modal
-  addEvent(`&#9876; Bot támadja: <b>${target.name}</b>!`, 'ev-bot');
-  sfx('lose_province'); // suspense
-  showDefenseModal(target, defBonus);
+  if(BOTS.length === 0) return;
+  // i79: each bot independently decides to attack; respects pacts
+  for(const bot of BOTS){
+    if(gameOver) return;
+    if(bot.paceTurns > 0) continue; // pact active — no attack
+    if(bot.owned.size === 0) continue; // no territory yet
+    const baseChance = [0, 0.20, 0.30, 0.45, 0.60][currentDifficulty] || 0.30;
+    const attackChance = Math.min(0.85, baseChance * bot.persona.attackChanceMult);
+    if(Math.random() > attackChance) continue;
+    const playerProvs = DATA.provinces.filter(p => owned.has(p.id));
+    if(!playerProvs.length) continue;
+    // Prefer provinces adjacent to this bot's territory
+    const adjacent = playerProvs.filter(p => (p.adj??[]).some(id=>bot.owned.has(id)));
+    const target = adjacent.length ? adjacent[Math.floor(Math.random()*adjacent.length)]
+                                   : playerProvs[Math.floor(Math.random()*playerProvs.length)];
+    const defBonus = provDefBonus(target.id);
+    addEvent(`${bot.persona.icon} <b>${bot.persona.name}</b> támadja: <b>${target.name}</b>!`, 'ev-bot');
+    sfx('lose_province');
+    showDefenseModal(target, defBonus, bot);
+    return; // one attack per endTurn total
+  }
 }
 
-function showDefenseModal(prov, defBonus){
+function showDefenseModal(prov, defBonus, attackingBot){
+  // attackingBot: bot object or null (legacy)
+  const bot = attackingBot || BOTS[0];
   const badge = document.getElementById('q-mode-badge');
   badge.className = 'defend';
-  badge.textContent = '&#128737; Védekezés';
+  badge.textContent = '🛡️ Védekezés';
   badge.classList.remove('hidden');
-  // Increase difficulty slightly for defense
-  const savedDiff = currentDifficulty;
   const defDiff = Math.min(4, currentDifficulty + (defBonus > 0 ? -1 : 1));
   const origDiff = currentDifficulty;
   currentDifficulty = Math.max(1, defDiff);
   showQuestionModal(prov,
     ()=>{ // correct — defended!
       currentDifficulty = origDiff;
-      addEvent(`&#128737; Megvédve: <b>${prov.name}</b>!`, 'ev-player');
+      addEvent(`🛡️ Megvédve: <b>${prov.name}</b>! (${bot?.persona.icon||'⚔️'} ${bot?.persona.name||'Bot'} visszaverve)`, 'ev-player');
       sfx('conquest');
     },
-    ()=>{ // wrong — province lost
+    ()=>{ // wrong — province lost to attacking bot
       currentDifficulty = origDiff;
       owned.delete(prov.id);
-      botOwned.add(prov.id);
-      renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard();
-      addEvent(`&#9876; Elveszett: <b>${prov.name}</b> — Bot elfoglalta!`, 'ev-bot');
+      if(bot){ bot.owned.add(prov.id); syncBotOwned(); }
+      else botOwned.add(prov.id);
+      renderOwnershipOverlay3D(); renderBotOverlay(); renderOwnedCard(); renderBotsCard();
+      addEvent(`${bot?.persona.icon||'⚔️'} Elveszett: <b>${prov.name}</b> — <b>${bot?.persona.name||'Bot'}</b> elfoglalta!`, 'ev-bot');
       sfx('lose_province');
       checkVictory();
       const selProv = byId[prov.id]; if(selProv) showInfo(selProv);
     }
   );
-  // Reset badge after modal closes (handled in finishModal via class check)
 }
 
 // ── i67: Campaign mode ────────────────────────────────────────────────────
 const CAMPAIGNS = [
   { id:'c1', name:'Első lépések', difficulty:'easy',
-    desc:'Könnyű pálya — 3 tartomány és végtelen idő. Tökéletes a kezdőknek.',
+    desc:'Könnyű pálya — 1 ellenfél (Gazdasági), végtelen idő. Tökéletes a kezdőknek.',
     startGold:40, startKK:20, winThreshold:0.50,
-    botStartProvinces:1, diffOverride:1, unlocked:true },
+    botCount:1, botStartProvinces:1, diffOverride:1, unlocked:true },
   { id:'c2', name:'Közép-Európa', difficulty:'medium',
-    desc:'Közepes pálya — Europa pack, bot 3 kezdőtartománnyal, 40% arányhoz kell.',
+    desc:'Közepes — 2 ellenfél (Agresszív + Tudós), 3-3 kezdőtartomány, 40% kell.',
     startGold:30, startKK:15, winThreshold:0.40,
-    botStartProvinces:3, diffOverride:2, unlocked:true },
+    botCount:2, botStartProvinces:3, diffOverride:2, unlocked:true },
   { id:'c3', name:'Nagy Hadjárat', difficulty:'hard',
-    desc:'Nehéz pálya — szoros kérdések, 10 mp időlimit, 55% arányhoz kell.',
+    desc:'Nehéz — 2 ellenfél, szoros kérdések, 10 mp, 55% kell.',
     startGold:20, startKK:10, winThreshold:0.55,
-    botStartProvinces:5, diffOverride:4, unlocked:true },
+    botCount:2, botStartProvinces:5, diffOverride:4, unlocked:true },
   { id:'c4', name:'Mesterek Bajnoksága', difficulty:'hard',
-    desc:'Elit pálya — bot azonnal kezd terjeszkedni, 65% arány, minden tartomány számít.',
+    desc:'Elit — 3 ellenfél különböző személyiséggel, 65% arány, minden tartomány számít.',
     startGold:15, startKK:8, winThreshold:0.65,
-    botStartProvinces:8, diffOverride:4, unlocked:true },
+    botCount:3, botStartProvinces:4, diffOverride:4, unlocked:true },
 ];
 
 let activeCampaign = null;
@@ -1828,20 +2078,28 @@ function renderCampaignList(){
 function startCampaign(camp){
   activeCampaign = camp;
   document.getElementById('camp-overlay').classList.add('hidden');
-  // Apply campaign settings
   resetGame();
+  // i79: init bots for this campaign
+  initBots(camp.botCount || 1);
   gold = camp.startGold;
   kk = camp.startKK;
   currentDifficulty = camp.diffOverride;
   document.getElementById('diff-select').value = camp.diffOverride;
-  // Give bot starting provinces
   if(DATA){
-    const neutral = DATA.provinces.filter(p=>!owned.has(p.id)&&!botOwned.has(p.id));
+    // Distribute starting provinces evenly across bots
+    let neutral = DATA.provinces.filter(p=>!owned.has(p.id)&&!botOwned.has(p.id));
     neutral.sort(()=>Math.random()-.5);
-    neutral.slice(0, camp.botStartProvinces).forEach(p=>botOwned.add(p.id));
-    renderBotOverlay(); renderTurnBar();
+    let idx = 0;
+    for(const bot of BOTS){
+      for(let i=0;i<camp.botStartProvinces && idx<neutral.length;i++,idx++){
+        bot.owned.add(neutral[idx].id);
+      }
+    }
+    syncBotOwned();
+    renderBotOverlay(); renderBotsCard(); renderTurnBar();
   }
-  addEvent(`&#9654; Hadjárat indult: <b>${camp.name}</b>`, 'ev-info');
+  const botNames = BOTS.map(b=>`${b.persona.icon} ${b.persona.name}`).join(', ');
+  addEvent(`▶ Hadjárat indult: <b>${camp.name}</b> — Ellenfelek: ${botNames}`, 'ev-info');
   sfx('conquest');
 }
 
@@ -2228,6 +2486,18 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('wiki-search').addEventListener('input', e=>wikiSearch(e.target.value));
 });
 </script>
+<!-- i79: Diplomacy modal -->
+<div id="diplo-overlay" class="hidden">
+  <div id="diplo-box">
+    <h2 id="diplo-title">&#9876; Diplomáciai ajánlat</h2>
+    <div class="diplo-sub" id="diplo-bot-name"></div>
+    <div class="diplo-offer" id="diplo-offer-text"></div>
+    <div class="diplo-btns">
+      <button id="diplo-decline">Elutasítom</button>
+      <button id="diplo-accept">Elfogadom</button>
+    </div>
+  </div>
+</div>
 <div id="go-overlay" class="hidden">
   <div id="go-box">
     <div id="go-title"></div>
