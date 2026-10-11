@@ -463,8 +463,8 @@
 </head>
 <body>
 <header>
-  <b>A Tudás Paradigmája</b> —
-  <span>régió-alapú stratégiai réteg (3D · ExtrudeGeometry)</span>
+  <a href="menu.html" id="btn-menu" style="background:#1e2330;color:#9aa4b2;border:1px solid #3a414b;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;text-decoration:none;margin-right:6px;">&#8592; Főmenü</a>
+  <b>A Tudás Paradigmája</b>
   &nbsp;·&nbsp; Térkép:
   <select id="pack-select"></select>
   &nbsp;·&nbsp; Nehézség:
@@ -645,9 +645,20 @@ const SUBJ_NAMES = {
 const ALL_SUBJECTS = Object.values(SUBJ_MAP);
 
 // Game settings: grade band and active subjects
+// Pre-populate from main-menu localStorage values when available
+let _menuGrade = '5-8', _menuSubjects = null, _menuDiff = 1;
+try {
+  const g = localStorage.getItem('tudas_gradeBand');
+  const s = localStorage.getItem('tudas_subjects');
+  const d = localStorage.getItem('tudas_diff');
+  if(g) _menuGrade = g;
+  if(s) _menuSubjects = new Set(JSON.parse(s));
+  if(d) _menuDiff = parseInt(d) || 1;
+} catch(e) {}
+
 let gameSettings = {
-  gradeBand: '5-8',  // '1-4' | '5-8' | '9-12'
-  activeSubjects: new Set(ALL_SUBJECTS),
+  gradeBand: _menuGrade,
+  activeSubjects: _menuSubjects || new Set(ALL_SUBJECTS),
 };
 
 /**
@@ -1040,7 +1051,7 @@ const DIFFICULTIES = {
   3:{ rebellionIntervalTurns:6,  choiceCount:5, subjectUnrestCascade:true,  answerTimeLimitMs:20000 },
   4:{ rebellionIntervalTurns:3,  choiceCount:7, subjectUnrestCascade:true,  answerTimeLimitMs:10000 },
 };
-let currentDifficulty = 1;
+let currentDifficulty = _menuDiff;
 
 const UNREST = { wrongThreshold:3, unrestStep:1, coolStep:1, maxUnrest:10, desertionPerUnrest:0.08 };
 let unrestWrong = {}, unrestLevel = {};
@@ -2324,6 +2335,9 @@ document.getElementById('diff-select').addEventListener('change',e=>{
   renderDiffCard(); renderUnrestCard(); renderUnrestOverlay3D();
 });
 document.getElementById('btn-reset-cam').addEventListener('click', resetCamera);
+
+// Apply menu-selected difficulty to the select element
+document.getElementById('diff-select').value = String(currentDifficulty);
 
 renderDiffCard(); renderUnrestCard(); initTurnSystem();
 
