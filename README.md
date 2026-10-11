@@ -28,7 +28,7 @@ open web/region-demo.html   # játék közvetlen megnyitása
   háttér, beállítások localStorage-ba mentve
 
 ### Stratégiai térkép
-- **Régió-alapú (Total War-stílusú)** stratégiai térkép (`web/region-demo.html`):
+- **Régió-alapú stratégiai térkép** (`web/region-demo.html`):
   *Európa — NUTS 1* (valós geometria, Three.js 3D, 116 tartomány)
 - **Bot AI:** persona-alapú (agresszív/gazdasági/tudós), diplomácia-rendszer
 - **XP/streak rendszer**, épületek, hősök, kampánymód, tanári dashboard (CSV export)
